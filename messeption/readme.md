@@ -7,24 +7,14 @@ The purpose of the app is to communicate with other people via text. The most ba
 
 # User stories
 
-## Create Post (us-1)
+## Create post
 
-Som privatperson ønsker jeg å dele min mening på nettet eller skrive noe morsomt.
-
-*Beskrivelse eksempel fra todolist*
-Brukeren har behov for å lage en handleliste i forkant av en handletur og
-så huke av underveis/etterpå hva som blir/ble handlet så en er sikker på at en får/har fått med alt.
-Når en lager en handlelista, så er det kjekt å kunne gjenbruke tidligere avhukede elementer,
-da en jo ofte handler de samme tingene på samme sted.
-Hvert punkt i handlelista trenger ikke å være mer enn en enkelt tekst, og de må kunne hukes av og på.
+En privatperson ønsker å uttrykke sin mening anonymt, og at denne meningen kan lagres. Videre ønsker han å ha 
+disse anonyme meningen listet opp på en oversiktlig og lesbar måte.
 
 ### Viktig å kunne se
-
-- når posten ble laget: dato og tid
-- hvem som har postet: brukernavn/anonym
+- Se tidligere lagde posts
+- Når poster ble laget: dato, tid
 
 ### Viktig å kunne gjøre
-
-- redigere post
-- svare på replies
-- dele med andre?
+- Lage ny post
