@@ -1,10 +1,15 @@
 package core;
 
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.io.IOException;
+import java.util.Map;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonIOException;
+import com.google.gson.JsonSyntaxException;
 
 
 public class ForumPost {
@@ -17,16 +22,16 @@ public class ForumPost {
         this.text = text;
     }
 
-    public ForumPost(String path){
-        //TODO implement construct from path
+    public ForumPost(String file) throws JsonSyntaxException, JsonIOException, FileNotFoundException{
+        Gson gson = new GsonBuilder().create();
+        Map<String, String> map = gson.fromJson(new FileReader("save.JSON"), Map.class);
     }
 
     public String getTitle(){return title;}
     public String getText(){return text;}
 
-    public void save(){
-        String path = System.getProperty("user.dir") + "\\resources\\JSON.JSON";
-        String p = Paths.get("").toAbsolutePath().toString() + "\\resources\\JSON.JSON";
-        Gson.toJson(this, new FileWriter(path));
+    public void save() throws JsonIOException, IOException{
+        Gson gson = new GsonBuilder().create();
+        gson.toJson(this, new FileWriter("save.JSON"));
     }
 }
