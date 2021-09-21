@@ -7,9 +7,9 @@ import javafx.scene.Scene;
 
 public class MesseptionApp extends Application {
 
-    public static final String FRONTPAGE_PATH = "../../resources/ui/Frontpage.fxml";
+    public static final String FRONTPAGE_PATH = "Frontpage.fxml";
     private Scene frontpageScene;
-    private FrontPageController frontpageController;
+    private FrontpageController frontpageController;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -18,7 +18,7 @@ public class MesseptionApp extends Application {
 
         frontpageScene = new Scene(frontpageLoader.load());
 
-        frontpageController = frontpageLoader.getController();
+        // frontpageController = frontpageLoader.getController();
 
         primaryStage.setScene(frontpageScene);
         primaryStage.setTitle("Messeption");

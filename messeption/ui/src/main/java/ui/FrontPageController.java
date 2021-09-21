@@ -1,10 +1,11 @@
 package ui;
 
+//import javafx.fxml.FXML;
 
-import javafx.fxml.FXML;
+public class FrontpageController {
 
-public class FrontPageController {
-    
-
+    public void initialize() {
+        int hei = 1;
+    }
 
 }

@@ -1,2 +1,2 @@
-src\main\java\ui\MesseptionApp.class
-ui\FrontPageController.class
+module-info.class
+ui\FrontpageController.class
