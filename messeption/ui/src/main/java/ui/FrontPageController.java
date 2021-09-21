@@ -1,5 +1,10 @@
 package ui;
 
-public class FrontPageController {
-    static int hei = 1;
+
+public class FrontpageController {
+
+    public void initialize() {
+        int hei = 1;
+    }
+
 }
