@@ -1,6 +1,6 @@
-### Release 1
+### Messeption: release 1
 
-#Release 1 gives Messeption these basic features:
+##Release 1 gives Messeption these basic features:
 
-- Create a post to a "forum board"
-- 
+- A user can create a post to a "forum board"
+- The application can show several posts
