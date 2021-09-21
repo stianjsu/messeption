@@ -7,20 +7,20 @@ import javafx.scene.Scene;
 
 public class MesseptionApp extends Application {
 
-    public static final String FRONTPAGE_PATH = "Frontpage.fxml";
-    private Scene frontpageScene;
-    private FrontpageController frontpageController;
+    public static final String FRONT_PAGE_PATH = "FrontPage.fxml";
+    private Scene frontPageScene;
+    private FrontPageController frontPageController;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
 
-        FXMLLoader frontpageLoader = new FXMLLoader(getClass().getResource(FRONTPAGE_PATH));
+        FXMLLoader frontPageLoader = new FXMLLoader(getClass().getResource(FRONT_PAGE_PATH));
 
-        frontpageScene = new Scene(frontpageLoader.load());
+        frontPageScene = new Scene(frontPageLoader.load());
 
         // frontpageController = frontpageLoader.getController();
 
-        primaryStage.setScene(frontpageScene);
+        primaryStage.setScene(frontPageScene);
         primaryStage.setTitle("Messeption");
         primaryStage.show();
 
