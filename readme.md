@@ -8,6 +8,8 @@
 ## Application details:
 - In the 'Messeption' folder you can find the project
 
-- The project is divided into modules. Thus far, we have added core and ui as modules
+- In the 'docs' folder you can find release-documentations for the applications releases
+
+- The project is divided into modules. Thus far, we have added 'core' and 'ui' as modules
 
 - In both core and ui, we have src. There the code is divided into 'main' and 'test' for their respective purposes
