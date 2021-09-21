@@ -1,13 +1,9 @@
 package core;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
+import java.io.File;
 import java.io.IOException;
 import java.util.Map;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.gson.JsonIOException;
 import com.google.gson.JsonSyntaxException;
 
@@ -15,6 +11,7 @@ import com.google.gson.JsonSyntaxException;
 public class ForumPost {
     private String title;
     private String text;
+    private ForumPostReadWrite readWrite = new JSONReadWrite();
 
     
     public ForumPost(String title, String text){
@@ -22,16 +19,16 @@ public class ForumPost {
         this.text = text;
     }
 
-    public ForumPost(String file) throws JsonSyntaxException, JsonIOException, FileNotFoundException{
-        Gson gson = new GsonBuilder().create();
-        Map<String, String> map = gson.fromJson(new FileReader("save.JSON"), Map.class);
+    public ForumPost(File file) throws JsonSyntaxException, JsonIOException, IOException{
+        Map<String, String> map = readWrite.fileRead(file);
+        this.title = map.get("title");
+        this.text = map.get("text");
     }
 
     public String getTitle(){return title;}
     public String getText(){return text;}
 
-    public void save() throws JsonIOException, IOException{
-        Gson gson = new GsonBuilder().create();
-        gson.toJson(this, new FileWriter("save.JSON"));
+    public void save(File file) throws JsonIOException, IOException{
+        readWrite.fileWrite(file, this);
     }
 }
