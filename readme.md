@@ -10,6 +10,6 @@
 
 - In the 'docs' folder you can find release-documentations for the applications releases
 
-- The project is divided into modules, namely 'core and 'ui'
+- The project is divided into modules, namely 'core' and 'ui'
 
 - In both core and ui, we have src. There the code is divided into 'main' and 'test' for their respective purposes
