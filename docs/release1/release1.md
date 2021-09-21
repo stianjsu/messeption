@@ -1,4 +1,6 @@
-#Gruppeinnlevering 1
+## Messeption: release 1
 
-Messeption har enkel funksjonalitet.
-Kun lage posts
+### Release 1 gives Messeption these basic features:
+
+- A user can create a post to a "forum board"
+- The application can show several posts
