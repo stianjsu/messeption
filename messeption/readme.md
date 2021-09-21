@@ -1,32 +1,33 @@
 # Description of the app /project
 
 ## Messeption
-Messeption is an app that takes inspiration from messenging apps and forums. These are our inspirational sources: Facebook messenger, Jodel, Twitter.
+Messeption is an app that takes inspiration from messaging apps and forums. 
+These are our inspirational sources: Facebook messenger, Jodel, Twitter.
 
-The purpose of the app is to communicate with other people via text. The most basic functionality is to post text-posts like you would on a forum. Later in the development process we would like to implement the ability to comment on the post and start 'threads'. These 'threads' will be a chain of replies to the original post or to other replies.
+The purpose of the app is to allow users to communicate with other people via text. The most basic functionality is to post text-posts like you would on a forum. 
+Later in the development process we would like to implement the ability to comment on the post and start 'threads'. These 'threads' will be a chain of replies to the original post or to other replies.
+Additionally we would like to give users the ability to like/dislike posts.
+
 
 # User stories
 
-## Create post (u1)
 
-En privatperson ønsker å uttrykke sin mening anonymt, og at denne meningen kan lagres. Videre ønsker han å ha 
-disse anonyme meningen listet opp på en oversiktlig og lesbar måte.
+## write posts (User story 1)
+A private person wishes to be able to express his opinion on a certain topic anonymously, and to have that opinion saved.
+Aditionally he wishes to have his opinions organized in an easy and readable manner.
 
-### Viktig å kunne se
-- Se tidligere lagde posts
-- Når poster ble laget: dato, tid
+### Important details for reading
+- Ability to be able to view posts
+- Save date and time for when posts are made
 
-### Viktig å kunne gjøre
-- Lage ny post
+### Important details for writing
+- Ability to create a post
 
-## Read posts (u2)
-Som en passiv bruker/lurker (en som poster lite) vil jeg kunne interagere med andres poster (kommentarer eller likes) for å kunne ta i bruk plattformen.
 
-### Viktig å kunne se
-- Likes/dislikes
-- Replies
+## Read posts (User story 2)
+As a passive user, or someone who does not post a lot, a private person wishes to interact with other peoples posts as a way of using the application.
 
-### Viktig å kunne gjøre
-- Like/dislike
-- Reply
 
+### Important details for interaction
+- Ability to Like/dislike posts
+- Ability to reply to posts
