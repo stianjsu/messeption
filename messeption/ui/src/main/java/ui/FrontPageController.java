@@ -1,5 +1,10 @@
 package ui;
 
+
+import javafx.fxml.FXML;
+
 public class FrontPageController {
-    static int hei = 1;
+    
+
+
 }
