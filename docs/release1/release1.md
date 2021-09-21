@@ -1,4 +1,6 @@
-#Gruppeinnlevering 1
+### Release 1
 
-Messeption har enkel funksjonalitet.
-Kun lage posts
+#Release 1 gives Messeption these basic features:
+
+- Create a post to a "forum board"
+- 
