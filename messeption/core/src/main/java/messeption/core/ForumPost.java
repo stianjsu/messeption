@@ -1,4 +1,4 @@
-package core;
+package messeption.core;
 
 import java.io.File;
 import java.io.IOException;

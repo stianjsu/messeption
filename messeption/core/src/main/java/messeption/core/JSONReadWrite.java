@@ -1,4 +1,4 @@
-package core;
+package messeption.core;
 
 import java.io.File;
 import java.io.FileReader;
@@ -13,7 +13,7 @@ import com.google.gson.JsonIOException;
 import com.google.gson.JsonSyntaxException;
 
 public class JSONReadWrite implements ForumPostReadWrite {
-    public final String path = Paths.get("").toAbsolutePath().toString() + "/src/main/java/resources/";
+    public final String path = Paths.get("").toAbsolutePath().toString() + "/src/main/java/messeption/resources/";
     
     
     public JSONReadWrite(){}

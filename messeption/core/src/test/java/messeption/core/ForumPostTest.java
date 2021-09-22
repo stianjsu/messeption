@@ -1,4 +1,4 @@
-package core;
+package messeption.core;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -27,14 +27,14 @@ public class ForumPostTest {
 	
 	@Test
 	@DisplayName("Test getter")
-	void testGetter() {
+	public void testGetter() {
 		assertEquals("POST", post.getTitle());
 		assertEquals("Lorem ipsum dolor sit amet", post.getText());
 	}
 
 	@Test
 	@DisplayName("Test save/load")
-	void testSaveLoad() throws JsonIOException, IOException {
+	public void testSaveLoad() throws JsonIOException, IOException {
 		File file = new File("test.JSON");
 		post.save(file);
 		ForumPost post2 = new ForumPost(file);
