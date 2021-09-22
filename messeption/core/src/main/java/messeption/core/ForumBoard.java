@@ -13,19 +13,36 @@ public class ForumBoard {
 
     public ForumBoard(){}
 
-    public List<ForumPost> getPosts() {return new ArrayList<>(posts);}
-    public ForumPost getPost(int i) {return posts.get(i);}
-
-    public void newPost(String title, String text){
-        posts.add(new ForumPost(title, text));
-    }    
-
-    public void loadPost(File file) throws JsonSyntaxException, JsonIOException, IOException{
-        posts.add(new ForumPost(file));
+    public List<ForumPost> getPosts() {
+        return new ArrayList<>(posts);
     }
 
-    public void deletePost(ForumPost post){
+    public ForumPost getPost(int i) {
+        return posts.get(i);
+    }
+
+    public void newPost(String title, String text) {
+        posts.add(new ForumPost(title, text));
+    }
+
+    public void savePosts(File file) throws IOException {
+        JSONReadWrite.fileWrite(file, this);
+    }
+
+    public void loadPosts(File file) throws JsonSyntaxException, JsonIOException, IOException {
+        posts = JSONReadWrite.fileRead(file).getPosts();
+    }
+
+    public void deletePost(ForumPost post) {
         posts.remove(post);
+    }
+
+    public String toString() {
+        String s = "";
+        for (ForumPost post : posts) {
+            s += post;
+        }
+        return s;
     }
 
 }
