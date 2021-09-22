@@ -1,4 +1,4 @@
-package ui;
+package messeption.ui;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -18,7 +18,7 @@ public class MesseptionApp extends Application {
 
         frontPageScene = new Scene(frontPageLoader.load());
 
-        // frontpageController = frontpageLoader.getController();
+        frontPageController = frontPageLoader.getController();
 
         primaryStage.setScene(frontPageScene);
         primaryStage.setTitle("Messeption");

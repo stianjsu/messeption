@@ -5,31 +5,49 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Paths;
-import java.util.Map;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonIOException;
 import com.google.gson.JsonSyntaxException;
 
-public class JSONReadWrite implements ForumPostReadWrite {
-    public final String path = Paths.get("").toAbsolutePath().toString() + "/src/main/java/messeption/resources/";
-    
-    
-    public JSONReadWrite(){}
 
-    public Map<String, String> fileRead(File file) throws JsonSyntaxException, JsonIOException, IOException{
-        Gson gson = new GsonBuilder().create();
+public class JSONReadWrite {
+    public static final String path = Paths.get("").toAbsolutePath().toString() + "/src/main/resources/messeption/";
+    public static final File DEFAULT_BOARD_FILE = new File("Board.JSON");
+
+
+    public static ForumBoard fileRead(File file) throws JsonSyntaxException, JsonIOException, IOException {
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
         FileReader reader = new FileReader(path + file);
-        Map<String, String> map = gson.fromJson(reader, Map.class);
+        ForumBoard toReturn = gson.fromJson(reader, ForumBoard.class);
         reader.close();
-        return map;
+        return toReturn;
     }
 
-    public void fileWrite(File file, ForumPost post) throws JsonIOException, IOException{
-        Gson gson = new GsonBuilder().create();
+    public static void fileWrite(File file, ForumBoard board) throws JsonIOException, IOException {
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        if (file.equals(DEFAULT_BOARD_FILE)){
+            throw new IOException("Cannot save to default board file");
+        }
         FileWriter writer = new FileWriter(path + file);
-        gson.toJson(post, writer);
+        gson.toJson(board, writer);
+        writer.close();
+    }
+
+    
+    public static ForumBoard fileRead() throws JsonSyntaxException, JsonIOException, IOException {
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        FileReader reader = new FileReader(path + DEFAULT_BOARD_FILE);
+        ForumBoard toReturn = gson.fromJson(reader, ForumBoard.class);
+        reader.close();
+        return toReturn;
+    }
+
+    public static void fileWrite(ForumBoard board) throws JsonIOException, IOException {
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        FileWriter writer = new FileWriter(path + DEFAULT_BOARD_FILE);
+        gson.toJson(board, writer);
         writer.close();
     }
 }
