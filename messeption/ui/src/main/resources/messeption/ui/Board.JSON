@@ -1,0 +1,18 @@
+{
+  "posts": [
+    {
+      "title": "POST1",
+      "text": "Lorem ipsum dolor sit amet",
+      "timeStamp": "15:27:09 22-09-2021"
+    },
+    {
+      "title": "POST2",
+      "text": "Lorem ipsum dolor sit amet",
+      "timeStamp": "15:27:09 22-09-2021"
+    },{
+      "title": "POST3",
+      "text": "Lorem ipsum dolor sit amet",
+      "timeStamp": "15:27:09 22-09-2021"
+    }
+  ]
+}

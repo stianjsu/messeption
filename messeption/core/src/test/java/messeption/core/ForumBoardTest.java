@@ -37,7 +37,7 @@ public class ForumBoardTest {
 
 	@Test
 	@DisplayName("Test save and load")
-	public void testSaveLoad() throws JsonIOException, IOException {
+	public void testSaveLoad() throws IOException {
 		File file = new File("BoardTest.JSON");
 		board.savePosts(file);
 		ForumBoard board2 = new ForumBoard();
@@ -47,7 +47,7 @@ public class ForumBoardTest {
 
 	@Test
 	@DisplayName("Test save and load to default file")
-	public void testSaveLoadDefault() throws JsonIOException, IOException {
+	public void testSaveLoadDefault() throws IOException {
 		JSONReadWrite.fileWrite(board);
 		ForumBoard board2 = JSONReadWrite.fileRead();
 

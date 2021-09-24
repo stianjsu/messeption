@@ -11,11 +11,28 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonIOException;
 import com.google.gson.JsonSyntaxException;
 
-
 public class JSONReadWrite {
-    public static final String path = Paths.get("").toAbsolutePath().toString() + "/src/main/resources/messeption/";
+    public static final String path = Paths.get("").toAbsolutePath().toString() + "/src/main/resources/messeption/ui/";
     public static final File DEFAULT_BOARD_FILE = new File("Board.JSON");
 
+    public static ForumBoard fileRead(File file, String customPath)
+            throws JsonSyntaxException, JsonIOException, IOException {
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        FileReader reader = new FileReader(customPath + file);
+        ForumBoard toReturn = gson.fromJson(reader, ForumBoard.class);
+        reader.close();
+        return toReturn;
+    }
+
+    public static void fileWrite(File file, String customPath, ForumBoard board) throws JsonIOException, IOException {
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        if (file.equals(DEFAULT_BOARD_FILE) && customPath.equals(path)) {
+            throw new IOException("Cannot save to default board file");
+        }
+        FileWriter writer = new FileWriter(customPath + file);
+        gson.toJson(board, writer);
+        writer.close();
+    }
 
     public static ForumBoard fileRead(File file) throws JsonSyntaxException, JsonIOException, IOException {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
@@ -27,7 +44,7 @@ public class JSONReadWrite {
 
     public static void fileWrite(File file, ForumBoard board) throws JsonIOException, IOException {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        if (file.equals(DEFAULT_BOARD_FILE)){
+        if (file.equals(DEFAULT_BOARD_FILE)) {
             throw new IOException("Cannot save to default board file");
         }
         FileWriter writer = new FileWriter(path + file);
@@ -35,7 +52,6 @@ public class JSONReadWrite {
         writer.close();
     }
 
-    
     public static ForumBoard fileRead() throws JsonSyntaxException, JsonIOException, IOException {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         FileReader reader = new FileReader(path + DEFAULT_BOARD_FILE);
