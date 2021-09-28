@@ -1,5 +1,7 @@
 package messeption.ui;
 
+import java.io.IOException;
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;
@@ -32,14 +34,16 @@ public class MesseptionApp extends Application {
         primaryStage.setTitle("Messeption");
         primaryStage.show();
 
-        frontPageController.createPostButton.setOnAction(e -> {
+        frontPageController.createPostButton.setOnAction(event -> {
             primaryStage.setScene(createPostScene);
             createPostController.setBoard(frontPageController.getBoard());
         });
 
-        createPostController.cancelButton.setOnAction(e -> {
+        createPostController.cancelButton.setOnAction(event -> {
             primaryStage.setScene(frontPageScene);
-            frontPageController.drawPosts();
+            try { frontPageController.drawPosts(); }
+            catch (IOException e) { frontPageController.exceptionAlert(e).show();}
+            
         });
 
     }

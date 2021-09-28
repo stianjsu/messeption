@@ -1,21 +1,25 @@
 package messeption.ui;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.control.Accordion;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TitledPane;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Line;
 import javafx.scene.text.Font;
-
-
 
 import messeption.core.ForumBoard;
 import messeption.core.ForumPost;
@@ -26,7 +30,6 @@ public class FrontPageController {
     private static final int OFFSET = 230;
     private final int POSITION = 15;
 
-    
     @FXML
     AnchorPane postsContainer;
     @FXML
@@ -35,49 +38,33 @@ public class FrontPageController {
     Pane postPaneTemplateFXML;
 
     Pane postPaneTemplate;
-    
+
     private ForumBoard forumBoard;
 
-    public void initialize(){
+    public void initialize() throws IOException {
 
-        List<Node> postPaneTemplateChildren = postPaneTemplateFXML.getChildren().stream()
-                                                .map(e -> {
-                                                    if(e instanceof Label)
-                                                        return new Label(e);
-                                                    if(e instanceof Line)
-                                                        return new Line(e);
-                                                    if(e instanceof TextArea)
-                                                        return new TextArea(e);
-                                                    if(e instanceof Button)
-                                                        return new Button(e);
-                                                    return new Node(e);
-                                                }).collect(Collectors.toList());
-                                                
-
-        postPane = new Pane(postPaneTemplate.getChildren());
         drawPosts();
+
     }
 
-    public ForumBoard getBoard(){
+    public ForumBoard getBoard() {
         return forumBoard;
     }
 
-    public void drawPosts() {
-        try{
-            forumBoard = JSONReadWrite.fileRead();
-        } catch(IOException e){
-            System.out.println(e.getMessage());
-        }
-        
+    public void drawPosts() throws IOException {
+
+        forumBoard = JSONReadWrite.fileRead();
         List<ForumPost> posts = forumBoard.getPosts();
 
+        postsContainer.getChildren().clear();
+
         int i = 0;
-        for(ForumPost post : posts){
+        for (ForumPost post : posts) {
             String title = post.getTitle();
             String text = post.getText();
-            
+
             Pane pane = generatePostPane(title, text);
-            pane.setLayoutY(POSITION+i*OFFSET);
+            pane.setLayoutY(POSITION + i * OFFSET);
             pane.setLayoutX(POSITION);
 
             postsContainer.getChildren().add(pane);
@@ -86,19 +73,38 @@ public class FrontPageController {
         postsContainer.setPrefHeight((2 * POSITION + OFFSET) * i);
     }
 
-    private Pane generatePostPane(String title, String text){
-        /* Pane pane = new Pane(postPane);
-        Label titleLabel = new Label();
-        Label likeLabel = new Label();
-        Label dislikeLabel = new Label();
-        Button like = new Button();
-        Button dislike = new Button();
-        Button goToThread = new Button();
-        TextArea textArea = new TextArea();
-        Line line = new Line();
-        */
+    private Pane generatePostPane(String title, String text) throws IOException {
 
-        return pane;
+        Pane toReturn = FXMLLoader.load(getClass().getResource("PaneTemplate.fxml"));
+        List<Node> tempChildren = new ArrayList<>(toReturn.getChildren());
+        toReturn.getChildren().clear();
+
+        tempChildren.forEach(e -> {
+            String id = e.getId();
+            if (id != null && id.equals("postTitle")) {
+                Label titleLable = (Label) e;
+                titleLable.setText(title);
+                toReturn.getChildren().add(titleLable);
+            } else if (id != null && id.equals("postText")) {
+                TextArea postTextArea = (TextArea) e;
+                postTextArea.setText(text);
+                postTextArea.setDisable(true);
+                postTextArea.setStyle("-fx-opacity: 1;");
+                toReturn.getChildren().add(postTextArea);
+            } else {
+                toReturn.getChildren().add(e);
+            }
+
+        });
+        return toReturn;
+    }
+
+    public Alert exceptionAlert(Exception e) {
+        Alert toReturn = new Alert(AlertType.ERROR);
+        toReturn.setContentText(e.toString() + "\n" + e.getCause());
+        System.err.println(e.toString() + "\n" + e.getCause());
+        toReturn.setTitle("Error");
+        return toReturn;
     }
 
 }
