@@ -9,6 +9,7 @@
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.shape.Line?>
@@ -35,62 +36,32 @@
           </Menu>
         </menus>
       </MenuBar>
-      <Accordion fx:id="postsContainer" layoutX="100.0" layoutY="100.0" prefHeight="203.0" prefWidth="600.0">
-        <panes>
-          <TitledPane animated="false" text="postName1">
-            <content>
-              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                     <children>
-                        <Label prefHeight="200.0" prefWidth="600.0" text="testing this label" />
-                     </children></AnchorPane>
-            </content>
-               <font>
-                  <Font size="16.0" />
-               </font>
-          </TitledPane>
-          <TitledPane animated="false" text="postName2">
-            <content>
-              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                     <children>
-                        <TextArea prefHeight="264.0" prefWidth="598.0" text="testing this too"/>
-                     </children></AnchorPane>
-            </content>
-               <font>
-                  <Font size="16.0" />
-               </font>
-          </TitledPane>
-          <TitledPane animated="false" text="postName3">
-            <content>
-              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                     <children>
-                        <TextArea prefHeight="264.0" prefWidth="598.0" />
-                     </children></AnchorPane>
-            </content>
-               <font>
-                  <Font size="16.0" />
-               </font>
-          </TitledPane>
-            <TitledPane animated="false" text="postName4">
-               <content>
-                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                     <children>
-                        <TextArea prefHeight="264.0" prefWidth="598.0" />
-                     </children></AnchorPane>
-               </content>
-               <font>
-                  <Font size="16.0" />
-               </font>
-            </TitledPane>
-            <TitledPane animated="false" text="postName5">
-               <content>
-                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-               </content>
-               <font>
-                  <Font size="16.0" />
-               </font>
-            </TitledPane>
-        </panes>
-      </Accordion>
+      
+      <ScrollPane fx:id="postsScrollContainer" layoutX="101.0" layoutY="99.0" prefHeight="450.0" prefWidth="600.0">
+         <content>
+           <AnchorPane fx:id="postsContainer" minHeight="0.0" minWidth="0.0" prefHeight="1000.0" prefWidth="585.0">
+                <children>
+                   <Pane fx:id="postPane" layoutX="14.0" layoutY="14.0" prefHeight="200.0" prefWidth="560.0" style="-fx-background-color: E0E0E0; -fx-border-color: grey;">
+                      <children>
+                         <Label fx:id="titleLable" layoutX="33.0" layoutY="5.0" text="Title" >
+                            <font>
+                               <Font size="20.0" />
+                            </font>
+                         </Label>
+                         <Line endX="430.0" layoutX="115.0" layoutY="34.0" startX="-100.0" />
+                         <TextArea fx:id="postTextArea" layoutX="15.0" layoutY="45.0" prefHeight="160.0" prefWidth="430.0" />
+                         <Label layoutX="476.0" layoutY="53.0" text="N replies" />
+                         <Label layoutX="482.0" layoutY="81.0" text="N likes" />
+                         <Button layoutX="482.0" layoutY="111.0" mnemonicParsing="false" text="Like" />
+                         <Button layoutX="458.0" layoutY="176.0" mnemonicParsing="false" text="Go to thread" />
+                         <Button layoutX="475.0" layoutY="143.0" mnemonicParsing="false" text="Dislike" />
+                      </children>
+                   </Pane>
+                </children>
+             </AnchorPane>
+         </content>
+       </ScrollPane>
+
       <Pane layoutX="808.0" layoutY="200.0" prefHeight="200.0" prefWidth="200.0">
          <children>
             <Button fx:id="createPostButton" layoutX="12.0" layoutY="30.0" mnemonicParsing="false" prefHeight="140.0" prefWidth="177.0" text="Create Post">
