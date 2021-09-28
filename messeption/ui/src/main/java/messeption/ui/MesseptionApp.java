@@ -34,11 +34,13 @@ public class MesseptionApp extends Application {
 
         frontPageController.createPostButton.setOnAction(e -> {
             primaryStage.setScene(createPostScene);
+            createPostController.setBoard(frontPageController.getBoard());
         });
 
-        /* createPostController.cancelButton.setOnAction(e -> {
+        createPostController.cancelButton.setOnAction(e -> {
             primaryStage.setScene(frontPageScene);
-        }); */
+            frontPageController.drawPosts();
+        });
 
     }
 

@@ -34,17 +34,17 @@
       </MenuBar>
       <Pane layoutX="809.0" layoutY="149.0" prefHeight="302.0" prefWidth="200.0">
          <children>
-            <Button layoutX="12.0" layoutY="81.0" mnemonicParsing="false" prefHeight="70.0" prefWidth="177.0" text="Publish">
+            <Button layoutX="12.0" layoutY="81.0" mnemonicParsing="false" prefHeight="70.0" prefWidth="177.0" text="Publish" fx:id="publishButton">
                <font>
                   <Font size="20.0" />
                </font>
             </Button>
-            <Button layoutX="12.0" layoutY="218.0" mnemonicParsing="false" prefHeight="70.0" prefWidth="177.0" text="Cancel">
+            <Button layoutX="12.0" layoutY="218.0" mnemonicParsing="false" prefHeight="70.0" prefWidth="177.0" text="Cancel" fx:id="cancelButton">
                <font>
                   <Font size="20.0" />
                </font>
             </Button>
-            <Label fx:id="errorLabel" layoutX="66.0" layoutY="32.0" text="errorLabel">
+            <Label fx:id="errorLabel" layoutX="66.0" layoutY="32.0" text="">
                <font>
                   <Font size="15.0" />
                </font>
@@ -64,12 +64,12 @@
                   <Font size="20.0" />
                </font>
             </Label>
-            <TextField fx:id="postTitle" layoutY="44.0" prefHeight="44.0" prefWidth="600.0" promptText="Title of post">
+            <TextField fx:id="postTitleField" layoutY="44.0" prefHeight="44.0" prefWidth="600.0" promptText="Title of post">
                <font>
                   <Font size="20.0" />
                </font>
             </TextField>
-            <TextArea fx:id="postContent" layoutY="126.0" prefHeight="322.0" prefWidth="600.0" promptText="content of post">
+            <TextArea fx:id="postTextArea" layoutY="126.0" prefHeight="322.0" prefWidth="600.0" promptText="content of post">
                <font>
                   <Font size="20.0" />
                </font>
