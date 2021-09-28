@@ -1,14 +1,9 @@
 package messeption.core;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.io.File;
 import java.io.IOException;
-
-import com.google.gson.JsonIOException;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -38,20 +33,14 @@ public class ForumBoardTest {
 	@Test
 	@DisplayName("Test save and load")
 	public void testSaveLoad() throws IOException {
-		File file = new File("BoardTest.JSON");
-		board.savePosts(file);
+		String path = "core/";
+		String fileName = "BoardTest.JSON";
+		board.savePosts(path, fileName);
 		ForumBoard board2 = new ForumBoard();
-		board2.loadPosts(file);
+		board2.loadPosts(path, fileName);
 		assertEquals(board.toString(), board2.toString());
 	}
 
-	@Test
-	@DisplayName("Test save and load to default file")
-	public void testSaveLoadDefault() throws IOException {
-		JSONReadWrite.fileWrite(board);
-		ForumBoard board2 = JSONReadWrite.fileRead();
-
-		assertEquals(board2.toString(), board.toString());
-	}
+	
 
 }

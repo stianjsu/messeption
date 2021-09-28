@@ -35,6 +35,11 @@ public class MesseptionApp extends Application {
         frontPageController.createPostButton.setOnAction(e -> {
             primaryStage.setScene(createPostScene);
         });
+
+        /* createPostController.cancelButton.setOnAction(e -> {
+            primaryStage.setScene(frontPageScene);
+        }); */
+
     }
 
     public static void main(String[] args) {

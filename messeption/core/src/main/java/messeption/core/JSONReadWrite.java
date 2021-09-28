@@ -12,58 +12,32 @@ import com.google.gson.JsonIOException;
 import com.google.gson.JsonSyntaxException;
 
 public class JSONReadWrite {
-    public static final String path = Paths.get("").toAbsolutePath().toString() + "/src/main/resources/messeption/ui/";
-    public static final File DEFAULT_BOARD_FILE = new File("Board.JSON");
+    public static final String ROOT_PATH = Paths.get("").toAbsolutePath().toString() + "/src/main/resources/messeption/"; // ender med messeption/core/ eller messeption/ui/
+    public static final String UI_PATH = "ui/";
+    public static final String DEFAULT_BOARD_FILE = "Board.JSON";
 
-    public static ForumBoard fileRead(File file, String customPath)
+    public static ForumBoard fileRead(String filePath, String fileName)
             throws JsonSyntaxException, JsonIOException, IOException {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        FileReader reader = new FileReader(customPath + file);
+        FileReader reader = new FileReader(ROOT_PATH + filePath + fileName);
         ForumBoard toReturn = gson.fromJson(reader, ForumBoard.class);
         reader.close();
         return toReturn;
     }
 
-    public static void fileWrite(File file, String customPath, ForumBoard board) throws JsonIOException, IOException {
+    public static void fileWrite(String filePath, String fileName, ForumBoard board)
+            throws JsonIOException, IOException {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        if (file.equals(DEFAULT_BOARD_FILE) && customPath.equals(path)) {
-            throw new IOException("Cannot save to default board file");
-        }
-        FileWriter writer = new FileWriter(customPath + file);
-        gson.toJson(board, writer);
-        writer.close();
-    }
-
-    public static ForumBoard fileRead(File file) throws JsonSyntaxException, JsonIOException, IOException {
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        FileReader reader = new FileReader(path + file);
-        ForumBoard toReturn = gson.fromJson(reader, ForumBoard.class);
-        reader.close();
-        return toReturn;
-    }
-
-    public static void fileWrite(File file, ForumBoard board) throws JsonIOException, IOException {
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        if (file.equals(DEFAULT_BOARD_FILE)) {
-            throw new IOException("Cannot save to default board file");
-        }
-        FileWriter writer = new FileWriter(path + file);
+        FileWriter writer = new FileWriter(ROOT_PATH + filePath + fileName);
         gson.toJson(board, writer);
         writer.close();
     }
 
     public static ForumBoard fileRead() throws JsonSyntaxException, JsonIOException, IOException {
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        FileReader reader = new FileReader(path + DEFAULT_BOARD_FILE);
-        ForumBoard toReturn = gson.fromJson(reader, ForumBoard.class);
-        reader.close();
-        return toReturn;
+        return fileRead(UI_PATH, DEFAULT_BOARD_FILE);
     }
 
     public static void fileWrite(ForumBoard board) throws JsonIOException, IOException {
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        FileWriter writer = new FileWriter(path + DEFAULT_BOARD_FILE);
-        gson.toJson(board, writer);
-        writer.close();
+        fileWrite(UI_PATH, DEFAULT_BOARD_FILE, board);
     }
 }
