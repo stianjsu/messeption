@@ -41,6 +41,10 @@ public class ForumBoardTest {
 		assertEquals(board.toString(), board2.toString());
 	}
 
-	
+	@AfterAll
+	public static void tearDown() {
+		File testFile = new File(JSONReadWrite.ROOT_PATH +"core/BoardTest.JSON");
+		testFile.delete();
+	}
 
 }
