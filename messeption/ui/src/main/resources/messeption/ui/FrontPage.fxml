@@ -14,7 +14,7 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1067.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.FrontPageController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1067.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="messeption.ui.FrontPageController">
    <children>
       <MenuBar layoutY="2.0" prefHeight="25.0" prefWidth="1067.0">
         <menus>
@@ -35,13 +35,13 @@
           </Menu>
         </menus>
       </MenuBar>
-      <Accordion layoutX="100.0" layoutY="100.0" prefHeight="450.0" prefWidth="600.0">
+      <Accordion fx:id="postsContainer" layoutX="100.0" layoutY="100.0" prefHeight="203.0" prefWidth="600.0">
         <panes>
           <TitledPane animated="false" text="postName1">
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <TextArea prefHeight="264.0" prefWidth="598.0" />
+                        <Label prefHeight="200.0" prefWidth="600.0" text="testing this label" />
                      </children></AnchorPane>
             </content>
                <font>
@@ -52,7 +52,7 @@
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <TextArea prefHeight="264.0" prefWidth="598.0" />
+                        <TextArea prefHeight="264.0" prefWidth="598.0" text="testing this too"/>
                      </children></AnchorPane>
             </content>
                <font>
@@ -93,7 +93,7 @@
       </Accordion>
       <Pane layoutX="808.0" layoutY="200.0" prefHeight="200.0" prefWidth="200.0">
          <children>
-            <Button layoutX="12.0" layoutY="30.0" mnemonicParsing="false" prefHeight="140.0" prefWidth="177.0" text="Create Post">
+            <Button fx:id="createPostButton" layoutX="12.0" layoutY="30.0" mnemonicParsing="false" prefHeight="140.0" prefWidth="177.0" text="Create Post">
                <font>
                   <Font size="20.0" />
                </font>

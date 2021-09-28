@@ -1,4 +1,4 @@
-package ui;
+package messeption.ui;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -8,21 +8,37 @@ import javafx.scene.Scene;
 public class MesseptionApp extends Application {
 
     public static final String FRONT_PAGE_PATH = "FrontPage.fxml";
+    public static final String CREATE_POST_PAGE_PATH = "CreatePost.fxml";
+
     private Scene frontPageScene;
+    private Scene createPostScene;
+
     private FrontPageController frontPageController;
+    private CreatePostController createPostController;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
 
         FXMLLoader frontPageLoader = new FXMLLoader(getClass().getResource(FRONT_PAGE_PATH));
+        FXMLLoader createPostLoader = new FXMLLoader(getClass().getResource(CREATE_POST_PAGE_PATH));
 
         frontPageScene = new Scene(frontPageLoader.load());
+        createPostScene = new Scene(createPostLoader.load());
 
-        // frontpageController = frontpageLoader.getController();
+        frontPageController = frontPageLoader.getController();
+        createPostController = createPostLoader.getController();
 
         primaryStage.setScene(frontPageScene);
         primaryStage.setTitle("Messeption");
         primaryStage.show();
+
+        frontPageController.createPostButton.setOnAction(e -> {
+            primaryStage.setScene(createPostScene);
+        });
+
+        /* createPostController.cancelButton.setOnAction(e -> {
+            primaryStage.setScene(frontPageScene);
+        }); */
 
     }
 

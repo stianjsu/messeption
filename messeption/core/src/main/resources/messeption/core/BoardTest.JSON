@@ -1,0 +1,9 @@
+{
+  "posts": [
+    {
+      "title": "POST",
+      "text": "Lorem ipsum dolor sit amet",
+      "timeStamp": "12:20:42 28-09-2021"
+    }
+  ]
+}

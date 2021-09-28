@@ -3,6 +3,6 @@ module messeption.ui {
     requires javafx.controls;
     requires javafx.fxml;
 
-    opens ui to javafx.graphics, javafx.fxml;
+    opens messeption.ui to javafx.graphics, javafx.fxml;
 
 }
