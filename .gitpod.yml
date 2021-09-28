@@ -2,7 +2,7 @@ image:
   file: .gitpod.Dockerfile
 
 tasks:
-  - init: sdk use java 16.0.2.hs-adpt
+  - init: sdk use java 16.0.1.hs-adpt
     command: cd messeption; mvn clean install; cd ui; mvn javafx:run
 
 ports:
