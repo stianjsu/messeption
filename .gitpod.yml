@@ -1,0 +1,10 @@
+image:
+  file: .gitpod.Dockerfile
+
+tasks:
+  - init: sdk use java 16.0.2.hs-adpt
+    command: cd messeption; mvn clean install; cd ui; mvn javafx:run
+
+ports:
+  # used by virtual desktop and vnc, supports JavaFX
+  - port: 6080
