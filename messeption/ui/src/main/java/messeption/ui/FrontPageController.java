@@ -12,6 +12,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TitledPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.shape.Line;
 import javafx.scene.text.Font;
 
 
@@ -31,12 +32,29 @@ public class FrontPageController {
     @FXML
     Button createPostButton;
     @FXML
-    Pane postPane;
+    Pane postPaneTemplateFXML;
+
+    Pane postPaneTemplate;
     
     private ForumBoard forumBoard;
 
     public void initialize(){
 
+        List<Node> postPaneTemplateChildren = postPaneTemplateFXML.getChildren().stream()
+                                                .map(e -> {
+                                                    if(e instanceof Label)
+                                                        return new Label(e);
+                                                    if(e instanceof Line)
+                                                        return new Line(e);
+                                                    if(e instanceof TextArea)
+                                                        return new TextArea(e);
+                                                    if(e instanceof Button)
+                                                        return new Button(e);
+                                                    return new Node(e);
+                                                }).collect(Collectors.toList());
+                                                
+
+        postPane = new Pane(postPaneTemplate.getChildren());
         drawPosts();
     }
 
@@ -69,20 +87,16 @@ public class FrontPageController {
     }
 
     private Pane generatePostPane(String title, String text){
-        Pane pane = new Pane(postPane);
-    
-        pane.getChildren().forEach( p -> {
-            System.out.println(p.getClass());
-            if(p.getId().equals("titleLable") && p instanceof Label){
-                Label titleLabel = (Label) p;
-                titleLabel.setText(title);
-            }
-            else if(p.getId().equals("postTextArea") && p instanceof TextArea){
-                TextArea postTextArea = (TextArea) p;
-                postTextArea.setText(text);
-            }
-        });   
-        
+        /* Pane pane = new Pane(postPane);
+        Label titleLabel = new Label();
+        Label likeLabel = new Label();
+        Label dislikeLabel = new Label();
+        Button like = new Button();
+        Button dislike = new Button();
+        Button goToThread = new Button();
+        TextArea textArea = new TextArea();
+        Line line = new Line();
+        */
 
         return pane;
     }

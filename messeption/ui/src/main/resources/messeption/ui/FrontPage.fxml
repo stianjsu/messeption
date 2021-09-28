@@ -41,15 +41,15 @@
          <content>
            <AnchorPane fx:id="postsContainer" minHeight="0.0" minWidth="0.0" prefHeight="1000.0" prefWidth="585.0">
                 <children>
-                   <Pane fx:id="postPane" layoutX="14.0" layoutY="14.0" prefHeight="200.0" prefWidth="560.0" style="-fx-background-color: E0E0E0; -fx-border-color: grey;">
+                   <Pane fx:id="postPaneTemplateFXML" layoutX="14.0" layoutY="14.0" prefHeight="200.0" prefWidth="560.0" style="-fx-background-color: E0E0E0; -fx-border-color: grey;">
                       <children>
-                         <Label fx:id="titleLable" layoutX="33.0" layoutY="5.0" text="Title" >
+                         <Label layoutX="33.0" layoutY="5.0" text="Title" >
                             <font>
                                <Font size="20.0" />
                             </font>
                          </Label>
                          <Line endX="430.0" layoutX="115.0" layoutY="34.0" startX="-100.0" />
-                         <TextArea fx:id="postTextArea" layoutX="15.0" layoutY="45.0" prefHeight="160.0" prefWidth="430.0" />
+                         <TextArea layoutX="15.0" layoutY="45.0" prefHeight="160.0" prefWidth="430.0" />
                          <Label layoutX="476.0" layoutY="53.0" text="N replies" />
                          <Label layoutX="482.0" layoutY="81.0" text="N likes" />
                          <Button layoutX="482.0" layoutY="111.0" mnemonicParsing="false" text="Like" />
