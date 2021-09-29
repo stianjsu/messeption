@@ -1,6 +1,7 @@
 package messeption.core;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.io.File;
 import java.io.IOException;
@@ -13,13 +14,15 @@ import org.junit.jupiter.api.Test;
 public class ForumBoardTest {
 	ForumPost post;
 	ForumBoard board;
+	JSONReadWrite readWrite;
 
 	@BeforeEach
-	public void setup() {
+	public void setup() throws IOException {
 		String title1 = "POST";
 		String text1 = "Lorem ipsum dolor sit amet";
 		board = new ForumBoard();
 		board.newPost(title1, text1);
+		readWrite = new JSONReadWrite();
 	}
 
 	@Test
@@ -28,6 +31,16 @@ public class ForumBoardTest {
 		post = board.getPost(0);
 		assertEquals("POST", post.getTitle());
 		assertEquals("Lorem ipsum dolor sit amet", post.getText());
+	}
+
+	@Test
+	@DisplayName("Test delete post")
+	public void testDeletePost() {
+		post = board.getPost(0);
+		board.deletePost(post);
+		assertThrows(IndexOutOfBoundsException.class, () -> {
+			board.getPost(0);
+		});
 	}
 
 	@Test
@@ -40,6 +53,8 @@ public class ForumBoardTest {
 		board2.loadPosts(path, fileName);
 		assertEquals(board.toString(), board2.toString());
 	}
+
+
 
 	@AfterAll
 	public static void tearDown() {
