@@ -4,8 +4,8 @@
 - This git repository consists of an application developed in the NTNU course IT1901
 
 - The project is built with Maven and configured for Gitpod
-    * Jacoco is a Maven plug-in for showing test-coverage of sourcecode, and is used in the project
 
+- The Maven plugin Jacoco is used for showing test-coverage of source code. 
 
 - The project use a 'modular' approach for organising files
 
