@@ -8,6 +8,45 @@ The purpose of the app is to allow users to communicate with other people via te
 Later in the development process we would like to implement the ability to comment on the post and start 'threads'. These 'threads' will be a chain of replies to the original post or to other replies.
 Additionally we would like to give users the ability to like/dislike posts.
 
+## images
+
+These images are early prototypes and drawings of how we want the app to look.
+
+
+#### Front Page
+
+Here you will be able to see a lot of posts.
+
+We want to create a possibility to filter the post.
+For instance:
+- new posts first
+- old posts first
+- filter by user
+- filter by category
+
+![Front Page](../docs/images/frontPage.png?width=16)
+
+
+
+
+#### Create Post Page
+
+Here you can create a new post
+
+
+
+![Create Post Page](../docs/images/createPostPage.png?raw=true)
+
+#### Post Page
+
+Here you will be able to look at a post in more detail, and review its comments.
+
+You will be able to like/dislike and add comments or replies to other comments.
+
+
+![Post Page](../docs/images/postPage.png?raw=true)
+
+
 
 # User stories
 
