@@ -1,3 +1,4 @@
+[![Gitpod Ready-to-Code](https://img.shields.io/badge/Gitpod-Ready--to--Code-blue?logo=gitpod)](https://gitlab.stud.idi.ntnu.no/it1901/groups-2021/gr2122/gr2122/)
 # Group gr2122 repository
 
 ## Genereal information:
