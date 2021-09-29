@@ -17,5 +17,5 @@
 - In both 'core' and 'ui' we have a 'src' folder. There the code is divided into 'main' and 'test' folders, for their respective purposes
 - The 'main' folders split into 'java' and 'resources' folders
 
-- 'java' folders contain java-files for code logic and module-info files for declaring dependensies in the project
+- 'java' folders contain java-files for code logic and module-info files for declaring dependencies in the project
 - 'resources' folders contain JSON files for text saving and java-fxml files for ui representation
