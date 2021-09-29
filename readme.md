@@ -5,6 +5,8 @@
 
 - The project is built with maven and we use a module approach to organising files
 
+- The project is configured for Gitpod
+
 ## Repository structure:
 - In the 'Messeption' folder you can find the project
 
