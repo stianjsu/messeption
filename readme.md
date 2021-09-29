@@ -3,9 +3,9 @@
 ## Genereal information:
 - This git repository consists of an application developed in the NTNU course IT1901
 
-- The project is built with maven and we use a module approach to organising files
+- The project is built with Maven and configured for Gitpod
 
-- The project is configured for Gitpod
+- The project use a 'modular' approach for organising files
 
 ## Repository structure:
 - In the 'Messeption' folder you can find the project
