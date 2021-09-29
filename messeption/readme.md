@@ -2,7 +2,7 @@
 
 ## Messeption
 Messeption is an app that takes inspiration from messaging apps and forums. 
-These are our inspirational sources: Facebook messenger, Jodel, Twitter.
+These are our inspirational sources: Reddit, Jodel, Twitter.
 
 The purpose of the app is to allow users to communicate with other people via text. The most basic functionality is to post text-posts like you would on a forum. 
 Later in the development process we would like to implement the ability to comment on the post and start 'threads'. These 'threads' will be a chain of replies to the original post or to other replies.
@@ -24,29 +24,27 @@ For instance:
 - filter by user
 - filter by category
 
-![Front Page](../docs/images/frontPage.png?width=16)
-
+<div align="left">
+    <img src="../docs/images/frontPage.png" alt="Front page" width=80%/>
+</div>
 
 
 
 #### Create Post Page
 
 Here you can create a new post
-
-
-
-![Create Post Page](../docs/images/createPostPage.png?raw=true)
+<div align="left">
+    <img src="../docs/images/createPostPage.png" alt="Create post page" width="80%"/>
+</div>
 
 #### Post Page
 
 Here you will be able to look at a post in more detail, and review its comments.
 
 You will be able to like/dislike and add comments or replies to other comments.
-
-
-![Post Page](../docs/images/postPage.png?raw=true)
-
-
+<div align="left">
+    <img src="../docs/images/postPage.png" alt="Post Page" width="80%"/ >
+</div>
 
 # User stories
 
