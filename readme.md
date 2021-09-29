@@ -21,3 +21,5 @@
 
 - 'java' folders contain java-files for code logic and module-info files for declaring dependencies in the project
 - 'resources' folders contain JSON files for text saving and java-fxml files for ui representation
+
+In order to start the application use mvn javafx:run in messeption/ui
