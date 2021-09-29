@@ -8,11 +8,11 @@
 ## Screenshots of the app so far
 
 <div align="left">
-    <img src="../docs/images/release1/frontPage.png" alt="Front page" width=80%/>
+    <img src="../images/release1/frontPage.png" alt="Front page" width=80%/>
 </div>
 
 <div align="left">
-    <img src="../docs/images/release1/createPostPage.png" alt="Front page" width=80%/>
+    <img src="../images/release1/createPostPage.png" alt="Front page" width=80%/>
 </div>
 
 # User stories
