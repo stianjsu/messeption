@@ -5,7 +5,7 @@
 
 - The project is built with Maven and configured for Gitpod
 
-- The Maven plugin Jacoco is used for showing test-coverage of source code. 
+- The Maven plugin Jacoco is used for showing test-coverage of source code
 
 - The project use a 'modular' approach for organising files
 
