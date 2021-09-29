@@ -94,13 +94,12 @@ public class CreatePostController {
         
         Optional<ButtonType> result = confirmation.showAndWait();
         
-        if(result.get() == newPost) {
-			//refresh page
-            reloadPage();
-		} else if(result.get() == quitToFrontPage) {
+        
+		//refresh page
+        reloadPage();
+		if(result.get() == quitToFrontPage) {
 			//go back to menu
             cancelButton.fire();
-            //cancelButton.fireEvent(cancelButton.getOnAction());
 		} else {
 			showError(result.get().getText());
 		} 
