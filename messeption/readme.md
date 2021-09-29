@@ -55,7 +55,7 @@ Aditionally he wishes to have his opinions organized in an easy and readable man
 
 ### Important details for reading
 - Ability to be able to view posts
-- Save date and time for when posts are made
 
 ### Important details for writing
 - Ability to create a post
+- Save date and time for when posts are made
