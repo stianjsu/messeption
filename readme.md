@@ -5,12 +5,12 @@
 
 - The project is built with maven and we use a module approach to organising files
 
-## Application details:
+## Repository structure:
 - In the 'Messeption' folder you can find the project
 
 - In the 'docs' folder you can find release-documentations for the applications releases
 
-- The project contains two README files, one on root-level and one inside of the project folder
+- The project contains two README files, one on root-level and one inside of the project folder which describes the application
 
 ### File structure:
 - The project is divided into modules, namely 'core' and 'ui'
