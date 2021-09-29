@@ -79,20 +79,23 @@ public class FrontPageController {
         List<Node> tempChildren = new ArrayList<>(toReturn.getChildren());
         toReturn.getChildren().clear();
 
-        tempChildren.forEach(e -> {
-            String id = e.getId();
+        tempChildren.forEach(child -> {
+
+            String id = child.getId();
             if (id != null && id.equals("postTitle")) {
-                Label titleLable = (Label) e;
+                Label titleLable = (Label) child;
                 titleLable.setText(title);
                 toReturn.getChildren().add(titleLable);
+
             } else if (id != null && id.equals("postText")) {
-                TextArea postTextArea = (TextArea) e;
+                TextArea postTextArea = (TextArea) child;
                 postTextArea.setText(text);
                 postTextArea.setDisable(true);
                 postTextArea.setStyle("-fx-opacity: 1;");
                 toReturn.getChildren().add(postTextArea);
+
             } else {
-                toReturn.getChildren().add(e);
+                toReturn.getChildren().add(child);
             }
 
         });
@@ -100,6 +103,7 @@ public class FrontPageController {
     }
 
     public Alert exceptionAlert(Exception e) {
+        
         Alert toReturn = new Alert(AlertType.ERROR);
         toReturn.setContentText(e.toString() + "\n" + e.getCause());
         System.err.println(e.toString() + "\n" + e.getCause());
