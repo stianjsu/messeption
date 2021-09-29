@@ -59,12 +59,3 @@ Aditionally he wishes to have his opinions organized in an easy and readable man
 
 ### Important details for writing
 - Ability to create a post
-
-
-## Read posts (User story 2)
-As a passive user, or someone who does not post a lot, a private person wishes to interact with other peoples posts as a way of using the application.
-
-
-### Important details for interaction
-- Ability to Like/dislike posts
-- Ability to reply to posts
