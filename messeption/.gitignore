@@ -1,0 +1,6 @@
+#Ignore maven build folder
+target/
+
+.project
+.classpath
+.prefs

@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
+
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="600.0" minWidth="1000.0" prefHeight="675.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="messeption.ui.FrontPageController">
+   <center>
+      <Pane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <children>
+            <Label layoutX="82.0" layoutY="23.0" prefHeight="17.0" prefWidth="128.0" text="Posts">
+               <font>
+                  <Font size="35.0" />
+               </font>
+            </Label>
+            <MenuButton alignment="TOP_CENTER" layoutX="676.0" layoutY="34.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="183.0" text="Filter posts">
+               <items>
+                  <MenuItem mnemonicParsing="false" text="Action 1" />
+                  <MenuItem mnemonicParsing="false" text="Action 2" />
+               </items>
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </MenuButton>
+            <Line endX="900.0" endY="80.0" layoutX="-31.0" layoutY="-5.0" startX="80.0" startY="80.0" />
+            <ScrollPane layoutX="59.0" layoutY="90.0" prefHeight="450.0" prefWidth="800.0">
+               <content>
+                  <AnchorPane fx:id="postsContainer" minHeight="0.0" minWidth="0.0" prefHeight="1000.0" prefWidth="785.0">
+                     <children>
+                        <Pane layoutX="15.0" layoutY="15.0" prefHeight="200.0" prefWidth="760.0" style="-fx-background-color: E0E0E0; -fx-border-color: grey;">
+                           <children>
+                              <Label layoutX="34.0" layoutY="6.0" prefHeight="30.0" prefWidth="600.0" text="Title">
+                                 <font>
+                                    <Font size="20.0" />
+                                 </font>
+                              </Label>
+                              <Line endX="510.0" layoutX="134.0" layoutY="35.0" startX="-110.0" />
+                              <TextArea editable="false" layoutX="33.0" layoutY="43.0" prefHeight="150.0" prefWidth="600.0">
+                                 <font>
+                                    <Font size="15.0" />
+                                 </font>
+                              </TextArea>
+                              <Label layoutX="680.0" layoutY="35.0" text="N replies" />
+                              <Label layoutX="686.0" layoutY="63.0" text="N likes" />
+                              <Button layoutX="686.0" layoutY="93.0" mnemonicParsing="false" text="Like" />
+                              <Button layoutX="662.0" layoutY="158.0" mnemonicParsing="false" text="Go to thread" />
+                              <Button layoutX="679.0" layoutY="125.0" mnemonicParsing="false" text="Dislike" />
+                           </children>
+                        </Pane>
+                        <Pane layoutX="15.0" layoutY="230.0" prefHeight="200.0" prefWidth="760.0" style="-fx-background-color: E0E0E0; -fx-border-color: grey;">
+                           <children>
+                              <Label layoutX="34.0" layoutY="6.0" prefHeight="30.0" prefWidth="600.0" text="Title">
+                                 <font>
+                                    <Font size="20.0" />
+                                 </font>
+                              </Label>
+                              <Line endX="510.0" layoutX="134.0" layoutY="35.0" startX="-110.0" />
+                              <TextArea editable="false" layoutX="33.0" layoutY="43.0" prefHeight="150.0" prefWidth="600.0">
+                                 <font>
+                                    <Font size="15.0" />
+                                 </font>
+                              </TextArea>
+                              <Label layoutX="680.0" layoutY="35.0" text="N replies" />
+                              <Label layoutX="686.0" layoutY="63.0" text="N likes" />
+                              <Button layoutX="686.0" layoutY="93.0" mnemonicParsing="false" text="Like" />
+                              <Button layoutX="662.0" layoutY="158.0" mnemonicParsing="false" text="Go to thread" />
+                              <Button layoutX="679.0" layoutY="125.0" mnemonicParsing="false" text="Dislike" />
+                           </children>
+                        </Pane>
+                     </children>
+                  </AnchorPane>
+               </content>
+            </ScrollPane>
+         </children>
+      </Pane>
+   </center>
+   <top>
+      <MenuBar prefHeight="25.0" prefWidth="1301.0" BorderPane.alignment="CENTER">
+         <menus>
+            <Menu mnemonicParsing="false" text="File">
+               <items>
+                  <MenuItem mnemonicParsing="false" text="Close" />
+               </items>
+            </Menu>
+            <Menu mnemonicParsing="false" text="Edit">
+               <items>
+                  <MenuItem mnemonicParsing="false" text="Delete" />
+               </items>
+            </Menu>
+            <Menu mnemonicParsing="false" text="Help">
+               <items>
+                  <MenuItem mnemonicParsing="false" text="About" />
+               </items>
+            </Menu>
+         </menus>
+      </MenuBar>
+   </top>
+   <right>
+      <Pane prefHeight="611.0" prefWidth="283.0" BorderPane.alignment="CENTER">
+         <children>
+            <Button fx:id="createPostButton" layoutX="53.0" layoutY="236.0" mnemonicParsing="false" prefHeight="140.0" prefWidth="177.0" text="Create Post">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Button>
+         </children>
+      </Pane>
+   </right>
+   <left>
+      <Pane prefHeight="611.0" prefWidth="0.0" BorderPane.alignment="CENTER" />
+   </left>
+   <bottom>
+      <Pane prefHeight="39.0" prefWidth="1200.0" BorderPane.alignment="CENTER" />
+   </bottom>
+</BorderPane>
