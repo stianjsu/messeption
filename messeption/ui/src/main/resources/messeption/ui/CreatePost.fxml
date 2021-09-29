@@ -4,82 +4,111 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuButton?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1067.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="messeption.ui.CreatePostController">
-   <children>
-      <MenuBar layoutY="2.0" prefHeight="25.0" prefWidth="1067.0">
-        <menus>
-          <Menu mnemonicParsing="false" text="File">
-            <items>
-              <MenuItem mnemonicParsing="false" text="Close" />
-            </items>
-          </Menu>
-          <Menu mnemonicParsing="false" text="Edit">
-            <items>
-              <MenuItem mnemonicParsing="false" text="Delete" />
-            </items>
-          </Menu>
-          <Menu mnemonicParsing="false" text="Help">
-            <items>
-              <MenuItem mnemonicParsing="false" text="About" />
-            </items>
-          </Menu>
-        </menus>
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="600.0" minWidth="1000.0" prefHeight="675.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="messeption.ui.CreatePostController">
+   <center>
+      <Pane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <children>
+            <Label layoutX="82.0" layoutY="23.0" prefHeight="51.0" prefWidth="584.0" text="New Post">
+               <font>
+                  <Font size="35.0" />
+               </font>
+            </Label>
+            <MenuButton alignment="TOP_CENTER" layoutX="676.0" layoutY="34.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="183.0" text="Filter posts">
+               <items>
+                  <MenuItem mnemonicParsing="false" text="Action 1" />
+                  <MenuItem mnemonicParsing="false" text="Action 2" />
+               </items>
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </MenuButton>
+            <Line endX="900.0" endY="80.0" layoutX="-31.0" layoutY="-5.0" startX="80.0" startY="80.0" />
+            <Pane layoutX="59.0" layoutY="92.0" prefHeight="450.0" prefWidth="800.0">
+		    	<children>
+		    		<Label layoutX="20.0" layoutY="14.0" text="Title:">
+		            	<font>
+		            		<Font size="24.0" />
+		                </font>
+		            </Label>
+		            <TextField fx:id="postTitleField" layoutX="15.0" layoutY="49.0" prefHeight="44.0" prefWidth="770.0" promptText="Title of post">
+		            	<font>
+		                	<Font size="20.0" />
+		               </font>
+		            </TextField>
+		            <TextArea fx:id="postTextArea" layoutX="14.0" layoutY="131.0" prefHeight="314.0" prefWidth="770.0" promptText="content of post">
+		               <font>
+		                  <Font size="20.0" />
+		               </font>
+		            </TextArea>
+		            <Label layoutX="21.0" layoutY="96.0" text="Post text:">
+		               <font>
+		                  <Font size="24.0" />
+		               </font>
+		            </Label>
+		         </children>
+		 	</Pane>
+         </children>
+      </Pane>
+   </center>
+   <top>
+      <MenuBar prefHeight="25.0" prefWidth="1301.0" BorderPane.alignment="CENTER">
+         <menus>
+            <Menu mnemonicParsing="false" text="File">
+               <items>
+                  <MenuItem mnemonicParsing="false" text="Close" />
+               </items>
+            </Menu>
+            <Menu mnemonicParsing="false" text="Edit">
+               <items>
+                  <MenuItem mnemonicParsing="false" text="Delete" />
+               </items>
+            </Menu>
+            <Menu mnemonicParsing="false" text="Help">
+               <items>
+                  <MenuItem mnemonicParsing="false" text="About" />
+               </items>
+            </Menu>
+         </menus>
       </MenuBar>
-      <Pane layoutX="809.0" layoutY="149.0" prefHeight="302.0" prefWidth="200.0">
+   </top>
+   <right>
+      <Pane prefHeight="611.0" prefWidth="283.0" BorderPane.alignment="CENTER">
          <children>
-            <Button layoutX="12.0" layoutY="81.0" mnemonicParsing="false" prefHeight="70.0" prefWidth="177.0" text="Publish" fx:id="publishButton">
-               <font>
-                  <Font size="20.0" />
-               </font>
-            </Button>
-            <Button layoutX="12.0" layoutY="218.0" mnemonicParsing="false" prefHeight="70.0" prefWidth="177.0" text="Cancel" fx:id="cancelButton">
-               <font>
-                  <Font size="20.0" />
-               </font>
-            </Button>
-            <Label fx:id="errorLabel" layoutX="66.0" layoutY="32.0" text="">
-               <font>
-                  <Font size="15.0" />
-               </font>
-            </Label>
+            <Pane layoutX="42.0" layoutY="155.0" prefHeight="302.0" prefWidth="200.0">
+		         <children>
+		            <Button fx:id="publishButton" layoutX="12.0" layoutY="81.0" mnemonicParsing="false" prefHeight="70.0" prefWidth="177.0" text="Publish">
+		               <font>
+		                  <Font size="20.0" />
+		               </font>
+		            </Button>
+		            <Button fx:id="cancelButton" layoutX="12.0" layoutY="218.0" mnemonicParsing="false" prefHeight="70.0" prefWidth="177.0" text="Cancel">
+		               <font>
+		                  <Font size="20.0" />
+		               </font>
+		            </Button>
+		            <Label fx:id="errorLabel" layoutX="66.0" layoutY="32.0" text="">
+		               <font>
+		                  <Font size="15.0" />
+		               </font>
+		            </Label>
+		         </children>
+		      </Pane>
          </children>
       </Pane>
-      <Label layoutX="100.0" layoutY="36.0" prefHeight="17.0" prefWidth="128.0" text="New Post">
-         <font>
-            <Font size="30.0" />
-         </font>
-      </Label>
-      <Line endX="720.0" endY="80.0" layoutX="1.0" layoutY="1.0" startX="80.0" startY="80.0" />
-      <Pane layoutX="101.0" layoutY="98.0" prefHeight="450.0" prefWidth="600.0">
-         <children>
-            <Label layoutX="6.0" layoutY="14.0" text="Title:">
-               <font>
-                  <Font size="20.0" />
-               </font>
-            </Label>
-            <TextField fx:id="postTitleField" layoutY="44.0" prefHeight="44.0" prefWidth="600.0" promptText="Title of post">
-               <font>
-                  <Font size="20.0" />
-               </font>
-            </TextField>
-            <TextArea fx:id="postTextArea" layoutY="126.0" prefHeight="322.0" prefWidth="600.0" promptText="content of post">
-               <font>
-                  <Font size="20.0" />
-               </font>
-            </TextArea>
-            <Label layoutX="7.0" layoutY="96.0" text="Post text:">
-               <font>
-                  <Font size="20.0" />
-               </font>
-            </Label>
-         </children>
-      </Pane>
-   </children>
-</Pane>
+   </right>
+   <left>
+      <Pane prefHeight="611.0" prefWidth="0.0" BorderPane.alignment="CENTER" />
+   </left>
+   <bottom>
+      <Pane prefHeight="39.0" prefWidth="1200.0" BorderPane.alignment="CENTER" />
+   </bottom>
+</BorderPane>

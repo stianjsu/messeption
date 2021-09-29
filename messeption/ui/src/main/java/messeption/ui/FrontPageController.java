@@ -34,10 +34,7 @@ public class FrontPageController {
     AnchorPane postsContainer;
     @FXML
     Button createPostButton;
-    @FXML
-    Pane postPaneTemplateFXML;
 
-    Pane postPaneTemplate;
 
     private ForumBoard forumBoard;
 

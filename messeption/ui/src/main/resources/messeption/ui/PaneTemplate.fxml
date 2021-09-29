@@ -7,20 +7,23 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-
-<Pane fx:id="postPaneTemplate" layoutX="14.0" layoutY="14.0" prefHeight="200.0" prefWidth="560.0" style="-fx-background-color: E0E0E0; -fx-border-color: grey;" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<Pane fx:id="postPaneTemplate" layoutX="15.0" layoutY="15.0" prefHeight="200.0" prefWidth="760.0" style="-fx-background-color: E0E0E0; -fx-border-color: grey;" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1">
     <children>
-        <Label fx:id="postTitle" layoutX="20.0" layoutY="5.0" text="Title">
-            <font>
-                <Font size="20.0" />
-            </font>
-        </Label>
-        <Line endX="430.0" layoutX="115.0" layoutY="34.0" startX="-100.0" />
-        <TextArea fx:id="postText" layoutX="15.0" layoutY="45.0" prefHeight="150.0" prefWidth="430.0" />
-        <Label layoutX="476.0" layoutY="48.0" text="N replies" />
-        <Label layoutX="482.0" layoutY="76.0" text="N likes" />
-        <Button layoutX="482.0" layoutY="106.0" mnemonicParsing="false" text="Like" />
-        <Button layoutX="458.0" layoutY="171.0" mnemonicParsing="false" text="Go to thread" />
-        <Button layoutX="475.0" layoutY="138.0" mnemonicParsing="false" text="Dislike" />
+       <Label fx:id="postTitle" layoutX="34.0" layoutY="6.0" prefHeight="30.0" prefWidth="600.0" text="Title">
+          <font>
+             <Font size="20.0" />
+          </font>
+       </Label>
+       <Line endX="510.0" layoutX="134.0" layoutY="35.0" startX="-110.0" />
+       <TextArea fx:id="postText" editable="false" layoutX="33.0" layoutY="43.0" prefHeight="150.0" prefWidth="600.0">
+          <font>
+             <Font size="15.0" />
+          </font>
+       </TextArea>
+       <Label layoutX="680.0" layoutY="35.0" text="N replies" />
+       <Label layoutX="686.0" layoutY="63.0" text="N likes" />
+       <Button layoutX="686.0" layoutY="93.0" mnemonicParsing="false" text="Like" />
+       <Button layoutX="662.0" layoutY="158.0" mnemonicParsing="false" text="Go to thread" />
+       <Button layoutX="679.0" layoutY="125.0" mnemonicParsing="false" text="Dislike" />
     </children>
-</Pane>
+ </Pane>
