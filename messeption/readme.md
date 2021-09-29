@@ -25,7 +25,7 @@ For instance:
 - filter by category
 
 <div align="left">
-    <img src="../docs/images/frontPage.png" alt="Front page" width=80%/>
+    <img src="../docs/images/finished/frontPage.png" alt="Front page" width=80%/>
 </div>
 
 
@@ -34,7 +34,7 @@ For instance:
 
 Here you can create a new post
 <div align="left">
-    <img src="../docs/images/createPostPage.png" alt="Create post page" width="80%"/>
+    <img src="../docs/images/finished/createPostPage.png" alt="Create post page" width="80%"/>
 </div>
 
 #### Post Page
@@ -43,7 +43,7 @@ Here you will be able to look at a post in more detail, and review its comments.
 
 You will be able to like/dislike and add comments or replies to other comments.
 <div align="left">
-    <img src="../docs/images/postPage.png" alt="Post Page" width="80%"/ >
+    <img src="../docs/images/finished/postPage.png" alt="Post Page" width="80%"/ >
 </div>
 
 # User stories
