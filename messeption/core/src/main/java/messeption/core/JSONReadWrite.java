@@ -1,8 +1,11 @@
 package messeption.core;
 
-import java.io.FileReader;
-import java.io.FileWriter;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Paths;
 
 import com.google.gson.Gson;
@@ -18,7 +21,7 @@ public class JSONReadWrite {
     public static ForumBoard fileRead(String filePath, String fileName)
             throws JsonSyntaxException, JsonIOException, IOException {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        FileReader reader = new FileReader(ROOT_PATH + filePath + fileName);
+        InputStreamReader reader = new InputStreamReader(new FileInputStream(ROOT_PATH + filePath + fileName), StandardCharsets.UTF_8);    //changed from fileReader in order to not rely on default encoding
         ForumBoard toReturn = gson.fromJson(reader, ForumBoard.class);
         reader.close();
         return toReturn;
@@ -27,7 +30,7 @@ public class JSONReadWrite {
     public static void fileWrite(String filePath, String fileName, ForumBoard board)
             throws JsonIOException, IOException {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        FileWriter writer = new FileWriter(ROOT_PATH + filePath + fileName);
+        OutputStreamWriter writer = new OutputStreamWriter(new FileOutputStream(ROOT_PATH + filePath + fileName), StandardCharsets.UTF_8);  //changed from fileWriter in order to not rely on default encoding
         gson.toJson(board, writer);
         writer.close();
     }
