@@ -42,9 +42,12 @@ public class MesseptionApp extends Application {
         createPostController.cancelButton.setOnAction(event -> {
             createPostController.reloadPage();
             primaryStage.setScene(frontPageScene);
-            try { frontPageController.drawPosts(); }
-            catch (IOException e) { frontPageController.exceptionAlert(e).show();}
-            
+            try {
+                frontPageController.drawPosts();
+            } catch (IOException e) {
+                frontPageController.exceptionAlert(e).show();
+            }
+
         });
 
     }
