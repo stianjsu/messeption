@@ -29,7 +29,7 @@ import messeption.core.JSONReadWrite;
 public class FrontPageController {
 
     private static final int OFFSET = 230;
-    private static final int POSITION = 15; 
+    private static final int POSITION = 15;
 
     @FXML
     AnchorPane postsContainer;
@@ -46,6 +46,20 @@ public class FrontPageController {
 
     public ForumBoard getBoard() {
         return forumBoard;
+    }
+
+    public void setBoard(ForumBoard board) {
+        this.forumBoard = board;
+        writeBoard();
+    }
+
+    public void writeBoard() {
+        try {
+            JSONReadWrite.fileWrite(this.forumBoard);
+        } catch (IOException e) {
+            Alert alert = exceptionAlert(e);
+            alert.show();
+        }
     }
 
     public void drawPosts() throws IOException {
@@ -78,59 +92,55 @@ public class FrontPageController {
         List<Node> tempChildren = new ArrayList<>(toReturn.getChildren());
         toReturn.getChildren().clear();
 
-        Label titleLabel = (Label) getNodeFromId(tempChildren, "titleLabel");     
-        TextArea postTextArea = (TextArea) getNodeFromId(tempChildren, "postTextArea"); 
-        Line titleLine = (Line) getNodeFromId(tempChildren, "titleLine"); 
-        
+        Label titleLabel = (Label) getNodeFromId(tempChildren, "titleLabel");
+        TextArea postTextArea = (TextArea) getNodeFromId(tempChildren, "postTextArea");
+        Line titleLine = (Line) getNodeFromId(tempChildren, "titleLine");
+
         Label likeLabel = (Label) getNodeFromId(tempChildren, "likeLabel");
         Label dislikeLabel = (Label) getNodeFromId(tempChildren, "dislikeLabel");
         Label replyLabel = (Label) getNodeFromId(tempChildren, "replyLabel");
-        
+
         Button likeButton = (Button) getNodeFromId(tempChildren, "likeButton");
         Button dislikeButton = (Button) getNodeFromId(tempChildren, "dislikeButton");
         Button threadButton = (Button) getNodeFromId(tempChildren, "threadButton");
-        
-        
-        
+
         if (titleLabel != null) {
             titleLabel.setText(title);
         }
         if (postTextArea != null) {
-    
+
             postTextArea.setText(text);
             postTextArea.setDisable(true);
             postTextArea.setStyle("-fx-opacity: 1;");
         }
-        if (likeButton != null){
+        if (likeButton != null) {
             likeButton.setOnAction(e -> {
                 ForumPost postToUpdate = forumBoard.getPost(indexId);
                 int prevLikes = postToUpdate.getLikes();
 
-                try{
+                try {
                     postToUpdate.incrementLikes();
                     JSONReadWrite.fileWrite(forumBoard);
-                }
-                catch(IOException error){
+                } catch (IOException error) {
                     postToUpdate.setLikes(prevLikes);
                 }
-    
+
                 likeLabel.setText(postToUpdate.getLikes() + " likes");
             });
         }
-        if (dislikeButton != null){
-            
+        if (dislikeButton != null) {
+
             dislikeButton.setOnAction(e -> {
                 ForumPost postToUpdate = forumBoard.getPost(indexId);
                 int prevDislikes = postToUpdate.getDislikes();
 
-                try{
+                try {
                     postToUpdate.incrementDislikes();
                     JSONReadWrite.fileWrite(forumBoard);
-                }
-                catch(IOException error){
+                } catch (IOException error) {
                     postToUpdate.setDislikes(prevDislikes);
                 }
-    
+
                 dislikeLabel.setText(postToUpdate.getDislikes() + " dislikes");
             });
         }
@@ -140,22 +150,23 @@ public class FrontPageController {
         if (dislikeLabel != null) {
             dislikeLabel.setText(dislikes + " dislikes");
         }
-        
-        toReturn.getChildren().addAll(new ArrayList<Node>(Arrays.asList(titleLabel, titleLine,postTextArea,likeLabel, dislikeLabel, replyLabel, likeButton, dislikeButton, threadButton)));
+
+        toReturn.getChildren().addAll(new ArrayList<Node>(Arrays.asList(titleLabel, titleLine, postTextArea, likeLabel,
+                dislikeLabel, replyLabel, likeButton, dislikeButton, threadButton)));
         return toReturn;
     }
 
-    public Node getNodeFromId(List<Node> children, String id){
+    public Node getNodeFromId(List<Node> children, String id) {
 
-        for(Node child : children){
-            if(child.getId() != null && child.getId().equals(id))
+        for (Node child : children) {
+            if (child.getId() != null && child.getId().equals(id))
                 return child;
         }
         return null;
     }
 
     public Alert exceptionAlert(Exception e) {
-        
+
         Alert toReturn = new Alert(AlertType.ERROR);
         toReturn.setContentText(e.toString() + "\n" + e.getCause());
         System.err.println(e.toString() + "\n" + e.getCause());
