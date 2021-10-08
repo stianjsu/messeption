@@ -8,7 +8,8 @@ public class PostComment extends UserTextSubmission{
 
     @Override
     public String toString() {
-        return null;
+        return "\tText: " + this.text + 
+        "\nLikes: " + this.likes + "\t Dislikes: " + this.dislikes +
+        "\n TimeStamp: " + this.timeStamp;
     }
-    
 }
