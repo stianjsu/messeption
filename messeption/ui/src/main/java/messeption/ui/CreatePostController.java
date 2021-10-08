@@ -81,7 +81,7 @@ public class CreatePostController {
     }
 
     public void feedbackAlertPostCreation(String title){
-        Alert confirmation = new Alert(AlertType.CONFIRMATION);
+        Alert confirmation = new Alert(AlertType.INFORMATION);
 
         ButtonType quitToFrontPage = new ButtonType("Quit To Front Page", ButtonData.CANCEL_CLOSE);
         ButtonType newPost = new ButtonType("Create another post");
