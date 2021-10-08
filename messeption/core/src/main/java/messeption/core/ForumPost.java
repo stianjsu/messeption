@@ -1,32 +1,30 @@
 package messeption.core;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
-public class ForumPost {
+public class ForumPost extends UserTextSubmission{
     private String title;
-    private String text;
-    private String timeStamp;
+    private List<PostComment> comments;
 
     public ForumPost(String title, String text) {
+        super(text);
         this.title = title;
-        this.text = text;
-        this.timeStamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss dd-MM-yyyy"));
+        this.comments = new ArrayList<>();
     }
 
     public String getTitle() {
-        return title;
+        return this.title;
     }
 
-    public String getText() {
-        return text;
+    public List<PostComment> getComments(){
+        return new ArrayList<>(comments);
     }
 
-    public String getTimeStamp() {
-        return timeStamp;
-    }
-
+    @Override
     public String toString() {
-        return "Title: " + title + "\tText: " + text + "\n TimeStamp: " + timeStamp;
+        return "Title: " + this.title + "\tText: " + this.text + 
+               "\nLikes: " + this.likes + "\t Dislikes: " + this.dislikes +
+               "\n TimeStamp: " + this.timeStamp;
     }
 }

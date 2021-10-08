@@ -4,7 +4,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -15,9 +14,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-public class ForumPostTest {
-	ForumPost post;
-	String title1;
+public class PostCommentTest {
+	PostComment post;
 	String text1;
 	String testDate;
 	SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss dd-MM-yyyy");
@@ -25,17 +23,15 @@ public class ForumPostTest {
 	
 	@BeforeEach
 	public void setup() {
-		title1 = "POST";
 		text1 = "Lorem ipsum dolor sit amet";
 		
-		post = new ForumPost(title1, text1);
+		post = new PostComment(text1);
 		testDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss dd-MM-yyyy"));
 	}
 	
 	@Test
 	@DisplayName("Test getters")
 	public void testGetter() {
-		assertEquals(title1, post.getTitle(), "Wrong title from getter");
 		assertEquals(text1, post.getText(), "Wrong text from getter");
 
 		assertEquals(0, post.getLikes(), "Wrong likes value from getter");
