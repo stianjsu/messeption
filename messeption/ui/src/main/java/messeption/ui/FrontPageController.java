@@ -2,6 +2,7 @@ package messeption.ui;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -28,13 +29,12 @@ import messeption.core.JSONReadWrite;
 public class FrontPageController {
 
     private static final int OFFSET = 230;
-    private final int POSITION = 15;
+    private static final int POSITION = 15; 
 
     @FXML
     AnchorPane postsContainer;
     @FXML
     Button createPostButton;
-
 
     private ForumBoard forumBoard;
 
@@ -55,48 +55,103 @@ public class FrontPageController {
 
         postsContainer.getChildren().clear();
 
-        int i = 0;
+        int indexId = 0;
         for (ForumPost post : posts) {
             String title = post.getTitle();
             String text = post.getText();
+            int likes = post.getLikes();
+            int dislikes = post.getDislikes();
 
-            Pane pane = generatePostPane(title, text);
-            pane.setLayoutY(POSITION + i * OFFSET);
+            Pane pane = generatePostPane(title, text, likes, dislikes, indexId);
+            pane.setLayoutY(POSITION + indexId * OFFSET);
             pane.setLayoutX(POSITION);
-
             postsContainer.getChildren().add(pane);
-            i++;
+
+            indexId++;
         }
-        postsContainer.setPrefHeight((2 * POSITION + OFFSET) * i);
+        postsContainer.setPrefHeight((2 * POSITION + OFFSET) * indexId);
     }
 
-    private Pane generatePostPane(String title, String text) throws IOException {
+    private Pane generatePostPane(String title, String text, int likes, int dislikes, int indexId) throws IOException {
 
         Pane toReturn = FXMLLoader.load(getClass().getResource("PaneTemplate.fxml"));
         List<Node> tempChildren = new ArrayList<>(toReturn.getChildren());
         toReturn.getChildren().clear();
 
-        tempChildren.forEach(child -> {
+        Label titleLabel = (Label) getNodeFromId(tempChildren, "titleLabel");     
+        TextArea postTextArea = (TextArea) getNodeFromId(tempChildren, "postTextArea"); 
+        Line titleLine = (Line) getNodeFromId(tempChildren, "titleLine"); 
+        
+        Label likeLabel = (Label) getNodeFromId(tempChildren, "likeLabel");
+        Label dislikeLabel = (Label) getNodeFromId(tempChildren, "dislikeLabel");
+        Label replyLabel = (Label) getNodeFromId(tempChildren, "replyLabel");
+        
+        Button likeButton = (Button) getNodeFromId(tempChildren, "likeButton");
+        Button dislikeButton = (Button) getNodeFromId(tempChildren, "dislikeButton");
+        Button threadButton = (Button) getNodeFromId(tempChildren, "threadButton");
+        
+        
+        
+        if (titleLabel != null) {
+            titleLabel.setText(title);
+        }
+        if (postTextArea != null) {
+    
+            postTextArea.setText(text);
+            postTextArea.setDisable(true);
+            postTextArea.setStyle("-fx-opacity: 1;");
+        }
+        if (likeButton != null){
+            likeButton.setOnAction(e -> {
+                ForumPost postToUpdate = forumBoard.getPost(indexId);
+                int prevLikes = postToUpdate.getLikes();
 
-            String id = child.getId();
-            if (id != null && id.equals("postTitle")) {
-                Label titleLable = (Label) child;
-                titleLable.setText(title);
-                toReturn.getChildren().add(titleLable);
+                try{
+                    postToUpdate.incrementLikes();
+                    JSONReadWrite.fileWrite(forumBoard);
+                }
+                catch(IOException error){
+                    postToUpdate.setLikes(prevLikes);
+                }
+    
+                likeLabel.setText(postToUpdate.getLikes() + " likes");
+            });
+        }
+        if (dislikeButton != null){
+            
+            dislikeButton.setOnAction(e -> {
+                ForumPost postToUpdate = forumBoard.getPost(indexId);
+                int prevDislikes = postToUpdate.getDislikes();
 
-            } else if (id != null && id.equals("postText")) {
-                TextArea postTextArea = (TextArea) child;
-                postTextArea.setText(text);
-                postTextArea.setDisable(true);
-                postTextArea.setStyle("-fx-opacity: 1;");
-                toReturn.getChildren().add(postTextArea);
-
-            } else {
-                toReturn.getChildren().add(child);
-            }
-
-        });
+                try{
+                    postToUpdate.incrementDislikes();
+                    JSONReadWrite.fileWrite(forumBoard);
+                }
+                catch(IOException error){
+                    postToUpdate.setDislikes(prevDislikes);
+                }
+    
+                dislikeLabel.setText(postToUpdate.getDislikes() + " dislikes");
+            });
+        }
+        if (likeLabel != null) {
+            likeLabel.setText(likes + " likes");
+        }
+        if (dislikeLabel != null) {
+            dislikeLabel.setText(dislikes + " dislikes");
+        }
+        
+        toReturn.getChildren().addAll(new ArrayList<Node>(Arrays.asList(titleLabel, titleLine,postTextArea,likeLabel, dislikeLabel, replyLabel, likeButton, dislikeButton, threadButton)));
         return toReturn;
+    }
+
+    public Node getNodeFromId(List<Node> children, String id){
+
+        for(Node child : children){
+            if(child.getId() != null && child.getId().equals(id))
+                return child;
+        }
+        return null;
     }
 
     public Alert exceptionAlert(Exception e) {

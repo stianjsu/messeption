@@ -9,21 +9,22 @@
 
 <Pane fx:id="postPaneTemplate" layoutX="15.0" layoutY="15.0" prefHeight="200.0" prefWidth="760.0" style="-fx-background-color: E0E0E0; -fx-border-color: grey;" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1">
     <children>
-       <Label fx:id="postTitle" layoutX="34.0" layoutY="6.0" prefHeight="30.0" prefWidth="600.0" text="Title">
+       <Label fx:id="titleLabel" layoutX="34.0" layoutY="6.0" prefHeight="30.0" prefWidth="600.0" text="Title">
           <font>
              <Font size="20.0" />
           </font>
        </Label>
-       <Line endX="510.0" layoutX="134.0" layoutY="35.0" startX="-110.0" />
-       <TextArea fx:id="postText" editable="false" layoutX="33.0" layoutY="43.0" prefHeight="150.0" prefWidth="600.0">
+       <Line fx:id="titleLine" endX="510.0" layoutX="134.0" layoutY="35.0" startX="-110.0" />
+       <TextArea fx:id="postTextArea" editable="false" layoutX="33.0" layoutY="43.0" prefHeight="150.0" prefWidth="600.0">
           <font>
              <Font size="15.0" />
           </font>
        </TextArea>
-       <Label layoutX="680.0" layoutY="35.0" text="N replies" />
-       <Label layoutX="686.0" layoutY="63.0" text="N likes" />
-       <Button layoutX="686.0" layoutY="93.0" mnemonicParsing="false" text="Like" />
-       <Button layoutX="662.0" layoutY="158.0" mnemonicParsing="false" text="Go to thread" />
-       <Button layoutX="679.0" layoutY="125.0" mnemonicParsing="false" text="Dislike" />
+       <Label fx:id="replyLabel" layoutX="680.0" layoutY="33.0" text="N replies" />
+       <Label fx:id="likeLabel" layoutX="686.0" layoutY="58.0" text="N likes" />
+       <Label fx:id="dislikeLabel" layoutX="686.0" layoutY="75.0" text="N dislikes" />
+       <Button fx:id="likeButton" layoutX="686.0" layoutY="95.0" mnemonicParsing="false" text="Like" />
+       <Button fx:id="dislikeButton" layoutX="679.0" layoutY="130.0" mnemonicParsing="false" text="Dislike" />
+       <Button fx:id="threadButton" layoutX="662.0" layoutY="160.0" mnemonicParsing="false" text="Go to thread" />
     </children>
  </Pane>
