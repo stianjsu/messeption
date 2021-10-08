@@ -2,11 +2,7 @@ package messeption.ui;
 
 
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TextArea;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -14,16 +10,12 @@ import java.util.List;
 import java.util.stream.Stream;
 
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
-import org.junit.jupiter.params.provider.ValueSource;
 import org.testfx.framework.junit5.ApplicationTest;
 import org.testfx.matcher.control.LabeledMatchers;
 
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import messeption.core.ForumBoard;
 import messeption.core.ForumPost;
 
@@ -98,17 +90,36 @@ public class MesseptionAppTest extends ApplicationTest {
         click("Create Post");
         clickOn("Title of post").write(title);
         clickOn("content of post").write(text);
-        clickOn("Publish");
-        clickOn("Quit To Front Page");
+        click("Publish", "Quit To Front Page");
         checkNewPost(title, text);
     }
         private static Stream<Arguments> testCreatePostValid() {
         return Stream.of(
             Arguments.of("title", "text"),
-            Arguments.of("hello there", "general kenobi"),
-            Arguments.of("heiheitittel", "heiheitext")
+            Arguments.of("hello there", "general kenobi")
         );
     }
+
+    @ParameterizedTest
+    @MethodSource
+    public void testCreateAnotherPost(String title1, String text1, String title2, String text2){
+        click("Create Post");
+        clickOn("Title of post").write(title1);
+        clickOn("content of post").write(text1);
+        click("Publish", "Create another post");
+        checkNewPost(title1, text1);
+        clickOn("Title of post").write(title2);
+        clickOn("content of post").write(text2);
+        click("Publish", "Quit To Front Page");
+        checkNewPost(title2, text2);
+    }
+        private static Stream<Arguments> testCreateAnotherPost() {
+        return Stream.of(
+            Arguments.of("Another title", "Another texttext", "Another hello there", "Another general kenobi")
+        );
+    }
+
+    
 
 
 
@@ -125,8 +136,7 @@ public class MesseptionAppTest extends ApplicationTest {
         click("Create Post");
         clickOn("Title of post").write(title);
         clickOn("content of post").write(text);
-        clickOn("Publish");
-        clickOn("Cancel");
+        click("Publish", "Cancel");
         checkNewPostFail(title, text);
     }
         private static Stream<Arguments> testCreatePostInvalid() {
