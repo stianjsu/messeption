@@ -22,31 +22,31 @@ public abstract class UserTextSubmission {
         return this.text;
     }
 
-    public int getLikes(){
+    public int getLikes() {
         return this.likes;
     }
 
-    public int getDislikes(){
+    public int getDislikes() {
         return this.dislikes;
     }
 
-    public void incrementLikes(){
+    public void incrementLikes() {
         this.likes++;
     }
 
-    public void incrementDislikes(){
+    public void incrementDislikes() {
         this.dislikes++;
     }
 
-    public void setLikes(int likes){
-        if(likes < 0){
+    public void setLikes(int likes) {
+        if (likes < 0) {
             throw new IllegalArgumentException("Can't set negative likes");
         }
         this.likes = likes;
     }
 
-    public void setDislikes(int dislikes){
-        if(dislikes < 0){
+    public void setDislikes(int dislikes) {
+        if (dislikes < 0) {
             throw new IllegalArgumentException("Can't set negative dislikes");
         }
         this.dislikes = dislikes;

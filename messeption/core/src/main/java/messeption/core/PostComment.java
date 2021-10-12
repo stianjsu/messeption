@@ -1,6 +1,6 @@
 package messeption.core;
 
-public class PostComment extends UserTextSubmission{
+public class PostComment extends UserTextSubmission {
 
     public PostComment(String text) {
         super(text);
@@ -8,8 +8,8 @@ public class PostComment extends UserTextSubmission{
 
     @Override
     public String toString() {
-        return "\tText: " + this.text + 
-        "\nLikes: " + this.likes + "\t Dislikes: " + this.dislikes +
-        "\n TimeStamp: " + this.timeStamp;
+        return "\tText: " + this.text 
+        + "\nLikes: " + this.likes + "\t Dislikes: " + this.dislikes 
+        + "\n TimeStamp: " + this.timeStamp;
     }
 }
