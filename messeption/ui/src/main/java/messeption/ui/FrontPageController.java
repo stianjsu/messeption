@@ -17,7 +17,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.shape.Line;
 import messeption.core.ForumBoard;
 import messeption.core.ForumPost;
-import messeption.core.JSONReadWrite;
+import messeption.core.JsonReadWrite;
 
 
 /**
@@ -54,7 +54,7 @@ public class FrontPageController {
    */
   public void writeBoard() {
     try {
-      JSONReadWrite.fileWrite(this.forumBoard);
+      JsonReadWrite.fileWrite(this.forumBoard);
     } catch (IOException e) {
       Alert alert = exceptionAlert(e);
       alert.show();
@@ -68,7 +68,7 @@ public class FrontPageController {
    */
   public void drawPosts() throws IOException {
 
-    forumBoard = JSONReadWrite.fileRead();
+    forumBoard = JsonReadWrite.fileRead();
     List<ForumPost> posts = forumBoard.getPosts();
 
     postsContainer.getChildren().clear();
@@ -125,7 +125,7 @@ public class FrontPageController {
 
         try {
           postToUpdate.incrementLikes();
-          JSONReadWrite.fileWrite(forumBoard);
+          JsonReadWrite.fileWrite(forumBoard);
         } catch (IOException error) {
           postToUpdate.setLikes(prevLikes);
         }
@@ -141,7 +141,7 @@ public class FrontPageController {
 
         try {
           postToUpdate.incrementDislikes();
-          JSONReadWrite.fileWrite(forumBoard);
+          JsonReadWrite.fileWrite(forumBoard);
         } catch (IOException error) {
           postToUpdate.setDislikes(prevDislikes);
         }

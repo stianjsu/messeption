@@ -8,7 +8,6 @@ import java.io.IOException;
 import java.util.List;
 import java.util.stream.Stream;
 
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -19,7 +18,7 @@ import org.testfx.matcher.control.LabeledMatchers;
 
 import messeption.core.ForumBoard;
 import messeption.core.ForumPost;
-import messeption.core.JSONReadWrite;
+
 
 /**
  * TestFX App test
