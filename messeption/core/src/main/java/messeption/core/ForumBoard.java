@@ -1,11 +1,11 @@
 package messeption.core;
 
+import com.google.gson.JsonIOException;
+import com.google.gson.JsonSyntaxException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.gson.JsonIOException;
-import com.google.gson.JsonSyntaxException;
 
 public class ForumBoard {
     private List<ForumPost> posts = new ArrayList<>();
@@ -28,12 +28,12 @@ public class ForumBoard {
         JSONReadWrite.fileWrite(path, fileName, this);
     }
 
-    public void loadPosts(String path, String fileName) throws JsonSyntaxException, JsonIOException, IOException {
-        posts = JSONReadWrite.fileRead(path, fileName).getPosts();
-    }
-
     public void savePosts() throws IOException {
         JSONReadWrite.fileWrite(this);
+    }
+
+    public void loadPosts(String path, String fileName) throws JsonSyntaxException, JsonIOException, IOException {
+        posts = JSONReadWrite.fileRead(path, fileName).getPosts();
     }
 
     public void loadPosts() throws JsonSyntaxException, JsonIOException, IOException {
@@ -41,17 +41,16 @@ public class ForumBoard {
     }
 
 
-
     public void deletePost(ForumPost post) {
         posts.remove(post);
     }
 
     public String toString() {
-        String s = "";
+        StringBuilder s = new StringBuilder();
         for (ForumPost post : posts) {
-            s += post;
+            s.append(post);
         }
-        return s;
+        return s.toString();
     }
 
 }

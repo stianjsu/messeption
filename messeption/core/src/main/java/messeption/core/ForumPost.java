@@ -3,7 +3,7 @@ package messeption.core;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ForumPost extends UserTextSubmission{
+public class ForumPost extends UserTextSubmission {
     private String title;
     private List<PostComment> comments;
 
@@ -17,14 +17,14 @@ public class ForumPost extends UserTextSubmission{
         return this.title;
     }
 
-    public List<PostComment> getComments(){
+    public List<PostComment> getComments() {
         return new ArrayList<>(comments);
     }
 
     @Override
     public String toString() {
-        return "Title: " + this.title + "\tText: " + this.text + 
-               "\nLikes: " + this.likes + "\t Dislikes: " + this.dislikes +
-               "\n TimeStamp: " + this.timeStamp;
+        return "Title: " + this.title + "\tText: " + this.text 
+                + "\nLikes: " + this.likes + "\t Dislikes: " + this.dislikes 
+                + "\n TimeStamp: " + this.timeStamp;
     }
 }
