@@ -55,5 +55,7 @@
 
 #### Code verification:
 - The code for each release is checked and verified both manually by each group member and by tests created for the different modules
-- 
+- We have used jacoco to show how much of the code is covered by the tests. A report is put into target/site/jacoco which shows coverage in percent
+- Spotbugs has also been implemented to check the code for common mistakes
+- Checkstyle has been implemented to cehck the codes formatting and visual style so that is in inline with the google checktyle convention
 
