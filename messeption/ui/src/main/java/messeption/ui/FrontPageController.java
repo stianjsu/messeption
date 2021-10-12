@@ -19,6 +19,10 @@ import messeption.core.ForumBoard;
 import messeption.core.ForumPost;
 import messeption.core.JSONReadWrite;
 
+
+/**
+ * Controller for the front page or main menu of the app.
+ */
 public class FrontPageController {
 
   private static final int OFFSET = 230;
@@ -32,9 +36,7 @@ public class FrontPageController {
   private ForumBoard forumBoard;
 
   public void initialize() throws IOException {
-
     drawPosts();
-
   }
 
   public ForumBoard getBoard() {
@@ -46,6 +48,10 @@ public class FrontPageController {
     writeBoard();
   }
 
+  /**
+   * Writes the current forumBoard state to file.
+   * Shows an alert if IOException.
+   */
   public void writeBoard() {
     try {
       JSONReadWrite.fileWrite(this.forumBoard);
@@ -55,6 +61,11 @@ public class FrontPageController {
     }
   }
 
+  /**
+   * Draws the posts in the UI and makes them visible.
+
+   * @throws IOException If board cannot read form file
+   */
   public void drawPosts() throws IOException {
 
     forumBoard = JSONReadWrite.fileRead();
@@ -79,7 +90,8 @@ public class FrontPageController {
     postsContainer.setPrefHeight((2 * POSITION + OFFSET) * indexId);
   }
 
-  private Pane generatePostPane(String title, String text, int likes, int dislikes, int indexId) throws IOException {
+  private Pane generatePostPane(String title, String text, int likes, int dislikes, int indexId) 
+      throws IOException {
 
     Pane toReturn = FXMLLoader.load(getClass().getResource("PaneTemplate.fxml"));
     List<Node> tempChildren = new ArrayList<>(toReturn.getChildren());
@@ -144,13 +156,20 @@ public class FrontPageController {
       dislikeLabel.setText(dislikes + " dislikes");
     }
 
-    toReturn.getChildren().addAll(new ArrayList<Node>(Arrays.asList(titleLabel, titleLine, postTextArea, likeLabel,
-        dislikeLabel, replyLabel, likeButton, dislikeButton, threadButton)));
+    toReturn.getChildren().addAll(new ArrayList<Node>(Arrays.asList(titleLabel, titleLine,
+        postTextArea, likeLabel, dislikeLabel, replyLabel, 
+        likeButton, dislikeButton, threadButton)));
     return toReturn;
   }
 
-  public Node getNodeFromId(List<Node> children, String id) {
+  /**
+   * Finds a node in a list of nodes from an ID.
 
+   * @param children the list of nodes to look in
+   * @param id the ID to look for
+   * @return the node with the matching ID, if none return null
+   */
+  public Node getNodeFromId(List<Node> children, String id) {
     for (Node child : children) {
       if (child.getId() != null && child.getId().equals(id)) {
         return child;
@@ -159,6 +178,12 @@ public class FrontPageController {
     return null;
   }
 
+  /**
+   * If an exception is raised it is here processed into an alert for the UI.
+
+   * @param e the exception to be processed
+   * @return the finished Alert
+   */
   public Alert exceptionAlert(Exception e) {
 
     Alert toReturn = new Alert(AlertType.ERROR);

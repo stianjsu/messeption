@@ -6,6 +6,11 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+
+/**
+ * Controlls and starts the applicatuin UI.
+ * Also controlls scene switches.
+ */
 public class MesseptionApp extends Application {
 
   public static final String FRONT_PAGE_PATH = "FrontPage.fxml";
