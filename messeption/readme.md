@@ -89,7 +89,7 @@ A private person wishes to be able to express his opinion on a certain topic ano
 Aditionally he wishes to have his opinions organized in an easy and readable manner.
 
 ### Important details for reading
-- Ability to be able to view posts
+- Ability to view posts
 
 ### Important details for writing
 - Ability to create a post
@@ -99,6 +99,20 @@ Aditionally he wishes to have his opinions organized in an easy and readable man
 ## Read posts (User story 2)
 As a passive user, or someone who does not post a lot, a private person wishes to interact with other people's posts as a way of using the application by agreeing og disagreeing with someone.
 
+### Important details for reading
+- Ability to view likes/dislikes on posts
+
 ### Important details for interaction
 - Ability to Like/dislike posts
 
+
+## Comment on posts (User story 3)
+As an interactive user, a private person wishes to interact with other people's posts by sharing their opinion on that spesific topic.
+
+### Important details for reading
+- Ability to view other comments on posts
+- Ability to view likes/dislikes on comments
+
+### Important details for interaction
+- Ability to comment on posts
+- Ability to like/dislike comments
