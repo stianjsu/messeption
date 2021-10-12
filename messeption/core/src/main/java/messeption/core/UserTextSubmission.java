@@ -10,7 +10,7 @@ public abstract class UserTextSubmission {
     protected int dislikes;
     protected String timeStamp;
     
-
+    //initializes the default values of likes, dislikes and the current time. Also sets text to input text
     public UserTextSubmission(String text) {
         this.text = text;
         this.likes = 0;

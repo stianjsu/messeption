@@ -4,24 +4,17 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
-
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.control.Accordion;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
-import javafx.scene.control.TitledPane;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.Node;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Line;
-import javafx.scene.text.Font;
-
 import messeption.core.ForumBoard;
 import messeption.core.ForumPost;
 import messeption.core.JSONReadWrite;
@@ -86,7 +79,8 @@ public class FrontPageController {
         postsContainer.setPrefHeight((2 * POSITION + OFFSET) * indexId);
     }
 
-    private Pane generatePostPane(String title, String text, int likes, int dislikes, int indexId) throws IOException {
+    private Pane generatePostPane(String title, String text, int likes,
+                                     int dislikes, int indexId) throws IOException {
 
         Pane toReturn = FXMLLoader.load(getClass().getResource("PaneTemplate.fxml"));
         List<Node> tempChildren = new ArrayList<>(toReturn.getChildren());
@@ -151,16 +145,18 @@ public class FrontPageController {
             dislikeLabel.setText(dislikes + " dislikes");
         }
 
-        toReturn.getChildren().addAll(new ArrayList<Node>(Arrays.asList(titleLabel, titleLine, postTextArea, likeLabel,
-                dislikeLabel, replyLabel, likeButton, dislikeButton, threadButton)));
+        toReturn.getChildren().addAll(new ArrayList<Node>(Arrays.asList(titleLabel, titleLine, 
+                                        postTextArea, likeLabel, dislikeLabel, replyLabel, 
+                                        likeButton, dislikeButton, threadButton)));
         return toReturn;
     }
 
     public Node getNodeFromId(List<Node> children, String id) {
 
         for (Node child : children) {
-            if (child.getId() != null && child.getId().equals(id))
+            if (child.getId() != null && child.getId().equals(id)) {
                 return child;
+            }   
         }
         return null;
     }

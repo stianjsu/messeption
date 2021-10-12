@@ -1,6 +1,6 @@
 {
     "java.configuration.updateBuildConfiguration": "automatic",
-    "java.format.settings.url": "todolist/config/checkstyle/eclipse-java-google-style.xml",
+    "java.format.settings.url": "messeption/config/checkstyle/eclipse-java-google-style.xml",
     "[java]": {
       "editor.tabSize": 4
     },

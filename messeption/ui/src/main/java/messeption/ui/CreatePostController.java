@@ -1,27 +1,17 @@
 package messeption.ui;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.Optional;
-
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Accordion;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.control.TitledPane;
-import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.ButtonBar.ButtonData;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.text.Font;
-
-
 import messeption.core.ForumBoard;
-import messeption.core.ForumPost;
 import messeption.core.JSONReadWrite;
 
 public class CreatePostController {
@@ -42,28 +32,28 @@ public class CreatePostController {
     private ForumBoard board;
 
 
-    public void initialize(){
+    public void initialize() {
         publishButton.setOnAction((e) -> {
             createPostInBoard();
         });
     }
 
-    public void setBoard(ForumBoard board){
+    public void setBoard(ForumBoard board) {
         this.board = board;
     }
 
     @FXML
-    public void createPostInBoard(){
+    public void createPostInBoard() {
 
         try {
             String title = postTitleField.getText();
             String text = postTextArea.getText();
 
-            if(title.length() < 3){
+            if (title.length() < 3) {
                 showError("Post title is too short");
                 return;
             }
-            if(text.length() < 3){
+            if (text.length() < 3) {
                 showError("Post text is too short");
                 return;
             }
@@ -75,12 +65,12 @@ public class CreatePostController {
             
             //confirmCreation
             feedbackAlertPostCreation(title);
-        } catch (IOException e){
+        } catch (IOException e) {
             showError(e.getMessage());
         }
     }
 
-    public void feedbackAlertPostCreation(String title){
+    public void feedbackAlertPostCreation(String title) {
         Alert confirmation = new Alert(AlertType.INFORMATION);
 
         ButtonType quitToFrontPage = new ButtonType("Quit To Front Page", ButtonData.CANCEL_CLOSE);
@@ -97,20 +87,19 @@ public class CreatePostController {
         
 		//refresh page
         reloadPage();
-		if(result.get() == quitToFrontPage) {
-			//go back to menu
-            cancelButton.fire();
+		if (result.get() == quitToFrontPage) {
+            cancelButton.fire();    //go back to main menu
 		} else {
 			showError(result.get().getText());
 		} 
     }
 
-    public void showError(String e){
+    public void showError(String e) {
         errorLabel.setText(e);
         errorLabel.setStyle("-fx-text-fill: red");
     }
     @FXML
-    public void reloadPage(){
+    public void reloadPage() {
         postTextArea.setText("");
         postTitleField.setText("");
         errorLabel.setText("");
