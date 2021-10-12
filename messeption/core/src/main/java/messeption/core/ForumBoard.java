@@ -55,7 +55,7 @@ public class ForumBoard {
    * @throws IOException fileError
    */
   public void savePosts(String path, String fileName) throws IOException {
-    JSONReadWrite.fileWrite(path, fileName, this);
+    JsonReadWrite.fileWrite(path, fileName, this);
   }
 
   
@@ -66,7 +66,7 @@ public class ForumBoard {
    * @throws IOException fileError
    */
   public void savePosts() throws IOException {
-    JSONReadWrite.fileWrite(this);
+    JsonReadWrite.fileWrite(this);
   }
 
   
@@ -81,7 +81,7 @@ public class ForumBoard {
    */
   public void loadPosts(String path, String fileName)
         throws JsonSyntaxException, JsonIOException, IOException {
-    posts = JSONReadWrite.fileRead(path, fileName).getPosts();
+    posts = JsonReadWrite.fileRead(path, fileName).getPosts();
   }
 
   
@@ -93,7 +93,7 @@ public class ForumBoard {
    * @throws IOException fileError
    */
   public void loadPosts() throws JsonSyntaxException, JsonIOException, IOException {
-    posts = JSONReadWrite.fileRead().getPosts();
+    posts = JsonReadWrite.fileRead().getPosts();
   }
 
   

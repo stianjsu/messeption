@@ -3,6 +3,9 @@ package messeption.core;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+/**
+ * Abstract object used as a template for user submission to the application.
+ */
 public abstract class UserTextSubmission {
 
   protected String text;
@@ -10,9 +13,12 @@ public abstract class UserTextSubmission {
   protected int dislikes;
   protected String timeStamp;
 
-  // initializes the default values of likes, dislikes and the current time. Also
-  // sets text to input
-  // text
+  /**
+   * Initializes the default values of likes, dislikes and the current time.
+   * Also sets the text to the input.
+
+   * @param text the input text
+   */
   public UserTextSubmission(String text) {
     this.text = text;
     this.likes = 0;
@@ -40,6 +46,12 @@ public abstract class UserTextSubmission {
     this.dislikes++;
   }
 
+
+  /**
+   * Sets the current number of likes to a specific number.
+
+   * @param likes the specific number of likes
+   */
   public void setLikes(int likes) {
     if (likes < 0) {
       throw new IllegalArgumentException("Can't set negative likes");
@@ -47,6 +59,11 @@ public abstract class UserTextSubmission {
     this.likes = likes;
   }
 
+  /**
+   * Sets the current number of dislikes to a specific number.
+
+   * @param dislikes the specific number of dislikes
+   */
   public void setDislikes(int dislikes) {
     if (dislikes < 0) {
       throw new IllegalArgumentException("Can't set negative dislikes");
