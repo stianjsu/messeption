@@ -1,0 +1,102 @@
+@startuml
+
+title Class Diagram
+
+package messeption.core <<Frame>> {
+    Abstract class UserTextSubmission {
+        # String text
+        # int likes
+        # int dislikes
+        # String timeStamp
+        .. Getters ..
+        + String getText()
+        + int getLikes()
+        + int getDislikes()
+        + String getTimeStamp()
+        .. Setters ..
+        + void setLikes()
+        + void setDislikes()
+        ..Other..
+        + {abstract} String toString() 
+    }
+    class ForumBoard {
+        - List<ForumPost> posts
+        .. Getters ..
+        + List<ForumPost> getPosts()
+        + Forumpost getPost(int i)
+        .. Posts Manip ..
+        + void newPost(String title, String text)
+        + void deletePost(ForumPost post)
+        .. Save And Load ..
+        + void savePosts(String path, String fileName)
+        + void savePosts()
+        + void loadPosts(String path, String fileName)
+        + void loadPosts()
+    }
+    class ForumPost extends UserTextSubmission {
+        - String title
+        - List<PostComment> comments
+        .. Getters ..
+        + String getTitle()
+        + List<PostComment> getComments()
+        .. Other ..
+        + String toString()
+    }
+    class JSONReadWrite {
+        + {static} String ROOT_PATH
+        + {static} String UI_PATH
+        + {static} String DEFAULT_BOARD_FILE
+        
+        + {static} ForumBoard fileRead(String filePath, String fileName)
+        + {static} ForumBoard fileRead()
+        
+        + {static} void fileWrite(String filePath, String fileName)
+        + {static} void fileWrite()
+    }
+    
+    class PostComment extends UserTextSubmission {
+        + String toString()
+    }
+    ForumPost -right-> "*" PostComment
+    ForumPost "*" <-down- ForumBoard
+}
+
+package messeption.ui <<Frame>> {
+    class MesseptionApp {
+        - Scene frontPageScene
+        - Scene createPostScene
+        - FrontPageController frontPageController
+        - CreatePostController createPostController
+        + void start(Stage primaryStage)
+    }
+    class FrontPageController {
+        - {static} int OFFSET
+        - {static} int POSITION
+        - ForumBoard forumBoard
+        .. Getters ..
+        + ForumBoard getBoard()
+        .. Setters ..
+        + void setBoard(Forumboard board)
+        .. Save and draw methods ..
+        + void writeBoard()
+        + void drawPosts()
+        - Pane generatePostPane(String title, String text, int likes, int dislikes, int indexId)
+        + Alert exceptionAlert(Exception e)
+    }
+    class CreatePostController {
+        - ForumBoard board
+        ..Setters..
+        + void setBoard(ForumBoard board)
+        .. Save and draw methods ..
+        + void createPostInBoard()
+        + void feedbackAlertPostCreation(String title)
+        + void showError(String e)
+        + void reloadPage()
+    }
+    
+    MesseptionApp --> "1" FrontPageController
+    MesseptionApp --> "1" CreatePostController
+    ForumBoard "1" <-left- FrontPageController
+}
+
+@enduml
