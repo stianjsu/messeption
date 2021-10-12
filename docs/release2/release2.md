@@ -1,6 +1,6 @@
-## Messeption: release 2
+# Messeption: release 2
 
-### Release 2 gives Messeption these basic features:
+## Release 2 gives Messeption these basic features:
 
 - A user can like and dislike posts
 
@@ -22,5 +22,14 @@ As a passive user, or someone who does not post a lot, a private person wishes t
 
 ### Important details for interaction
 - Ability to Like/dislike posts
+
+
+# PlantUML Class Diagram
+
+This is the class diagram for release 2. PlantUML-file can be found at root-level in messeption.
+
+<div align="left">
+    <img src="../images/release2/classDiagram_r2.png">
+<div>
 
 
