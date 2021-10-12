@@ -54,5 +54,6 @@ In order to start the application use mvn javafx:run in messeption/ui
 - The group has had two weekly meetings, tuesday and friday, followed by work sessions 
 
 #### Code verification:
+- The code for each release is checked and verified both manually by each group member and by tests created for the different modules
 - 
 
