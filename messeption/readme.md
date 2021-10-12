@@ -46,6 +46,41 @@ You will be able to like/dislike and add comments or replies to other comments.
     <img src="../docs/images/finished/postPage.png" alt="Post Page" width="80%"/ >
 </div>
 
+# Saving userdata
+## Document metaphor / Autosaving?
+
+We automaticly save the state of the app if the user changes some of the data. For instance: creates a new post or likes a post.
+
+So the user does not manually save a file or a document. There is no metaphor to the desktop.
+## File format
+
+### Gson
+We use gson to serialize and deserialize java objects to/from JSON.
+
+JSON saves all the fields of ForumBoard.
+
+This is a bief description of BOARD.JSON:
+
+- The file consist of a Map with one element. (since the only field in ForumBoard is a List of ForumPosts)
+
+- The key is: "posts" and the value is a list that represent the ForumPost objects.
+
+- Each element in the list is a map with 6 key value pairs.
+    - "title" and a string
+    - "text" and a string
+    - "likes" and a integer
+    - "dislikes" and a integer
+    - "timeStamp" and a string that is written in a format that can be read as time
+    - "comments" and a list that represent the PostComment objects
+
+- Each element in the "comments" list is a map with 4 key value pairs.
+    - "text" and a string
+    - "likes" and a integer
+    - "dislikes" and a integer
+    - "timeStamp" and a string that is written in a format that can be read as time
+
+
+
 # User stories
 
 
