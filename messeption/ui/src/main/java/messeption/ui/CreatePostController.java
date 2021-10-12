@@ -14,10 +14,12 @@ import javafx.scene.control.TextField;
 import messeption.core.ForumBoard;
 import messeption.core.JSONReadWrite;
 
+/**
+ * Controller for the create post page.
+ */
 public class CreatePostController {
   // Write title text -> CreatePostButton -> Create new post -> add post to board
-  // -> save board.json
-  // -> go to frontpage -> load board.json
+  // -> save board.json -> go to frontpage -> load board.json
 
   @FXML
   Button publishButton;
@@ -32,6 +34,9 @@ public class CreatePostController {
 
   private ForumBoard board;
 
+  /**
+   * initializer for the scene.
+   */
   public void initialize() {
     publishButton.setOnAction((e) -> {
       createPostInBoard();
@@ -42,6 +47,10 @@ public class CreatePostController {
     this.board = board;
   }
 
+  /**
+   * Gets the text and title form the text input fields.
+   * Then checks if they are long enough adds a new post object
+   */
   @FXML
   public void createPostInBoard() {
 
@@ -70,6 +79,11 @@ public class CreatePostController {
     }
   }
 
+  /**
+   * Creates and shows an alert on screen wehen the user successfully creates a post.
+
+   * @param title The title name of the alert
+   */
   public void feedbackAlertPostCreation(String title) {
     Alert confirmation = new Alert(AlertType.INFORMATION);
 
@@ -98,6 +112,9 @@ public class CreatePostController {
     errorLabel.setStyle("-fx-text-fill: red");
   }
 
+  /**
+   * Method for refreshing the page with empty input fields.
+   */
   @FXML
   public void reloadPage() {
     postTextArea.setText("");
