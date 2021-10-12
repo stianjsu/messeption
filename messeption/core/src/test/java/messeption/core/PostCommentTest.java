@@ -19,16 +19,16 @@ public class PostCommentTest {
 	String text1;
 	String testDate;
 	SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss dd-MM-yyyy");
-	
-	
+
+
 	@BeforeEach
 	public void setup() {
 		text1 = "Lorem ipsum dolor sit amet";
-		
+
 		post = new PostComment(text1);
 		testDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss dd-MM-yyyy"));
 	}
-	
+
 	@Test
 	@DisplayName("Test getters")
 	public void testGetter() {
@@ -44,27 +44,29 @@ public class PostCommentTest {
 
 		post.setLikes(3);
 		post.setDislikes(5);
-		
+
 		assertEquals(3, post.getLikes(), "Wrong likes value after setter");
 		assertEquals(5, post.getDislikes(), "Wrong dislikes value after setter");
 
-		assertThrows(IllegalArgumentException.class, () -> post.setLikes(-5), "No exception was thrown when negative input was set");
-		assertThrows(IllegalArgumentException.class, () -> post.setDislikes(-9), "No exception was thrown when negative input was set");
-		
+		assertThrows(IllegalArgumentException.class, () -> post.setLikes(-5),
+						"No exception was thrown when negative input was set");
+		assertThrows(IllegalArgumentException.class, () -> post.setDislikes(-9),
+						"No exception was thrown when negative input was set");
+
 
 	}
-	
+
 	@Test
 	@DisplayName("Test increment likes and dislikes")
 	public void testIncrementLikesDislikes() {
 
-		for(int i = 0; i < 3; i++){
-			post.incrementLikes();			
+		for (int i = 0; i < 3; i++) {
+			post.incrementLikes();
 		}
-		for(int i = 0; i < 5; i++){
+		for (int i = 0; i < 5; i++) {
 			post.incrementDislikes();
 		}
-		
+
 		assertEquals(3, post.getLikes(), "Wrong likes value from getter");
 		assertEquals(5, post.getDislikes(), "Wrong dislikes value from getter");
 
@@ -72,7 +74,7 @@ public class PostCommentTest {
 
 	@Test
 	@DisplayName("Test time getters")
-	public void testTimeGetter(){
+	public void testTimeGetter() {
 
 		try {
 			Date postDate = sdf.parse(post.getTimeStamp());
@@ -82,9 +84,9 @@ public class PostCommentTest {
 
 			assertTrue(diff < 10000, "Time difference is more than 10 seconds");
 
-		} catch (ParseException e){
+		} catch (ParseException e) {
 			assertTrue(false, "Exception thrown when parsing dates from string. \n" + e.getMessage());
 		}
-		
+
 	}
 }
