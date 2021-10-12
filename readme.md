@@ -10,6 +10,7 @@
 
 - The project use a 'modular' approach for organising files
 
+**In order to start the application in gitpod use mvn javafx:run in messeption/ui**
 ## Repository structure:
 - In the 'Messeption' folder you can find the project
 
@@ -24,7 +25,7 @@
 - 'java' folders contain java-files for code logic and module-info files for declaring dependencies in the project
 - 'resources' folders contain JSON files for text saving and java-fxml files for ui representation
 
-In order to start the application use mvn javafx:run in messeption/ui
+
 
 ## Workflow:
 - During this developement process we have used a number of different strategies and techniques to improve workflow and group efficiency
