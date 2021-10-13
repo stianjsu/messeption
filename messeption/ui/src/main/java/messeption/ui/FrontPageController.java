@@ -7,6 +7,7 @@ import java.util.List;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
@@ -15,10 +16,10 @@ import javafx.scene.control.TextArea;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Line;
+import javafx.stage.Stage;
 import messeption.core.ForumBoard;
 import messeption.core.ForumPost;
 import messeption.core.JsonReadWrite;
-
 
 /**
  * Controller for the front page or main menu of the app.
@@ -33,7 +34,11 @@ public class FrontPageController {
   @FXML
   Button createPostButton;
 
+  private Stage primaryStage;
   private ForumBoard forumBoard;
+
+  private PostCommentsController postCommentsController;
+  private Scene postCommentsScene;
 
   public void initialize() throws IOException {
     drawPosts();
@@ -48,9 +53,16 @@ public class FrontPageController {
     writeBoard();
   }
 
+  public void setPostControllerController(PostCommentsController controller) {
+    postCommentsController = controller;
+  }
+
+  public void setPostCommentsScene(Scene scene) {
+    postCommentsScene = scene;
+  }
+
   /**
-   * Writes the current forumBoard state to file.
-   * Shows an alert if IOException.
+   * Writes the current forumBoard state to file. Shows an alert if IOException.
    */
   public void writeBoard() {
     try {
@@ -63,7 +75,7 @@ public class FrontPageController {
 
   /**
    * Draws the posts in the UI and makes them visible.
-
+   * 
    * @throws IOException If board cannot read form file
    */
   public void drawPosts() throws IOException {
@@ -90,8 +102,7 @@ public class FrontPageController {
     postsContainer.setPrefHeight((2 * POSITION + OFFSET) * indexId);
   }
 
-  private Pane generatePostPane(String title, String text, int likes, int dislikes, int indexId) 
-      throws IOException {
+  private Pane generatePostPane(String title, String text, int likes, int dislikes, int indexId) throws IOException {
 
     Pane toReturn = FXMLLoader.load(getClass().getResource("PaneTemplate.fxml"));
     List<Node> tempChildren = new ArrayList<>(toReturn.getChildren());
@@ -155,18 +166,24 @@ public class FrontPageController {
     if (dislikeLabel != null) {
       dislikeLabel.setText(dislikes + " dislikes");
     }
+    if (threadButton != null) {
+      threadButton.setOnAction(e -> {
+        primaryStage = (Stage) createPostButton.getScene().getWindow();
+        primaryStage.setScene(postCommentsScene);
+        postCommentsController.setPost(forumBoard.getPost(indexId));
+      });
+    }
 
-    toReturn.getChildren().addAll(new ArrayList<Node>(Arrays.asList(titleLabel, titleLine,
-        postTextArea, likeLabel, dislikeLabel, replyLabel, 
-        likeButton, dislikeButton, threadButton)));
+    toReturn.getChildren().addAll(new ArrayList<Node>(Arrays.asList(titleLabel, titleLine, postTextArea, likeLabel,
+        dislikeLabel, replyLabel, likeButton, dislikeButton, threadButton)));
     return toReturn;
   }
 
   /**
    * Finds a node in a list of nodes from an ID.
-
+   * 
    * @param children the list of nodes to look in
-   * @param id the ID to look for
+   * @param id       the ID to look for
    * @return the node with the matching ID, if none return null
    */
   public Node getNodeFromId(List<Node> children, String id) {
@@ -180,7 +197,7 @@ public class FrontPageController {
 
   /**
    * If an exception is raised it is here processed into an alert for the UI.
-
+   * 
    * @param e the exception to be processed
    * @return the finished Alert
    */
