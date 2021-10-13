@@ -1,18 +1,55 @@
 {
   "posts": [
     {
-      "title": "POST1",
-      "text": "Lorem ipsum dolor sit amet",
-      "likes": 0,
-      "dislikes": 8,
+      "title": "I like cheese",
+      "comments": [
+        {
+          "text": "I disagree, but your opinion is valid",
+          "likes": 9,
+          "dislikes": 2,
+          "timeStamp": "15:15:12 13-10-2021"
+        }
+      ],
+      "text": "Cheese is my favourite food.",
+      "likes": 14,
+      "dislikes": 3,
       "timeStamp": "15:27:09 22-09-2021"
     },
     {
-      "title": "POST2",
-      "text": "Lorem ipsum dolor sit amet",
-      "likes": 15,
-      "dislikes": 12,
-      "timeStamp": "15:27:09 22-09-2021"
+      "title": "Erna tapte valget",
+      "comments": [
+        {
+          "text": "Det er helt korrekt, men la oss unngå politikk her",
+          "likes": 12,
+          "dislikes": 1,
+          "timeStamp": "14:21:45 13-10-2021"
+        }
+      ],
+      "text": "Valget var spennende",
+      "likes": 7,
+      "dislikes": 6,
+      "timeStamp": "15:23:09 24-09-2021"
+    },
+    {
+      "title": "Kule tilbud?",
+      "comments": [
+        {
+          "text": "Billig kjøttdeig på bunnpris",
+          "likes": 12,
+          "dislikes": 1,
+          "timeStamp": "14:25:43 13-10-2021"
+        },
+        {
+          "text": "Kjøttdeigen til 20kr er en steal",
+          "likes": 4,
+          "dislikes": 2,
+          "timeStamp": "16:21:45 13-10-2021"
+        }
+      ],
+      "text": "Lurer på om noen har dere sett noen kule tilbud på buttan denne uken",
+      "likes": 13,
+      "dislikes": 6,
+      "timeStamp": "13:27:09 13-10-2021"
     }
   ]
 }
