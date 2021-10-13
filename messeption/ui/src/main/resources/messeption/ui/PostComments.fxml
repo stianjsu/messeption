@@ -17,7 +17,7 @@
    <center>
       <Pane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
-            <Label layoutX="82.0" layoutY="23.0" prefHeight="51.0" prefWidth="584.0" text="Post1">
+            <Label fx:id="postTitleLabel" layoutX="82.0" layoutY="23.0" prefHeight="51.0" prefWidth="700.0" text="Post1">
                <font>
                   <Font size="35.0" />
                </font>
@@ -27,20 +27,20 @@
 		    	<children>
                   <Pane layoutX="14.0" layoutY="14.0" prefHeight="200.0" prefWidth="760.0" style="-fx-background-color: E0E0E0; -fx-border-color: grey;">
                      <children>
-                        <TextArea editable="false" layoutX="12.0" layoutY="13.0" prefHeight="180.0" prefWidth="621.0" text="&quot;Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.&quot;">
+                        <TextArea fx:id="postTextArea" editable="false" layoutX="12.0" layoutY="13.0" prefHeight="180.0" prefWidth="621.0" text="&quot;Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.&quot;">
                            <font>
                               <Font size="15.0" />
                            </font>
                         </TextArea>
-                        <Label layoutX="680.0" layoutY="35.0" text="N replies" />
-                        <Label layoutX="686.0" layoutY="63.0" text="N likes" />
-                        <Button layoutX="686.0" layoutY="93.0" mnemonicParsing="false" text="Like" />
-                        <Button layoutX="679.0" layoutY="125.0" mnemonicParsing="false" text="Dislike" />
+                        <Label fx:id="postLikeLabel" layoutX="680.0" layoutY="35.0" text="N replies" />
+                        <Label fx:id="postDislikeLabel" layoutX="686.0" layoutY="63.0" text="N likes" />
+                        <Button fx:id="postLikeButton" layoutX="686.0" layoutY="93.0" mnemonicParsing="false" text="Like" />
+                        <Button fx:id="postDislikeButton" layoutX="679.0" layoutY="125.0" mnemonicParsing="false" text="Dislike" />
                      </children>
                   </Pane>
                   <ScrollPane layoutX="14.0" layoutY="214.0" prefHeight="216.0" prefWidth="761.0">
                     <content>
-                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="464.0" prefWidth="741.0">
+                      <AnchorPane fx:id="commentsContainer" minHeight="0.0" minWidth="0.0" prefHeight="464.0" prefWidth="741.0">
                            <children>
                               <Pane layoutX="18.0" layoutY="14.0" prefHeight="132.0" prefWidth="705.0" style="-fx-background-color: E0E0E0; -fx-border-color: grey;">
                                  <children>
@@ -137,8 +137,8 @@
    <bottom>
       <Pane prefHeight="109.0" prefWidth="1200.0" BorderPane.alignment="CENTER">
          <children>
-            <TextArea layoutX="71.0" layoutY="14.0" prefHeight="76.0" prefWidth="728.0" />
-            <Button layoutX="840.0" layoutY="32.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="83.0" text="Comment" />
+            <TextArea fx:id="newCommentTextArea" layoutX="71.0" layoutY="14.0" prefHeight="76.0" prefWidth="728.0" />
+            <Button fx:id="newCommentButton" layoutX="840.0" layoutY="32.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="83.0" text="Comment" />
          </children></Pane>
    </bottom>
 </BorderPane>
