@@ -3,28 +3,56 @@ package messeption.core;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Forum Post is a single post that has text and can have children, in form of comments.
+ */
 public class ForumPost extends UserTextSubmission {
-    private String title;
-    private List<PostComment> comments;
+  private String title;
+  private List<PostComment> comments;
 
-    public ForumPost(String title, String text) {
-        super(text);
-        this.title = title;
-        this.comments = new ArrayList<>();
-    }
+  /**
+   * Constructur.
+   * Uses UserTextSubmissions constructur for text, likes/dislikes and time.
+   * Sets the title and initializes empty list of comments.
 
-    public String getTitle() {
-        return this.title;
-    }
+   * @param title title of post
+   * @param text text in post
+   */
+  public ForumPost(String title, String text) {
+    super(text);
+    this.title = title;
+    this.comments = new ArrayList<>();
+  }
 
-    public List<PostComment> getComments() {
-        return new ArrayList<>(comments);
-    }
+  
+  /** 
+   * Getter for title.
 
-    @Override
-    public String toString() {
-        return "Title: " + this.title + "\tText: " + this.text 
-                + "\nLikes: " + this.likes + "\t Dislikes: " + this.dislikes 
-                + "\n TimeStamp: " + this.timeStamp;
-    }
+   * @return Title of post
+   */
+  public String getTitle() {
+    return this.title;
+  }
+
+  
+  /** 
+   * Getter for comments.
+
+   * @return List of comments
+   */
+  public List<PostComment> getComments() {
+    return new ArrayList<>(comments);
+  }
+
+  
+  /** 
+   * Returns a string with information about all the fields in post.
+
+   * @return String
+   */
+  @Override
+  public String toString() {
+    return "Title: " + this.title + "\tText: " + this.text + "\nLikes: "
+          + this.likes + "\t Dislikes: " + this.dislikes + "\n TimeStamp: " + this.timeStamp;
+  }
 }
