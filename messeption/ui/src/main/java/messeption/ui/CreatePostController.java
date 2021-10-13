@@ -12,7 +12,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import messeption.core.ForumBoard;
-import messeption.core.JsonReadWrite;
 
 /**
  * Controller for the create post page.
@@ -70,7 +69,7 @@ public class CreatePostController {
       board.newPost(title, text);
 
       // save updated board
-      JsonReadWrite.fileWrite(board);
+      board.savePosts();
 
       // confirmCreation
       feedbackAlertPostCreation(title);

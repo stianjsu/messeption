@@ -5,7 +5,6 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import messeption.core.ForumPost;
 
 /**
  * Controlls and starts the applicatuin UI. Also controlls scene switches.
@@ -44,6 +43,7 @@ public class MesseptionApp extends Application {
 
     primaryStage.setScene(frontPageScene);
     primaryStage.setTitle("Messeption");
+    primaryStage.setResizable(false);
     primaryStage.show();
 
     frontPageController.createPostButton.setOnAction(event -> {
@@ -53,6 +53,15 @@ public class MesseptionApp extends Application {
 
     createPostController.cancelButton.setOnAction(event -> {
       createPostController.reloadPage();
+      primaryStage.setScene(frontPageScene);
+      try {
+        frontPageController.drawPosts();
+      } catch (IOException e) {
+        frontPageController.exceptionAlert(e).show();
+      }
+    });
+
+    postCommentsController.cancelButton.setOnAction(event -> {
       primaryStage.setScene(frontPageScene);
       try {
         frontPageController.drawPosts();

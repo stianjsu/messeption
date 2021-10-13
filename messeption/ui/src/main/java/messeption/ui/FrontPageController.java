@@ -26,8 +26,9 @@ import messeption.core.JsonReadWrite;
  */
 public class FrontPageController {
 
-  private static final int OFFSET = 230;
-  private static final int POSITION = 15;
+  private static final int SIZE_POSTS = 220;
+  private static final int MARIGIN_TOP = 15;
+  private static final int MARIGIN_POSTS = 30;
 
   @FXML
   AnchorPane postsContainer;
@@ -45,7 +46,7 @@ public class FrontPageController {
   }
 
   public ForumBoard getBoard() {
-    return forumBoard;
+    return this.forumBoard;
   }
 
   public void setBoard(ForumBoard board) {
@@ -66,7 +67,7 @@ public class FrontPageController {
    */
   public void writeBoard() {
     try {
-      JsonReadWrite.fileWrite(this.forumBoard);
+      this.forumBoard.savePosts();
     } catch (IOException e) {
       Alert alert = exceptionAlert(e);
       alert.show();
@@ -87,22 +88,17 @@ public class FrontPageController {
 
     int indexId = 0;
     for (ForumPost post : posts) {
-      String title = post.getTitle();
-      String text = post.getText();
-      int likes = post.getLikes();
-      int dislikes = post.getDislikes();
 
-      Pane pane = generatePostPane(title, text, likes, dislikes, indexId);
-      pane.setLayoutY(POSITION + indexId * OFFSET);
-      pane.setLayoutX(POSITION);
+      Pane pane = generatePostPane(post);
+      pane.setLayoutY(MARIGIN_TOP + indexId * (SIZE_POSTS + MARIGIN_POSTS));
       postsContainer.getChildren().add(pane);
 
       indexId++;
     }
-    postsContainer.setPrefHeight((2 * POSITION + OFFSET) * indexId);
+    postsContainer.setPrefHeight(indexId * (SIZE_POSTS + MARIGIN_POSTS));
   }
 
-  private Pane generatePostPane(String title, String text, int likes, int dislikes, int indexId) throws IOException {
+  private Pane generatePostPane(ForumPost post) throws IOException {
 
     Pane toReturn = FXMLLoader.load(getClass().getResource("PaneTemplate.fxml"));
     List<Node> tempChildren = new ArrayList<>(toReturn.getChildren());
@@ -121,56 +117,57 @@ public class FrontPageController {
     Button threadButton = (Button) getNodeFromId(tempChildren, "threadButton");
 
     if (titleLabel != null) {
-      titleLabel.setText(title);
+      titleLabel.setText(post.getTitle());
     }
     if (postTextArea != null) {
-
-      postTextArea.setText(text);
+      postTextArea.setText(post.getText());
       postTextArea.setDisable(true);
       postTextArea.setStyle("-fx-opacity: 1;");
     }
+    if (replyLabel != null) {
+      replyLabel.setText(post.getComments().size() + " comments");
+    }
+    if (likeLabel != null) {
+      likeLabel.setText(post.getLikes() + " likes");
+    }
+    if (dislikeLabel != null) {
+      dislikeLabel.setText(post.getDislikes() + " dislikes");
+    }
     if (likeButton != null) {
       likeButton.setOnAction(e -> {
-        ForumPost postToUpdate = forumBoard.getPost(indexId);
-        int prevLikes = postToUpdate.getLikes();
+        int prevLikes = post.getLikes();
 
         try {
-          postToUpdate.incrementLikes();
-          JsonReadWrite.fileWrite(forumBoard);
+          post.incrementLikes();
+          forumBoard.savePosts();
         } catch (IOException error) {
-          postToUpdate.setLikes(prevLikes);
+          post.setLikes(prevLikes);
         }
 
-        likeLabel.setText(postToUpdate.getLikes() + " likes");
+        likeLabel.setText(post.getLikes() + " likes");
       });
     }
     if (dislikeButton != null) {
-
       dislikeButton.setOnAction(e -> {
-        ForumPost postToUpdate = forumBoard.getPost(indexId);
-        int prevDislikes = postToUpdate.getDislikes();
+        int prevDislikes = post.getDislikes();
 
         try {
-          postToUpdate.incrementDislikes();
-          JsonReadWrite.fileWrite(forumBoard);
+          post.incrementDislikes();
+          forumBoard.savePosts();
         } catch (IOException error) {
-          postToUpdate.setDislikes(prevDislikes);
+          post.setDislikes(prevDislikes);
         }
 
-        dislikeLabel.setText(postToUpdate.getDislikes() + " dislikes");
+        dislikeLabel.setText(post.getDislikes() + " dislikes");
       });
     }
-    if (likeLabel != null) {
-      likeLabel.setText(likes + " likes");
-    }
-    if (dislikeLabel != null) {
-      dislikeLabel.setText(dislikes + " dislikes");
-    }
+
     if (threadButton != null) {
       threadButton.setOnAction(e -> {
         primaryStage = (Stage) createPostButton.getScene().getWindow();
         primaryStage.setScene(postCommentsScene);
-        postCommentsController.setPost(forumBoard.getPost(indexId));
+        postCommentsController.setForumBoard(this.getBoard());
+        postCommentsController.setPost(post);
       });
     }
 
@@ -209,5 +206,4 @@ public class FrontPageController {
     toReturn.setTitle("Error");
     return toReturn;
   }
-
 }
