@@ -16,7 +16,7 @@ public class ForumBoard {
 
   /**
    * Getter for posts list.
-   * 
+
    * @return List of ForumPost
    */
   public List<ForumPost> getPosts() {
@@ -28,7 +28,7 @@ public class ForumBoard {
 
   /**
    * Getter for specified post at index i.
-   * 
+
    * @param i index
    * @return ForumPost at index i
    */
@@ -38,7 +38,7 @@ public class ForumBoard {
 
   /**
    * Creates a new post and adds it to the list posts.
-   * 
+
    * @param title title of post
    * @param text  text in post
    */
@@ -50,7 +50,7 @@ public class ForumBoard {
    * Saves all the information in ForumBoard on a specified file at a specified
    * path. Forumboard has a collection with the ForumPosts, hence the posts are
    * saved.
-   * 
+
    * @param path     filepath
    * @param fileName filename
    * @throws IOException fileError
@@ -62,7 +62,7 @@ public class ForumBoard {
   /**
    * Saves all the information in ForumBoard on a default location. Forumboard has
    * a collection with the ForumPosts, hence the posts are saved.
-   * 
+
    * @throws IOException fileError
    */
   public void savePosts() throws IOException {
@@ -71,20 +71,21 @@ public class ForumBoard {
 
   /**
    * Loads the post from a file into the posts list from specified location.
-   * 
+
    * @param path     filePath
    * @param fileName fileName
    * @throws JsonSyntaxException fileError
    * @throws JsonIOException     fileError
    * @throws IOException         fileError
    */
-  public void loadPosts(String path, String fileName) throws JsonSyntaxException, JsonIOException, IOException {
+  public void loadPosts(String path, String fileName) 
+      throws JsonSyntaxException, JsonIOException, IOException {
     posts = JsonReadWrite.fileRead(path, fileName).getPosts();
   }
 
   /**
    * Loads the post from a file into the posts list from default location.
-   * 
+
    * @throws JsonSyntaxException fileError
    * @throws JsonIOException     fileError
    * @throws IOException         fileError
@@ -95,7 +96,7 @@ public class ForumBoard {
 
   /**
    * Removed the given post from posts list.
-   * 
+
    * @param post ForumPost
    * 
    */
@@ -106,7 +107,7 @@ public class ForumBoard {
   /**
    * Uses ForumPosts toString method to create a string that consists of all the
    * posts in posts-list.
-   * 
+
    * @return String
    */
   public String toString() {

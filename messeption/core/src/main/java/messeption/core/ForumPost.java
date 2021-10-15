@@ -14,7 +14,7 @@ public class ForumPost extends UserTextSubmission {
   /**
    * Constructur. Uses UserTextSubmissions constructur for text, likes/dislikes
    * and time. Sets the title and initializes empty list of comments.
-   * 
+
    * @param title title of post
    * @param text  text in post
    */
@@ -26,7 +26,7 @@ public class ForumPost extends UserTextSubmission {
 
   /**
    * Getter for title.
-   * 
+
    * @return Title of post
    */
   public String getTitle() {
@@ -35,7 +35,7 @@ public class ForumPost extends UserTextSubmission {
 
   /**
    * Getter for comments.
-   * 
+
    * @return List of comments
    */
   public List<PostComment> getComments() {
@@ -44,7 +44,7 @@ public class ForumPost extends UserTextSubmission {
 
   /**
    * Adds a comment object to list of comments.
-   * 
+
    * @param comment PostComment
    */
   public void addComment(PostComment comment) {
@@ -53,7 +53,7 @@ public class ForumPost extends UserTextSubmission {
 
   /**
    * Removes a comment object from list of comments.
-   * 
+
    * @param comment PostComment
    * 
    * @throws IllegalArgumentException Comment not in comments
@@ -67,12 +67,12 @@ public class ForumPost extends UserTextSubmission {
 
   /**
    * Returns a string with information about all the fields in post.
-   * 
+
    * @return String
    */
   @Override
   public String toString() {
-    return "Title: " + this.title + "\tText: " + this.text + "\nLikes: " + this.likes + "\t Dislikes: " + this.dislikes
-        + "\n TimeStamp: " + this.timeStamp;
+    return "Title: " + this.title + "\tText: " + this.text + "\nLikes: " 
+        + this.likes + "\t Dislikes: " + this.dislikes + "\n TimeStamp: " + this.timeStamp;
   }
 }

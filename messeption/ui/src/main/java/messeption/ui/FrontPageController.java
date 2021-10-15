@@ -76,7 +76,7 @@ public class FrontPageController {
 
   /**
    * Draws the posts in the UI and makes them visible.
-   * 
+
    * @throws IOException If board cannot read form file
    */
   public void drawPosts() throws IOException {
@@ -105,34 +105,33 @@ public class FrontPageController {
     toReturn.getChildren().clear();
 
     Label titleLabel = (Label) getNodeFromId(tempChildren, "titleLabel");
-    TextArea postTextArea = (TextArea) getNodeFromId(tempChildren, "postTextArea");
-    Line titleLine = (Line) getNodeFromId(tempChildren, "titleLine");
-
-    Label likeLabel = (Label) getNodeFromId(tempChildren, "likeLabel");
-    Label dislikeLabel = (Label) getNodeFromId(tempChildren, "dislikeLabel");
-    Label replyLabel = (Label) getNodeFromId(tempChildren, "replyLabel");
-
-    Button likeButton = (Button) getNodeFromId(tempChildren, "likeButton");
-    Button dislikeButton = (Button) getNodeFromId(tempChildren, "dislikeButton");
-    Button threadButton = (Button) getNodeFromId(tempChildren, "threadButton");
-
     if (titleLabel != null) {
       titleLabel.setText(post.getTitle());
     }
+
+    TextArea postTextArea = (TextArea) getNodeFromId(tempChildren, "postTextArea");
     if (postTextArea != null) {
       postTextArea.setText(post.getText());
       postTextArea.setDisable(true);
       postTextArea.setStyle("-fx-opacity: 1;");
     }
+
+    Label replyLabel = (Label) getNodeFromId(tempChildren, "replyLabel");
     if (replyLabel != null) {
       replyLabel.setText(post.getComments().size() + " comments");
     }
+
+    Label likeLabel = (Label) getNodeFromId(tempChildren, "likeLabel");
     if (likeLabel != null) {
       likeLabel.setText(post.getLikes() + " likes");
     }
+
+    Label dislikeLabel = (Label) getNodeFromId(tempChildren, "dislikeLabel");
     if (dislikeLabel != null) {
       dislikeLabel.setText(post.getDislikes() + " dislikes");
     }
+
+    Button likeButton = (Button) getNodeFromId(tempChildren, "likeButton");
     if (likeButton != null) {
       likeButton.setOnAction(e -> {
         int prevLikes = post.getLikes();
@@ -147,6 +146,8 @@ public class FrontPageController {
         likeLabel.setText(post.getLikes() + " likes");
       });
     }
+
+    Button dislikeButton = (Button) getNodeFromId(tempChildren, "dislikeButton");
     if (dislikeButton != null) {
       dislikeButton.setOnAction(e -> {
         int prevDislikes = post.getDislikes();
@@ -162,6 +163,7 @@ public class FrontPageController {
       });
     }
 
+    Button threadButton = (Button) getNodeFromId(tempChildren, "threadButton");
     if (threadButton != null) {
       threadButton.setOnAction(e -> {
         primaryStage = (Stage) createPostButton.getScene().getWindow();
@@ -171,14 +173,17 @@ public class FrontPageController {
       });
     }
 
-    toReturn.getChildren().addAll(new ArrayList<Node>(Arrays.asList(titleLabel, titleLine, postTextArea, likeLabel,
-        dislikeLabel, replyLabel, likeButton, dislikeButton, threadButton)));
+    Line titleLine = (Line) getNodeFromId(tempChildren, "titleLine");
+    
+    toReturn.getChildren().addAll(new ArrayList<Node>(Arrays.asList(
+        titleLabel, titleLine, postTextArea, likeLabel, dislikeLabel, 
+        replyLabel, likeButton, dislikeButton, threadButton)));
     return toReturn;
   }
 
   /**
    * Finds a node in a list of nodes from an ID.
-   * 
+
    * @param children the list of nodes to look in
    * @param id       the ID to look for
    * @return the node with the matching ID, if none return null
@@ -194,7 +199,7 @@ public class FrontPageController {
 
   /**
    * If an exception is raised it is here processed into an alert for the UI.
-   * 
+
    * @param e the exception to be processed
    * @return the finished Alert
    */

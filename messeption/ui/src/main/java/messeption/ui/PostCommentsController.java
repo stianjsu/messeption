@@ -3,7 +3,6 @@ package messeption.ui;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -17,6 +16,9 @@ import messeption.core.ForumBoard;
 import messeption.core.ForumPost;
 import messeption.core.PostComment;
 
+/**
+ * Javafx controller for viewing individual posts.
+ */
 public class PostCommentsController {
 
   private static final int SIZE_COMMENTS = 130;
@@ -49,22 +51,33 @@ public class PostCommentsController {
 
   public void initialize() {
     newCommentButton.setOnAction(e -> {
-      publishComment();
-    });
+      publishComment(); });
   }
 
-  public void setPost(ForumPost post) {
+  /**
+   * Takes an input post and displayes the post and its comments.
 
+   * @param post The input post
+   */
+  public void setPost(ForumPost post) {
     this.post = post;
     generatePostContent();
     drawComments();
 
   }
 
+  /**
+   * Sets the controlelr forumboard to a specified input.
+
+   * @param board the new controller board
+   */
   public void setForumBoard(ForumBoard board) {
     this.forumBoard = board;
   }
 
+  /**
+   * Javafx help method to display comments in the UI.
+   */
   public void drawComments() {
 
     List<PostComment> comments = post.getComments();
@@ -76,7 +89,8 @@ public class PostCommentsController {
 
       try {
         Pane commentPane = generateCommentPane(comment, indexId);
-        commentPane.setLayoutY((MARGIN_COMMENTS + SIZE_COMMENTS) * indexId + MARGIN_COMMENTS);
+        commentPane.setLayoutY(
+              (MARGIN_COMMENTS + SIZE_COMMENTS) * indexId + MARGIN_COMMENTS);
 
         this.commentsContainer.getChildren().add(commentPane);
 
@@ -85,7 +99,8 @@ public class PostCommentsController {
       }
 
     }
-    commentsContainer.setPrefHeight((MARGIN_COMMENTS + SIZE_COMMENTS) * comments.size() + MARGIN_COMMENTS);
+    commentsContainer.setPrefHeight(
+        (MARGIN_COMMENTS + SIZE_COMMENTS) * comments.size() + MARGIN_COMMENTS);
   }
 
   private void generatePostContent() {
@@ -131,21 +146,22 @@ public class PostCommentsController {
     toReturn.getChildren().clear();
 
     TextArea commentTextArea = (TextArea) getNodeFromId(tempChildren, "commentTextArea");
-    Label likeLabel = (Label) getNodeFromId(tempChildren, "likeLabel");
-    Label dislikeLabel = (Label) getNodeFromId(tempChildren, "dislikeLabel");
-    Button likeButton = (Button) getNodeFromId(tempChildren, "likeButton");
-    Button dislikeButton = (Button) getNodeFromId(tempChildren, "dislikeButton");
-
     if (commentTextArea != null) {
       commentTextArea.setFont(new Font(15));
       commentTextArea.setText(comment.getText());
     }
+
+    Label likeLabel = (Label) getNodeFromId(tempChildren, "likeLabel");
     if (likeLabel != null) {
       likeLabel.setText(comment.getLikes() + " likes");
     }
+
+    Label dislikeLabel = (Label) getNodeFromId(tempChildren, "dislikeLabel");
     if (dislikeLabel != null) {
       dislikeLabel.setText(comment.getDislikes() + " dislikes");
     }
+
+    Button likeButton = (Button) getNodeFromId(tempChildren, "likeButton");
     if (likeButton != null) {
       likeButton.setOnAction(e -> {
         // PostComment postToUpdate = post.getComments(); //comment to update
@@ -161,6 +177,8 @@ public class PostCommentsController {
         likeLabel.setText(comment.getLikes() + " likes");
       });
     }
+
+    Button dislikeButton = (Button) getNodeFromId(tempChildren, "dislikeButton");
     if (dislikeButton != null) {
       dislikeButton.setOnAction(e -> {
 
@@ -177,7 +195,8 @@ public class PostCommentsController {
       });
     }
 
-    toReturn.getChildren().addAll(commentTextArea, likeLabel, dislikeLabel, likeButton, dislikeButton);
+    toReturn.getChildren().addAll(commentTextArea, likeLabel, dislikeLabel, 
+        likeButton, dislikeButton);
     return toReturn;
   }
 
