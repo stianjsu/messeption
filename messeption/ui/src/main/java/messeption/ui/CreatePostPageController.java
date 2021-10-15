@@ -16,7 +16,7 @@ import messeption.core.ForumBoard;
 /**
  * Controller for the create post page.
  */
-public class CreatePostController {
+public class CreatePostPageController {
   // Write title text -> CreatePostButton -> Create new post -> add post to board
   // -> save board.json -> go to frontpage -> load board.json
 

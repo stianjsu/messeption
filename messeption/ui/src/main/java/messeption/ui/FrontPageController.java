@@ -38,8 +38,8 @@ public class FrontPageController {
   private Stage primaryStage;
   private ForumBoard forumBoard;
 
-  private PostCommentsController postCommentsController;
-  private Scene postCommentsScene;
+  private PostPageController postPageController;
+  private Scene postPageScene;
 
   public void initialize() throws IOException {
     drawPosts();
@@ -54,12 +54,12 @@ public class FrontPageController {
     writeBoard();
   }
 
-  public void setPostControllerController(PostCommentsController controller) {
-    postCommentsController = controller;
+  public void setPostPageController(PostPageController controller) {
+    postPageController = controller;
   }
 
   public void setPostCommentsScene(Scene scene) {
-    postCommentsScene = scene;
+    postPageScene = scene;
   }
 
   /**
@@ -167,9 +167,9 @@ public class FrontPageController {
     if (threadButton != null) {
       threadButton.setOnAction(e -> {
         primaryStage = (Stage) createPostButton.getScene().getWindow();
-        primaryStage.setScene(postCommentsScene);
-        postCommentsController.setForumBoard(this.getBoard());
-        postCommentsController.setPost(post);
+        primaryStage.setScene(postPageScene);
+        postPageController.setForumBoard(this.getBoard());
+        postPageController.setPost(post);
       });
     }
 

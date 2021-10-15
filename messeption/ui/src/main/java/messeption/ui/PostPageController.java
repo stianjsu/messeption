@@ -19,7 +19,7 @@ import messeption.core.PostComment;
 /**
  * Javafx controller for viewing individual posts.
  */
-public class PostCommentsController {
+public class PostPageController {
 
   private static final int SIZE_COMMENTS = 130;
   private static final int MARGIN_COMMENTS = 10;

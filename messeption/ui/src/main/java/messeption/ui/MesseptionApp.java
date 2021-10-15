@@ -16,30 +16,30 @@ public class MesseptionApp extends Application {
   public static final String POST_PAGE_PATH = "PostPage.fxml";
 
   private Scene frontPageScene;
-  private Scene createPostScene;
-  private Scene postCommentsScene;
+  private Scene createPostPageScene;
+  private Scene postPageScene;
 
   private FrontPageController frontPageController;
-  private CreatePostController createPostController;
-  private PostCommentsController postCommentsController;
+  private CreatePostPageController createPostPageController;
+  private PostPageController postPageController;
 
   @Override
   public void start(Stage primaryStage) throws Exception {
 
     FXMLLoader frontPageLoader = new FXMLLoader(getClass().getResource(FRONT_PAGE_PATH));
-    FXMLLoader createPostLoader = new FXMLLoader(getClass().getResource(CREATE_POST_PAGE_PATH));
-    FXMLLoader postCommentsLoader = new FXMLLoader(getClass().getResource(POST_PAGE_PATH));
+    FXMLLoader createPostPageLoader = new FXMLLoader(getClass().getResource(CREATE_POST_PAGE_PATH));
+    FXMLLoader postPageLoader = new FXMLLoader(getClass().getResource(POST_PAGE_PATH));
 
     frontPageScene = new Scene(frontPageLoader.load());
-    createPostScene = new Scene(createPostLoader.load());
-    postCommentsScene = new Scene(postCommentsLoader.load());
+    createPostPageScene = new Scene(createPostPageLoader.load());
+    postPageScene = new Scene(postPageLoader.load());
 
     frontPageController = frontPageLoader.getController();
-    createPostController = createPostLoader.getController();
-    postCommentsController = postCommentsLoader.getController();
+    createPostPageController = createPostPageLoader.getController();
+    postPageController = postPageLoader.getController();
 
-    frontPageController.setPostControllerController(postCommentsController);
-    frontPageController.setPostCommentsScene(postCommentsScene);
+    frontPageController.setPostPageController(postPageController);
+    frontPageController.setPostCommentsScene(postPageScene);
 
     primaryStage.setScene(frontPageScene);
     primaryStage.setTitle("Messeption");
@@ -47,12 +47,12 @@ public class MesseptionApp extends Application {
     primaryStage.show();
 
     frontPageController.createPostButton.setOnAction(event -> {
-      primaryStage.setScene(createPostScene);
-      createPostController.setBoard(frontPageController.getBoard());
+      primaryStage.setScene(createPostPageScene);
+      createPostPageController.setBoard(frontPageController.getBoard());
     });
 
-    createPostController.cancelButton.setOnAction(event -> {
-      createPostController.reloadPage();
+    createPostPageController.cancelButton.setOnAction(event -> {
+      createPostPageController.reloadPage();
       primaryStage.setScene(frontPageScene);
       try {
         frontPageController.drawPosts();
@@ -61,7 +61,7 @@ public class MesseptionApp extends Application {
       }
     });
 
-    postCommentsController.cancelButton.setOnAction(event -> {
+    postPageController.cancelButton.setOnAction(event -> {
       primaryStage.setScene(frontPageScene);
       try {
         frontPageController.drawPosts();
