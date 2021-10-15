@@ -100,7 +100,7 @@ public class FrontPageController {
 
   private Pane generatePostPane(ForumPost post) throws IOException {
 
-    Pane toReturn = FXMLLoader.load(getClass().getResource("PaneTemplate.fxml"));
+    Pane toReturn = FXMLLoader.load(getClass().getResource("PostPaneTemplate.fxml"));
     List<Node> tempChildren = new ArrayList<>(toReturn.getChildren());
     toReturn.getChildren().clear();
 

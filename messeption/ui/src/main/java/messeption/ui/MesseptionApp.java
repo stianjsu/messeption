@@ -12,8 +12,8 @@ import javafx.stage.Stage;
 public class MesseptionApp extends Application {
 
   public static final String FRONT_PAGE_PATH = "FrontPage.fxml";
-  public static final String CREATE_POST_PAGE_PATH = "CreatePost.fxml";
-  public static final String POST_COMMENTS_PAGE_PATH = "PostComments.fxml";
+  public static final String CREATE_POST_PAGE_PATH = "CreatePostPage.fxml";
+  public static final String POST_PAGE_PATH = "PostPage.fxml";
 
   private Scene frontPageScene;
   private Scene createPostScene;
@@ -28,7 +28,7 @@ public class MesseptionApp extends Application {
 
     FXMLLoader frontPageLoader = new FXMLLoader(getClass().getResource(FRONT_PAGE_PATH));
     FXMLLoader createPostLoader = new FXMLLoader(getClass().getResource(CREATE_POST_PAGE_PATH));
-    FXMLLoader postCommentsLoader = new FXMLLoader(getClass().getResource(POST_COMMENTS_PAGE_PATH));
+    FXMLLoader postCommentsLoader = new FXMLLoader(getClass().getResource(POST_PAGE_PATH));
 
     frontPageScene = new Scene(frontPageLoader.load());
     createPostScene = new Scene(createPostLoader.load());
