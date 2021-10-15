@@ -91,8 +91,8 @@ This is a bief description of BOARD.JSON:
 # User stories
 
 
-## write posts (User story 1)
-An individual wishes to be able to express his opinion on a certain topic anonymously, and to have that opinion saved.
+## Write posts (User story 1)
+An individual wants to express his opinion on a certain topic anonymously, and to have that opinion saved.
 Aditionally he wishes to have his opinions organized in an easy and readable manner.
 
 ### Important details for reading
@@ -104,7 +104,7 @@ Aditionally he wishes to have his opinions organized in an easy and readable man
 
 
 ## Read posts (User story 2)
-As a passive user, or someone who does not post a lot, an individual wishes to interact with other people's posts as a way of using the application by agreeing og disagreeing with someone.
+A passive user, or someone who does not post a lot, wishes to interact with other people's posts as a way of using the application by agreeing or disagreeing with someone.
 
 ### Important details for reading
 - Ability to view likes/dislikes on posts
@@ -114,7 +114,7 @@ As a passive user, or someone who does not post a lot, an individual wishes to i
 
 
 ## Comment on posts (User story 3)
-As an interactive user, an individual who wishes to interact with other people's posts by sharing their opinion on that spesific topic.
+An interactive user wishes to interact with other people's posts by sharing their opinion on that specific topic.
 
 ### Important details for reading
 - Ability to view other comments on posts
