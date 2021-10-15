@@ -33,6 +33,9 @@ package messeption.core <<Frame>> {
         + void loadPosts(String path, String fileName)
         + void loadPosts()
     }
+    class PostComment extends UserTextSubmission {
+        + String toString()
+    }
     class ForumPost extends UserTextSubmission {
         - String title
         - List<PostComment> comments
@@ -54,25 +57,25 @@ package messeption.core <<Frame>> {
         + {static} void fileWrite()
     }
     
-    class PostComment extends UserTextSubmission {
-        + String toString()
-    }
-    ForumPost -right-> "*" PostComment
+    
+    ForumPost -left-> "*" PostComment
     ForumPost "*" <-down- ForumBoard
 }
 
 package messeption.ui <<Frame>> {
     class MesseptionApp {
         - Scene frontPageScene
-        - Scene createPostScene
+        - Scene createPostPageScene
         - FrontPageController frontPageController
-        - CreatePostController createPostController
+        - CreatePostPageController createPostPageController
         + void start(Stage primaryStage)
     }
     class FrontPageController {
-        - {static} int OFFSET
-        - {static} int POSITION
+        - {static} int SIZE_POSTS
+        - {static} int MARGIN_TOP
+        - {static} int MARGIN_POSTS
         - ForumBoard forumBoard
+        + void initialize()
         .. Getters ..
         + ForumBoard getBoard()
         .. Setters ..
@@ -83,8 +86,9 @@ package messeption.ui <<Frame>> {
         - Pane generatePostPane(String title, String text, int likes, int dislikes, int indexId)
         + Alert exceptionAlert(Exception e)
     }
-    class CreatePostController {
+    class CreatePostPageController {
         - ForumBoard board
+        + void initialize()
         ..Setters..
         + void setBoard(ForumBoard board)
         .. Save and draw methods ..
@@ -93,10 +97,31 @@ package messeption.ui <<Frame>> {
         + void showError(String e)
         + void reloadPage()
     }
+    class PostPageController {
+        - {static} int SIZE_COMMENTS
+        - {static} int MARGIN_COMMENTS
+        - ForumPost post
+        - ForumBoard forumBoard
+        + void initialize()
+        .. Setters ..
+        + void setPost(ForumPost post)
+        + void setForumBoard(ForumBoard board)
+        .. Save and draw methods ..
+        + void drawComments()
+        - void generatePostContent()
+        - Pane generateCommentPane(PostComment comment, int indexId)
+        - Node getNodeFromId(List<Node> children, String id)
+        - void publishCommnt()
+        
+    }
     
     MesseptionApp --> "1" FrontPageController
-    MesseptionApp --> "1" CreatePostController
+    MesseptionApp --> "1" CreatePostPageController
+    MesseptionApp -left-> "1" PostPageController
+    ForumPost "1" <-left- PostPageController
+    ForumBoard "1" <-- CreatePostPageController
     ForumBoard "1" <-left- FrontPageController
+    ForumBoard "1" <-- PostPageController
 }
-
+messeption.core -[hidden]-> messeption.ui
 @enduml
