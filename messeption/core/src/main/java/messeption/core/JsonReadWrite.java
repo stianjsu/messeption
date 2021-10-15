@@ -17,8 +17,7 @@ import java.nio.file.Paths;
  */
 public class JsonReadWrite {
   public static final String ROOT_PATH = Paths.get("").toAbsolutePath().toString() 
-      + "/src/main/resources/messeption/";
-  // ender med messeption/core/ eller messeption/ui/
+      + "/src/main/resources/messeption/";  // ends with messeption/core/ or messeption/ui/
   public static final String UI_PATH = "ui/";
   public static final String DEFAULT_BOARD_FILE = "Board.JSON";
 
@@ -29,8 +28,8 @@ public class JsonReadWrite {
    * @param fileName the name of the file to read from
    * @return the Board object from the read file
    * @throws JsonSyntaxException throws if the file does nnot have propoer syntax
-   * @throws JsonIOException throws if the Json operation has an IO exception
-   * @throws IOException throws in a regualr IO expetion is thrown
+   * @throws JsonIOException     throws if the Json operation has an IO exception
+   * @throws IOException         throws in a regualr IO expetion is thrown
    */
   public static ForumBoard fileRead(String filePath, String fileName)
       throws JsonSyntaxException, JsonIOException, IOException {
@@ -51,9 +50,9 @@ public class JsonReadWrite {
 
    * @param filePath the path of the file to read from
    * @param fileName the name of the file to read from
-   * @param board the object to be written
+   * @param board    the object to be written
    * @throws JsonIOException throws if the Json operation has an IO exception
-   * @throws IOException throws in a regualr IO expetion is thrown
+   * @throws IOException     throws in a regualr IO expetion is thrown
    */
   public static void fileWrite(String filePath, String fileName, ForumBoard board) 
       throws JsonIOException, IOException {

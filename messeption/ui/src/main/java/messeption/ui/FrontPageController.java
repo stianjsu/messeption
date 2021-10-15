@@ -7,6 +7,7 @@ import java.util.List;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
@@ -15,32 +16,37 @@ import javafx.scene.control.TextArea;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Line;
+import javafx.stage.Stage;
 import messeption.core.ForumBoard;
 import messeption.core.ForumPost;
 import messeption.core.JsonReadWrite;
-
 
 /**
  * Controller for the front page or main menu of the app.
  */
 public class FrontPageController {
 
-  private static final int OFFSET = 230;
-  private static final int POSITION = 15;
+  private static final int SIZE_POSTS = 220;
+  private static final int MARIGIN_TOP = 15;
+  private static final int MARIGIN_POSTS = 30;
 
   @FXML
   AnchorPane postsContainer;
   @FXML
   Button createPostButton;
 
+  private Stage primaryStage;
   private ForumBoard forumBoard;
+
+  private PostPageController postPageController;
+  private Scene postPageScene;
 
   public void initialize() throws IOException {
     drawPosts();
   }
 
   public ForumBoard getBoard() {
-    return forumBoard;
+    return this.forumBoard;
   }
 
   public void setBoard(ForumBoard board) {
@@ -48,13 +54,20 @@ public class FrontPageController {
     writeBoard();
   }
 
+  public void setPostPageController(PostPageController controller) {
+    postPageController = controller;
+  }
+
+  public void setPostCommentsScene(Scene scene) {
+    postPageScene = scene;
+  }
+
   /**
-   * Writes the current forumBoard state to file.
-   * Shows an alert if IOException.
+   * Writes the current forumBoard state to file. Shows an alert if IOException.
    */
   public void writeBoard() {
     try {
-      JsonReadWrite.fileWrite(this.forumBoard);
+      this.forumBoard.savePosts();
     } catch (IOException e) {
       Alert alert = exceptionAlert(e);
       alert.show();
@@ -75,90 +88,96 @@ public class FrontPageController {
 
     int indexId = 0;
     for (ForumPost post : posts) {
-      String title = post.getTitle();
-      String text = post.getText();
-      int likes = post.getLikes();
-      int dislikes = post.getDislikes();
 
-      Pane pane = generatePostPane(title, text, likes, dislikes, indexId);
-      pane.setLayoutY(POSITION + indexId * OFFSET);
-      pane.setLayoutX(POSITION);
+      Pane pane = generatePostPane(post);
+      pane.setLayoutY(MARIGIN_TOP + indexId * (SIZE_POSTS + MARIGIN_POSTS));
       postsContainer.getChildren().add(pane);
 
       indexId++;
     }
-    postsContainer.setPrefHeight((2 * POSITION + OFFSET) * indexId);
+    postsContainer.setPrefHeight(indexId * (SIZE_POSTS + MARIGIN_POSTS));
   }
 
-  private Pane generatePostPane(String title, String text, int likes, int dislikes, int indexId) 
-      throws IOException {
+  private Pane generatePostPane(ForumPost post) throws IOException {
 
-    Pane toReturn = FXMLLoader.load(getClass().getResource("PaneTemplate.fxml"));
+    Pane toReturn = FXMLLoader.load(getClass().getResource("PostPaneTemplate.fxml"));
     List<Node> tempChildren = new ArrayList<>(toReturn.getChildren());
     toReturn.getChildren().clear();
 
     Label titleLabel = (Label) getNodeFromId(tempChildren, "titleLabel");
-    TextArea postTextArea = (TextArea) getNodeFromId(tempChildren, "postTextArea");
-    Line titleLine = (Line) getNodeFromId(tempChildren, "titleLine");
-
-    Label likeLabel = (Label) getNodeFromId(tempChildren, "likeLabel");
-    Label dislikeLabel = (Label) getNodeFromId(tempChildren, "dislikeLabel");
-    Label replyLabel = (Label) getNodeFromId(tempChildren, "replyLabel");
-
-    Button likeButton = (Button) getNodeFromId(tempChildren, "likeButton");
-    Button dislikeButton = (Button) getNodeFromId(tempChildren, "dislikeButton");
-    Button threadButton = (Button) getNodeFromId(tempChildren, "threadButton");
-
     if (titleLabel != null) {
-      titleLabel.setText(title);
+      titleLabel.setText(post.getTitle());
     }
-    if (postTextArea != null) {
 
-      postTextArea.setText(text);
+    TextArea postTextArea = (TextArea) getNodeFromId(tempChildren, "postTextArea");
+    if (postTextArea != null) {
+      postTextArea.setText(post.getText());
       postTextArea.setDisable(true);
       postTextArea.setStyle("-fx-opacity: 1;");
     }
+
+    Label replyLabel = (Label) getNodeFromId(tempChildren, "replyLabel");
+    if (replyLabel != null) {
+      replyLabel.setText(post.getComments().size() + " comments");
+    }
+
+    Label likeLabel = (Label) getNodeFromId(tempChildren, "likeLabel");
+    if (likeLabel != null) {
+      likeLabel.setText(post.getLikes() + " likes");
+    }
+
+    Label dislikeLabel = (Label) getNodeFromId(tempChildren, "dislikeLabel");
+    if (dislikeLabel != null) {
+      dislikeLabel.setText(post.getDislikes() + " dislikes");
+    }
+
+    Button likeButton = (Button) getNodeFromId(tempChildren, "likeButton");
     if (likeButton != null) {
       likeButton.setOnAction(e -> {
-        ForumPost postToUpdate = forumBoard.getPost(indexId);
-        int prevLikes = postToUpdate.getLikes();
+        int prevLikes = post.getLikes();
 
         try {
-          postToUpdate.incrementLikes();
-          JsonReadWrite.fileWrite(forumBoard);
+          post.incrementLikes();
+          forumBoard.savePosts();
         } catch (IOException error) {
-          postToUpdate.setLikes(prevLikes);
+          post.setLikes(prevLikes);
         }
 
-        likeLabel.setText(postToUpdate.getLikes() + " likes");
+        likeLabel.setText(post.getLikes() + " likes");
       });
     }
+
+    Button dislikeButton = (Button) getNodeFromId(tempChildren, "dislikeButton");
     if (dislikeButton != null) {
-
       dislikeButton.setOnAction(e -> {
-        ForumPost postToUpdate = forumBoard.getPost(indexId);
-        int prevDislikes = postToUpdate.getDislikes();
+        int prevDislikes = post.getDislikes();
 
         try {
-          postToUpdate.incrementDislikes();
-          JsonReadWrite.fileWrite(forumBoard);
+          post.incrementDislikes();
+          forumBoard.savePosts();
         } catch (IOException error) {
-          postToUpdate.setDislikes(prevDislikes);
+          post.setDislikes(prevDislikes);
         }
 
-        dislikeLabel.setText(postToUpdate.getDislikes() + " dislikes");
+        dislikeLabel.setText(post.getDislikes() + " dislikes");
       });
     }
-    if (likeLabel != null) {
-      likeLabel.setText(likes + " likes");
-    }
-    if (dislikeLabel != null) {
-      dislikeLabel.setText(dislikes + " dislikes");
+
+    Button threadButton = (Button) getNodeFromId(tempChildren, "threadButton");
+    if (threadButton != null) {
+      threadButton.setOnAction(e -> {
+        primaryStage = (Stage) createPostButton.getScene().getWindow();
+        primaryStage.setScene(postPageScene);
+        postPageController.setForumBoard(this.getBoard());
+        postPageController.setPost(post);
+      });
     }
 
-    toReturn.getChildren().addAll(new ArrayList<Node>(Arrays.asList(titleLabel, titleLine,
-        postTextArea, likeLabel, dislikeLabel, replyLabel, 
-        likeButton, dislikeButton, threadButton)));
+    Line titleLine = (Line) getNodeFromId(tempChildren, "titleLine");
+    
+    toReturn.getChildren().addAll(new ArrayList<Node>(Arrays.asList(
+        titleLabel, titleLine, postTextArea, likeLabel, dislikeLabel, 
+        replyLabel, likeButton, dislikeButton, threadButton)));
     return toReturn;
   }
 
@@ -166,7 +185,7 @@ public class FrontPageController {
    * Finds a node in a list of nodes from an ID.
 
    * @param children the list of nodes to look in
-   * @param id the ID to look for
+   * @param id       the ID to look for
    * @return the node with the matching ID, if none return null
    */
   public Node getNodeFromId(List<Node> children, String id) {
@@ -192,5 +211,4 @@ public class FrontPageController {
     toReturn.setTitle("Error");
     return toReturn;
   }
-
 }

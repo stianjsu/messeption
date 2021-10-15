@@ -26,13 +26,13 @@ import messeption.core.ForumPost;
 public class MesseptionAppTest extends ApplicationTest {
 
   public static final String FRONT_PAGE_PATH = "FrontPage.fxml";
-  public static final String CREATE_POST_PAGE_PATH = "CreatePost.fxml";
+  public static final String CREATE_POST_PAGE_PATH = "CreatePostPage.fxml";
 
   private Scene frontPageScene;
-  private Scene createPostScene;
+  private Scene createPostPageScene;
 
   private FrontPageController frontPageController;
-  private CreatePostController createPostController;
+  private CreatePostPageController createPostPageController;
 
   private ForumBoard board;
   private static ForumBoard boardBackup;
@@ -41,13 +41,13 @@ public class MesseptionAppTest extends ApplicationTest {
   public void start(Stage primaryStage) throws Exception {
 
     FXMLLoader frontPageLoader = new FXMLLoader(getClass().getResource(FRONT_PAGE_PATH));
-    FXMLLoader createPostLoader = new FXMLLoader(getClass().getResource(CREATE_POST_PAGE_PATH));
+    FXMLLoader createPostPageLoader = new FXMLLoader(getClass().getResource(CREATE_POST_PAGE_PATH));
 
     frontPageScene = new Scene(frontPageLoader.load());
-    createPostScene = new Scene(createPostLoader.load());
+    createPostPageScene = new Scene(createPostPageLoader.load());
 
     frontPageController = frontPageLoader.getController();
-    createPostController = createPostLoader.getController();
+    createPostPageController = createPostPageLoader.getController();
 
     primaryStage.setScene(frontPageScene);
     primaryStage.setTitle("Messeption");
@@ -57,12 +57,12 @@ public class MesseptionAppTest extends ApplicationTest {
     boardBackup.loadPosts();
 
     frontPageController.createPostButton.setOnAction(event -> {
-      primaryStage.setScene(createPostScene);
-      createPostController.setBoard(frontPageController.getBoard());
+      primaryStage.setScene(createPostPageScene);
+      createPostPageController.setBoard(frontPageController.getBoard());
     });
 
-    createPostController.cancelButton.setOnAction(event -> {
-      createPostController.reloadPage();
+    createPostPageController.cancelButton.setOnAction(event -> {
+      createPostPageController.reloadPage();
       primaryStage.setScene(frontPageScene);
       try {
         frontPageController.drawPosts();
