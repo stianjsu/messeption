@@ -17,7 +17,9 @@ These images are early prototypes of how we want the app to look.
 #### Front Page
 
 Here you will be able to see a lot of posts.
-You can navigate to the Create Post Page by pressing the "Create Post" button on the right
+You can navigate to the Create Post Page by pressing the "Create Post" button on the right.
+Posts can be liked/disliked from the Front Page.
+You can go view a specific post by pressing "Go to thread", this takes the user to the Post Page.
 
 We want to create a possibility to filter the post.
 For instance:
@@ -43,7 +45,9 @@ Here you can create a new post that will be added to the Front Page
 
 Here you can look at a post in more detail, and review its comments.
 
-You will be able to like/dislike and add comments or replies to other comments.
+- You can create a comment to the post
+- You can like/dislike the post and/or its comments
+
 <div align="left">
     <img src="../docs/images/finished/postPage.png" alt="Post Page" width="80%"/ >
 </div>
@@ -88,7 +92,7 @@ This is a bief description of BOARD.JSON:
 
 
 ## write posts (User story 1)
-A private person wishes to be able to express his opinion on a certain topic anonymously, and to have that opinion saved.
+An individual wishes to be able to express his opinion on a certain topic anonymously, and to have that opinion saved.
 Aditionally he wishes to have his opinions organized in an easy and readable manner.
 
 ### Important details for reading
@@ -100,7 +104,7 @@ Aditionally he wishes to have his opinions organized in an easy and readable man
 
 
 ## Read posts (User story 2)
-As a passive user, or someone who does not post a lot, a private person wishes to interact with other people's posts as a way of using the application by agreeing og disagreeing with someone.
+As a passive user, or someone who does not post a lot, an individual wishes to interact with other people's posts as a way of using the application by agreeing og disagreeing with someone.
 
 ### Important details for reading
 - Ability to view likes/dislikes on posts
@@ -110,7 +114,7 @@ As a passive user, or someone who does not post a lot, a private person wishes t
 
 
 ## Comment on posts (User story 3)
-As an interactive user, a private person wishes to interact with other people's posts by sharing their opinion on that spesific topic.
+As an interactive user, an individual who wishes to interact with other people's posts by sharing their opinion on that spesific topic.
 
 ### Important details for reading
 - Ability to view other comments on posts
