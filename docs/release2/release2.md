@@ -26,18 +26,32 @@
 </div>
 
 <div align="left">
-    <img src="../images/release2/PostPage_r2.png" alt="Front page" width=80%/>
+    <img src="../images/release2/postPage_r2.png" alt="Post page" width=80%/>
 </div>
 
 # User stories
-
+These user stories have been added in release 2
 
 ## Read posts (User story 2)
 As a passive user, or someone who does not post a lot, a private person wishes to interact with other people's posts as a way of using the application by agreeing og disagreeing with someone.
 
+### Important details for reading
+- Ability to view likes/dislikes on posts
+
 ### Important details for interaction
 - Ability to Like/dislike posts
 
+
+## Comment on posts (User story 3)
+As an interactive user, a private person wishes to interact with other people's posts by sharing their opinion on that spesific topic.
+
+### Important details for reading
+- Ability to view other comments on posts
+- Ability to view likes/dislikes on comments
+
+### Important details for interaction
+- Ability to comment on posts
+- Ability to like/dislike comments
 
 # PlantUML Class Diagram
 
