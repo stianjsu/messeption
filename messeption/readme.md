@@ -5,17 +5,19 @@ Messeption is an app that takes inspiration from messaging apps and forums.
 These are our inspirational sources: Reddit, Jodel, Twitter.
 
 The purpose of the app is to allow users to communicate with other people via text. The most basic functionality is to post text-posts like you would on a forum. 
-Later in the development process we would like to implement the ability to comment on the post and start 'threads'. These 'threads' will be a chain of replies to the original post or to other replies.
-Additionally we would like to give users the ability to like/dislike posts.
+The posts can be commented and liked/disliked.
+Comments can also recieve likes and dislikes.
 
-## images
 
-These images are early prototypes and drawings of how we want the app to look.
+## Images
+
+These images are early prototypes of how we want the app to look.
 
 
 #### Front Page
 
 Here you will be able to see a lot of posts.
+You can navigate to the Create Post Page by pressing the "Create Post" button on the right
 
 We want to create a possibility to filter the post.
 For instance:
@@ -32,14 +34,14 @@ For instance:
 
 #### Create Post Page
 
-Here you can create a new post
+Here you can create a new post that will be added to the Front Page
 <div align="left">
     <img src="../docs/images/finished/createPostPage.png" alt="Create post page" width="80%"/>
 </div>
 
 #### Post Page
 
-Here you will be able to look at a post in more detail, and review its comments.
+Here you can look at a post in more detail, and review its comments.
 
 You will be able to like/dislike and add comments or replies to other comments.
 <div align="left">
@@ -47,11 +49,12 @@ You will be able to like/dislike and add comments or replies to other comments.
 </div>
 
 # Saving userdata
-## Document metaphor / Autosaving?
+## Autosaving
 
-We automaticly save the state of the app if the user changes some of the data. For instance: creates a new post or likes a post.
+We automaticly save the state of the app whenever the user changes some of the data. For instance: creating or liking a post. This is because the user does not need to manually decide when the state should be saved. The saved state should always be up to date with current state.
 
-So the user does not manually save a file or a document. There is no metaphor to the desktop.
+Manual saving could be used for saving posts as drafts. This would be useful if the user does not want to post their post right away. This functionality has however not been prioritized.
+
 ## File format
 
 ### Gson
