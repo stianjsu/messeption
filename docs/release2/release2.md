@@ -2,16 +2,31 @@
 
 ## Release 2 gives Messeption these basic features:
 
-- A user can like and dislike posts
+#### The concept of comments, likes and dislikes have been implemented
 
-## Screenshots of the app so far
+- A user can like and dislike posts from the Front Page
+    - the like/dislike labels and buttons now work. (They were placeholders in release 1)
+- A user can view amount of comments on the Front Page and go to a new page to view them
+    - the "Go to Thread" button now changes scene to a new page: Post Page
+- Post Page has been added to accomodate for comments
+    - All comments that belong to the specified post can be viewed.
+        - the comments can be liked and disliked 
+    - New comments can be added to the specified post with a simple text area and button
+- Likes, dislikes and comments belonging to a post are saved to the local JSON file in similar fashion to the other fields
+    
+
+## Screenshots of the app in release 2
 
 <div align="left">
     <img src="../images/release2/frontPage_r2.png" alt="Front page" width=80%/>
 </div>
 
 <div align="left">
-    <img src="../images/release1/createPostPage.png" alt="Front page" width=80%/>
+    <img src="../images/release2/createPostPage_r2.png" alt="Front page" width=80%/>
+</div>
+
+<div align="left">
+    <img src="../images/release2/PostPage_r2.png" alt="Front page" width=80%/>
 </div>
 
 # User stories
