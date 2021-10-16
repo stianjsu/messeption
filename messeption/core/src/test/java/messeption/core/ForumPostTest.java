@@ -4,6 +4,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -39,6 +41,7 @@ public class ForumPostTest {
 
     assertEquals(0, post.getLikes(), "Wrong likes value from getter");
     assertEquals(0, post.getDislikes(), "Wrong dislikes value likes getter");
+    assertEquals(new ArrayList<>(), post.getComments(), "Wrong comment list from getter");
   }
 
   @Test
@@ -55,8 +58,6 @@ public class ForumPostTest {
             "No exception was thrown when negative input was set");
     assertThrows(IllegalArgumentException.class, () -> post.setDislikes(-9),
             "No exception was thrown when negative input was set");
-
-
   }
 
   @Test
@@ -72,7 +73,6 @@ public class ForumPostTest {
 
     assertEquals(3, post.getLikes(), "Wrong likes value from getter");
     assertEquals(5, post.getDislikes(), "Wrong dislikes value from getter");
-
   }
 
   @Test
@@ -90,6 +90,19 @@ public class ForumPostTest {
     } catch (ParseException e) {
       assertTrue(false, "Exception thrown when parsing dates from string. \n" + e.getMessage());
     }
+  }
 
+  @Test
+  @DisplayName("Test adding and getting comments")
+  public void testComments() {
+    PostComment comment1= new PostComment("comment");
+    post.addComment(comment1);
+
+    assertEquals(comment1, post.getComments().get(0), "comment was not correct after add comment");
+
+    PostComment comment2 = new PostComment("comment2");
+    post.addComment(comment2);
+
+    assertEquals(new ArrayList<>(Arrays.asList(comment1,comment2)), post.getComments(), "Wrong comment list from getComments");
   }
 }
