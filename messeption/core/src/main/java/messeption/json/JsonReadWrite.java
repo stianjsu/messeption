@@ -1,4 +1,4 @@
-package messeption.core;
+package messeption.json;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -11,6 +11,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Paths;
+import messeption.core.ForumBoard;
 
 /**
  * A class with static methods for writing ForumBoard objects to Json file.
