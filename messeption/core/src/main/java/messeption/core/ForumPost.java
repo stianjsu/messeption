@@ -75,4 +75,22 @@ public class ForumPost extends UserTextSubmission {
     return "Title: " + this.title + "\tText: " + this.text + "\nLikes: " 
         + this.likes + "\t Dislikes: " + this.dislikes + "\n TimeStamp: " + this.timeStamp;
   }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (obj instanceof ForumPost){
+      ForumPost o = (ForumPost) obj;
+      boolean equalTitle = this.getTitle().equals(o.getTitle());
+      boolean equalComments = this.getComments().equals(o.getComments());
+      boolean equalText = this.getText().equals(o.getText());
+      boolean equalLikes = this.getLikes() == (o.getLikes());
+      boolean equalDislikes = this.getDislikes() == (o.getDislikes());
+      boolean equalTimeStamp = this.getTimeStamp() == (o.getTimeStamp());
+       
+      return (equalTitle && equalComments && equalText && equalLikes && equalDislikes && equalTimeStamp);
+    }
+    else {
+      return false;
+    }    
+  }
 }

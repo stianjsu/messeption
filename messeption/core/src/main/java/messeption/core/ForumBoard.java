@@ -117,4 +117,17 @@ public class ForumBoard {
     }
     return s.toString();
   }
+
+  
+  @Override
+  public boolean equals(Object obj) {
+    if (obj instanceof ForumBoard){
+      ForumBoard o = (ForumBoard) obj;
+
+      return this.getPosts().equals(o.getPosts());
+    }
+    else{
+      return false;
+    }
+  }
 }
