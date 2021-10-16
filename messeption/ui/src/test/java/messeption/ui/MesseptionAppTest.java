@@ -3,11 +3,9 @@ package messeption.ui;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-
 import java.io.IOException;
 import java.util.List;
 import java.util.stream.Stream;
-
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -15,10 +13,8 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.testfx.framework.junit5.ApplicationTest;
 import org.testfx.matcher.control.LabeledMatchers;
-
 import messeption.core.ForumBoard;
 import messeption.core.ForumPost;
-import messeption.core.JSONReadWrite;
 
 /**
  * TestFX App test
