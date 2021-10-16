@@ -121,13 +121,17 @@ public class ForumBoard {
   
   @Override
   public boolean equals(Object obj) {
-    if (obj instanceof ForumBoard){
+    if (obj instanceof ForumBoard) {
       ForumBoard o = (ForumBoard) obj;
 
-      return this.getPosts().equals(o.getPosts());
-    }
-    else{
+      return this.getPosts().equals(o.getPosts()) && o.hashCode() == this.hashCode();
+    } else {
       return false;
     }
+  }
+
+  @Override
+  public int hashCode() {
+    return this.posts.size();
   }
 }

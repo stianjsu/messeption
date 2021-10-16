@@ -51,15 +51,12 @@ public class ForumBoardTest {
     board.savePosts(path, fileName);
     ForumBoard board2 = new ForumBoard();
     board2.loadPosts(path, fileName);
-    assertEquals(board.toString(), board2.toString(), "Post did not save and load properly");
+    assertEquals(board, board2, "Post did not save and load properly");
   }
-
-
 
   @AfterAll
   public static void tearDown() {
     File testFile = new File(JsonReadWrite.ROOT_PATH + "core/BoardTest.JSON");
     testFile.delete();
   }
-
 }
