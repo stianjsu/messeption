@@ -11,6 +11,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import messeption.json.JsonReadWrite;
+
 public class ForumBoardTest {
   ForumPost post;
   ForumBoard board;

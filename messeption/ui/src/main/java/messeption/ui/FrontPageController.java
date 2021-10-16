@@ -19,7 +19,7 @@ import javafx.scene.shape.Line;
 import javafx.stage.Stage;
 import messeption.core.ForumBoard;
 import messeption.core.ForumPost;
-import messeption.core.JsonReadWrite;
+import messeption.json.JsonReadWrite;
 
 /**
  * Controller for the front page or main menu of the app.

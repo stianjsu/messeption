@@ -5,6 +5,8 @@ import com.google.gson.JsonSyntaxException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import messeption.json.JsonReadWrite;
+
 
 /**
  * ForumBoard has a collection of posts.
