@@ -18,7 +18,7 @@ import org.testfx.matcher.control.LabeledMatchers;
 
 import messeption.core.ForumBoard;
 import messeption.core.ForumPost;
-
+import messeption.core.JSONReadWrite;
 
 /**
  * TestFX App test

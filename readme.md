@@ -10,6 +10,7 @@
 
 - The project use a 'modular' approach for organising files
 
+**In order to start the application in gitpod use mvn javafx:run in messeption/ui**
 ## Repository structure:
 - In the 'Messeption' folder you can find the project
 
@@ -21,8 +22,41 @@
 - The project is divided into modules, namely 'core' and 'ui'
 - In both 'core' and 'ui' we have a 'src' folder. There the code is divided into 'main' and 'test' folders, for their respective purposes
 - The 'main' folders split into 'java' and 'resources' folders
-
 - 'java' folders contain java-files for code logic and module-info files for declaring dependencies in the project
 - 'resources' folders contain JSON files for text saving and java-fxml files for ui representation
 
-In order to start the application use mvn javafx:run in messeption/ui
+
+
+## Workflow:
+- During this developement process we have used a number of different strategies and techniques to improve workflow and group efficiency
+
+- Some revolve around work speed and code verification, others target the communication within the group
+
+
+#### Milestones and issue tracking:
+- For each release of the project we establish a set of goals. These goals are compiled into a release milestone namely 'Sprint'
+- Issues are created with spesific tasks based on the established goals, and labeled with their respective 'target area' and priority
+- The board function on Gitlab is used to track and sort the issues for better overview of the developement prosess
+
+#### Branching:
+- Branching is important to structure the different code development that is taking place at the same time, and makes the prosess more efficient
+- We have 'protected' the Main branch, so that we only merge with Main when the release is tested and verified
+- We establish a 'dev' branch for all developement, and create branches out from the 'dev' branch for the different code updates
+
+#### Pair programming:
+- The group has used pair programming frequently, to ensure good communication and participation from all group members
+- This type of developement has also made it possible to combine individuals with different strengths, to excel project developement whilst also sharing skills
+
+#### Communication channels:
+- We have used different channels for communication and information sharing, to make the developement prosess more structured
+- Facebook's Messenger application has been used for quick and easy communication and information sharing
+- Discord has been used for meetings and work sessions, as well as file- and document sharing
+- The group has had two weekly meetings, tuesday and friday, followed by work sessions 
+
+#### Code verification:
+- The code for each release is checked and verified both manually by each group member and by tests created for the different modules
+- Issues are verified after completion before they are marked as 'closed', to ensure that if a mistake has been made it is picked up as early as possible
+- We have used jacoco to show how much of the code is covered by the tests. A report is put into target/site/jacoco which shows coverage in percent
+- Spotbugs has also been implemented to check the code for common mistakes
+- Checkstyle has been implemented to cehck the codes formatting and visual style so that is in inline with the google checktyle convention
+
