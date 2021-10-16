@@ -29,8 +29,8 @@ public class ForumBoardTest {
   @DisplayName("Test getter")
   public void testGetter() {
     post = board.getPost(0);
-    assertEquals("POST", post.getTitle());
-    assertEquals("Lorem ipsum dolor sit amet", post.getText());
+    assertEquals("POST", post.getTitle(), "Post title did not match expected title");
+    assertEquals("Lorem ipsum dolor sit amet", post.getText(), "Post text did not match expected text");
   }
 
   @Test
@@ -40,7 +40,7 @@ public class ForumBoardTest {
     board.deletePost(post);
     assertThrows(IndexOutOfBoundsException.class, () -> {
       board.getPost(0);
-    });
+    }, "Did not throw exception when trying to get a deleted post");
   }
 
   @Test
@@ -51,7 +51,7 @@ public class ForumBoardTest {
     board.savePosts(path, fileName);
     ForumBoard board2 = new ForumBoard();
     board2.loadPosts(path, fileName);
-    assertEquals(board.toString(), board2.toString());
+    assertEquals(board.toString(), board2.toString(), "Post did not save and load properly");
   }
 
 
