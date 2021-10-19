@@ -50,6 +50,9 @@ public class PostPageController {
   private ForumPost post;
   private ForumBoard forumBoard;
 
+  /**
+   * Initializes the publish comment button.
+   */
   public void initialize() {
     newCommentButton.setOnAction(e -> {
       publishComment();
@@ -58,7 +61,7 @@ public class PostPageController {
 
   /**
    * Takes an input post and displayes the post and its comments.
-   * 
+
    * @param post The input post
    */
   public void setPost(ForumPost post) {
@@ -70,7 +73,7 @@ public class PostPageController {
 
   /**
    * Sets the controlelr forumboard to a specified input.
-   * 
+
    * @param board the new controller board
    */
   public void setForumBoard(ForumBoard board) {
@@ -100,7 +103,8 @@ public class PostPageController {
       }
 
     }
-    commentsContainer.setPrefHeight((MARGIN_COMMENTS + SIZE_COMMENTS) * comments.size() + MARGIN_COMMENTS);
+    commentsContainer.setPrefHeight(
+        (MARGIN_COMMENTS + SIZE_COMMENTS) * comments.size() + MARGIN_COMMENTS);
   }
 
   private void generatePostContent() {
@@ -196,7 +200,8 @@ public class PostPageController {
       });
     }
 
-    toReturn.getChildren().addAll(comentTextArea, likeLabel, dislikeLabel, likeButton, dislikeButton);
+    toReturn.getChildren().addAll(
+        comentTextArea, likeLabel, dislikeLabel, likeButton, dislikeButton);
     return toReturn;
   }
 

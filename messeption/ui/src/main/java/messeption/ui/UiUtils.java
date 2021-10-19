@@ -6,13 +6,12 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 
 /**
- * UiUtil is a collcection of methods that are used in all of messeptions
- * controllers
+ * UiUtil is a collcection of methods that are used in all of the controllers.
  */
 public class UiUtils {
   /**
    * Finds a node in a list of nodes from an ID.
-   * 
+
    * @param children the list of nodes to look in
    * @param id       the ID to look for
    * @return the node with the matching ID, if none return null
@@ -28,7 +27,7 @@ public class UiUtils {
 
   /**
    * If an exception is raised it is here processed into an alert for the UI.
-   * 
+
    * @param e the exception to be processed
    * @return the finished Alert
    */
