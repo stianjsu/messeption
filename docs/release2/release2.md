@@ -10,9 +10,16 @@
     - the "Go to Thread" button now changes scene to a new page: Post Page
 - Post Page has been added to accomodate for comments
     - All comments that belong to the specified post can be viewed.
-        - the comments can be liked and disliked 
+        - the comments can be both liked and disliked 
     - New comments can be added to the specified post with a simple text area and button
 - Likes, dislikes and comments belonging to a post are saved to the local JSON file in similar fashion to the other fields
+
+## UI Testing
+We have added tests to the ui module
+- The UI test 'MesseptionAppTest' extends 'ApplicationTest' and uses methods such as clickOn and write to test the apps functionality.
+
+## Seperated persistence from core logic
+- JsonReadWrite.java has been removed from core and added to a new maven module called json
     
 
 ## Screenshots of the app in release 2

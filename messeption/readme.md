@@ -8,6 +8,8 @@ The purpose of the app is to allow users to communicate with other people via te
 The posts can be commented and liked/disliked.
 Comments can also recieve likes and dislikes.
 
+In the near future we plan on implementing a system for logging in. Then we can introduce a new field to posts and comments: author. This can also be used to restrict the user from liking and disliking multiple times.
+
 
 ## Images
 
@@ -64,7 +66,7 @@ Manual saving could be used for saving posts as drafts. This would be useful if 
 ### Gson
 We use gson to serialize and deserialize java objects to/from JSON.
 
-JSON saves all the fields of ForumBoard.
+JSON saves all the fields of a given ForumBoard.
 
 This is a bief description of BOARD.JSON:
 
