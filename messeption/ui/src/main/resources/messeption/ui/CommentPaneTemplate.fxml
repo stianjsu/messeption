@@ -13,9 +13,9 @@
                 <Font size="15.0" />
             </font>
         </TextArea>
-        <Label fx:id="likeLabel" layoutX="643.0" layoutY="11.0" text="N replies" />
-        <Label fx:id="dislikeLabel" layoutX="648.0" layoutY="38.0" text="N likes" />
-        <Button fx:id="likeButton" layoutX="648.0" layoutY="61.0" mnemonicParsing="false" text="Like" />
-        <Button fx:id="dislikeButton" layoutX="640.0" layoutY="101.0" mnemonicParsing="false" text="Dislike" />
+        <Label fx:id="likeCommentLabel" layoutX="643.0" layoutY="11.0" text="N replies" />
+        <Label fx:id="dislikeCommentLabel" layoutX="648.0" layoutY="38.0" text="N likes" />
+        <Button fx:id="likeCommentButton" layoutX="648.0" layoutY="61.0" mnemonicParsing="false" text="Like" />
+        <Button fx:id="dislikeCommentButton" layoutX="640.0" layoutY="101.0" mnemonicParsing="false" text="Dislike" />
     </children>
 </Pane>

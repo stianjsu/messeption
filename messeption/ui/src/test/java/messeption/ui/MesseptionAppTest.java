@@ -77,7 +77,7 @@ public class MesseptionAppTest extends ApplicationTest {
       try {
         frontPageController.drawPosts();
       } catch (IOException e) {
-        frontPageController.exceptionAlert(e).show();
+        JavafxUtils.exceptionAlert(e).show();
       }
     });
 
@@ -86,7 +86,7 @@ public class MesseptionAppTest extends ApplicationTest {
       try {
         frontPageController.drawPosts();
       } catch (IOException e) {
-        frontPageController.exceptionAlert(e).show();
+        JavafxUtils.exceptionAlert(e).show();
       }
     });
   }
@@ -104,75 +104,103 @@ public class MesseptionAppTest extends ApplicationTest {
     assertEquals(post.getTitle(), title, "Title did not match expected value");
     assertEquals(post.getText(), text, "Text did not match expected value");
   }
+/*
+  @ParameterizedTest
+  @MethodSource
+  @DisplayName("Test create a valid post")
+  public void testCreatePostValid(String title, String text) {
+    click("Create Post");
+    clickOn("Title of post").write(title);
+    clickOn("content of post").write(text);
+    click("Publish", "Quit To Front Page");
+    checkNewPost(title, text);
+  }
 
-  /*
-   * @ParameterizedTest
-   * 
-   * @MethodSource
-   * 
-   * @DisplayName("Test create a valid post") public void
-   * testCreatePostValid(String title, String text) { click("Create Post");
-   * clickOn("Title of post").write(title);
-   * clickOn("content of post").write(text); click("Publish",
-   * "Quit To Front Page"); checkNewPost(title, text); }
-   * 
-   * private static Stream<Arguments> testCreatePostValid() { return
-   * Stream.of(Arguments.of("title", "text"), Arguments.of("hello there",
-   * "general kenobi")); }
-   * 
-   * @ParameterizedTest
-   * 
-   * @MethodSource
-   * 
-   * @DisplayName("Test create a post and then another") public void
-   * testCreateAnotherPost(String title1, String text1, String title2, String
-   * text2) { click("Create Post"); clickOn("Title of post").write(title1);
-   * clickOn("content of post").write(text1); click("Publish",
-   * "Create another post"); checkNewPost(title1, text1);
-   * clickOn("Title of post").write(title2);
-   * clickOn("content of post").write(text2); click("Publish",
-   * "Quit To Front Page"); checkNewPost(title2, text2); }
-   * 
-   * private static Stream<Arguments> testCreateAnotherPost() { return Stream
-   * .of(Arguments.of("Another title", "Another texttext", "Another hello there",
-   * "Another general kenobi")); }
-   * 
-   * public void checkNewPostFail(String title, String text) { board =
-   * frontPageController.getBoard(); List<ForumPost> posts = board.getPosts();
-   * ForumPost post = posts.get(posts.size() - 1);
-   * assertFalse(post.getTitle().equals(title) && post.getText().equals(text),
-   * "A post got accepted but should have failed"); }
-   * 
-   * @ParameterizedTest
-   * 
-   * @MethodSource
-   * 
-   * @DisplayName("Test create an invalid post") public void
-   * testCreatePostInvalid(String title, String text) { click("Create Post");
-   * clickOn("Title of post").write(title);
-   * clickOn("content of post").write(text); click("Publish", "Cancel");
-   * checkNewPostFail(title, text); }
-   * 
-   * private static Stream<Arguments> testCreatePostInvalid() { return
-   * Stream.of(Arguments.of("good title, short text", ""), Arguments.of("",
-   * "short title, good text")); }
-   * 
-   * @ParameterizedTest
-   * 
-   * @MethodSource
-   * 
-   * @DisplayName("Test likes and dislikes") public void testClickLike(int n) {
-   * int likes = frontPageController.getBoard().getPost(0).getLikes(); int
-   * dislikes = frontPageController.getBoard().getPost(0).getDislikes(); for (int
-   * index = 0; index < n; index++) { click("Like", "Dislike"); }
-   * assertEquals(likes + n, frontPageController.getBoard().getPost(0).getLikes(),
-   * "Like button did not increase likes"); assertEquals(dislikes + n,
-   * frontPageController.getBoard().getPost(0).getDislikes(),
-   * "Dislike button did not increase dislikes"); }
-   * 
-   * private static Stream<Arguments> testClickLike() { return
-   * Stream.of(Arguments.of(2), Arguments.of(5)); }
-   */
+  private static Stream<Arguments> testCreatePostValid() {
+    return Stream.of(Arguments.of("title", "text"), Arguments.of("hello there", "general kenobi"));
+  }
+
+  @ParameterizedTest
+  @MethodSource
+  @DisplayName("Test create a post and then another")
+  public void testCreateAnotherPost(String title1, String text1, String title2, String text2) {
+    click("Create Post");
+    clickOn("Title of post").write(title1);
+    clickOn("content of post").write(text1);
+    click("Publish", "Create another post");
+    checkNewPost(title1, text1);
+    clickOn("Title of post").write(title2);
+    clickOn("content of post").write(text2);
+    click("Publish", "Quit To Front Page");
+    checkNewPost(title2, text2);
+  }
+
+  private static Stream<Arguments> testCreateAnotherPost() {
+    return Stream
+        .of(Arguments.of("Another title", "Another texttext", "Another hello there", "Another general kenobi"));
+  }
+
+  public void checkNewPostFail(String title, String text) {
+    board = frontPageController.getBoard();
+    List<ForumPost> posts = board.getPosts();
+    ForumPost post = posts.get(posts.size() - 1);
+    assertFalse(post.getTitle().equals(title) && post.getText().equals(text),
+        "A post got accepted but should have failed");
+  }
+
+  @ParameterizedTest
+  @MethodSource
+  @DisplayName("Test create an invalid post")
+  public void testCreatePostInvalid(String title, String text) {
+    click("Create Post");
+    clickOn("Title of post").write(title);
+    clickOn("content of post").write(text);
+    click("Publish", "Cancel");
+    checkNewPostFail(title, text);
+  }
+
+  private static Stream<Arguments> testCreatePostInvalid() {
+    return Stream.of(Arguments.of("good title, short text", ""), Arguments.of("", "short title, good text"));
+  }
+
+  @ParameterizedTest
+  @MethodSource
+  @DisplayName("Test likes and dislikes")
+  public void testClickLike(int n) {
+    int likes = frontPageController.getBoard().getPost(0).getLikes();
+    int dislikes = frontPageController.getBoard().getPost(0).getDislikes();
+    for (int index = 0; index < n; index++) {
+      click("Like", "Dislike");
+    }
+    assertEquals(likes + n, frontPageController.getBoard().getPost(0).getLikes(), "Like button did not increase likes");
+    assertEquals(dislikes + n, frontPageController.getBoard().getPost(0).getDislikes(),
+        "Dislike button did not increase dislikes");
+  }
+
+  private static Stream<Arguments> testClickLike() {
+    return Stream.of(Arguments.of(2), Arguments.of(5));
+  }
+*/
+  @ParameterizedTest
+  @MethodSource
+  @DisplayName("Test likes and dislikes on comments")
+  public void testClickLikeComment(int n) {
+    click("Go to thread");
+    int likes = frontPageController.getBoard().getPost(0).getComments().get(0).getLikes();
+    int dislikes = frontPageController.getBoard().getPost(0).getComments().get(0).getDislikes();
+    for (int index = 0; index < n; index++) {
+      clickOn("#likeCommentButton");
+      clickOn("#dislikeCommentButton");
+    }
+    assertEquals(likes + n, frontPageController.getBoard().getPost(0).getComments().get(0).getLikes(), "Like button did not increase likes");
+    assertEquals(dislikes + n, frontPageController.getBoard().getPost(0).getComments().get(0).getDislikes(),
+        "Dislike button did not increase dislikes");
+  }
+
+  private static Stream<Arguments> testClickLikeComment() {
+    return Stream.of(Arguments.of(2), Arguments.of(5));
+  }
+
   @ParameterizedTest
   @MethodSource
   @DisplayName("Test creating comments")
