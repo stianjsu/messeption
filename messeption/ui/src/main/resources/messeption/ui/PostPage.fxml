@@ -137,7 +137,7 @@
    <bottom>
       <Pane prefHeight="109.0" prefWidth="1200.0" BorderPane.alignment="CENTER">
          <children>
-            <TextArea fx:id="newCommentTextArea" layoutX="71.0" layoutY="14.0" prefHeight="76.0" prefWidth="728.0" />
+            <TextArea fx:id="newCommentTextArea" layoutX="71.0" layoutY="14.0" prefHeight="76.0" prefWidth="728.0" promptText="Write a new comment here"/>
             <Button fx:id="newCommentButton" layoutX="840.0" layoutY="32.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="83.0" text="Comment" />
          </children></Pane>
    </bottom>

@@ -15,6 +15,7 @@ import javafx.scene.text.Font;
 import messeption.core.ForumBoard;
 import messeption.core.ForumPost;
 import messeption.core.PostComment;
+import messeption.json.JsonReadWrite;
 
 /**
  * Javafx controller for viewing individual posts.
@@ -51,12 +52,13 @@ public class PostPageController {
 
   public void initialize() {
     newCommentButton.setOnAction(e -> {
-      publishComment(); });
+      publishComment();
+    });
   }
 
   /**
    * Takes an input post and displayes the post and its comments.
-
+   * 
    * @param post The input post
    */
   public void setPost(ForumPost post) {
@@ -68,7 +70,7 @@ public class PostPageController {
 
   /**
    * Sets the controlelr forumboard to a specified input.
-
+   * 
    * @param board the new controller board
    */
   public void setForumBoard(ForumBoard board) {
@@ -89,8 +91,7 @@ public class PostPageController {
 
       try {
         Pane commentPane = generateCommentPane(comment, indexId);
-        commentPane.setLayoutY(
-              (MARGIN_COMMENTS + SIZE_COMMENTS) * indexId + MARGIN_COMMENTS);
+        commentPane.setLayoutY((MARGIN_COMMENTS + SIZE_COMMENTS) * indexId + MARGIN_COMMENTS);
 
         this.commentsContainer.getChildren().add(commentPane);
 
@@ -99,8 +100,7 @@ public class PostPageController {
       }
 
     }
-    commentsContainer.setPrefHeight(
-        (MARGIN_COMMENTS + SIZE_COMMENTS) * comments.size() + MARGIN_COMMENTS);
+    commentsContainer.setPrefHeight((MARGIN_COMMENTS + SIZE_COMMENTS) * comments.size() + MARGIN_COMMENTS);
   }
 
   private void generatePostContent() {
@@ -118,7 +118,8 @@ public class PostPageController {
 
       try {
         this.post.incrementLikes();
-        forumBoard.savePosts();
+        JsonReadWrite.fileWrite(forumBoard);
+
       } catch (IOException error) {
         this.post.setLikes(prevLikes);
       }
@@ -131,7 +132,7 @@ public class PostPageController {
 
       try {
         this.post.incrementDislikes();
-        forumBoard.savePosts();
+        JsonReadWrite.fileWrite(forumBoard);
       } catch (IOException error) {
         this.post.setDislikes(prevDislikes);
       }
@@ -145,31 +146,31 @@ public class PostPageController {
     List<Node> tempChildren = new ArrayList<>(toReturn.getChildren());
     toReturn.getChildren().clear();
 
-    TextArea commentTextArea = (TextArea) getNodeFromId(tempChildren, "commentTextArea");
-    if (commentTextArea != null) {
-      commentTextArea.setFont(new Font(15));
-      commentTextArea.setText(comment.getText());
+    TextArea comentTextArea = (TextArea) UiUtils.getNodeFromId(tempChildren, "commentTextArea");
+    if (comentTextArea != null) {
+      comentTextArea.setFont(new Font(15));
+      comentTextArea.setText(comment.getText());
     }
 
-    Label likeLabel = (Label) getNodeFromId(tempChildren, "likeLabel");
+    Label likeLabel = (Label) UiUtils.getNodeFromId(tempChildren, "likeCommentLabel");
     if (likeLabel != null) {
       likeLabel.setText(comment.getLikes() + " likes");
     }
 
-    Label dislikeLabel = (Label) getNodeFromId(tempChildren, "dislikeLabel");
+    Label dislikeLabel = (Label) UiUtils.getNodeFromId(tempChildren, "dislikeCommentLabel");
     if (dislikeLabel != null) {
       dislikeLabel.setText(comment.getDislikes() + " dislikes");
     }
 
-    Button likeButton = (Button) getNodeFromId(tempChildren, "likeButton");
+    Button likeButton = (Button) UiUtils.getNodeFromId(tempChildren, "likeCommentButton");
     if (likeButton != null) {
       likeButton.setOnAction(e -> {
-        // PostComment postToUpdate = post.getComments(); //comment to update
+
         int prevLikes = comment.getLikes();
 
         try {
           comment.incrementLikes();
-          forumBoard.savePosts();
+          JsonReadWrite.fileWrite(forumBoard);
         } catch (IOException error) {
           comment.setLikes(prevLikes);
         }
@@ -178,7 +179,7 @@ public class PostPageController {
       });
     }
 
-    Button dislikeButton = (Button) getNodeFromId(tempChildren, "dislikeButton");
+    Button dislikeButton = (Button) UiUtils.getNodeFromId(tempChildren, "dislikeCommentButton");
     if (dislikeButton != null) {
       dislikeButton.setOnAction(e -> {
 
@@ -186,7 +187,7 @@ public class PostPageController {
 
         try {
           comment.incrementDislikes();
-          forumBoard.savePosts();
+          JsonReadWrite.fileWrite(forumBoard);
         } catch (IOException error) {
           comment.setDislikes(prevDislikes);
         }
@@ -195,18 +196,8 @@ public class PostPageController {
       });
     }
 
-    toReturn.getChildren().addAll(commentTextArea, likeLabel, dislikeLabel, 
-        likeButton, dislikeButton);
+    toReturn.getChildren().addAll(comentTextArea, likeLabel, dislikeLabel, likeButton, dislikeButton);
     return toReturn;
-  }
-
-  private Node getNodeFromId(List<Node> children, String id) {
-    for (Node child : children) {
-      if (child.getId() != null && child.getId().equals(id)) {
-        return child;
-      }
-    }
-    return null;
   }
 
   private void publishComment() {
@@ -222,7 +213,7 @@ public class PostPageController {
       PostComment comment = new PostComment(text);
       post.addComment(comment);
 
-      forumBoard.savePosts();
+      JsonReadWrite.fileWrite(forumBoard);
       drawComments();
 
     } catch (IOException e) {

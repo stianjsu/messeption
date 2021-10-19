@@ -77,4 +77,6 @@ public abstract class UserTextSubmission {
 
   public abstract String toString();
 
+  public abstract boolean equals(Object obj);
+
 }
