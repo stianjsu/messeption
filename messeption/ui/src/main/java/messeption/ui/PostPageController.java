@@ -147,26 +147,26 @@ public class PostPageController {
     List<Node> tempChildren = new ArrayList<>(toReturn.getChildren());
     toReturn.getChildren().clear();
 
-    TextArea commentTextArea = (TextArea) getNodeFromId(tempChildren, "commentTextArea");
+    TextArea commentTextArea = (TextArea) JavafxUtils.getNodeFromId(tempChildren, "commentTextArea");
     if (commentTextArea != null) {
       commentTextArea.setFont(new Font(15));
       commentTextArea.setText(comment.getText());
     }
 
-    Label likeLabel = (Label) getNodeFromId(tempChildren, "likeLabel");
+    Label likeLabel = (Label) JavafxUtils.getNodeFromId(tempChildren, "likeCommentLabel");
     if (likeLabel != null) {
       likeLabel.setText(comment.getLikes() + " likes");
     }
 
-    Label dislikeLabel = (Label) getNodeFromId(tempChildren, "dislikeLabel");
+    Label dislikeLabel = (Label) JavafxUtils.getNodeFromId(tempChildren, "dislikeCommentLabel");
     if (dislikeLabel != null) {
       dislikeLabel.setText(comment.getDislikes() + " dislikes");
     }
 
-    Button likeButton = (Button) getNodeFromId(tempChildren, "likeButton");
+    Button likeButton = (Button) JavafxUtils.getNodeFromId(tempChildren, "likeCommentButton");
     if (likeButton != null) {
       likeButton.setOnAction(e -> {
-        // PostComment postToUpdate = post.getComments(); //comment to update
+        
         int prevLikes = comment.getLikes();
 
         try {
@@ -180,7 +180,7 @@ public class PostPageController {
       });
     }
 
-    Button dislikeButton = (Button) getNodeFromId(tempChildren, "dislikeButton");
+    Button dislikeButton = (Button) JavafxUtils.getNodeFromId(tempChildren, "dislikeCommentButton");
     if (dislikeButton != null) {
       dislikeButton.setOnAction(e -> {
 
@@ -202,15 +202,6 @@ public class PostPageController {
     return toReturn;
   }
 
-  private Node getNodeFromId(List<Node> children, String id) {
-    for (Node child : children) {
-      if (child.getId() != null && child.getId().equals(id)) {
-        return child;
-      }
-    }
-    return null;
-  }
-
   private void publishComment() {
 
     try {
@@ -227,7 +218,7 @@ public class PostPageController {
       JsonReadWrite.fileWrite(forumBoard);
       drawComments();
 
-    } catch (IOException e) {
+    } catch (IOException e) { 
       // TODO ERROR
       e.printStackTrace();
     }

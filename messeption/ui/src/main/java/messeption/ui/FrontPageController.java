@@ -69,7 +69,7 @@ public class FrontPageController {
     try {
       JsonReadWrite.fileWrite(forumBoard);
     } catch (IOException e) {
-      Alert alert = exceptionAlert(e);
+      Alert alert = JavafxUtils.exceptionAlert(e);
       alert.show();
     }
   }
@@ -104,34 +104,34 @@ public class FrontPageController {
     List<Node> tempChildren = new ArrayList<>(toReturn.getChildren());
     toReturn.getChildren().clear();
 
-    Label titleLabel = (Label) getNodeFromId(tempChildren, "titleLabel");
+    Label titleLabel = (Label) JavafxUtils.getNodeFromId(tempChildren, "titleLabel");
     if (titleLabel != null) {
       titleLabel.setText(post.getTitle());
     }
 
-    TextArea postTextArea = (TextArea) getNodeFromId(tempChildren, "postTextArea");
+    TextArea postTextArea = (TextArea) JavafxUtils.getNodeFromId(tempChildren, "postTextArea");
     if (postTextArea != null) {
       postTextArea.setText(post.getText());
       postTextArea.setDisable(true);
       postTextArea.setStyle("-fx-opacity: 1;");
     }
 
-    Label replyLabel = (Label) getNodeFromId(tempChildren, "replyLabel");
+    Label replyLabel = (Label) JavafxUtils.getNodeFromId(tempChildren, "replyLabel");
     if (replyLabel != null) {
       replyLabel.setText(post.getComments().size() + " comments");
     }
 
-    Label likeLabel = (Label) getNodeFromId(tempChildren, "likeLabel");
+    Label likeLabel = (Label) JavafxUtils.getNodeFromId(tempChildren, "likeLabel");
     if (likeLabel != null) {
       likeLabel.setText(post.getLikes() + " likes");
     }
 
-    Label dislikeLabel = (Label) getNodeFromId(tempChildren, "dislikeLabel");
+    Label dislikeLabel = (Label) JavafxUtils.getNodeFromId(tempChildren, "dislikeLabel");
     if (dislikeLabel != null) {
       dislikeLabel.setText(post.getDislikes() + " dislikes");
     }
 
-    Button likeButton = (Button) getNodeFromId(tempChildren, "likeButton");
+    Button likeButton = (Button) JavafxUtils.getNodeFromId(tempChildren, "likeButton");
     if (likeButton != null) {
       likeButton.setOnAction(e -> {
         int prevLikes = post.getLikes();
@@ -147,7 +147,7 @@ public class FrontPageController {
       });
     }
 
-    Button dislikeButton = (Button) getNodeFromId(tempChildren, "dislikeButton");
+    Button dislikeButton = (Button) JavafxUtils.getNodeFromId(tempChildren, "dislikeButton");
     if (dislikeButton != null) {
       dislikeButton.setOnAction(e -> {
         int prevDislikes = post.getDislikes();
@@ -163,7 +163,7 @@ public class FrontPageController {
       });
     }
 
-    Button threadButton = (Button) getNodeFromId(tempChildren, "threadButton");
+    Button threadButton = (Button) JavafxUtils.getNodeFromId(tempChildren, "threadButton");
     if (threadButton != null) {
       threadButton.setOnAction(e -> {
         primaryStage = (Stage) createPostButton.getScene().getWindow();
@@ -173,7 +173,7 @@ public class FrontPageController {
       });
     }
 
-    Line titleLine = (Line) getNodeFromId(tempChildren, "titleLine");
+    Line titleLine = (Line) JavafxUtils.getNodeFromId(tempChildren, "titleLine");
     
     toReturn.getChildren().addAll(new ArrayList<Node>(Arrays.asList(
         titleLabel, titleLine, postTextArea, likeLabel, dislikeLabel, 
@@ -181,34 +181,4 @@ public class FrontPageController {
     return toReturn;
   }
 
-  /**
-   * Finds a node in a list of nodes from an ID.
-
-   * @param children the list of nodes to look in
-   * @param id       the ID to look for
-   * @return the node with the matching ID, if none return null
-   */
-  public Node getNodeFromId(List<Node> children, String id) {
-    for (Node child : children) {
-      if (child.getId() != null && child.getId().equals(id)) {
-        return child;
-      }
-    }
-    return null;
-  }
-
-  /**
-   * If an exception is raised it is here processed into an alert for the UI.
-
-   * @param e the exception to be processed
-   * @return the finished Alert
-   */
-  public Alert exceptionAlert(Exception e) {
-
-    Alert toReturn = new Alert(AlertType.ERROR);
-    toReturn.setContentText(e.toString() + "\n" + e.getCause());
-    System.err.println(e.toString() + "\n" + e.getCause());
-    toReturn.setTitle("Error");
-    return toReturn;
-  }
 }

@@ -57,7 +57,7 @@ public class MesseptionApp extends Application {
       try {
         frontPageController.drawPosts();
       } catch (IOException e) {
-        frontPageController.exceptionAlert(e).show();
+        JavafxUtils.exceptionAlert(e).show();
       }
     });
 
@@ -66,7 +66,7 @@ public class MesseptionApp extends Application {
       try {
         frontPageController.drawPosts();
       } catch (IOException e) {
-        frontPageController.exceptionAlert(e).show();
+        JavafxUtils.exceptionAlert(e).show();
       }
     });
   }
