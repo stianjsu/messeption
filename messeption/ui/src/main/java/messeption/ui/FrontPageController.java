@@ -69,7 +69,7 @@ public class FrontPageController {
     try {
       JsonReadWrite.fileWrite(forumBoard);
     } catch (IOException e) {
-      Alert alert = JavafxUtils.exceptionAlert(e);
+      Alert alert = UiUtils.exceptionAlert(e);
       alert.show();
     }
   }
@@ -104,34 +104,34 @@ public class FrontPageController {
     List<Node> tempChildren = new ArrayList<>(toReturn.getChildren());
     toReturn.getChildren().clear();
 
-    Label titleLabel = (Label) JavafxUtils.getNodeFromId(tempChildren, "titleLabel");
+    Label titleLabel = (Label) UiUtils.getNodeFromId(tempChildren, "titleLabel");
     if (titleLabel != null) {
       titleLabel.setText(post.getTitle());
     }
 
-    TextArea postTextArea = (TextArea) JavafxUtils.getNodeFromId(tempChildren, "postTextArea");
+    TextArea postTextArea = (TextArea) UiUtils.getNodeFromId(tempChildren, "postTextArea");
     if (postTextArea != null) {
       postTextArea.setText(post.getText());
       postTextArea.setDisable(true);
       postTextArea.setStyle("-fx-opacity: 1;");
     }
 
-    Label replyLabel = (Label) JavafxUtils.getNodeFromId(tempChildren, "replyLabel");
+    Label replyLabel = (Label) UiUtils.getNodeFromId(tempChildren, "replyLabel");
     if (replyLabel != null) {
       replyLabel.setText(post.getComments().size() + " comments");
     }
 
-    Label likeLabel = (Label) JavafxUtils.getNodeFromId(tempChildren, "likeLabel");
+    Label likeLabel = (Label) UiUtils.getNodeFromId(tempChildren, "likeLabel");
     if (likeLabel != null) {
       likeLabel.setText(post.getLikes() + " likes");
     }
 
-    Label dislikeLabel = (Label) JavafxUtils.getNodeFromId(tempChildren, "dislikeLabel");
+    Label dislikeLabel = (Label) UiUtils.getNodeFromId(tempChildren, "dislikeLabel");
     if (dislikeLabel != null) {
       dislikeLabel.setText(post.getDislikes() + " dislikes");
     }
 
-    Button likeButton = (Button) JavafxUtils.getNodeFromId(tempChildren, "likeButton");
+    Button likeButton = (Button) UiUtils.getNodeFromId(tempChildren, "likeButton");
     if (likeButton != null) {
       likeButton.setOnAction(e -> {
         int prevLikes = post.getLikes();
@@ -147,7 +147,7 @@ public class FrontPageController {
       });
     }
 
-    Button dislikeButton = (Button) JavafxUtils.getNodeFromId(tempChildren, "dislikeButton");
+    Button dislikeButton = (Button) UiUtils.getNodeFromId(tempChildren, "dislikeButton");
     if (dislikeButton != null) {
       dislikeButton.setOnAction(e -> {
         int prevDislikes = post.getDislikes();
@@ -163,7 +163,7 @@ public class FrontPageController {
       });
     }
 
-    Button threadButton = (Button) JavafxUtils.getNodeFromId(tempChildren, "threadButton");
+    Button threadButton = (Button) UiUtils.getNodeFromId(tempChildren, "threadButton");
     if (threadButton != null) {
       threadButton.setOnAction(e -> {
         primaryStage = (Stage) createPostButton.getScene().getWindow();
@@ -173,7 +173,7 @@ public class FrontPageController {
       });
     }
 
-    Line titleLine = (Line) JavafxUtils.getNodeFromId(tempChildren, "titleLine");
+    Line titleLine = (Line) UiUtils.getNodeFromId(tempChildren, "titleLine");
     
     toReturn.getChildren().addAll(new ArrayList<Node>(Arrays.asList(
         titleLabel, titleLine, postTextArea, likeLabel, dislikeLabel, 

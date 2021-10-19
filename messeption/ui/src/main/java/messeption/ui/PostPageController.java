@@ -147,23 +147,23 @@ public class PostPageController {
     List<Node> tempChildren = new ArrayList<>(toReturn.getChildren());
     toReturn.getChildren().clear();
 
-    TextArea commentTextArea = (TextArea) JavafxUtils.getNodeFromId(tempChildren, "commentTextArea");
+    TextArea commentTextArea = (TextArea) UiUtils.getNodeFromId(tempChildren,"commentTextArea");
     if (commentTextArea != null) {
       commentTextArea.setFont(new Font(15));
       commentTextArea.setText(comment.getText());
     }
 
-    Label likeLabel = (Label) JavafxUtils.getNodeFromId(tempChildren, "likeCommentLabel");
+    Label likeLabel = (Label) UiUtils.getNodeFromId(tempChildren, "likeCommentLabel");
     if (likeLabel != null) {
       likeLabel.setText(comment.getLikes() + " likes");
     }
 
-    Label dislikeLabel = (Label) JavafxUtils.getNodeFromId(tempChildren, "dislikeCommentLabel");
+    Label dislikeLabel = (Label) UiUtils.getNodeFromId(tempChildren, "dislikeCommentLabel");
     if (dislikeLabel != null) {
       dislikeLabel.setText(comment.getDislikes() + " dislikes");
     }
 
-    Button likeButton = (Button) JavafxUtils.getNodeFromId(tempChildren, "likeCommentButton");
+    Button likeButton = (Button) UiUtils.getNodeFromId(tempChildren, "likeCommentButton");
     if (likeButton != null) {
       likeButton.setOnAction(e -> {
         
@@ -180,7 +180,7 @@ public class PostPageController {
       });
     }
 
-    Button dislikeButton = (Button) JavafxUtils.getNodeFromId(tempChildren, "dislikeCommentButton");
+    Button dislikeButton = (Button) UiUtils.getNodeFromId(tempChildren, "dislikeCommentButton");
     if (dislikeButton != null) {
       dislikeButton.setOnAction(e -> {
 

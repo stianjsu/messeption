@@ -1,6 +1,6 @@
 package messeption.json;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.File;
 import java.io.IOException;
@@ -32,6 +32,17 @@ public class JsonReadWriteTest {
     JsonReadWrite.fileWrite(path,fileName, board);
     ForumBoard board2 = JsonReadWrite.fileRead(path, fileName);
     assertEquals(board, board2, "Post did not save and load properly");
+  }
+
+  @Test
+  @DisplayName("Test failed save and load")
+  public void testFailSaveLoad() throws IOException {
+    assertThrows(IOException.class, () -> {
+      JsonReadWrite.fileWrite(board);
+    }, "Did not throw IOException");
+    assertThrows(IOException.class, () -> {
+      ForumBoard board2 = JsonReadWrite.fileRead();
+    }, "Did not throw IOException");
   }
 
 

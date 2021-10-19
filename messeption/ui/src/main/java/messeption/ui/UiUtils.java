@@ -1,12 +1,11 @@
 package messeption.ui;
 
 import java.util.List;
-
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 
-public class JavafxUtils {
+public class UiUtils {
   /**
    * Finds a node in a list of nodes from an ID.
 
