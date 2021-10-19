@@ -2,8 +2,6 @@ package messeption.json;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonIOException;
-import com.google.gson.JsonSyntaxException;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -21,7 +19,6 @@ public class JsonReadWrite {
       + "/src/main/resources/messeption/";  // ends with messeption/core/ or messeption/ui/
   public static final String UI_PATH = "ui/";
   public static final String DEFAULT_BOARD_FILE = "Board.JSON";
-  
 
   /**
    * Reads from a specific file and returns a ForumBoard object.
@@ -29,21 +26,22 @@ public class JsonReadWrite {
    * @param filePath the path of the file to read from
    * @param fileName the name of the file to read from
    * @return the Board object from the read file
-   * @throws JsonSyntaxException throws if the file does nnot have propoer syntax
-   * @throws JsonIOException     throws if the Json operation has an IO exception
    * @throws IOException         throws in a regualr IO expetion is thrown
    */
   public static ForumBoard fileRead(String filePath, String fileName)
-      throws JsonSyntaxException, JsonIOException, IOException {
-    Gson gson = new GsonBuilder().setPrettyPrinting().create();
-    InputStreamReader reader = new InputStreamReader(
-        new FileInputStream(ROOT_PATH + filePath + fileName), StandardCharsets.UTF_8);
-    ForumBoard toReturn = gson.fromJson(reader, ForumBoard.class);
-    reader.close();
-    return toReturn;
+      throws IOException {
+    try (InputStreamReader reader = new InputStreamReader(
+          new FileInputStream(ROOT_PATH + filePath + fileName), StandardCharsets.UTF_8)) {
+      Gson gson = new GsonBuilder().setPrettyPrinting().create();
+      ForumBoard toReturn = gson.fromJson(reader, ForumBoard.class);
+      reader.close();
+      return toReturn;
+    } catch (Exception e) {
+      throw new IOException(e);
+    }
   }
 
-  public static ForumBoard fileRead() throws JsonSyntaxException, JsonIOException, IOException {
+  public static ForumBoard fileRead() throws IOException {
     return fileRead(UI_PATH, DEFAULT_BOARD_FILE);
   }
 
@@ -53,19 +51,21 @@ public class JsonReadWrite {
    * @param filePath the path of the file to read from
    * @param fileName the name of the file to read from
    * @param board    the object to be written
-   * @throws JsonIOException throws if the Json operation has an IO exception
    * @throws IOException     throws in a regualr IO expetion is thrown
    */
   public static void fileWrite(String filePath, String fileName, ForumBoard board) 
-      throws JsonIOException, IOException {
-    Gson gson = new GsonBuilder().setPrettyPrinting().create();
-    OutputStreamWriter writer = new OutputStreamWriter(
-        new FileOutputStream(ROOT_PATH + filePath + fileName), StandardCharsets.UTF_8);
-    gson.toJson(board, writer);
-    writer.close();
+      throws IOException {
+    try (OutputStreamWriter writer = new OutputStreamWriter(
+          new FileOutputStream(ROOT_PATH + filePath + fileName), StandardCharsets.UTF_8)) {
+      Gson gson = new GsonBuilder().setPrettyPrinting().create();
+      gson.toJson(board, writer);
+      writer.close();
+    } catch (Exception e) {
+      throw new IOException(e);
+    }
   }
 
-  public static void fileWrite(ForumBoard board) throws JsonIOException, IOException {
+  public static void fileWrite(ForumBoard board) throws IOException {
     fileWrite(UI_PATH, DEFAULT_BOARD_FILE, board);
   }
 }
