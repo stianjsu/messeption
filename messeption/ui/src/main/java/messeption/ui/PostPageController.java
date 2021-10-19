@@ -15,6 +15,7 @@ import javafx.scene.text.Font;
 import messeption.core.ForumBoard;
 import messeption.core.ForumPost;
 import messeption.core.PostComment;
+import messeption.json.JsonReadWrite;
 
 /**
  * Javafx controller for viewing individual posts.
@@ -118,7 +119,8 @@ public class PostPageController {
 
       try {
         this.post.incrementLikes();
-        forumBoard.savePosts();
+        JsonReadWrite.fileWrite(forumBoard);
+        
       } catch (IOException error) {
         this.post.setLikes(prevLikes);
       }
@@ -131,7 +133,7 @@ public class PostPageController {
 
       try {
         this.post.incrementDislikes();
-        forumBoard.savePosts();
+        JsonReadWrite.fileWrite(forumBoard);
       } catch (IOException error) {
         this.post.setDislikes(prevDislikes);
       }
@@ -169,7 +171,7 @@ public class PostPageController {
 
         try {
           comment.incrementLikes();
-          forumBoard.savePosts();
+          JsonReadWrite.fileWrite(forumBoard);
         } catch (IOException error) {
           comment.setLikes(prevLikes);
         }
@@ -186,7 +188,7 @@ public class PostPageController {
 
         try {
           comment.incrementDislikes();
-          forumBoard.savePosts();
+          JsonReadWrite.fileWrite(forumBoard);
         } catch (IOException error) {
           comment.setDislikes(prevDislikes);
         }
@@ -222,7 +224,7 @@ public class PostPageController {
       PostComment comment = new PostComment(text);
       post.addComment(comment);
 
-      forumBoard.savePosts();
+      JsonReadWrite.fileWrite(forumBoard);
       drawComments();
 
     } catch (IOException e) {

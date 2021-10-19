@@ -21,6 +21,7 @@ public class JsonReadWrite {
       + "/src/main/resources/messeption/";  // ends with messeption/core/ or messeption/ui/
   public static final String UI_PATH = "ui/";
   public static final String DEFAULT_BOARD_FILE = "Board.JSON";
+  
 
   /**
    * Reads from a specific file and returns a ForumBoard object.

@@ -11,20 +11,18 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import messeption.json.JsonReadWrite;
 
 public class ForumBoardTest {
   ForumPost post;
   ForumBoard board;
-  JsonReadWrite readWrite;
 
   @BeforeEach
-  public void setup() throws IOException {
+  public void setup() {
     String title1 = "POST";
     String text1 = "Lorem ipsum dolor sit amet";
     board = new ForumBoard();
     board.newPost(title1, text1);
-    readWrite = new JsonReadWrite();
+    
   }
 
   @Test
@@ -45,20 +43,4 @@ public class ForumBoardTest {
     }, "Did not throw exception when trying to get a deleted post");
   }
 
-  @Test
-  @DisplayName("Test save and load")
-  public void testSaveLoad() throws IOException {
-    String path = "core/";
-    String fileName = "BoardTest.JSON";
-    board.savePosts(path, fileName);
-    ForumBoard board2 = new ForumBoard();
-    board2.loadPosts(path, fileName);
-    assertEquals(board, board2, "Post did not save and load properly");
-  }
-
-  @AfterAll
-  public static void tearDown() {
-    File testFile = new File(JsonReadWrite.ROOT_PATH + "core/BoardTest.JSON");
-    testFile.delete();
-  }
 }

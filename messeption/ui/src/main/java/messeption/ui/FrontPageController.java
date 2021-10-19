@@ -67,7 +67,7 @@ public class FrontPageController {
    */
   public void writeBoard() {
     try {
-      this.forumBoard.savePosts();
+      JsonReadWrite.fileWrite(forumBoard);
     } catch (IOException e) {
       Alert alert = exceptionAlert(e);
       alert.show();
@@ -138,7 +138,7 @@ public class FrontPageController {
 
         try {
           post.incrementLikes();
-          forumBoard.savePosts();
+          JsonReadWrite.fileWrite(forumBoard);
         } catch (IOException error) {
           post.setLikes(prevLikes);
         }
@@ -154,7 +154,7 @@ public class FrontPageController {
 
         try {
           post.incrementDislikes();
-          forumBoard.savePosts();
+          JsonReadWrite.fileWrite(forumBoard);
         } catch (IOException error) {
           post.setDislikes(prevDislikes);
         }
