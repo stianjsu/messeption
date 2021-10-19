@@ -211,7 +211,6 @@ public class PostPageController {
       String text = newCommentTextArea.getText();
 
       if (text.length() < 3) {
-        // error
         return;
       }
 
@@ -222,8 +221,7 @@ public class PostPageController {
       drawComments();
 
     } catch (IOException e) {
-      // TODO ERROR
-      e.printStackTrace();
+      UiUtils.exceptionAlert(e).show();
     }
   }
 }
