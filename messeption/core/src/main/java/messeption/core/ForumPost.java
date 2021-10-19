@@ -1,32 +1,102 @@
 package messeption.core;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
-public class ForumPost {
-    private String title;
-    private String text;
-    private String timeStamp;
+/**
+ * Forum Post is a single post that has text and can have children, in form of
+ * comments.
+ */
+public class ForumPost extends UserTextSubmission {
+  private String title;
+  private List<PostComment> comments;
 
-    public ForumPost(String title, String text) {
-        this.title = title;
-        this.text = text;
-        this.timeStamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss dd-MM-yyyy"));
+  /**
+   * Constructur. Uses UserTextSubmissions constructur for text, likes/dislikes
+   * and time. Sets the title and initializes empty list of comments.
+
+   * @param title title of post
+   * @param text  text in post
+   */
+  public ForumPost(String title, String text) {
+    super(text);
+    this.title = title;
+    this.comments = new ArrayList<>();
+  }
+
+  /**
+   * Getter for title.
+
+   * @return Title of post
+   */
+  public String getTitle() {
+    return this.title;
+  }
+
+  /**
+   * Getter for comments.
+
+   * @return List of comments
+   */
+  public List<PostComment> getComments() {
+    return new ArrayList<>(comments);
+  }
+
+  /**
+   * Adds a comment object to list of comments.
+
+   * @param comment PostComment
+   */
+  public void addComment(PostComment comment) {
+    this.comments.add(comment);
+  }
+
+  /**
+   * Removes a comment object from list of comments.
+
+   * @param comment PostComment
+   * 
+   * @throws IllegalArgumentException Comment not in comments
+   */
+  public void removeComment(PostComment comment) throws IllegalArgumentException {
+    if (!comments.contains(comment)) {
+      throw new IllegalArgumentException("Comment is not in list of comments");
     }
+    this.comments.remove(comment);
+  }
 
-    public String getTitle() {
-        return title;
-    }
+  /**
+   * Returns a string with information about all the fields in post.
 
-    public String getText() {
-        return text;
-    }
+   * @return String
+   */
+  @Override
+  public String toString() {
+    return "Title: " + this.title + "\tText: " + this.text + "\nLikes: " 
+        + this.likes + "\t Dislikes: " + this.dislikes + "\n TimeStamp: " + this.timeStamp;
+  }
 
-    public String getTimeStamp() {
-        return timeStamp;
-    }
+  @Override
+  public boolean equals(Object obj) {
+    if (obj instanceof ForumPost) {
+      ForumPost o = (ForumPost) obj;
+      boolean equalHashCode = this.hashCode() == o.hashCode();
+      boolean equalTitle = this.getTitle().equals(o.getTitle());
+      boolean equalComments = this.getComments().equals(o.getComments());
+      boolean equalText = this.getText().equals(o.getText());
+      boolean equalLikes = this.getLikes() == (o.getLikes());
+      boolean equalDislikes = this.getDislikes() == (o.getDislikes());
+      boolean equalTimeStamp = this.getTimeStamp().equals(o.getTimeStamp());
+       
+      return (equalTitle && equalComments && equalText && equalLikes 
+          && equalDislikes && equalTimeStamp && equalHashCode);
+    } else {
+      return false;
+    }    
+  }
 
-    public String toString() {
-        return "Title: " + title + "\tText: " + text + "\n TimeStamp: " + timeStamp;
-    }
+  @Override
+  public int hashCode() {
+    return this.text.length() * 5 + this.likes * 7 + this.dislikes * 11;
+  }
 }
