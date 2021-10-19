@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -91,6 +92,7 @@ public class MesseptionAppTest extends ApplicationTest {
     });
   }
 
+
   private void click(String... labels) {
     for (var label : labels) {
       clickOn(LabeledMatchers.hasText(label));
@@ -104,7 +106,7 @@ public class MesseptionAppTest extends ApplicationTest {
     assertEquals(post.getTitle(), title, "Title did not match expected value");
     assertEquals(post.getText(), text, "Text did not match expected value");
   }
-/*
+
   @ParameterizedTest
   @MethodSource
   @DisplayName("Test create a valid post")
@@ -117,7 +119,7 @@ public class MesseptionAppTest extends ApplicationTest {
   }
 
   private static Stream<Arguments> testCreatePostValid() {
-    return Stream.of(Arguments.of("title", "text"), Arguments.of("hello there", "general kenobi"));
+    return Stream.of(Arguments.of("title", "text"), Arguments.of("there", "kenobi"));
   }
 
   @ParameterizedTest
@@ -137,7 +139,7 @@ public class MesseptionAppTest extends ApplicationTest {
 
   private static Stream<Arguments> testCreateAnotherPost() {
     return Stream
-        .of(Arguments.of("Another title", "Another texttext", "Another hello there", "Another general kenobi"));
+        .of(Arguments.of("Title", "texttext", "Hello", "General"));
   }
 
   public void checkNewPostFail(String title, String text) {
@@ -160,7 +162,7 @@ public class MesseptionAppTest extends ApplicationTest {
   }
 
   private static Stream<Arguments> testCreatePostInvalid() {
-    return Stream.of(Arguments.of("good title, short text", ""), Arguments.of("", "short title, good text"));
+    return Stream.of(Arguments.of("short text", ""), Arguments.of("", "short title"));
   }
 
   @ParameterizedTest
@@ -178,9 +180,28 @@ public class MesseptionAppTest extends ApplicationTest {
   }
 
   private static Stream<Arguments> testClickLike() {
-    return Stream.of(Arguments.of(2), Arguments.of(5));
+    return Stream.of(Arguments.of(2), Arguments.of(4));
   }
-*/
+
+  @ParameterizedTest
+  @MethodSource
+  @DisplayName("Test likes and dislikes post from postpage")
+  public void testClickLikeFromPost(int n) {
+    click("Go to thread");
+    int likes = frontPageController.getBoard().getPost(0).getLikes();
+    int dislikes = frontPageController.getBoard().getPost(0).getDislikes();
+    for (int index = 0; index < n; index++) {
+      click("Like", "Dislike");
+    }
+    assertEquals(likes + n, frontPageController.getBoard().getPost(0).getLikes(), "Like button did not increase likes");
+    assertEquals(dislikes + n, frontPageController.getBoard().getPost(0).getDislikes(),
+        "Like button did not increase likes");
+  }
+
+  private static Stream<Arguments> testClickLikeFromPost() {
+    return Stream.of(Arguments.of(2), Arguments.of(4));
+  }
+
   @ParameterizedTest
   @MethodSource
   @DisplayName("Test likes and dislikes on comments")
@@ -192,13 +213,14 @@ public class MesseptionAppTest extends ApplicationTest {
       clickOn("#likeCommentButton");
       clickOn("#dislikeCommentButton");
     }
-    assertEquals(likes + n, frontPageController.getBoard().getPost(0).getComments().get(0).getLikes(), "Like button did not increase likes");
+    assertEquals(likes + n, frontPageController.getBoard().getPost(0).getComments().get(0).getLikes(),
+        "Like button did not increase likes");
     assertEquals(dislikes + n, frontPageController.getBoard().getPost(0).getComments().get(0).getDislikes(),
         "Dislike button did not increase dislikes");
   }
 
   private static Stream<Arguments> testClickLikeComment() {
-    return Stream.of(Arguments.of(2), Arguments.of(5));
+    return Stream.of(Arguments.of(2), Arguments.of(4));
   }
 
   @ParameterizedTest
@@ -215,7 +237,7 @@ public class MesseptionAppTest extends ApplicationTest {
   }
 
   private static Stream<Arguments> testComments() {
-    return Stream.of(Arguments.of("CHEEESE FOR EVERYONE!!!"), Arguments.of("Potet"));
+    return Stream.of(Arguments.of("CHEEESE!!"), Arguments.of("Potet"));
   }
 
   @AfterEach

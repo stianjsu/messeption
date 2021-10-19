@@ -52,12 +52,13 @@ public class PostPageController {
 
   public void initialize() {
     newCommentButton.setOnAction(e -> {
-      publishComment(); });
+      publishComment();
+    });
   }
 
   /**
    * Takes an input post and displayes the post and its comments.
-
+   * 
    * @param post The input post
    */
   public void setPost(ForumPost post) {
@@ -69,7 +70,7 @@ public class PostPageController {
 
   /**
    * Sets the controlelr forumboard to a specified input.
-
+   * 
    * @param board the new controller board
    */
   public void setForumBoard(ForumBoard board) {
@@ -90,8 +91,7 @@ public class PostPageController {
 
       try {
         Pane commentPane = generateCommentPane(comment, indexId);
-        commentPane.setLayoutY(
-              (MARGIN_COMMENTS + SIZE_COMMENTS) * indexId + MARGIN_COMMENTS);
+        commentPane.setLayoutY((MARGIN_COMMENTS + SIZE_COMMENTS) * indexId + MARGIN_COMMENTS);
 
         this.commentsContainer.getChildren().add(commentPane);
 
@@ -100,8 +100,7 @@ public class PostPageController {
       }
 
     }
-    commentsContainer.setPrefHeight(
-        (MARGIN_COMMENTS + SIZE_COMMENTS) * comments.size() + MARGIN_COMMENTS);
+    commentsContainer.setPrefHeight((MARGIN_COMMENTS + SIZE_COMMENTS) * comments.size() + MARGIN_COMMENTS);
   }
 
   private void generatePostContent() {
@@ -120,7 +119,7 @@ public class PostPageController {
       try {
         this.post.incrementLikes();
         JsonReadWrite.fileWrite(forumBoard);
-        
+
       } catch (IOException error) {
         this.post.setLikes(prevLikes);
       }
@@ -147,10 +146,10 @@ public class PostPageController {
     List<Node> tempChildren = new ArrayList<>(toReturn.getChildren());
     toReturn.getChildren().clear();
 
-    TextArea commentTextArea = (TextArea) UiUtils.getNodeFromId(tempChildren,"commentTextArea");
-    if (commentTextArea != null) {
-      commentTextArea.setFont(new Font(15));
-      commentTextArea.setText(comment.getText());
+    TextArea comentTextArea = (TextArea) UiUtils.getNodeFromId(tempChildren, "commentTextArea");
+    if (comentTextArea != null) {
+      comentTextArea.setFont(new Font(15));
+      comentTextArea.setText(comment.getText());
     }
 
     Label likeLabel = (Label) UiUtils.getNodeFromId(tempChildren, "likeCommentLabel");
@@ -166,7 +165,7 @@ public class PostPageController {
     Button likeButton = (Button) UiUtils.getNodeFromId(tempChildren, "likeCommentButton");
     if (likeButton != null) {
       likeButton.setOnAction(e -> {
-        
+
         int prevLikes = comment.getLikes();
 
         try {
@@ -197,8 +196,7 @@ public class PostPageController {
       });
     }
 
-    toReturn.getChildren().addAll(commentTextArea, likeLabel, dislikeLabel, 
-        likeButton, dislikeButton);
+    toReturn.getChildren().addAll(comentTextArea, likeLabel, dislikeLabel, likeButton, dislikeButton);
     return toReturn;
   }
 
@@ -218,7 +216,7 @@ public class PostPageController {
       JsonReadWrite.fileWrite(forumBoard);
       drawComments();
 
-    } catch (IOException e) { 
+    } catch (IOException e) {
       // TODO ERROR
       e.printStackTrace();
     }
