@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
@@ -17,10 +18,15 @@
    <center>
       <Pane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
-            <Label fx:id="postTitleLabel" layoutX="82.0" layoutY="23.0" prefHeight="51.0" prefWidth="700.0" text="Post1">
-               <font>
-                  <Font size="35.0" />
-               </font>
+            <Label fx:id="postAuthorLabel" alignment="CENTER_RIGHT" layoutX="569.0" layoutY="39.0" prefHeight="35.0" prefWidth="301.0" text="post by: lalal">                
+               <font>                   
+                  <Font size="22.0" />                
+               </font>             
+            </Label>             
+            <Label fx:id="postTitleLabel" layoutX="82.0" layoutY="23.0" prefHeight="51.0" prefWidth="481.0" text="Post1">
+               <font>                   
+                  <Font size="35.0" />                
+               </font>             
             </Label>
             <Line endX="900.0" endY="80.0" layoutX="-31.0" layoutY="-5.0" startX="80.0" startY="80.0" />
             <Pane layoutX="59.0" layoutY="92.0" prefHeight="434.0" prefWidth="800.0">
@@ -138,7 +144,9 @@
       <Pane prefHeight="109.0" prefWidth="1200.0" BorderPane.alignment="CENTER">
          <children>
             <TextArea fx:id="newCommentTextArea" layoutX="71.0" layoutY="14.0" prefHeight="76.0" prefWidth="728.0" promptText="Write a new comment here"/>
-            <Button fx:id="newCommentButton" layoutX="840.0" layoutY="32.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="83.0" text="Comment" />
-         </children></Pane>
+            <Button fx:id="newCommentButton" layoutX="840.0" layoutY="52.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="83.0" text="Comment" />
+            <CheckBox fx:id="anonymousAuthorCheckBox" layoutX="845.0" layoutY="14.0" mnemonicParsing="false" text="Post as an anonymous user" />
+         </children>
+      </Pane>
    </bottom>
 </BorderPane>

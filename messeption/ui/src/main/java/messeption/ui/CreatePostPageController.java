@@ -8,6 +8,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
@@ -31,6 +32,8 @@ public class CreatePostPageController {
   TextArea postTextArea;
   @FXML
   Label errorLabel;
+  @FXML
+  CheckBox anonymousAuthorCheckBox;
 
   private ForumBoard board;
 
@@ -68,6 +71,11 @@ public class CreatePostPageController {
       }
 
       board.newPost(title, text);
+
+      if(! anonymousAuthorCheckBox.isSelected()){
+        String username = "placeholdah";
+        board.getPost(board.getPosts().size()-1).setAuthor(username);
+      }
 
       // save updated board
       JsonReadWrite.fileWrite(board);
