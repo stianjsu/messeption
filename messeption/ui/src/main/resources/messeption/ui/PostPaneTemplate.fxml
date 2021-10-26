@@ -9,11 +9,16 @@
 
 <Pane fx:id="postPaneTemplate" layoutX="15.0" layoutY="15.0" prefHeight="220.0" prefWidth="760.0" style="-fx-background-color: E0E0E0; -fx-border-color: grey;" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1">
     <children>
-       <Label fx:id="titleLabel" layoutX="34.0" layoutY="6.0" prefHeight="30.0" prefWidth="600.0" text="Title">
+       <Label fx:id="titleLabel" layoutX="34.0" layoutY="6.0" prefHeight="30.0" prefWidth="420.0" text="Title">
           <font>
              <Font size="20.0" />
           </font>
        </Label>
+       <Label fx:id="authorLabel" layoutX="454.0" layoutY="6.0" prefHeight="30.0" prefWidth="180.0" text="Author">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
        <Line fx:id="titleLine" endX="510.0" layoutX="134.0" layoutY="35.0" startX="-110.0" />
        <TextArea fx:id="postTextArea" editable="false" layoutX="33.0" layoutY="43.0" prefHeight="160.0" prefWidth="600.0">
           <font>

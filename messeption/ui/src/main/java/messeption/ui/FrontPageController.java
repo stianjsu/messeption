@@ -108,6 +108,10 @@ public class FrontPageController {
     if (titleLabel != null) {
       titleLabel.setText(post.getTitle());
     }
+    Label authorLabel = (Label) UiUtils.getNodeFromId(tempChildren, "authorLabel");
+    if (titleLabel != null) {
+      authorLabel.setText("Post by: "+post.getAuthor());
+    }
 
     TextArea postTextArea = (TextArea) UiUtils.getNodeFromId(tempChildren, "postTextArea");
     if (postTextArea != null) {
@@ -176,7 +180,7 @@ public class FrontPageController {
     Line titleLine = (Line) UiUtils.getNodeFromId(tempChildren, "titleLine");
     
     toReturn.getChildren().addAll(new ArrayList<Node>(Arrays.asList(
-        titleLabel, titleLine, postTextArea, likeLabel, dislikeLabel, 
+        titleLabel, authorLabel, titleLine, postTextArea, likeLabel, dislikeLabel, 
         replyLabel, likeButton, dislikeButton, threadButton)));
     return toReturn;
   }
