@@ -4,12 +4,14 @@
       "title": "I like cheese",
       "comments": [
         {
+          "author": "Anonymous",
           "text": "I disagree, but your opinion is valid",
           "likes": 9,
           "dislikes": 2,
           "timeStamp": "15:15:12 13-10-2021"
         }
       ],
+      "author": "Anonymous",
       "text": "Cheese is my favourite food.",
       "likes": 14,
       "dislikes": 3,
@@ -19,12 +21,14 @@
       "title": "Erna tapte valget",
       "comments": [
         {
+          "author": "Anonymous",
           "text": "Det er helt korrekt, men la oss unngå politikk her",
           "likes": 12,
           "dislikes": 1,
           "timeStamp": "14:21:45 13-10-2021"
         }
       ],
+      "author": "Anonymous",
       "text": "Valget var spennende",
       "likes": 7,
       "dislikes": 6,
@@ -34,18 +38,21 @@
       "title": "Kule tilbud?",
       "comments": [
         {
+          "author": "Anonymous",
           "text": "Billig kjøttdeig på bunnpris",
           "likes": 12,
           "dislikes": 1,
           "timeStamp": "14:25:43 13-10-2021"
         },
         {
+          "author": "Anonymous",
           "text": "Kjøttdeigen til 20kr er en steal",
           "likes": 4,
           "dislikes": 2,
           "timeStamp": "16:21:45 13-10-2021"
         }
       ],
+      "author": "Anonymous",
       "text": "Lurer på om noen har dere sett noen kule tilbud på buttan denne uken",
       "likes": 13,
       "dislikes": 6,
