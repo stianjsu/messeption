@@ -8,7 +8,7 @@
 
 <Pane layoutX="10.0" layoutY="10.0" prefHeight="130.0" prefWidth="705.0" style="-fx-background-color: E0E0E0; -fx-border-color: grey;" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1">
     <children>
-        <TextArea fx:id="commentTextArea" editable="false" layoutX="5.0" layoutY="5.0" prefHeight="120.0" prefWidth="620.0">
+        <TextArea fx:id="commentTextArea" editable="false" layoutX="5.0" layoutY="30.0" prefHeight="90.0" prefWidth="620.0">
             <font>
                 <Font size="15.0" />
             </font>
@@ -17,5 +17,10 @@
         <Label fx:id="dislikeCommentLabel" layoutX="648.0" layoutY="38.0" text="N likes" />
         <Button fx:id="likeCommentButton" layoutX="648.0" layoutY="61.0" mnemonicParsing="false" text="Like" />
         <Button fx:id="dislikeCommentButton" layoutX="640.0" layoutY="101.0" mnemonicParsing="false" text="Dislike" />
+        <Label fx:id="authorLabel" layoutX="5.0" layoutY="5.0" text="Label">
+            <font>
+                <Font size="16.0" />
+            </font>
+        </Label>
     </children>
 </Pane>

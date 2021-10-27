@@ -8,6 +8,7 @@ import java.time.format.DateTimeFormatter;
  */
 public abstract class UserTextSubmission {
 
+  protected String author;
   protected String text;
   protected int likes;
   protected int dislikes;
@@ -20,6 +21,7 @@ public abstract class UserTextSubmission {
    * @param text the input text
    */
   public UserTextSubmission(String text) {
+    this.author = "Anonymous";
     this.text = text;
     this.likes = 0;
     this.dislikes = 0;
@@ -45,6 +47,15 @@ public abstract class UserTextSubmission {
   public void incrementDislikes() {
     this.dislikes++;
   }
+
+  public String getAuthor(){
+    return this.author;
+  }
+
+  public void setAuthor(String username){
+    this.author = username;
+  }
+
 
 
   /**
@@ -78,5 +89,4 @@ public abstract class UserTextSubmission {
   public abstract String toString();
 
   public abstract boolean equals(Object obj);
-
 }

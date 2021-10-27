@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="600.0" minWidth="1000.0" prefHeight="675.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="messeption.ui.LoginPageController">
+   <center>
+      <Pane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <children>
+            <Label layoutX="507.0" layoutY="24.0" prefHeight="51.0" prefWidth="187.0" text="Messeption">
+               <font>
+                  <Font size="35.0" />
+               </font>
+            </Label>
+            <Line endX="1155.0" endY="80.0" layoutX="-17.0" layoutY="-5.0" startX="80.0" startY="80.0" />
+            <Pane layoutX="100.0" layoutY="121.0" prefHeight="400.0" prefWidth="1000.0">
+               <children>
+                  <Pane prefHeight="400.0" prefWidth="450.0" style="-fx-border-color: grey;">
+                     <children>
+                        <Label alignment="CENTER" layoutX="132.0" layoutY="11.0" prefHeight="51.0" prefWidth="187.0" text="Sign In">
+                           <font>
+                              <Font size="35.0" />
+                           </font>
+                        </Label>
+                        <Line endX="290.5" endY="80.0" layoutX="40.0" layoutY="-18.0" startX="80.0" startY="80.0" />
+                        <Pane layoutX="41.0" layoutY="120.0" prefHeight="55.0" prefWidth="370.0">
+                           <children>
+                              <Label prefHeight="51.0" prefWidth="111.0" text="Username">
+                                 <font>
+                                    <Font size="17.0" />
+                                 </font>
+                              </Label>
+                              <TextField fx:id="loginUserTextField" layoutX="185.0" layoutY="13.0" prefWidth="150.0" promptText="Steve_Jobs" />
+                           </children>
+                        </Pane>
+                        <Pane layoutX="41.0" layoutY="200.0" prefHeight="55.0" prefWidth="370.0">
+                           <children>
+                              <PasswordField fx:id="loginPasswordField" layoutX="185.0" layoutY="15.0" prefWidth="150.0" promptText="AppleG3" />
+                              <Label layoutY="2.0" prefHeight="51.0" prefWidth="143.0" text="Password">
+                                 <font>
+                                    <Font size="17.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </Pane>
+                        <Button fx:id="loginButton" layoutX="193.0" layoutY="340.0" mnemonicParsing="false" text="Sign In" />
+                     </children>
+                  </Pane>
+                  <Pane layoutX="544.0" prefHeight="400.0" prefWidth="450.0" style="-fx-border-color: grey;">
+                     <children>
+                        <Label alignment="CENTER" layoutX="132.0" layoutY="14.0" prefHeight="51.0" prefWidth="187.0" text="Sign Up">
+                           <font>
+                              <Font size="35.0" />
+                           </font>
+                        </Label>
+                        <Line endX="290.5" endY="80.0" layoutX="40.0" layoutY="-15.0" startX="80.0" startY="80.0" />
+                        <Pane layoutX="41.0" layoutY="132.0" prefHeight="55.0" prefWidth="370.0">
+                           <children>
+                              <Label prefHeight="51.0" prefWidth="111.0" text="Username">
+                                 <font>
+                                    <Font size="17.0" />
+                                 </font>
+                              </Label>
+                              <TextField fx:id="signUpUserTextField" layoutX="185.0" layoutY="15.0" prefHeight="25.0" prefWidth="150.0" promptText="my_user_name" />
+                           </children>
+                        </Pane>
+                        <Pane layoutX="41.0" layoutY="200.0" prefHeight="55.0" prefWidth="370.0">
+                           <children>
+                              <PasswordField fx:id="signUpPasswordField" layoutX="185.0" layoutY="15.0" prefWidth="150.0" promptText="MyPetsName" />
+                              <Label layoutY="2.0" prefHeight="51.0" prefWidth="143.0" text="Password">
+                                 <font>
+                                    <Font size="17.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </Pane>
+                        <Pane layoutX="41.0" layoutY="261.0" prefHeight="55.0" prefWidth="370.0">
+                           <children>
+                              <PasswordField fx:id="signUpPasswordFieldCheck" layoutX="185.0" layoutY="15.0" prefWidth="150.0" promptText="MyPetsName" />
+                              <Label layoutY="2.0" prefHeight="51.0" prefWidth="143.0" text="Repeat Password">
+                                 <font>
+                                    <Font size="17.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </Pane>
+                        <Button fx:id="signupButton" layoutX="195.0" layoutY="346.0" mnemonicParsing="false" text="Sign Up" />
+                     </children>
+                  </Pane>
+               </children>
+		 	</Pane>
+         </children>
+      </Pane>
+   </center>
+   <top>
+      <MenuBar prefHeight="25.0" prefWidth="1301.0" BorderPane.alignment="CENTER">
+         <menus>
+            <Menu mnemonicParsing="false" text="File">
+               <items>
+                  <MenuItem mnemonicParsing="false" text="Close" />
+               </items>
+            </Menu>
+            <Menu mnemonicParsing="false" text="Edit">
+               <items>
+                  <MenuItem mnemonicParsing="false" text="Delete" />
+               </items>
+            </Menu>
+            <Menu mnemonicParsing="false" text="Help">
+               <items>
+                  <MenuItem mnemonicParsing="false" text="About" />
+               </items>
+            </Menu>
+         </menus>
+      </MenuBar>
+   </top>
+   <right>
+      <Pane prefHeight="541.0" prefWidth="0.0" BorderPane.alignment="CENTER" />
+   </right>
+   <left>
+      <Pane prefHeight="611.0" prefWidth="0.0" BorderPane.alignment="CENTER" />
+   </left>
+   <bottom>
+      <Pane prefHeight="109.0" prefWidth="1200.0" BorderPane.alignment="CENTER" />
+   </bottom>
+</BorderPane>

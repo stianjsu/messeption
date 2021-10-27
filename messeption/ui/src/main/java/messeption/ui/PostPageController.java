@@ -7,6 +7,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.AnchorPane;
@@ -28,6 +29,8 @@ public class PostPageController {
   @FXML
   Label postTitleLabel;
   @FXML
+  Label postAuthorLabel;
+  @FXML
   TextArea postTextArea;
   @FXML
   Label postLikeLabel;
@@ -46,6 +49,8 @@ public class PostPageController {
   TextArea newCommentTextArea;
   @FXML
   Button newCommentButton;
+  @FXML
+  CheckBox anonymousAuthorCheckBox;
 
   private ForumPost post;
   private ForumBoard forumBoard;
@@ -109,6 +114,7 @@ public class PostPageController {
 
   private void generatePostContent() {
     postTitleLabel.setText(post.getTitle());
+    postAuthorLabel.setText("Post by: "+post.getAuthor());
 
     postTextArea.setText(post.getText());
     postTextArea.setDisable(true);
@@ -123,7 +129,7 @@ public class PostPageController {
       try {
         this.post.incrementLikes();
         JsonReadWrite.fileWrite(forumBoard);
-
+        
       } catch (IOException error) {
         this.post.setLikes(prevLikes);
       }
@@ -150,10 +156,14 @@ public class PostPageController {
     List<Node> tempChildren = new ArrayList<>(toReturn.getChildren());
     toReturn.getChildren().clear();
 
-    TextArea comentTextArea = (TextArea) UiUtils.getNodeFromId(tempChildren, "commentTextArea");
-    if (comentTextArea != null) {
-      comentTextArea.setFont(new Font(15));
-      comentTextArea.setText(comment.getText());
+    Label authorLabel = (Label) UiUtils.getNodeFromId(tempChildren, "authorLabel");
+    if(authorLabel != null){
+      authorLabel.setText(comment.getAuthor());
+    }
+    TextArea commentTextArea = (TextArea) UiUtils.getNodeFromId(tempChildren, "commentTextArea");
+    if (commentTextArea != null) {
+      commentTextArea.setFont(new Font(15));
+      commentTextArea.setText(comment.getText());
     }
 
     Label likeLabel = (Label) UiUtils.getNodeFromId(tempChildren, "likeCommentLabel");
@@ -200,8 +210,8 @@ public class PostPageController {
       });
     }
 
-    toReturn.getChildren().addAll(
-        comentTextArea, likeLabel, dislikeLabel, likeButton, dislikeButton);
+    toReturn.getChildren().addAll(authorLabel,commentTextArea, likeLabel, dislikeLabel, 
+        likeButton, dislikeButton);
     return toReturn;
   }
 
@@ -215,6 +225,12 @@ public class PostPageController {
       }
 
       PostComment comment = new PostComment(text);
+      if(! anonymousAuthorCheckBox.isSelected()){
+        //String username = staticclass.getActiveUsername()
+        String username = "placeholder";
+        comment.setAuthor(username);
+      }
+
       post.addComment(comment);
 
       JsonReadWrite.fileWrite(forumBoard);
