@@ -1,6 +1,5 @@
 package messeption.ui;
 
-import java.io.IOException;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -10,6 +9,8 @@ import javafx.stage.Stage;
  * Controlls and starts the applicatuin UI. Also controlls scene switches.
  */
 public class MesseptionApp extends Application {
+
+  private BoardAccessInterface boardAccess = new BoardAccessDirect();
 
   public static final String LOGIN_PAGE_PATH = "LoginPage.fxml";
   public static final String FRONT_PAGE_PATH = "FrontPage.fxml";
@@ -30,23 +31,32 @@ public class MesseptionApp extends Application {
   public void start(Stage primaryStage) throws Exception {
 
     FXMLLoader loginPageLoader = new FXMLLoader(getClass().getResource(LOGIN_PAGE_PATH));
-    FXMLLoader frontPageLoader = new FXMLLoader(getClass().getResource(FRONT_PAGE_PATH));
-    FXMLLoader createPostPageLoader = new FXMLLoader(getClass().getResource(CREATE_POST_PAGE_PATH));
-    FXMLLoader postPageLoader = new FXMLLoader(getClass().getResource(POST_PAGE_PATH));
-
     loginPageScene = new Scene(loginPageLoader.load());
-    frontPageScene = new Scene(frontPageLoader.load());
-    createPostPageScene = new Scene(createPostPageLoader.load());
-    postPageScene = new Scene(postPageLoader.load());
-
     loginPageController = loginPageLoader.getController();
-    frontPageController = frontPageLoader.getController();
-    createPostPageController = createPostPageLoader.getController();
-    postPageController = postPageLoader.getController();
+    // loginPageController.setBoardAccess(boardAccess);
 
-    frontPageController.setPostPageController(postPageController);
+
+    FXMLLoader frontPageLoader = new FXMLLoader(getClass().getResource(FRONT_PAGE_PATH));
+    frontPageScene = new Scene(frontPageLoader.load());
+    frontPageController = frontPageLoader.getController();
+    frontPageController.setBoardAccess(boardAccess);
+
+
+    FXMLLoader createPostPageLoader = new FXMLLoader(getClass().getResource(CREATE_POST_PAGE_PATH));
+    createPostPageScene = new Scene(createPostPageLoader.load());
+    createPostPageController = createPostPageLoader.getController();
+    createPostPageController.setBoardAccess(boardAccess);
+
+    FXMLLoader postPageLoader = new FXMLLoader(getClass().getResource(POST_PAGE_PATH));
+    postPageScene = new Scene(postPageLoader.load());
+    postPageController = postPageLoader.getController();
+    postPageController.setBoardAccess(boardAccess);
+
+    
     frontPageController.setPostCommentsScene(postPageScene);
+    frontPageController.setPostPageController(postPageController);
     loginPageController.setFrontPageScene(frontPageScene);
+    
 
     primaryStage.setScene(loginPageScene);
     primaryStage.setTitle("Messeption");
@@ -55,7 +65,6 @@ public class MesseptionApp extends Application {
 
     frontPageController.createPostButton.setOnAction(event -> {
       primaryStage.setScene(createPostPageScene);
-      createPostPageController.setBoard(frontPageController.getBoard());
     });
 
     createPostPageController.cancelButton.setOnAction(event -> {
@@ -63,7 +72,7 @@ public class MesseptionApp extends Application {
       primaryStage.setScene(frontPageScene);
       try {
         frontPageController.drawPosts();
-      } catch (IOException e) {
+      } catch (Exception e) {
         UiUtils.exceptionAlert(e).show();
       }
     });
@@ -72,7 +81,7 @@ public class MesseptionApp extends Application {
       primaryStage.setScene(frontPageScene);
       try {
         frontPageController.drawPosts();
-      } catch (IOException e) {
+      } catch (Exception e) {
         UiUtils.exceptionAlert(e).show();
       }
     });

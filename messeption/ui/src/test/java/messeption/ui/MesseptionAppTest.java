@@ -6,12 +6,10 @@ import javafx.stage.Stage;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -20,12 +18,13 @@ import org.testfx.matcher.control.LabeledMatchers;
 import messeption.core.ForumBoard;
 import messeption.core.ForumPost;
 import messeption.core.PostComment;
-import messeption.json.JsonReadWrite;
 
 /**
  * TestFX App test
  */
 public class MesseptionAppTest extends ApplicationTest {
+
+  private BoardAccessDirect boardAccess = new BoardAccessDirect();
 
   public static final String FRONT_PAGE_PATH = "FrontPage.fxml";
   public static final String CREATE_POST_PAGE_PATH = "CreatePostPage.fxml";
@@ -39,7 +38,6 @@ public class MesseptionAppTest extends ApplicationTest {
   private CreatePostPageController createPostPageController;
   private PostPageController postPageController;
 
-  private ForumBoard board;
   private static ForumBoard boardBackup;
 
   @Override
@@ -57,19 +55,22 @@ public class MesseptionAppTest extends ApplicationTest {
     createPostPageController = createPostPageLoader.getController();
     postPageController = postPageLoader.getController();
 
-    frontPageController.setPostPageController(postPageController);
     frontPageController.setPostCommentsScene(postPageScene);
+    frontPageController.setPostPageController(postPageController);
+
+    frontPageController.setBoardAccess(boardAccess);
+    createPostPageController.setBoardAccess(boardAccess);
+    postPageController.setBoardAccess(boardAccess);
 
     primaryStage.setScene(frontPageScene);
     primaryStage.setTitle("Messeption");
     primaryStage.setResizable(false);
     primaryStage.show();
 
-    boardBackup = JsonReadWrite.fileRead();
+    boardBackup = this.boardAccess.readBoard();
 
     frontPageController.createPostButton.setOnAction(event -> {
       primaryStage.setScene(createPostPageScene);
-      createPostPageController.setBoard(frontPageController.getBoard());
     });
 
     createPostPageController.cancelButton.setOnAction(event -> {
@@ -77,7 +78,7 @@ public class MesseptionAppTest extends ApplicationTest {
       primaryStage.setScene(frontPageScene);
       try {
         frontPageController.drawPosts();
-      } catch (IOException e) {
+      } catch (Exception e) {
         UiUtils.exceptionAlert(e).show();
       }
     });
@@ -86,12 +87,11 @@ public class MesseptionAppTest extends ApplicationTest {
       primaryStage.setScene(frontPageScene);
       try {
         frontPageController.drawPosts();
-      } catch (IOException e) {
+      } catch (Exception e) {
         UiUtils.exceptionAlert(e).show();
       }
     });
   }
-
 
   private void click(String... labels) {
     for (var label : labels) {
@@ -99,9 +99,8 @@ public class MesseptionAppTest extends ApplicationTest {
     }
   }
 
-  public void checkNewPost(String title, String text) {
-    ForumBoard board = frontPageController.getBoard();
-    List<ForumPost> posts = board.getPosts();
+  public void checkNewPost(String title, String text) throws Exception {
+    List<ForumPost> posts = boardAccess.getPosts();
     ForumPost post = posts.get(posts.size() - 1);
     assertEquals(post.getTitle(), title, "Title did not match expected value");
     assertEquals(post.getText(), text, "Text did not match expected value");
@@ -110,7 +109,7 @@ public class MesseptionAppTest extends ApplicationTest {
   @ParameterizedTest
   @MethodSource
   @DisplayName("Test create a valid post")
-  public void testCreatePostValid(String title, String text) {
+  public void testCreatePostValid(String title, String text) throws Exception {
     click("Create Post");
     clickOn("#postTitleField").write(title);
     clickOn("#postTextArea").write(text);
@@ -125,7 +124,7 @@ public class MesseptionAppTest extends ApplicationTest {
   @ParameterizedTest
   @MethodSource
   @DisplayName("Test create a post and then another")
-  public void testCreateAnotherPost(String title1, String text1, String title2, String text2) {
+  public void testCreateAnotherPost(String title1, String text1, String title2, String text2) throws Exception {
     click("Create Post");
     clickOn("#postTitleField").write(title1);
     clickOn("#postTextArea").write(text1);
@@ -138,13 +137,11 @@ public class MesseptionAppTest extends ApplicationTest {
   }
 
   private static Stream<Arguments> testCreateAnotherPost() {
-    return Stream
-        .of(Arguments.of("Title", "texttext", "Hello", "General"));
+    return Stream.of(Arguments.of("Title", "texttext", "Hello", "General"));
   }
 
-  public void checkNewPostFail(String title, String text) {
-    board = frontPageController.getBoard();
-    List<ForumPost> posts = board.getPosts();
+  public void checkNewPostFail(String title, String text) throws Exception {
+    List<ForumPost> posts = boardAccess.getPosts();
     ForumPost post = posts.get(posts.size() - 1);
     assertFalse(post.getTitle().equals(title) && post.getText().equals(text),
         "A post got accepted but should have failed");
@@ -153,7 +150,7 @@ public class MesseptionAppTest extends ApplicationTest {
   @ParameterizedTest
   @MethodSource
   @DisplayName("Test create an invalid post")
-  public void testCreatePostInvalid(String title, String text) {
+  public void testCreatePostInvalid(String title, String text) throws Exception {
     click("Create Post");
     clickOn("#postTitleField").write(title);
     clickOn("#postTextArea").write(text);
@@ -169,37 +166,38 @@ public class MesseptionAppTest extends ApplicationTest {
   @MethodSource
   @DisplayName("Test likes and dislikes")
   public void testClickLike(int n) {
-    int likes = frontPageController.getBoard().getPost(0).getLikes();
-    int dislikes = frontPageController.getBoard().getPost(0).getDislikes();
+    int likes = boardAccess.getPost(0).getLikes();
+    int dislikes = boardAccess.getPost(0).getDislikes();
     for (int index = 0; index < n; index++) {
       click("Like", "Dislike");
+
     }
-    assertEquals(likes + n, frontPageController.getBoard().getPost(0).getLikes(), "Like button did not increase likes");
-    assertEquals(dislikes + n, frontPageController.getBoard().getPost(0).getDislikes(),
-        "Dislike button did not increase dislikes");
+
+    System.out.println(boardAccess.getResourcesPath());
+    assertEquals(likes + n, boardAccess.getPost(0).getLikes(), "Like button did not increase likes");
+    assertEquals(dislikes + n, boardAccess.getPost(0).getDislikes(), "Dislike button did not increase dislikes");
   }
 
   private static Stream<Arguments> testClickLike() {
-    return Stream.of(Arguments.of(2), Arguments.of(4));
+    return Stream.of(Arguments.of(4));
   }
 
   @ParameterizedTest
   @MethodSource
   @DisplayName("Test likes and dislikes post from postpage")
-  public void testClickLikeFromPost(int n) {
+  public void testClickLikeFromPost(int n) throws Exception{
     click("Go to thread");
-    int likes = frontPageController.getBoard().getPost(0).getLikes();
-    int dislikes = frontPageController.getBoard().getPost(0).getDislikes();
+    int likes = boardAccess.getPost(0).getLikes();
+    int dislikes = boardAccess.getPost(0).getDislikes();
     for (int index = 0; index < n; index++) {
       click("Like", "Dislike");
     }
-    assertEquals(likes + n, frontPageController.getBoard().getPost(0).getLikes(), "Like button did not increase likes");
-    assertEquals(dislikes + n, frontPageController.getBoard().getPost(0).getDislikes(),
-        "Like button did not increase likes");
+    assertEquals(likes + n, boardAccess.getPost(0).getLikes(), "Like button did not increase likes from post page");
+    assertEquals(dislikes + n, boardAccess.getPost(0).getDislikes(), "Like button did not increase likes from post page");
   }
 
   private static Stream<Arguments> testClickLikeFromPost() {
-    return Stream.of(Arguments.of(2), Arguments.of(4));
+    return Stream.of(Arguments.of(2));
   }
 
   @ParameterizedTest
@@ -207,20 +205,20 @@ public class MesseptionAppTest extends ApplicationTest {
   @DisplayName("Test likes and dislikes on comments")
   public void testClickLikeComment(int n) {
     click("Go to thread");
-    int likes = frontPageController.getBoard().getPost(0).getComments().get(0).getLikes();
-    int dislikes = frontPageController.getBoard().getPost(0).getComments().get(0).getDislikes();
+    int likes = boardAccess.getPost(0).getComments().get(0).getLikes();
+    int dislikes = boardAccess.getPost(0).getComments().get(0).getDislikes();
     for (int index = 0; index < n; index++) {
       clickOn("#likeCommentButton");
       clickOn("#dislikeCommentButton");
     }
-    assertEquals(likes + n, frontPageController.getBoard().getPost(0).getComments().get(0).getLikes(),
-        "Like button did not increase likes");
-    assertEquals(dislikes + n, frontPageController.getBoard().getPost(0).getComments().get(0).getDislikes(),
-        "Dislike button did not increase dislikes");
+    assertEquals(likes + n, boardAccess.getPost(0).getComments().get(0).getLikes(),
+        "Like button did not increase likes on comment");
+    assertEquals(dislikes + n, boardAccess.getPost(0).getComments().get(0).getDislikes(),
+        "Dislike button did not increase dislikes on comment");
   }
 
   private static Stream<Arguments> testClickLikeComment() {
-    return Stream.of(Arguments.of(2), Arguments.of(4));
+    return Stream.of(Arguments.of(2));
   }
 
   @ParameterizedTest
@@ -231,18 +229,18 @@ public class MesseptionAppTest extends ApplicationTest {
     clickOn("#newCommentTextArea").write(text);
     click("Comment");
 
-    List<PostComment> comments = frontPageController.getBoard().getPost(0).getComments();
+    List<PostComment> comments = boardAccess.getPost(0).getComments();
     String commentText = comments.get(comments.size() - 1).getText();
-    assertEquals(commentText, text, "New comment was not saved");
+    assertEquals(text, commentText, "New comment was not saved");
   }
 
   private static Stream<Arguments> testComments() {
-    return Stream.of(Arguments.of("CHEEESE!!"), Arguments.of("Potet"));
+    return Stream.of(Arguments.of("CHEEESE!!"));
   }
 
   @AfterEach
-  public void revertBoard() {
-    frontPageController.setBoard(boardBackup);
+  public void revertBoard() throws Exception {
+    boardAccess.setBoard(boardBackup);
   }
 
 }

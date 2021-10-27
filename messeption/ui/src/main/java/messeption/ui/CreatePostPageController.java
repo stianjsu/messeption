@@ -13,7 +13,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import messeption.core.ForumBoard;
-import messeption.json.JsonReadWrite;
+import messeption.core.ForumPost;
 
 /**
  * Controller for the create post page.
@@ -35,7 +35,7 @@ public class CreatePostPageController {
   @FXML
   CheckBox anonymousAuthorCheckBox;
 
-  private ForumBoard board;
+  private BoardAccessInterface boardAccess;
 
   /**
    * initializer for the scene.
@@ -46,13 +46,13 @@ public class CreatePostPageController {
     });
   }
 
-  public void setBoard(ForumBoard board) {
-    this.board = board;
+  public void setBoardAccess(BoardAccessInterface boardAccess) {
+    this.boardAccess = boardAccess;
   }
 
   /**
-   * Gets the text and title form the text input fields.
-   * Then checks if they are long enough adds a new post object
+   * Gets the text and title form the text input fields. Then checks if they are
+   * long enough adds a new post object
    */
   @FXML
   public void createPostInBoard() {
@@ -70,25 +70,26 @@ public class CreatePostPageController {
         return;
       }
 
-      board.newPost(title, text);
+      ForumPost post = new ForumPost(title, text);
 
-      if(! anonymousAuthorCheckBox.isSelected()){
+      if (!anonymousAuthorCheckBox.isSelected()) {
         String username = "placeholdah";
-        board.getPost(board.getPosts().size()-1).setAuthor(username);
+        post.setAuthor(username);
       }
 
-      // save updated board
-      JsonReadWrite.fileWrite(board);
+      // updates and saves board
+      boardAccess.addPost(post);
 
       // confirmCreation
       feedbackAlertPostCreation(title);
-    } catch (IOException e) {
-      showError(e.getMessage());
+    } catch (Exception e) {
+      UiUtils.exceptionAlert(e);
     }
   }
 
   /**
-   * Creates and shows an alert on screen wehen the user successfully creates a post.
+   * Creates and shows an alert on screen wehen the user successfully creates a
+   * post.
 
    * @param title The title name of the alert
    */

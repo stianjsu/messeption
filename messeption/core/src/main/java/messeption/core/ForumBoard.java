@@ -4,8 +4,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-
-
 /**
  * ForumBoard has a collection of posts.
  * 
@@ -46,6 +44,14 @@ public class ForumBoard {
     posts.add(new ForumPost(title, text));
   }
 
+  /**
+   * Adds an already existing post to the posts list.
+
+   * @param post the post to be added
+   */
+  public void newPost(ForumPost post) {
+    posts.add(post);
+  }
 
   /**
    * Removed the given post from posts list.
@@ -71,7 +77,6 @@ public class ForumBoard {
     return s.toString();
   }
 
-  
   @Override
   public boolean equals(Object obj) {
     if (obj instanceof ForumBoard) {
