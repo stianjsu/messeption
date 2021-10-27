@@ -112,8 +112,8 @@ public class MesseptionAppTest extends ApplicationTest {
   @DisplayName("Test create a valid post")
   public void testCreatePostValid(String title, String text) {
     click("Create Post");
-    clickOn("Title of post").write(title);
-    clickOn("content of post").write(text);
+    clickOn("#postTitleField").write(title);
+    clickOn("#postTextArea").write(text);
     click("Publish", "Quit To Front Page");
     checkNewPost(title, text);
   }
@@ -127,12 +127,12 @@ public class MesseptionAppTest extends ApplicationTest {
   @DisplayName("Test create a post and then another")
   public void testCreateAnotherPost(String title1, String text1, String title2, String text2) {
     click("Create Post");
-    clickOn("Title of post").write(title1);
-    clickOn("content of post").write(text1);
+    clickOn("#postTitleField").write(title1);
+    clickOn("#postTextArea").write(text1);
     click("Publish", "Create another post");
     checkNewPost(title1, text1);
-    clickOn("Title of post").write(title2);
-    clickOn("content of post").write(text2);
+    clickOn("#postTitleField").write(title2);
+    clickOn("#postTextArea").write(text2);
     click("Publish", "Quit To Front Page");
     checkNewPost(title2, text2);
   }
@@ -155,8 +155,8 @@ public class MesseptionAppTest extends ApplicationTest {
   @DisplayName("Test create an invalid post")
   public void testCreatePostInvalid(String title, String text) {
     click("Create Post");
-    clickOn("Title of post").write(title);
-    clickOn("content of post").write(text);
+    clickOn("#postTitleField").write(title);
+    clickOn("#postTextArea").write(text);
     click("Publish", "Cancel");
     checkNewPostFail(title, text);
   }
@@ -228,7 +228,7 @@ public class MesseptionAppTest extends ApplicationTest {
   @DisplayName("Test creating comments")
   public void testComments(String text) {
     click("Go to thread");
-    clickOn("Write a new comment here").write(text);
+    clickOn("#newCommentTextArea").write(text);
     click("Comment");
 
     List<PostComment> comments = frontPageController.getBoard().getPost(0).getComments();

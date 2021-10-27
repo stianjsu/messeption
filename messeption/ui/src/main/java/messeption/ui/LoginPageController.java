@@ -49,7 +49,12 @@ public class LoginPageController {
 
     // Midlertidig for testing
     userHandler = new UserHandler();
-    userHandler.addUser("Jonah", "Hei123");
+    try {
+      userHandler.addUser("Jonah", "Hei123");
+    } catch (Exception e) {
+      UiUtils.exceptionAlert(e).showAndWait();
+    }
+    
 
     loginButton.setOnAction((e) -> {
       login();
@@ -68,12 +73,13 @@ public class LoginPageController {
   public void login() {
     String username = loginUserTextField.getText();
     if(! userHandler.userNameExists(username)){
-      showError("Can not find username\nDont have an account? Sign up here ->");
+      UiUtils.popupAlert("Can not find username\nDont have an account? Sign up :)").showAndWait();
+
     }
     else{
       String password = loginPasswordField.getText();
       if(! userHandler.correctPassword(username, password)){
-        showError("Wrong password for user " + username);
+        UiUtils.popupAlert("Wrong password for user " + username).showAndWait();
       }
       else{
         sucsessAlert(true);
@@ -84,31 +90,22 @@ public class LoginPageController {
   //Trykke på sign up knappen
   public void signUp(){
     String username = signUpUserTextField.getText();
-    String validation = userHandler.validateNewUsername(username);
-    if(! validation.equals("")){
-      showError(validation);
+    String password = signUpPasswordField.getText();
+    String password2 = signUpPasswordFieldCheck.getText();
+    if (password.equals(password2)){
+      try {
+        userHandler.addUser(username, password);
+        sucsessAlert(false);
+        signUpUserTextField.clear();
+        signUpPasswordField.clear();
+        signUpPasswordFieldCheck.clear();
+      } catch (Exception e) {
+        UiUtils.popupAlert(e.getMessage()).showAndWait();
+      }
     }
     else{
-      String password = signUpPasswordField.getText();
-      validation = userHandler.validateNewPassword(password);
-      if(! validation.equals("")){
-        showError(validation);
-      }
-      else{
-        String password2 = signUpPasswordFieldCheck.getText();
-
-        if (password.equals(password2)){
-          sucsessAlert(false);
-        }
-        else{
-          showError("You did not type the same password twice");
-        }
-      }
+      UiUtils.popupAlert("You did not type the same password twice").showAndWait();
     }
-  }
-
-  public void showError(String message){
-    this.errorLabel.setText("An error has occured:\n" + message);
   }
 
   public void sucsessAlert(boolean login) {

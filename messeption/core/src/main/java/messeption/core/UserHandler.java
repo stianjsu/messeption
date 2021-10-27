@@ -8,13 +8,21 @@ public class UserHandler {
   private Map<String, String> users = new HashMap<>();
 
   public Map<String, String> getUsers() {
-      return users;
+      return new HashMap<>(users);
   }
 
-  public void addUser(String username, String password) {
-    if ((validateNewUsername(username) + validateNewPassword(password)).equals("")){
-      users.put(username, password);
+  public void addUser(String username, String password) throws Exception{
+
+    Exception usernameValidation = validateNewUsername(username);
+    Exception passwordValidation = validateNewPassword(password);
+    if(usernameValidation != null){
+      throw usernameValidation;
     }
+    if(passwordValidation != null){
+      throw passwordValidation;
+    }
+    users.put(username, password);
+    
   }
   
   public boolean userNameExists(String username){
@@ -26,45 +34,73 @@ public class UserHandler {
   }
   
   
-  public String validateNewUsername(String username) {
+  private Exception validateNewUsername(String username){
     if (username.length()<5){
-      return "Too short username";
+      return new IllegalArgumentException("Too short username. Must be at least 5 characters long");
     }
     else if(username.length() > 15){
-      return "Too long username";
+      return new IllegalArgumentException("Too long username. Must be less than 16 characters");
     }
     else if((username.contains(" "))) {
-      return "Username can not cointain spaces";
+      return new IllegalArgumentException("Username can not cointain spaces. Try using underscores :)");
     }
     else if(this.users.containsKey(username)){
-      return "Username taken";
+      return new IllegalStateException("The username is taken");
     }
-    else {
-      return "";
+    return null;
+    
+  }
+
+  private Exception validateNewPassword(String password){
+    String nums= password.replaceAll("[^0-9]", "");
+    if (password.length()<5){
+      return new IllegalArgumentException("Too short password. Must be at least 5 characters long");
+    }
+    else if(password.length() > 15){
+      return new IllegalArgumentException("Too long password. Must be less than 16 characters");
+    }
+    else if((password.contains(" "))) {
+      return new IllegalArgumentException("Password can not cointain spaces. Try using underscores :)");
+    }
+    else if (password.toLowerCase().equals(password)){
+      return new IllegalArgumentException("Password does not contain uppercase");
+    }
+    else if (password.toUpperCase().equals(password)){
+      return new IllegalArgumentException("Password does not contain lowercase");
+    }
+    else if (nums.isEmpty()){
+      return new IllegalArgumentException("Password does not contain numbers");
+    }
+    return null;
+  }
+
+  @Override
+  public boolean equals(Object obj){
+    if (obj instanceof UserHandler) {
+      UserHandler other = (UserHandler) obj;
+      boolean hashCodeCheck = this.hashCode() == other.hashCode();
+      boolean containsSameUsers = this.users.equals(other.users);
+      return hashCodeCheck && containsSameUsers;
+    }else{
+      return false;
     }
   }
 
-  public String validateNewPassword(String password) {
-    String nums= password.replaceAll("[^0-9]", "");
-    if (password.length()<5){
-      return "Too short password";
+  @Override
+  public int hashCode() {
+    int code = 0;
+    for (Map.Entry<String,String> entry: users.entrySet()) {
+      code += entry.getKey().length() + entry.getValue().length();
     }
-    else if(password.length() > 15){
-      return "Too long password";
+    return code;
+  }
+
+  @Override
+  public String toString(){
+    String string="";
+    for (Map.Entry<String,String> entry: users.entrySet()) {
+      string += entry.getKey()+": " + entry.getValue()+"\n";
     }
-    else if((password.contains(" "))) {
-      return "Password can not cointain spaces";
-    }
-    else if (password.toLowerCase().equals(password)){
-      return "Password does not contain uppercase";
-    }
-    else if (password.toUpperCase().equals(password)){
-      return "Password does not contain lowercase";
-    }
-    else if (nums.isEmpty())
-      return "Password does not contain numbers";
-    else{
-      return "";
-    }
+    return string;
   }
 }

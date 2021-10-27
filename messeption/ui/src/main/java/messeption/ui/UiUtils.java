@@ -39,4 +39,19 @@ public class UiUtils {
     toReturn.setTitle("Error");
     return toReturn;
   }
+
+  /**
+   * If an exception is raised it is here processed into an alert for the UI.
+
+   * @param e the string to be processed
+   * @return the finished Alert
+   */
+  public static Alert popupAlert(String e) {
+
+    Alert toReturn = new Alert(AlertType.ERROR);
+    toReturn.setContentText(e);
+    System.err.println(e);
+    toReturn.setTitle("Error");
+    return toReturn;
+  }
 }

@@ -18,7 +18,7 @@
    <center>
       <Pane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
-            <Label fx:id="postAuthorLabel" alignment="CENTER_RIGHT" layoutX="569.0" layoutY="39.0" prefHeight="35.0" prefWidth="301.0" text="post by: lalal">                
+            <Label fx:id="postAuthorLabel" alignment="CENTER_RIGHT" layoutX="569.0" layoutY="39.0" prefHeight="35.0" prefWidth="260.0" text="post by: lalal">                
                <font>                   
                   <Font size="22.0" />                
                </font>             
