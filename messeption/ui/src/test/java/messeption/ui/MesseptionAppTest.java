@@ -7,6 +7,7 @@ import javafx.stage.Stage;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.List;
+import java.util.ArrayList;
 import java.util.stream.Stream;
 
 import org.junit.jupiter.api.AfterAll;
@@ -42,11 +43,21 @@ public class MesseptionAppTest extends ApplicationTest {
   private PostPageController postPageController;
 
   private static ForumBoard boardBackup;
+  List<User> users;
 
   @Override
   public void start(Stage primaryStage) throws Exception {
 
     boardAccess.setActiveUser(new User("ADMIN", "POWERS"));
+    boardBackup = this.boardAccess.readBoard();
+
+    users = new ArrayList<>();
+    users.add(new User("tim", "Tom"));
+    users.add(new User("aim", "Tom"));
+    users.add(new User("bim", "Tom"));
+    users.add(new User("cim", "Tom"));
+    users.add(new User("dim", "Tom"));
+    users.add(new User("eim", "Tom"));
 
     FXMLLoader frontPageLoader = new FXMLLoader(getClass().getResource(FRONT_PAGE_PATH));
     FXMLLoader createPostPageLoader = new FXMLLoader(getClass().getResource(CREATE_POST_PAGE_PATH));
@@ -72,7 +83,6 @@ public class MesseptionAppTest extends ApplicationTest {
     primaryStage.setResizable(false);
     primaryStage.show();
 
-    boardBackup = this.boardAccess.readBoard();
 
     frontPageController.createPostButton.setOnAction(event -> {
       primaryStage.setScene(createPostPageScene);
@@ -196,16 +206,14 @@ public class MesseptionAppTest extends ApplicationTest {
   @MethodSource
   @DisplayName("Test likes and dislikes")
   public void testClickLike(int n) {
-    int likes = boardAccess.getPost(0).getLikes();
-    int dislikes = boardAccess.getPost(0).getDislikes();
+    int likes = boardAccess.getPosts().get(0).getLikes();
+    int dislikes = boardAccess.getPosts().get(0).getDislikes();
     for (int index = 0; index < n; index++) {
+      boardAccess.setActiveUser(users.get(index));
       click("Like", "Dislike");
-
     }
-
-    System.out.println(boardAccess.getResourcesPath());
-    assertEquals(likes + n, boardAccess.getPost(0).getLikes(), "Like button did not increase likes");
-    assertEquals(dislikes + n, boardAccess.getPost(0).getDislikes(), "Dislike button did not increase dislikes");
+    assertEquals(likes + n, boardAccess.getPosts().get(0).getLikes(), "Like button did not increase likes");
+    assertEquals(dislikes + n, boardAccess.getPosts().get(0).getDislikes(), "Dislike button did not increase dislikes");
   }
 
   private static Stream<Arguments> testClickLike() {
@@ -215,15 +223,16 @@ public class MesseptionAppTest extends ApplicationTest {
   @ParameterizedTest
   @MethodSource
   @DisplayName("Test likes and dislikes post from postpage")
-  public void testClickLikeFromPost(int n) throws Exception{
+  public void testClickLikeFromPost(int n) throws Exception {
     click("Go to thread");
-    int likes = boardAccess.getPost(0).getLikes();
-    int dislikes = boardAccess.getPost(0).getDislikes();
+    int likes = boardAccess.getPosts().get(0).getLikes();
+    int dislikes = boardAccess.getPosts().get(0).getDislikes();
     for (int index = 0; index < n; index++) {
+      boardAccess.setActiveUser(users.get(index));
       click("Like", "Dislike");
     }
-    assertEquals(likes + n, boardAccess.getPost(0).getLikes(), "Like button did not increase likes from post page");
-    assertEquals(dislikes + n, boardAccess.getPost(0).getDislikes(), "Like button did not increase likes from post page");
+    assertEquals(likes + n, boardAccess.getPosts().get(0).getLikes(), "Like button did not increase likes from post page");
+    assertEquals(dislikes + n, boardAccess.getPosts().get(0).getDislikes(), "Like button did not increase likes from post page");
   }
 
   private static Stream<Arguments> testClickLikeFromPost() {
@@ -235,15 +244,16 @@ public class MesseptionAppTest extends ApplicationTest {
   @DisplayName("Test likes and dislikes on comments")
   public void testClickLikeComment(int n) {
     click("Go to thread");
-    int likes = boardAccess.getPost(0).getComments().get(0).getLikes();
-    int dislikes = boardAccess.getPost(0).getComments().get(0).getDislikes();
+    int likes = boardAccess.getPosts().get(0).getComments().get(0).getLikes();
+    int dislikes = boardAccess.getPosts().get(0).getComments().get(0).getDislikes();
     for (int index = 0; index < n; index++) {
+      boardAccess.setActiveUser(users.get(index));
       clickOn("#likeCommentButton");
       clickOn("#dislikeCommentButton");
     }
-    assertEquals(likes + n, boardAccess.getPost(0).getComments().get(0).getLikes(),
+    assertEquals(likes + n, boardAccess.getPosts().get(0).getComments().get(0).getLikes(),
         "Like button did not increase likes on comment");
-    assertEquals(dislikes + n, boardAccess.getPost(0).getComments().get(0).getDislikes(),
+    assertEquals(dislikes + n, boardAccess.getPosts().get(0).getComments().get(0).getDislikes(),
         "Dislike button did not increase dislikes on comment");
   }
 
@@ -259,7 +269,7 @@ public class MesseptionAppTest extends ApplicationTest {
     clickOn("#newCommentTextArea").write(text);
     click("Comment");
 
-    List<PostComment> comments = boardAccess.getPost(0).getComments();
+    List<PostComment> comments = boardAccess.getPosts().get(0).getComments();
     String commentText = comments.get(comments.size() - 1).getText();
     assertEquals(text, commentText, "New comment was not saved");
   }
@@ -276,7 +286,7 @@ public class MesseptionAppTest extends ApplicationTest {
     clickOn("#newCommentTextArea").write(text);
     click("Comment");
 
-    List<PostComment> comments = boardAccess.getPost(0).getComments();
+    List<PostComment> comments = boardAccess.getPosts().get(0).getComments();
     String commentText = comments.get(comments.size() - 1).getText();
     assertNotEquals(text, commentText, "New comment was saved when it shouldn't have been");
   }
@@ -294,7 +304,7 @@ public class MesseptionAppTest extends ApplicationTest {
     clickOn("#newCommentTextArea").write(text);
     click("Comment");
 
-    List<PostComment> comments = boardAccess.getPost(0).getComments();
+    List<PostComment> comments = boardAccess.getPosts().get(0).getComments();
     PostComment comment = comments.get(comments.size() - 1);
     assertEquals(text, comment.getText(), "New comment was not saved");
     assertEquals(comment.getAuthor().getUsername(), "Anonymous", "New comment was not posted anonymously");

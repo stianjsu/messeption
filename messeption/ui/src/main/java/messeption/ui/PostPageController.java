@@ -51,7 +51,6 @@ public class PostPageController {
   @FXML
   CheckBox anonymousAuthorCheckBox;
 
-  private ForumPost post;
   private BoardAccessInterface boardAccess;
 
   /**
@@ -74,14 +73,15 @@ public class PostPageController {
   /**
    * Javafx help method to display comments in the UI.
    */
-  public void drawComments(ForumPost post, int postIndex) {
+  public void drawComments(String postId) {
+
+    ForumPost post = boardAccess.getPost(postId);
+    
     newCommentButton.setOnAction(e -> {
-      publishComment(postIndex);
+      publishComment(post.getId());
     });
 
-
-    this.post = post;
-    generatePostContent(post, postIndex);
+    generatePostContent(post);
     List<PostComment> comments = post.getComments();
 
     this.commentsContainer.getChildren().clear();
@@ -90,7 +90,7 @@ public class PostPageController {
       PostComment comment = comments.get(indexId);
 
       try {
-        Pane commentPane = generateCommentPane(comment, postIndex, indexId);
+        Pane commentPane = generateCommentPane(comment, postId);
         commentPane.setLayoutY((MARGIN_COMMENTS + SIZE_COMMENTS) * indexId + MARGIN_COMMENTS);
 
         this.commentsContainer.getChildren().add(commentPane);
@@ -104,7 +104,7 @@ public class PostPageController {
         (MARGIN_COMMENTS + SIZE_COMMENTS) * comments.size() + MARGIN_COMMENTS);
   }
 
-  private void generatePostContent(ForumPost post, int indexId) {
+  private void generatePostContent(ForumPost post) {
     postTitleLabel.setText(post.getTitle());
     postAuthorLabel.setText("Post by: " + post.getAuthor().getUsername());
 
@@ -112,39 +112,35 @@ public class PostPageController {
     postTextArea.setDisable(true);
     postTextArea.setStyle("-fx-opacity: 1;");
 
-    postLikeLabel.setText(this.post.getLikes() + " likes");
-    postDislikeLabel.setText(this.post.getDislikes() + " dislikes");
+    postLikeLabel.setText(post.getLikes() + " likes");
+    postDislikeLabel.setText(post.getDislikes() + " dislikes");
 
     postLikeButton.setOnAction(e -> {
       int prevLikes = post.getLikes();
 
       try {
-        boardAccess.likePost(indexId);
-        post.incrementLikes();
+        boardAccess.likePost(post.getId(), boardAccess.getActiveUser());
       } catch (Exception error) {
         UiUtils.exceptionAlert(error).showAndWait();
-        this.post.setLikes(prevLikes);
       }
 
       postLikeLabel.setText(post.getLikes() + " likes");
     });
 
     postDislikeButton.setOnAction(e -> {
-      int prevDislikes = this.post.getDislikes();
+      int prevDislikes = post.getDislikes();
 
       try {
-        boardAccess.dislikePost(indexId);
-        post.incrementDislikes();
+        boardAccess.dislikePost(post.getId(), boardAccess.getActiveUser());
       } catch (Exception error) {
         UiUtils.exceptionAlert(error).showAndWait();
-        this.post.setDislikes(prevDislikes);
       }
 
-      postDislikeLabel.setText(this.post.getDislikes() + " dislikes");
+      postDislikeLabel.setText(post.getDislikes() + " dislikes");
     });
   }
 
-  private Pane generateCommentPane(PostComment comment, int postIndex, int commentIndex) 
+  private Pane generateCommentPane(PostComment comment, String postId) 
       throws IOException {
     Pane toReturn = FXMLLoader.load(getClass().getResource("CommentPaneTemplate.fxml"));
     List<Node> tempChildren = new ArrayList<>(toReturn.getChildren());
@@ -177,11 +173,9 @@ public class PostPageController {
         int prevLikes = comment.getLikes();
 
         try {
-          boardAccess.likeComment(postIndex, commentIndex);
-          comment.incrementLikes();
+          boardAccess.likeComment(postId, comment.getId(), boardAccess.getActiveUser());
         } catch (Exception error) {
           UiUtils.exceptionAlert(error).showAndWait();
-          comment.setLikes(prevLikes);
         }
 
         likeLabel.setText(comment.getLikes() + " likes");
@@ -195,11 +189,9 @@ public class PostPageController {
         int prevDislikes = comment.getDislikes();
 
         try {
-          boardAccess.dislikeComment(postIndex, commentIndex);
-          comment.incrementDislikes();
+          boardAccess.dislikeComment(postId, comment.getId(), boardAccess.getActiveUser());
         } catch (Exception error) {
           UiUtils.exceptionAlert(error).showAndWait();
-          comment.setDislikes(prevDislikes);
         }
 
         dislikeLabel.setText(comment.getDislikes() + " dislikes");
@@ -211,7 +203,7 @@ public class PostPageController {
     return toReturn;
   }
 
-  private void publishComment(int postIndex) {
+  private void publishComment(String postId) {
 
     try {
       String text = newCommentTextArea.getText();
@@ -229,8 +221,8 @@ public class PostPageController {
         comment = new PostComment(text, boardAccess.getActiveUser());
       }
 
-      boardAccess.addComment(postIndex, comment);
-      drawComments(this.post, postIndex);
+      boardAccess.addComment(postId, comment);
+      drawComments(postId);
 
     } catch (Exception e) {
       UiUtils.exceptionAlert(e).show();

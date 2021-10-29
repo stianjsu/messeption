@@ -29,9 +29,8 @@ public class BoardAccessDirect implements BoardAccessInterface {
     boardReaderWriter = new JsonReadWrite(this.getClass().getResource("Board.JSON"));
     usersReaderWriter = new JsonReadWrite(this.getClass().getResource("Users.JSON"));
     System.out.println(usersReaderWriter.getSaveLocation());
+    updateLocalBoard();
     try {
-
-      readBoard();
       readUsers();
     } catch (Exception e) {
       e.printStackTrace();
@@ -64,9 +63,9 @@ public class BoardAccessDirect implements BoardAccessInterface {
     updateBoardChange();
   }
 
-  public ForumPost getPost(int i) {
+  public ForumPost getPost(String id) {
     updateLocalBoard();
-    return board.getPosts().get(i);
+    return board.getPost(id);
   }
 
   public List<ForumPost> getPosts() {
@@ -79,28 +78,28 @@ public class BoardAccessDirect implements BoardAccessInterface {
     updateBoardChange();
   }
 
-  public void removePost(int index) throws Exception {
-    board.deletePost(board.getPost(index));
+  public void removePost(String id) throws Exception {
+    board.deletePost(board.getPost(id));
     updateBoardChange();
   }
 
-  public void likePost(int index) throws Exception {
-    board.getPost(index).incrementLikes();
+  public void likePost(String id, User user) throws Exception {
+    board.getPost(id).like(user);
     updateBoardChange();
   }
 
-  public void dislikePost(int index) throws Exception {
-    board.getPost(index).incrementDislikes();
+  public void dislikePost(String id, User user) throws Exception {
+    board.getPost(id).dislike(user);
     updateBoardChange();
   }
 
-  public void likeComment(int postIndex, int commentIndex) throws Exception {
-    board.getPost(postIndex).getComments().get(commentIndex).incrementLikes();
+  public void likeComment(String postId, String commentId, User user) throws Exception {
+    board.getPost(postId).getComment(commentId).like(user);
     updateBoardChange();
   }
 
-  public void dislikeComment(int postIndex, int commentIndex) throws Exception {
-    board.getPost(postIndex).getComments().get(commentIndex).incrementDislikes();
+  public void dislikeComment(String postId, String commentId, User user) throws Exception {
+    board.getPost(postId).getComment(commentId).dislike(user);
     updateBoardChange();
   }
 
@@ -109,8 +108,8 @@ public class BoardAccessDirect implements BoardAccessInterface {
     return post.getComments();
   }
 
-  public void addComment(int postIndex, PostComment comment) throws Exception {
-    board.getPost(postIndex).addComment(comment);
+  public void addComment(String id, PostComment comment) throws Exception {
+    board.getPost(id).addComment(comment);
     updateBoardChange();
   }
 

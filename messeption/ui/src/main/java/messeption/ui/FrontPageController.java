@@ -70,7 +70,7 @@ public class FrontPageController {
     int indexId = 0;
     for (ForumPost post : posts) {
 
-      Pane pane = generatePostPane(post, indexId);
+      Pane pane = generatePostPane(post);
       pane.setLayoutY(MARIGIN_TOP + indexId * (SIZE_POSTS + MARIGIN_POSTS));
       postsContainer.getChildren().add(pane);
 
@@ -79,7 +79,7 @@ public class FrontPageController {
     postsContainer.setPrefHeight(indexId * (SIZE_POSTS + MARIGIN_POSTS));
   }
 
-  private Pane generatePostPane(ForumPost post, int indexId) throws IOException {
+  private Pane generatePostPane(ForumPost post) throws IOException {
 
     Pane toReturn = FXMLLoader.load(getClass().getResource("PostPaneTemplate.fxml"));
     List<Node> tempChildren = new ArrayList<>(toReturn.getChildren());
@@ -122,12 +122,10 @@ public class FrontPageController {
         int prevLikes = post.getLikes();
 
         try {
-          boardAccess.likePost(indexId);
-          post.incrementLikes();
+          boardAccess.likePost(post.getId(), boardAccess.getActiveUser());
         } catch (Exception error) {
           System.out.println("Klarte ikke like");
           UiUtils.exceptionAlert(error).showAndWait();
-          post.setLikes(prevLikes);
         }
 
         likeLabel.setText(post.getLikes() + " likes");
@@ -140,11 +138,9 @@ public class FrontPageController {
         int prevDislikes = post.getDislikes();
 
         try {
-          boardAccess.dislikePost(indexId);
-          post.incrementDislikes();
+          boardAccess.dislikePost(post.getId(), boardAccess.getActiveUser());
         } catch (Exception error) {
           UiUtils.exceptionAlert(error).showAndWait();
-          post.setDislikes(prevDislikes);
         }
 
         dislikeLabel.setText(post.getDislikes() + " dislikes");
@@ -156,7 +152,7 @@ public class FrontPageController {
       threadButton.setOnAction(e -> {
         primaryStage = (Stage) createPostButton.getScene().getWindow();
         primaryStage.setScene(postPageScene);
-        postPageController.drawComments(post, indexId);
+        postPageController.drawComments(post.getId());
       });
     }
 

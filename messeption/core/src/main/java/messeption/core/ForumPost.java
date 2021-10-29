@@ -58,6 +58,21 @@ public class ForumPost extends UserTextSubmission {
   }
 
   /**
+   * Getter for specified post with identity id.
+
+   * @param id unique id
+   * @return PostComment with matching id, if none returns null
+   */
+  public PostComment getComment(String id) {
+    for (int index = 0; index < comments.size(); index++) {
+      if (comments.get(index).getId().equals(id)) {
+        return comments.get(index);
+      }
+    }
+    return null;
+  }
+
+  /**
    * Adds a comment object to list of comments.
 
    * @param comment PostComment
@@ -88,7 +103,7 @@ public class ForumPost extends UserTextSubmission {
   @Override
   public String toString() {
     return "Title: " + this.title + "\tText: " + this.text + "\nLikes: " 
-        + this.likes + "\t Dislikes: " + this.dislikes + "\n TimeStamp: " + this.timeStamp;
+        + this.likeUsers + "\t Dislikes: " + this.dislikeUsers + "\n TimeStamp: " + this.timeStamp;
   }
 
   @Override
@@ -112,6 +127,6 @@ public class ForumPost extends UserTextSubmission {
 
   @Override
   public int hashCode() {
-    return this.text.length() * 5 + this.likes * 7 + this.dislikes * 11;
+    return this.text.length() * 5 + this.likeUsers.size() * 7 + this.dislikeUsers.size() * 11;
   }
 }

@@ -25,14 +25,19 @@ public class ForumBoard {
   }
 
   /**
-   * Getter for specified post at index i.
+   * Getter for specified post with the indentifier id.
 
-   * @param i index
-   * @return ForumPost at index i
+   * @param id unique id
+   * @return ForumPost with the correct id
    */
-  public ForumPost getPost(int i) {
-    return posts.get(i);
-  }
+  public ForumPost getPost(String id) {
+    for (int index = 0; index < posts.size(); index++) {
+      if (posts.get(index).getId().equals(id)) {
+        return posts.get(index);
+      }
+    }
+    return null;
+  } 
 
   /**
    * Creates a new post and adds it to the list posts.

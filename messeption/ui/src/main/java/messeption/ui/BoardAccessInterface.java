@@ -17,25 +17,25 @@ public interface BoardAccessInterface {
 
   public void setBoard(ForumBoard board) throws Exception;
 
-  public ForumPost getPost(int i);
+  public ForumPost getPost(String id);
 
   public List<ForumPost> getPosts();
 
   public void addPost(ForumPost post) throws Exception;
 
-  public void removePost(int index) throws Exception;
+  public void removePost(String id) throws Exception;
 
-  public void likePost(int index) throws Exception;
+  public void likePost(String id, User user) throws Exception;
 
-  public void dislikePost(int index) throws Exception;
+  public void dislikePost(String id, User user) throws Exception;
 
-  public void likeComment(int postIndex, int commentIndex) throws Exception;
+  public void likeComment(String postId, String commentId, User user) throws Exception;
 
-  public void dislikeComment(int postIndex, int commentIndex) throws Exception;
+  public void dislikeComment(String postId, String commentId, User user) throws Exception;
 
   public List<PostComment> getComments(ForumPost post);
 
-  public void addComment(int postIndex, PostComment comment) throws Exception;
+  public void addComment(String id, PostComment comment) throws Exception;
 
   public UserHandler readUsers() throws Exception;
 

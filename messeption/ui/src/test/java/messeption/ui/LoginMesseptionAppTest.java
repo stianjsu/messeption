@@ -47,6 +47,8 @@ public class LoginMesseptionAppTest extends ApplicationTest {
   @Override
   public void start(Stage primaryStage) throws Exception {
 
+    boardBackup = this.boardAccess.readBoard();
+
     FXMLLoader loginPageLoader = new FXMLLoader(getClass().getResource(LOGIN_PAGE_PATH));
     loginPageScene = new Scene(loginPageLoader.load());
     loginPageController = loginPageLoader.getController();
@@ -79,8 +81,6 @@ public class LoginMesseptionAppTest extends ApplicationTest {
     primaryStage.setTitle("Messeption");
     primaryStage.setResizable(false);
     primaryStage.show();
-
-    boardBackup = this.boardAccess.readBoard();
 
     frontPageController.createPostButton.setOnAction(event -> {
       primaryStage.setScene(createPostPageScene);
