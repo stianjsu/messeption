@@ -11,14 +11,13 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import messeption.core.UserHandler;
+import messeption.core.User;
 
 /**
  * Controller for the create post page.
  */
 public class LoginPageController {
 
-  private UserHandler userHandler;
 
   @FXML
   private Label errorLabel;
@@ -39,7 +38,7 @@ public class LoginPageController {
   private Button signupButton;
 
   private Scene frontPageScene;
-  // private BoardAccessInterface boardAccess;
+  private BoardAccessInterface boardAccess;
 
   /**
    * initializer for the scene.
@@ -48,12 +47,7 @@ public class LoginPageController {
     // userHandler= JsonReadWrite.readUserData(); noe sånnt vi vil ha
 
     // Midlertidig for testing
-    userHandler = new UserHandler();
-    try {
-      userHandler.addUser("Jonah", "Hei123");
-    } catch (Exception e) {
-      UiUtils.exceptionAlert(e).showAndWait();
-    }
+    
 
     loginButton.setOnAction((e) -> {
       login();
@@ -64,10 +58,10 @@ public class LoginPageController {
     });
   }
 
-  // public void setBoardAccess(BoardAccessInterface boardAccess) {
-  // this.boardAccess = boardAccess;
-  // }
-  // TODO implement this
+  public void setBoardAccess(BoardAccessInterface boardAccess) {
+    this.boardAccess = boardAccess;
+  }
+
 
   public void setFrontPageScene(Scene frontPageScene) {
     this.frontPageScene = frontPageScene;
@@ -78,15 +72,15 @@ public class LoginPageController {
    */
   public void login() {
     String username = loginUserTextField.getText();
-    if (!userHandler.userNameExists(username)) {
+    if (!boardAccess.userNameExists(username)) {
       UiUtils.popupAlert("Can not find username\nDont have an account? Sign up :)").showAndWait();
 
     } else {
       String password = loginPasswordField.getText();
-      if (!userHandler.correctPassword(username, password)) {
+      if (!boardAccess.correctPassword(username, password)) {
         UiUtils.popupAlert("Wrong password for user " + username).showAndWait();
       } else {
-        sucsessAlert(true);
+        sucsessAlert(new User(username, password));
       }
     }
   }
@@ -100,8 +94,8 @@ public class LoginPageController {
     String password2 = signUpPasswordFieldCheck.getText();
     if (password.equals(password2)) {
       try {
-        userHandler.addUser(username, password);
-        sucsessAlert(false);
+        boardAccess.addUser(username, password);
+        sucsessAlert(null);
         signUpUserTextField.clear();
         signUpPasswordField.clear();
         signUpPasswordFieldCheck.clear();
@@ -116,9 +110,9 @@ public class LoginPageController {
   /**
   * Opens an alert when the login is successful.
 
-  * @param login is true if it is a login false if account creation
+  * @param user the user who logged in successfully
   */
-  public void sucsessAlert(boolean login) {
+  public void sucsessAlert(User user) {
     Alert confirmation = new Alert(AlertType.INFORMATION);
 
     ButtonType okayButton = new ButtonType("Okay");
@@ -127,7 +121,7 @@ public class LoginPageController {
     String title;
     String header;
     String text;
-    if (login) {
+    if (user != null) {
       title = "Logged in";
       header = "You have succsessfully logged in to your account";
       text = "You can go the Front Page";
@@ -146,7 +140,8 @@ public class LoginPageController {
     Optional<ButtonType> result = confirmation.showAndWait();
 
     if (result.get() == okayButton) {
-      if (login) {
+      if (user != null) {
+        boardAccess.setActiveUser(user);
         goTo = frontPageScene;
       }
     }

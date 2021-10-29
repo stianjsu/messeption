@@ -13,13 +13,28 @@ public class ForumPost extends UserTextSubmission {
 
   /**
    * Constructur. Uses UserTextSubmissions constructur for text, likes/dislikes
-   * and time. Sets the title and initializes empty list of comments.
+   * and time. Sets the title and initializes empty list of comments. Author gets set
+   * to anonymous
 
    * @param title title of post
    * @param text  text in post
    */
   public ForumPost(String title, String text) {
     super(text);
+    this.title = title;
+    this.comments = new ArrayList<>();
+  }
+
+  /**
+   * Constructur. Uses UserTextSubmissions constructur for text, author, likes/dislikes
+   * and time. Sets the title and initializes empty list of comments.
+
+   * @param title title of post
+   * @param text  text in post
+   * @param author author of post
+   */
+  public ForumPost(String title, String text, User author) {
+    super(text, author);
     this.title = title;
     this.comments = new ArrayList<>();
   }

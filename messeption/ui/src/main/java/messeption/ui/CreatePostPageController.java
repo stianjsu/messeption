@@ -31,8 +31,6 @@ public class CreatePostPageController {
   @FXML
   TextArea postTextArea;
   @FXML
-  Label errorLabel;
-  @FXML
   CheckBox anonymousAuthorCheckBox;
 
   private BoardAccessInterface boardAccess;
@@ -62,19 +60,20 @@ public class CreatePostPageController {
       String text = postTextArea.getText();
 
       if (title.length() < 3) {
-        showError("Post title is too short");
+        UiUtils.popupAlert("Post title is too short").showAndWait();
         return;
       }
       if (text.length() < 3) {
-        showError("Post text is too short");
+        UiUtils.popupAlert("Post text is too short").showAndWait();
         return;
       }
 
-      ForumPost post = new ForumPost(title, text);
+      ForumPost post;
 
-      if (!anonymousAuthorCheckBox.isSelected()) {
-        String username = "placeholdah";
-        post.setAuthor(username);
+      if (anonymousAuthorCheckBox.isSelected()) {
+        post = new ForumPost(title, text);
+      } else {
+        post = new ForumPost(title, text, boardAccess.getActiveUser());
       }
 
       // updates and saves board
@@ -111,14 +110,7 @@ public class CreatePostPageController {
     reloadPage();
     if (result.get() == quitToFrontPage) {
       cancelButton.fire(); // go back to main menu
-    } else {
-      showError(result.get().getText());
-    }
-  }
-
-  public void showError(String e) {
-    errorLabel.setText(e);
-    errorLabel.setStyle("-fx-text-fill: red");
+    } 
   }
 
   /**
@@ -128,7 +120,6 @@ public class CreatePostPageController {
   public void reloadPage() {
     postTextArea.setText("");
     postTitleField.setText("");
-    errorLabel.setText("");
   }
 
 }

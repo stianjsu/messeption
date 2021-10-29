@@ -2,13 +2,15 @@ package messeption.core;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Collection;
 
 /**
  * Abstract object used as a template for user submission to the application.
  */
 public abstract class UserTextSubmission {
 
-  protected String author;
+  protected User author;
   protected String text;
   protected int likes;
   protected int dislikes;
@@ -21,11 +23,23 @@ public abstract class UserTextSubmission {
    * @param text the input text
    */
   public UserTextSubmission(String text) {
-    this.author = "Anonymous";
+    this.author = User.getAnonymousUser();
     this.text = text;
     this.likes = 0;
     this.dislikes = 0;
     this.timeStamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss dd-MM-yyyy"));
+  }
+
+  /**
+   * Initializes the default values of likes, dislikes and the current time.
+   * Also sets the author to be correct.
+
+   * @param text the input text
+   * @param author the author of the submission
+   */
+  public UserTextSubmission(String text, User author) {
+    this(text);
+    this.author = author;
   }
 
   public String getText() {
@@ -47,15 +61,6 @@ public abstract class UserTextSubmission {
   public void incrementDislikes() {
     this.dislikes++;
   }
-
-  public String getAuthor() {
-    return this.author;
-  }
-
-  public void setAuthor(String username) {
-    this.author = username;
-  }
-
 
 
   /**
@@ -80,6 +85,14 @@ public abstract class UserTextSubmission {
       throw new IllegalArgumentException("Can't set negative dislikes");
     }
     this.dislikes = dislikes;
+  }
+
+  public User getAuthor() {
+    return this.author;
+  }
+
+  public void setAuthor(User user) {
+    this.author = user;
   }
 
   public String getTimeStamp() {

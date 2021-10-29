@@ -106,7 +106,7 @@ public class PostPageController {
 
   private void generatePostContent(ForumPost post, int indexId) {
     postTitleLabel.setText(post.getTitle());
-    postAuthorLabel.setText("Post by: " + post.getAuthor());
+    postAuthorLabel.setText("Post by: " + post.getAuthor().getUsername());
 
     postTextArea.setText(post.getText());
     postTextArea.setDisable(true);
@@ -152,7 +152,7 @@ public class PostPageController {
 
     Label authorLabel = (Label) UiUtils.getNodeFromId(tempChildren, "authorLabel");
     if (authorLabel != null) {
-      authorLabel.setText(comment.getAuthor());
+      authorLabel.setText(comment.getAuthor().getUsername());
     }
     TextArea commentTextArea = (TextArea) UiUtils.getNodeFromId(tempChildren, "commentTextArea");
     if (commentTextArea != null) {
@@ -216,15 +216,17 @@ public class PostPageController {
     try {
       String text = newCommentTextArea.getText();
 
-      if (text.length() < 3) {
+      if (text.length() < 4) {
+        UiUtils.popupAlert("Comment text must be longer than 3 characters").showAndWait();
         return;
       }
 
-      PostComment comment = new PostComment(text);
-      if (!anonymousAuthorCheckBox.isSelected()) {
-        // String username = staticclass.getActiveUsername()
-        String username = "placeholder";
-        comment.setAuthor(username);
+      PostComment comment;
+
+      if (anonymousAuthorCheckBox.isSelected()) {
+        comment = new PostComment(text);
+      } else {
+        comment = new PostComment(text, boardAccess.getActiveUser());
       }
 
       boardAccess.addComment(postIndex, comment);

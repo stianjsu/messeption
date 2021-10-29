@@ -33,7 +33,7 @@ public class MesseptionApp extends Application {
     FXMLLoader loginPageLoader = new FXMLLoader(getClass().getResource(LOGIN_PAGE_PATH));
     loginPageScene = new Scene(loginPageLoader.load());
     loginPageController = loginPageLoader.getController();
-    // loginPageController.setBoardAccess(boardAccess);
+    loginPageController.setBoardAccess(boardAccess);
 
 
     FXMLLoader frontPageLoader = new FXMLLoader(getClass().getResource(FRONT_PAGE_PATH));

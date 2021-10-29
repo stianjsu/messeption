@@ -1,5 +1,7 @@
 package messeption.core;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -8,10 +10,10 @@ import java.util.Map;
  */
 public class UserHandler {
 
-  private Map<String, String> users = new HashMap<>();
+  private Collection<User> users = new ArrayList<>();
 
-  public Map<String, String> getUsers() {
-    return new HashMap<>(users);
+  public Collection<User> getUsers() {
+    return new ArrayList<>(users);
   }
 
   /**
@@ -31,16 +33,38 @@ public class UserHandler {
     if (passwordValidation != null) {
       throw passwordValidation;
     }
-    users.put(username, password);
-    
+    users.add(new User(username, password));
   }
   
+  /**
+   * Checks if the inputed username alreaxy exists or not.
+
+   * @param username the username to check
+   * @return returns true if the username exists
+   */
   public boolean userNameExists(String username) {
-    return this.users.containsKey(username);
+    for (User user : users) {
+      if (user.getUsername().equals(username)) {
+        return true;
+      }
+    }
+    return false;
   }
 
+  /**
+   * Checks if the inputed username alreaxy exists or not.
+
+   * @param username the username to check
+   * @param password the username to against the username
+   * @return returns true if the password is correct
+   */
   public boolean correctPassword(String username, String password) {
-    return this.users.get(username).equals(password);
+    for (User user : this.users) {
+      if (user.getUsername().equals(username)) {
+        return user.getPassword().equals(password);
+      }
+    }
+    return false;
   }
   
   /**
@@ -57,7 +81,7 @@ public class UserHandler {
     } else if (username.contains(" ")) {
       return new IllegalArgumentException(
           "Username can not cointain spaces. Try using underscores :)");
-    } else if (this.users.containsKey(username)) {
+    } else if (userNameExists(username)) {
       return new IllegalStateException("The username is taken");
     }
     return null;
@@ -94,18 +118,18 @@ public class UserHandler {
     if (obj instanceof UserHandler) {
       UserHandler other = (UserHandler) obj;
       boolean hashCodeCheck = this.hashCode() == other.hashCode();
-      boolean containsSameUsers = this.users.equals(other.users);
+      boolean containsSameUsers = this.users.equals(other.getUsers());
       return hashCodeCheck && containsSameUsers;
-    } else {
-      return false;
-    }
+    } 
+
+    return false;
   }
 
   @Override
   public int hashCode() {
     int code = 0;
-    for (Map.Entry<String, String> entry : users.entrySet()) {
-      code += entry.getKey().length() + entry.getValue().length();
+    for (User user : users) {
+      code += user.hashCode();
     }
     return code;
   }
@@ -113,8 +137,8 @@ public class UserHandler {
   @Override
   public String toString() {
     StringBuilder string = new StringBuilder();
-    for (Map.Entry<String, String> entry : users.entrySet()) {
-      string.append(entry.getKey() + ": " + entry.getValue() + "\n");
+    for (User user : users) {
+      string.append(user.getUsername() + ": " + user.getPassword() + "\n");
     }
     return string.toString();
   }

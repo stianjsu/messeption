@@ -9,6 +9,10 @@ public class PostComment extends UserTextSubmission {
     super(text);
   }
 
+  public PostComment(String text, User author) {
+    super(text, author);
+  }
+
   @Override
   public String toString() {
     return "\tText: " + this.text + "\nLikes: " + this.likes + "\t Dislikes: "

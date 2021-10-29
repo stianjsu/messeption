@@ -91,7 +91,7 @@ public class FrontPageController {
     }
     Label authorLabel = (Label) UiUtils.getNodeFromId(tempChildren, "authorLabel");
     if (titleLabel != null) {
-      authorLabel.setText("Post by: " + post.getAuthor());
+      authorLabel.setText("Post by: " + post.getAuthor().getUsername());
     }
 
     TextArea postTextArea = (TextArea) UiUtils.getNodeFromId(tempChildren, "postTextArea");

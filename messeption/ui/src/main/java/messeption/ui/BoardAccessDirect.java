@@ -5,6 +5,8 @@ import java.util.List;
 import messeption.core.ForumBoard;
 import messeption.core.ForumPost;
 import messeption.core.PostComment;
+import messeption.core.User;
+import messeption.core.UserHandler;
 import messeption.core.UserTextSubmission;
 import messeption.json.JsonReadWrite;
 import messeption.ui.BoardAccessInterface;
@@ -14,28 +16,34 @@ import messeption.ui.BoardAccessInterface;
  */
 public class BoardAccessDirect implements BoardAccessInterface {
 
+  private User activeUser;
   private ForumBoard board;
-  private JsonReadWrite readerWriter;
+  private UserHandler userHandler;
+  private JsonReadWrite boardReaderWriter;
+  private JsonReadWrite usersReaderWriter;
 
   /**
    * Constructor for Direct Access that reads from file to prevent null pointer.
    */
   public BoardAccessDirect() {
-    readerWriter = new JsonReadWrite(this.getClass().getResource("Board.JSON"));
+    boardReaderWriter = new JsonReadWrite(this.getClass().getResource("Board.JSON"));
+    usersReaderWriter = new JsonReadWrite(this.getClass().getResource("Users.JSON"));
+    System.out.println(usersReaderWriter.getSaveLocation());
     try {
 
       readBoard();
+      readUsers();
     } catch (Exception e) {
       e.printStackTrace();
     }
   }
 
   public void updateBoardChange() throws Exception {
-    readerWriter.fileWriteForumBoard(board);
+    boardReaderWriter.fileWriteForumBoard(board);
   }
 
   public ForumBoard readBoard() throws Exception {
-    this.board = readerWriter.fileReadForumBoard();
+    this.board = boardReaderWriter.fileReadForumBoard();
     return this.board;
   }
 
@@ -44,7 +52,7 @@ public class BoardAccessDirect implements BoardAccessInterface {
    */
   public void updateLocalBoard() {
     try {
-      this.board = readerWriter.fileReadForumBoard();
+      this.board = boardReaderWriter.fileReadForumBoard();
     } catch (Exception e) {
       System.out.println(e);
     }
@@ -107,7 +115,37 @@ public class BoardAccessDirect implements BoardAccessInterface {
   }
 
   public String getResourcesPath() {
-    return readerWriter.getSaveLocation();
+    return boardReaderWriter.getSaveLocation();
+  }
+
+  public UserHandler readUsers() throws Exception {
+    this.userHandler = usersReaderWriter.fileReadUserHandler();
+    return this.userHandler;
+  }
+
+  public void updateUsersChange() throws Exception {
+    usersReaderWriter.fileWriteUserHandler(this.userHandler);
+  }
+
+  public User getActiveUser() {
+    return this.activeUser;
+  }
+
+  public void setActiveUser(User user) {
+    this.activeUser = user;
+  }
+  
+  public void addUser(String username, String password) throws Exception {
+    this.userHandler.addUser(username, password);
+    updateUsersChange();
+  }
+
+  public boolean userNameExists(String username) {
+    return userHandler.userNameExists(username);
+  }
+
+  public boolean correctPassword(String username, String password) {
+    return userHandler.correctPassword(username, password);
   }
 
 }
