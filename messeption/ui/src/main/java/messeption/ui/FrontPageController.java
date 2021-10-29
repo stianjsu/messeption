@@ -19,7 +19,6 @@ import javafx.scene.shape.Line;
 import javafx.stage.Stage;
 import messeption.core.ForumBoard;
 import messeption.core.ForumPost;
-import messeption.json.JsonReadWrite;
 
 /**
  * Controller for the front page or main menu of the app.
@@ -36,60 +35,42 @@ public class FrontPageController {
   Button createPostButton;
 
   private Stage primaryStage;
-  private ForumBoard forumBoard;
+  private BoardAccessInterface boardAccess;
 
   private PostPageController postPageController;
   private Scene postPageScene;
 
-  public void initialize() throws IOException {
+  public void initialize() throws Exception {
+  }
+
+  public void setBoardAccess(BoardAccessInterface boardAccess) throws Exception {
+    this.boardAccess = boardAccess;
     drawPosts();
   }
-
-  public ForumBoard getBoard() {
-    return this.forumBoard;
-  }
-
-  public void setBoard(ForumBoard board) {
-    this.forumBoard = board;
-    writeBoard();
-  }
-
+  
   public void setPostPageController(PostPageController controller) {
-    postPageController = controller;
+    this.postPageController = controller;
   }
-
+  
   public void setPostCommentsScene(Scene scene) {
     postPageScene = scene;
   }
 
   /**
-   * Writes the current forumBoard state to file. Shows an alert if IOException.
-   */
-  public void writeBoard() {
-    try {
-      JsonReadWrite.fileWrite(forumBoard);
-    } catch (IOException e) {
-      Alert alert = UiUtils.exceptionAlert(e);
-      alert.show();
-    }
-  }
-
-  /**
    * Draws the posts in the UI and makes them visible.
 
-   * @throws IOException If board cannot read form file
+   * @throws Exception If board cannot read form file
    */
-  public void drawPosts() throws IOException {
-
-    forumBoard = JsonReadWrite.fileRead();
-    List<ForumPost> posts = forumBoard.getPosts();
+  public void drawPosts() throws Exception {
+    
+    List<ForumPost> posts = boardAccess.getPosts();
 
     postsContainer.getChildren().clear();
 
     int indexId = 0;
     for (ForumPost post : posts) {
 
-      Pane pane = generatePostPane(post);
+      Pane pane = generatePostPane(post, indexId);
       pane.setLayoutY(MARIGIN_TOP + indexId * (SIZE_POSTS + MARIGIN_POSTS));
       postsContainer.getChildren().add(pane);
 
@@ -98,7 +79,7 @@ public class FrontPageController {
     postsContainer.setPrefHeight(indexId * (SIZE_POSTS + MARIGIN_POSTS));
   }
 
-  private Pane generatePostPane(ForumPost post) throws IOException {
+  private Pane generatePostPane(ForumPost post, int indexId) throws IOException {
 
     Pane toReturn = FXMLLoader.load(getClass().getResource("PostPaneTemplate.fxml"));
     List<Node> tempChildren = new ArrayList<>(toReturn.getChildren());
@@ -110,7 +91,7 @@ public class FrontPageController {
     }
     Label authorLabel = (Label) UiUtils.getNodeFromId(tempChildren, "authorLabel");
     if (titleLabel != null) {
-      authorLabel.setText("Post by: "+post.getAuthor());
+      authorLabel.setText("Post by: " + post.getAuthor());
     }
 
     TextArea postTextArea = (TextArea) UiUtils.getNodeFromId(tempChildren, "postTextArea");
@@ -141,9 +122,11 @@ public class FrontPageController {
         int prevLikes = post.getLikes();
 
         try {
+          boardAccess.likePost(indexId);
           post.incrementLikes();
-          JsonReadWrite.fileWrite(forumBoard);
-        } catch (IOException error) {
+        } catch (Exception error) {
+          System.out.println("Klarte ikke like");
+          UiUtils.exceptionAlert(error).showAndWait();
           post.setLikes(prevLikes);
         }
 
@@ -157,9 +140,10 @@ public class FrontPageController {
         int prevDislikes = post.getDislikes();
 
         try {
+          boardAccess.dislikePost(indexId);
           post.incrementDislikes();
-          JsonReadWrite.fileWrite(forumBoard);
-        } catch (IOException error) {
+        } catch (Exception error) {
+          UiUtils.exceptionAlert(error).showAndWait();
           post.setDislikes(prevDislikes);
         }
 
@@ -172,16 +156,15 @@ public class FrontPageController {
       threadButton.setOnAction(e -> {
         primaryStage = (Stage) createPostButton.getScene().getWindow();
         primaryStage.setScene(postPageScene);
-        postPageController.setForumBoard(this.getBoard());
-        postPageController.setPost(post);
+        postPageController.drawComments(post, indexId);
       });
     }
 
     Line titleLine = (Line) UiUtils.getNodeFromId(tempChildren, "titleLine");
-    
-    toReturn.getChildren().addAll(new ArrayList<Node>(Arrays.asList(
-        titleLabel, authorLabel, titleLine, postTextArea, likeLabel, dislikeLabel, 
-        replyLabel, likeButton, dislikeButton, threadButton)));
+
+    toReturn.getChildren().addAll(new ArrayList<Node>(Arrays.asList(titleLabel, authorLabel, 
+          titleLine, postTextArea, likeLabel, dislikeLabel, 
+          replyLabel, likeButton, dislikeButton, threadButton)));
     return toReturn;
   }
 

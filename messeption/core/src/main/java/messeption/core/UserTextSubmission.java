@@ -48,11 +48,11 @@ public abstract class UserTextSubmission {
     this.dislikes++;
   }
 
-  public String getAuthor(){
+  public String getAuthor() {
     return this.author;
   }
 
-  public void setAuthor(String username){
+  public void setAuthor(String username) {
     this.author = username;
   }
 

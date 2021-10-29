@@ -16,7 +16,6 @@ import javafx.scene.text.Font;
 import messeption.core.ForumBoard;
 import messeption.core.ForumPost;
 import messeption.core.PostComment;
-import messeption.json.JsonReadWrite;
 
 /**
  * Javafx controller for viewing individual posts.
@@ -53,43 +52,36 @@ public class PostPageController {
   CheckBox anonymousAuthorCheckBox;
 
   private ForumPost post;
-  private ForumBoard forumBoard;
+  private BoardAccessInterface boardAccess;
 
   /**
    * Initializes the publish comment button.
    */
   public void initialize() {
-    newCommentButton.setOnAction(e -> {
-      publishComment();
-    });
+    
   }
 
-  /**
-   * Takes an input post and displayes the post and its comments.
-
-   * @param post The input post
-   */
-  public void setPost(ForumPost post) {
-    this.post = post;
-    generatePostContent();
-    drawComments();
-
-  }
 
   /**
    * Sets the controlelr forumboard to a specified input.
 
-   * @param board the new controller board
+   * @param boardAccess the new controller boardAccess
    */
-  public void setForumBoard(ForumBoard board) {
-    this.forumBoard = board;
+  public void setBoardAccess(BoardAccessInterface boardAccess) {
+    this.boardAccess = boardAccess;
   }
 
   /**
    * Javafx help method to display comments in the UI.
    */
-  public void drawComments() {
+  public void drawComments(ForumPost post, int postIndex) {
+    newCommentButton.setOnAction(e -> {
+      publishComment(postIndex);
+    });
 
+
+    this.post = post;
+    generatePostContent(post, postIndex);
     List<PostComment> comments = post.getComments();
 
     this.commentsContainer.getChildren().clear();
@@ -98,13 +90,13 @@ public class PostPageController {
       PostComment comment = comments.get(indexId);
 
       try {
-        Pane commentPane = generateCommentPane(comment, indexId);
+        Pane commentPane = generateCommentPane(comment, postIndex, indexId);
         commentPane.setLayoutY((MARGIN_COMMENTS + SIZE_COMMENTS) * indexId + MARGIN_COMMENTS);
 
         this.commentsContainer.getChildren().add(commentPane);
 
-      } catch (IOException e) {
-        e.printStackTrace();
+      } catch (Exception error) {
+        UiUtils.exceptionAlert(error).showAndWait();
       }
 
     }
@@ -112,9 +104,9 @@ public class PostPageController {
         (MARGIN_COMMENTS + SIZE_COMMENTS) * comments.size() + MARGIN_COMMENTS);
   }
 
-  private void generatePostContent() {
+  private void generatePostContent(ForumPost post, int indexId) {
     postTitleLabel.setText(post.getTitle());
-    postAuthorLabel.setText("Post by: "+post.getAuthor());
+    postAuthorLabel.setText("Post by: " + post.getAuthor());
 
     postTextArea.setText(post.getText());
     postTextArea.setDisable(true);
@@ -127,10 +119,10 @@ public class PostPageController {
       int prevLikes = post.getLikes();
 
       try {
-        this.post.incrementLikes();
-        JsonReadWrite.fileWrite(forumBoard);
-        
-      } catch (IOException error) {
+        boardAccess.likePost(indexId);
+        post.incrementLikes();
+      } catch (Exception error) {
+        UiUtils.exceptionAlert(error).showAndWait();
         this.post.setLikes(prevLikes);
       }
 
@@ -141,9 +133,10 @@ public class PostPageController {
       int prevDislikes = this.post.getDislikes();
 
       try {
-        this.post.incrementDislikes();
-        JsonReadWrite.fileWrite(forumBoard);
-      } catch (IOException error) {
+        boardAccess.dislikePost(indexId);
+        post.incrementDislikes();
+      } catch (Exception error) {
+        UiUtils.exceptionAlert(error).showAndWait();
         this.post.setDislikes(prevDislikes);
       }
 
@@ -151,13 +144,14 @@ public class PostPageController {
     });
   }
 
-  private Pane generateCommentPane(PostComment comment, int indexId) throws IOException {
+  private Pane generateCommentPane(PostComment comment, int postIndex, int commentIndex) 
+      throws IOException {
     Pane toReturn = FXMLLoader.load(getClass().getResource("CommentPaneTemplate.fxml"));
     List<Node> tempChildren = new ArrayList<>(toReturn.getChildren());
     toReturn.getChildren().clear();
 
     Label authorLabel = (Label) UiUtils.getNodeFromId(tempChildren, "authorLabel");
-    if(authorLabel != null){
+    if (authorLabel != null) {
       authorLabel.setText(comment.getAuthor());
     }
     TextArea commentTextArea = (TextArea) UiUtils.getNodeFromId(tempChildren, "commentTextArea");
@@ -183,9 +177,10 @@ public class PostPageController {
         int prevLikes = comment.getLikes();
 
         try {
+          boardAccess.likeComment(postIndex, commentIndex);
           comment.incrementLikes();
-          JsonReadWrite.fileWrite(forumBoard);
-        } catch (IOException error) {
+        } catch (Exception error) {
+          UiUtils.exceptionAlert(error).showAndWait();
           comment.setLikes(prevLikes);
         }
 
@@ -200,9 +195,10 @@ public class PostPageController {
         int prevDislikes = comment.getDislikes();
 
         try {
+          boardAccess.dislikeComment(postIndex, commentIndex);
           comment.incrementDislikes();
-          JsonReadWrite.fileWrite(forumBoard);
-        } catch (IOException error) {
+        } catch (Exception error) {
+          UiUtils.exceptionAlert(error).showAndWait();
           comment.setDislikes(prevDislikes);
         }
 
@@ -210,12 +206,12 @@ public class PostPageController {
       });
     }
 
-    toReturn.getChildren().addAll(authorLabel,commentTextArea, likeLabel, dislikeLabel, 
-        likeButton, dislikeButton);
+    toReturn.getChildren().addAll(
+        authorLabel, commentTextArea, likeLabel, dislikeLabel, likeButton, dislikeButton);
     return toReturn;
   }
 
-  private void publishComment() {
+  private void publishComment(int postIndex) {
 
     try {
       String text = newCommentTextArea.getText();
@@ -225,18 +221,16 @@ public class PostPageController {
       }
 
       PostComment comment = new PostComment(text);
-      if(! anonymousAuthorCheckBox.isSelected()){
-        //String username = staticclass.getActiveUsername()
+      if (!anonymousAuthorCheckBox.isSelected()) {
+        // String username = staticclass.getActiveUsername()
         String username = "placeholder";
         comment.setAuthor(username);
       }
 
-      post.addComment(comment);
+      boardAccess.addComment(postIndex, comment);
+      drawComments(this.post, postIndex);
 
-      JsonReadWrite.fileWrite(forumBoard);
-      drawComments();
-
-    } catch (IOException e) {
+    } catch (Exception e) {
       UiUtils.exceptionAlert(e).show();
     }
   }
