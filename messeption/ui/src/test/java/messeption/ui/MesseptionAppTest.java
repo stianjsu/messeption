@@ -8,6 +8,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.List;
 import java.util.stream.Stream;
+
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -18,6 +20,7 @@ import org.testfx.matcher.control.LabeledMatchers;
 import messeption.core.ForumBoard;
 import messeption.core.ForumPost;
 import messeption.core.PostComment;
+import messeption.core.User;
 
 /**
  * TestFX App test
@@ -42,6 +45,8 @@ public class MesseptionAppTest extends ApplicationTest {
 
   @Override
   public void start(Stage primaryStage) throws Exception {
+
+    boardAccess.setActiveUser(new User("ADMIN", "POWERS"));
 
     FXMLLoader frontPageLoader = new FXMLLoader(getClass().getResource(FRONT_PAGE_PATH));
     FXMLLoader createPostPageLoader = new FXMLLoader(getClass().getResource(CREATE_POST_PAGE_PATH));
@@ -106,6 +111,12 @@ public class MesseptionAppTest extends ApplicationTest {
     assertEquals(post.getText(), text, "Text did not match expected value");
   }
 
+  public void checkNewPostAuthor(String author) throws Exception {
+    List<ForumPost> posts = boardAccess.getPosts();
+    ForumPost post = posts.get(posts.size() - 1);
+    assertEquals(post.getAuthor().getUsername(), author, "Author did not match expected value");
+  }
+
   @ParameterizedTest
   @MethodSource
   @DisplayName("Test create a valid post")
@@ -119,6 +130,23 @@ public class MesseptionAppTest extends ApplicationTest {
 
   private static Stream<Arguments> testCreatePostValid() {
     return Stream.of(Arguments.of("title", "text"), Arguments.of("there", "kenobi"));
+  }
+
+  @ParameterizedTest
+  @MethodSource
+  @DisplayName("Test create a valid post anonymously")
+  public void testCreatePostValidAnonomous(String title, String text) throws Exception {
+    click("Create Post");
+    clickOn("#anonymousAuthorCheckBox");
+    clickOn("#postTitleField").write(title);
+    clickOn("#postTextArea").write(text);
+    click("Publish", "Quit To Front Page");
+    checkNewPost(title, text);
+    checkNewPostAuthor("Anonymous");
+  }
+
+  private static Stream<Arguments> testCreatePostValidAnonomous() {
+    return Stream.of(Arguments.of("title", "text"));
   }
 
   @ParameterizedTest
@@ -154,7 +182,9 @@ public class MesseptionAppTest extends ApplicationTest {
     click("Create Post");
     clickOn("#postTitleField").write(title);
     clickOn("#postTextArea").write(text);
-    click("Publish", "Cancel");
+    click("Publish");
+    click("OK");
+    click("Cancel");
     checkNewPostFail(title, text);
   }
 
@@ -236,6 +266,42 @@ public class MesseptionAppTest extends ApplicationTest {
 
   private static Stream<Arguments> testComments() {
     return Stream.of(Arguments.of("CHEEESE!!"));
+  }
+
+  @ParameterizedTest
+  @MethodSource
+  @DisplayName("Test creating comments invalid")
+  public void testCommentsInvalid(String text) {
+    click("Go to thread");
+    clickOn("#newCommentTextArea").write(text);
+    click("Comment");
+
+    List<PostComment> comments = boardAccess.getPost(0).getComments();
+    String commentText = comments.get(comments.size() - 1).getText();
+    assertNotEquals(text, commentText, "New comment was saved when it shouldn't have been");
+  }
+
+  private static Stream<Arguments> testCommentsInvalid() {
+    return Stream.of(Arguments.of("!"));
+  }
+
+  @ParameterizedTest
+  @MethodSource
+  @DisplayName("Test creating comments anonymously")
+  public void testCommentsAnonymous(String text) {
+    click("Go to thread");
+    clickOn("#anonymousAuthorCheckBox");
+    clickOn("#newCommentTextArea").write(text);
+    click("Comment");
+
+    List<PostComment> comments = boardAccess.getPost(0).getComments();
+    PostComment comment = comments.get(comments.size() - 1);
+    assertEquals(text, comment.getText(), "New comment was not saved");
+    assertEquals(comment.getAuthor().getUsername(), "Anonymous", "New comment was not posted anonymously");
+  }
+
+  private static Stream<Arguments> testCommentsAnonymous() {
+    return Stream.of(Arguments.of("Anonymous"));
   }
 
   @AfterEach
