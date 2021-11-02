@@ -74,6 +74,7 @@ public class LoginMesseptionAppTest extends ApplicationTest {
     
     frontPageController.setPostCommentsScene(postPageScene);
     frontPageController.setPostPageController(postPageController);
+    loginPageController.setFrontPageController(frontPageController);
     loginPageController.setFrontPageScene(frontPageScene);
     
 

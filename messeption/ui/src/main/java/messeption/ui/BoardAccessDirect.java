@@ -28,7 +28,6 @@ public class BoardAccessDirect implements BoardAccessInterface {
   public BoardAccessDirect() {
     boardReaderWriter = new JsonReadWrite(this.getClass().getResource("Board.JSON"));
     usersReaderWriter = new JsonReadWrite(this.getClass().getResource("Users.JSON"));
-    System.out.println(usersReaderWriter.getSaveLocation());
     updateLocalBoard();
     try {
       readUsers();

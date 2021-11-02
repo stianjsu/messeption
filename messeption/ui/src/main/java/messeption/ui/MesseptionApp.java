@@ -55,6 +55,7 @@ public class MesseptionApp extends Application {
     
     frontPageController.setPostCommentsScene(postPageScene);
     frontPageController.setPostPageController(postPageController);
+    loginPageController.setFrontPageController(frontPageController);
     loginPageController.setFrontPageScene(frontPageScene);
     
 

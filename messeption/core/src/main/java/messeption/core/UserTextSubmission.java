@@ -56,6 +56,14 @@ public abstract class UserTextSubmission {
     return this.dislikeUsers.size();
   }
 
+  public Collection<User> getLikeUsers() {
+    return new ArrayList<>(likeUsers);
+  }
+
+  public Collection<User> getDislikeUsers() {
+    return new ArrayList<>(dislikeUsers);
+  }
+
   public String getId() {
     return this.id;
   }
@@ -70,7 +78,7 @@ public abstract class UserTextSubmission {
       this.likeUsers.remove(user);
     } else {
       this.likeUsers.add(user);
-      if(this.dislikeUsers.contains(user)){
+      if (this.dislikeUsers.contains(user)) {
         this.dislikeUsers.remove(user);
       }
     }
@@ -86,7 +94,7 @@ public abstract class UserTextSubmission {
       this.dislikeUsers.remove(user);
     } else {
       this.dislikeUsers.add(user);
-      if(this.likeUsers.contains(user)){
+      if (this.likeUsers.contains(user)) {
         this.likeUsers.remove(user);
       }
     }

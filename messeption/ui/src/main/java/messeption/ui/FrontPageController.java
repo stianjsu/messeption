@@ -117,7 +117,14 @@ public class FrontPageController {
     }
 
     Button likeButton = (Button) UiUtils.getNodeFromId(tempChildren, "likeButton");
-    if (likeButton != null) {
+    Button dislikeButton = (Button) UiUtils.getNodeFromId(tempChildren, "dislikeButton");
+    if (likeButton != null && dislikeButton != null) {
+
+      UiUtils.setStyleOfButton(likeButton,
+          post.getLikeUsers().contains(boardAccess.getActiveUser()));
+      UiUtils.setStyleOfButton(dislikeButton,
+          post.getDislikeUsers().contains(boardAccess.getActiveUser()));
+          
       likeButton.setOnAction(e -> {
         int prevLikes = post.getLikes();
 
@@ -127,14 +134,16 @@ public class FrontPageController {
           System.out.println("Klarte ikke like");
           UiUtils.exceptionAlert(error).showAndWait();
         }
+        
+        UiUtils.setStyleOfButton(likeButton,
+            post.getLikeUsers().contains(boardAccess.getActiveUser()));
+        UiUtils.setStyleOfButton(dislikeButton,
+            post.getDislikeUsers().contains(boardAccess.getActiveUser()));
 
         likeLabel.setText(post.getLikes() + " likes");
         dislikeLabel.setText(post.getDislikes() + " dislikes");
       });
-    }
 
-    Button dislikeButton = (Button) UiUtils.getNodeFromId(tempChildren, "dislikeButton");
-    if (dislikeButton != null) {
       dislikeButton.setOnAction(e -> {
         int prevDislikes = post.getDislikes();
 
@@ -143,6 +152,10 @@ public class FrontPageController {
         } catch (Exception error) {
           UiUtils.exceptionAlert(error).showAndWait();
         }
+        UiUtils.setStyleOfButton(likeButton,
+            post.getLikeUsers().contains(boardAccess.getActiveUser()));
+        UiUtils.setStyleOfButton(dislikeButton,
+            post.getDislikeUsers().contains(boardAccess.getActiveUser()));
 
         dislikeLabel.setText(post.getDislikes() + " dislikes");
         likeLabel.setText(post.getLikes() + " likes");

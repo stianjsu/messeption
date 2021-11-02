@@ -38,6 +38,7 @@ public class LoginPageController {
   private Button signupButton;
 
   private Scene frontPageScene;
+  private FrontPageController frontPageController;
   private BoardAccessInterface boardAccess;
 
   /**
@@ -63,6 +64,10 @@ public class LoginPageController {
   }
 
 
+  public void setFrontPageController(FrontPageController frontPageController) {
+    this.frontPageController = frontPageController;
+  }
+  
   public void setFrontPageScene(Scene frontPageScene) {
     this.frontPageScene = frontPageScene;
   }
@@ -143,6 +148,12 @@ public class LoginPageController {
       if (user != null) {
         boardAccess.setActiveUser(user);
         goTo = frontPageScene;
+        try {
+          frontPageController.drawPosts();
+        } catch (Exception e) {
+          UiUtils.exceptionAlert(e).showAndWait();
+          goTo = loginButton.getScene();
+        }
       }
     }
     primaryStage.setScene(goTo);

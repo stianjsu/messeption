@@ -115,6 +115,11 @@ public class PostPageController {
     postLikeLabel.setText(post.getLikes() + " likes");
     postDislikeLabel.setText(post.getDislikes() + " dislikes");
 
+    UiUtils.setStyleOfButton(postLikeButton,
+            post.getLikeUsers().contains(boardAccess.getActiveUser()));
+      UiUtils.setStyleOfButton(postDislikeButton,
+            post.getDislikeUsers().contains(boardAccess.getActiveUser()));
+
     postLikeButton.setOnAction(e -> {
       int prevLikes = post.getLikes();
 
@@ -123,6 +128,10 @@ public class PostPageController {
       } catch (Exception error) {
         UiUtils.exceptionAlert(error).showAndWait();
       }
+      UiUtils.setStyleOfButton(postLikeButton,
+            post.getLikeUsers().contains(boardAccess.getActiveUser()));
+      UiUtils.setStyleOfButton(postDislikeButton,
+            post.getDislikeUsers().contains(boardAccess.getActiveUser()));
 
       postDislikeLabel.setText(post.getDislikes() + " dislikes");
       postLikeLabel.setText(post.getLikes() + " likes");
@@ -136,6 +145,11 @@ public class PostPageController {
       } catch (Exception error) {
         UiUtils.exceptionAlert(error).showAndWait();
       }
+      UiUtils.setStyleOfButton(postLikeButton,
+            post.getLikeUsers().contains(boardAccess.getActiveUser()));
+      UiUtils.setStyleOfButton(postDislikeButton,
+            post.getDislikeUsers().contains(boardAccess.getActiveUser()));
+
       postDislikeLabel.setText(post.getDislikes() + " dislikes");
       postLikeLabel.setText(post.getLikes() + " likes");
     });
@@ -168,7 +182,13 @@ public class PostPageController {
     }
 
     Button likeButton = (Button) UiUtils.getNodeFromId(tempChildren, "likeCommentButton");
-    if (likeButton != null) {
+    Button dislikeButton = (Button) UiUtils.getNodeFromId(tempChildren, "dislikeCommentButton");
+    if (likeButton != null && dislikeButton != null) {
+      UiUtils.setStyleOfButton(likeButton,
+            comment.getLikeUsers().contains(boardAccess.getActiveUser()));
+      UiUtils.setStyleOfButton(dislikeButton,
+            comment.getDislikeUsers().contains(boardAccess.getActiveUser()));
+
       likeButton.setOnAction(e -> {
 
         int prevLikes = comment.getLikes();
@@ -178,16 +198,16 @@ public class PostPageController {
         } catch (Exception error) {
           UiUtils.exceptionAlert(error).showAndWait();
         }
+        UiUtils.setStyleOfButton(likeButton,
+            comment.getLikeUsers().contains(boardAccess.getActiveUser()));
+        UiUtils.setStyleOfButton(dislikeButton,
+            comment.getDislikeUsers().contains(boardAccess.getActiveUser()));
 
         likeLabel.setText(comment.getLikes() + " likes");
         dislikeLabel.setText(comment.getDislikes() + " dislikes");
       });
-    }
-
-    Button dislikeButton = (Button) UiUtils.getNodeFromId(tempChildren, "dislikeCommentButton");
-    if (dislikeButton != null) {
+    
       dislikeButton.setOnAction(e -> {
-
         int prevDislikes = comment.getDislikes();
 
         try {
@@ -195,6 +215,11 @@ public class PostPageController {
         } catch (Exception error) {
           UiUtils.exceptionAlert(error).showAndWait();
         }
+        UiUtils.setStyleOfButton(likeButton,
+            comment.getLikeUsers().contains(boardAccess.getActiveUser()));
+        UiUtils.setStyleOfButton(dislikeButton,
+            comment.getDislikeUsers().contains(boardAccess.getActiveUser()));
+
         likeLabel.setText(comment.getLikes() + " likes");
         dislikeLabel.setText(comment.getDislikes() + " dislikes");
       });
