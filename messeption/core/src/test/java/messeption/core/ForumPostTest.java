@@ -54,32 +54,17 @@ public class ForumPostTest {
   }
 
   @Test
-  @DisplayName("Test set likes and dislikes")
-  public void testSetLikesDislikes() {
-
-    for (int i = 0; i < 3; i++) {
-      post.like(users.get(i));
-    }
-    for (int i = 0; i < 5; i++) {
-      post.dislike(users.get(i));
-    }
-
-    assertEquals(3, post.getLikes(), "Wrong likes value after setter");
-    assertEquals(5, post.getDislikes(), "Wrong dislikes value after setter");
-  }
-
-  @Test
   @DisplayName("Test increment likes and dislikes")
   public void testIncrementLikesDislikes() {
 
     for (int i = 0; i < 3; i++) {
       post.like(users.get(i));
     }
+    assertEquals(3, post.getLikes(), "Wrong likes value from getter");
     for (int i = 0; i < 5; i++) {
       post.dislike(users.get(i));
     }
-
-    assertEquals(3, post.getLikes(), "Wrong likes value from getter");
+    assertEquals(0, post.getLikes(), "Wrong likes value after liked posts were disliked");
     assertEquals(5, post.getDislikes(), "Wrong dislikes value from getter");
   }
 

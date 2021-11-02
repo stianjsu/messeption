@@ -124,6 +124,7 @@ public class PostPageController {
         UiUtils.exceptionAlert(error).showAndWait();
       }
 
+      postDislikeLabel.setText(post.getDislikes() + " dislikes");
       postLikeLabel.setText(post.getLikes() + " likes");
     });
 
@@ -135,8 +136,8 @@ public class PostPageController {
       } catch (Exception error) {
         UiUtils.exceptionAlert(error).showAndWait();
       }
-
       postDislikeLabel.setText(post.getDislikes() + " dislikes");
+      postLikeLabel.setText(post.getLikes() + " likes");
     });
   }
 
@@ -179,6 +180,7 @@ public class PostPageController {
         }
 
         likeLabel.setText(comment.getLikes() + " likes");
+        dislikeLabel.setText(comment.getDislikes() + " dislikes");
       });
     }
 
@@ -193,7 +195,7 @@ public class PostPageController {
         } catch (Exception error) {
           UiUtils.exceptionAlert(error).showAndWait();
         }
-
+        likeLabel.setText(comment.getLikes() + " likes");
         dislikeLabel.setText(comment.getDislikes() + " dislikes");
       });
     }

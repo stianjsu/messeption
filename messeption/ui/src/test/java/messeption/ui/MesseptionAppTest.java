@@ -58,6 +58,12 @@ public class MesseptionAppTest extends ApplicationTest {
     users.add(new User("cim", "Tom"));
     users.add(new User("dim", "Tom"));
     users.add(new User("eim", "Tom"));
+    users.add(new User("Kim", "Tom"));
+    users.add(new User("Wim", "Tom"));
+    users.add(new User("Tommelim", "Tom"));
+    users.add(new User("linn", "Tom"));
+    users.add(new User("kinn", "Tom"));
+    users.add(new User("plim", "Tom"));
 
     FXMLLoader frontPageLoader = new FXMLLoader(getClass().getResource(FRONT_PAGE_PATH));
     FXMLLoader createPostPageLoader = new FXMLLoader(getClass().getResource(CREATE_POST_PAGE_PATH));
@@ -210,7 +216,9 @@ public class MesseptionAppTest extends ApplicationTest {
     int dislikes = boardAccess.getPosts().get(0).getDislikes();
     for (int index = 0; index < n; index++) {
       boardAccess.setActiveUser(users.get(index));
-      click("Like", "Dislike");
+      click("Like");
+      boardAccess.setActiveUser(users.get(index + n));
+      click("Dislike");
     }
     assertEquals(likes + n, boardAccess.getPosts().get(0).getLikes(), "Like button did not increase likes");
     assertEquals(dislikes + n, boardAccess.getPosts().get(0).getDislikes(), "Dislike button did not increase dislikes");
@@ -229,7 +237,9 @@ public class MesseptionAppTest extends ApplicationTest {
     int dislikes = boardAccess.getPosts().get(0).getDislikes();
     for (int index = 0; index < n; index++) {
       boardAccess.setActiveUser(users.get(index));
-      click("Like", "Dislike");
+      click("Like");
+      boardAccess.setActiveUser(users.get(index + n));
+      click("Dislike");
     }
     assertEquals(likes + n, boardAccess.getPosts().get(0).getLikes(), "Like button did not increase likes from post page");
     assertEquals(dislikes + n, boardAccess.getPosts().get(0).getDislikes(), "Like button did not increase likes from post page");
@@ -249,6 +259,7 @@ public class MesseptionAppTest extends ApplicationTest {
     for (int index = 0; index < n; index++) {
       boardAccess.setActiveUser(users.get(index));
       clickOn("#likeCommentButton");
+      boardAccess.setActiveUser(users.get(index + n));
       clickOn("#dislikeCommentButton");
     }
     assertEquals(likes + n, boardAccess.getPosts().get(0).getComments().get(0).getLikes(),

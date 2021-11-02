@@ -70,11 +70,14 @@ public abstract class UserTextSubmission {
       this.likeUsers.remove(user);
     } else {
       this.likeUsers.add(user);
+      if(this.dislikeUsers.contains(user)){
+        this.dislikeUsers.remove(user);
+      }
     }
   }
 
   /**
-  * Dislikes the post if it is not already dislikes by the user.
+  * Dislikes the post if it is not already disliked by the user.
 
   * @param user the user to dislike the test
   */
@@ -83,6 +86,9 @@ public abstract class UserTextSubmission {
       this.dislikeUsers.remove(user);
     } else {
       this.dislikeUsers.add(user);
+      if(this.likeUsers.contains(user)){
+        this.likeUsers.remove(user);
+      }
     }
   }
 

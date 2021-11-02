@@ -129,6 +129,7 @@ public class FrontPageController {
         }
 
         likeLabel.setText(post.getLikes() + " likes");
+        dislikeLabel.setText(post.getDislikes() + " dislikes");
       });
     }
 
@@ -144,6 +145,7 @@ public class FrontPageController {
         }
 
         dislikeLabel.setText(post.getDislikes() + " dislikes");
+        likeLabel.setText(post.getLikes() + " likes");
       });
     }
 
