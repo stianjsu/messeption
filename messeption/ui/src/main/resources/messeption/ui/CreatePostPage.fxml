@@ -86,11 +86,6 @@
 		                  <Font size="20.0" />
 		               </font>
 		            </Button>
-		            <Label fx:id="errorLabel" layoutX="66.0" layoutY="32.0" text="">
-		               <font>
-		                  <Font size="15.0" />
-		               </font>
-		            </Label>
                   <CheckBox fx:id="anonymousAuthorCheckBox" layoutX="12.0" layoutY="40.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="176.0" text="Post Anonymously">
                      <font>
                         <Font size="17.0" />

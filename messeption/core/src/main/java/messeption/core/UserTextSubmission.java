@@ -2,17 +2,20 @@ package messeption.core;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Collection;
 
 /**
  * Abstract object used as a template for user submission to the application.
  */
 public abstract class UserTextSubmission {
 
-  protected String author;
+  protected User author;
   protected String text;
-  protected int likes;
-  protected int dislikes;
+  protected Collection<User> likeUsers;
+  protected Collection<User> dislikeUsers;
   protected String timeStamp;
+  protected String id;
 
   /**
    * Initializes the default values of likes, dislikes and the current time.
@@ -21,11 +24,24 @@ public abstract class UserTextSubmission {
    * @param text the input text
    */
   public UserTextSubmission(String text) {
-    this.author = "Anonymous";
+    this.author = User.getAnonymousUser();
     this.text = text;
-    this.likes = 0;
-    this.dislikes = 0;
+    this.likeUsers = new ArrayList<>();
+    this.dislikeUsers = new ArrayList<>();
     this.timeStamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss dd-MM-yyyy"));
+    this.id = timeStamp + text.length();
+  }
+
+  /**
+   * Initializes the default values of likes, dislikes and the current time.
+   * Also sets the author to be correct.
+
+   * @param text the input text
+   * @param author the author of the submission
+   */
+  public UserTextSubmission(String text, User author) {
+    this(text);
+    this.author = author;
   }
 
   public String getText() {
@@ -33,53 +49,63 @@ public abstract class UserTextSubmission {
   }
 
   public int getLikes() {
-    return this.likes;
+    return this.likeUsers.size();
   }
 
   public int getDislikes() {
-    return this.dislikes;
+    return this.dislikeUsers.size();
   }
 
-  public void incrementLikes() {
-    this.likes++;
+  public Collection<User> getLikeUsers() {
+    return new ArrayList<>(likeUsers);
   }
 
-  public void incrementDislikes() {
-    this.dislikes++;
+  public Collection<User> getDislikeUsers() {
+    return new ArrayList<>(dislikeUsers);
   }
 
-  public String getAuthor(){
+  public String getId() {
+    return this.id;
+  }
+
+  /**
+  * Likes the post if it is not already likes by the user.
+
+  * @param user the user to like the test
+  */
+  public void like(User user) {
+    if (this.likeUsers.contains(user)) {
+      this.likeUsers.remove(user);
+    } else {
+      this.likeUsers.add(user);
+      if (this.dislikeUsers.contains(user)) {
+        this.dislikeUsers.remove(user);
+      }
+    }
+  }
+
+  /**
+  * Dislikes the post if it is not already disliked by the user.
+
+  * @param user the user to dislike the test
+  */
+  public void dislike(User user) {
+    if (this.dislikeUsers.contains(user)) {
+      this.dislikeUsers.remove(user);
+    } else {
+      this.dislikeUsers.add(user);
+      if (this.likeUsers.contains(user)) {
+        this.likeUsers.remove(user);
+      }
+    }
+  }
+
+  public User getAuthor() {
     return this.author;
   }
 
-  public void setAuthor(String username){
-    this.author = username;
-  }
-
-
-
-  /**
-   * Sets the current number of likes to a specific number.
-
-   * @param likes the specific number of likes
-   */
-  public void setLikes(int likes) {
-    if (likes < 0) {
-      throw new IllegalArgumentException("Can't set negative likes");
-    }
-    this.likes = likes;
-  }
-
-  /**
-   * Sets the current number of dislikes to a specific number.
-
-   * @param dislikes the specific number of dislikes
-   */
-  public void setDislikes(int dislikes) {
-    if (dislikes < 0) {
-      throw new IllegalArgumentException("Can't set negative dislikes");
-    }
-    this.dislikes = dislikes;
+  public void setAuthor(User user) {
+    this.author = user;
   }
 
   public String getTimeStamp() {

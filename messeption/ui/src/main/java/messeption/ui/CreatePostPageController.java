@@ -13,7 +13,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import messeption.core.ForumBoard;
-import messeption.json.JsonReadWrite;
+import messeption.core.ForumPost;
 
 /**
  * Controller for the create post page.
@@ -31,11 +31,9 @@ public class CreatePostPageController {
   @FXML
   TextArea postTextArea;
   @FXML
-  Label errorLabel;
-  @FXML
   CheckBox anonymousAuthorCheckBox;
 
-  private ForumBoard board;
+  private BoardAccessInterface boardAccess;
 
   /**
    * initializer for the scene.
@@ -46,13 +44,13 @@ public class CreatePostPageController {
     });
   }
 
-  public void setBoard(ForumBoard board) {
-    this.board = board;
+  public void setBoardAccess(BoardAccessInterface boardAccess) {
+    this.boardAccess = boardAccess;
   }
 
   /**
-   * Gets the text and title form the text input fields.
-   * Then checks if they are long enough adds a new post object
+   * Gets the text and title form the text input fields. Then checks if they are
+   * long enough adds a new post object
    */
   @FXML
   public void createPostInBoard() {
@@ -62,33 +60,35 @@ public class CreatePostPageController {
       String text = postTextArea.getText();
 
       if (title.length() < 3) {
-        showError("Post title is too short");
+        UiUtils.popupAlert("Post title is too short").showAndWait();
         return;
       }
       if (text.length() < 3) {
-        showError("Post text is too short");
+        UiUtils.popupAlert("Post text is too short").showAndWait();
         return;
       }
 
-      board.newPost(title, text);
+      ForumPost post;
 
-      if(! anonymousAuthorCheckBox.isSelected()){
-        String username = "placeholdah";
-        board.getPost(board.getPosts().size()-1).setAuthor(username);
+      if (anonymousAuthorCheckBox.isSelected()) {
+        post = new ForumPost(title, text);
+      } else {
+        post = new ForumPost(title, text, boardAccess.getActiveUser());
       }
 
-      // save updated board
-      JsonReadWrite.fileWrite(board);
+      // updates and saves board
+      boardAccess.addPost(post);
 
       // confirmCreation
       feedbackAlertPostCreation(title);
-    } catch (IOException e) {
-      showError(e.getMessage());
+    } catch (Exception e) {
+      UiUtils.exceptionAlert(e);
     }
   }
 
   /**
-   * Creates and shows an alert on screen wehen the user successfully creates a post.
+   * Creates and shows an alert on screen wehen the user successfully creates a
+   * post.
 
    * @param title The title name of the alert
    */
@@ -110,14 +110,7 @@ public class CreatePostPageController {
     reloadPage();
     if (result.get() == quitToFrontPage) {
       cancelButton.fire(); // go back to main menu
-    } else {
-      showError(result.get().getText());
-    }
-  }
-
-  public void showError(String e) {
-    errorLabel.setText(e);
-    errorLabel.setStyle("-fx-text-fill: red");
+    } 
   }
 
   /**
@@ -127,7 +120,6 @@ public class CreatePostPageController {
   public void reloadPage() {
     postTextArea.setText("");
     postTitleField.setText("");
-    errorLabel.setText("");
   }
 
 }

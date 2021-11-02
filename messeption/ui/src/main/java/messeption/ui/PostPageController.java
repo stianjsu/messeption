@@ -16,7 +16,6 @@ import javafx.scene.text.Font;
 import messeption.core.ForumBoard;
 import messeption.core.ForumPost;
 import messeption.core.PostComment;
-import messeption.json.JsonReadWrite;
 
 /**
  * Javafx controller for viewing individual posts.
@@ -52,44 +51,37 @@ public class PostPageController {
   @FXML
   CheckBox anonymousAuthorCheckBox;
 
-  private ForumPost post;
-  private ForumBoard forumBoard;
+  private BoardAccessInterface boardAccess;
 
   /**
    * Initializes the publish comment button.
    */
   public void initialize() {
-    newCommentButton.setOnAction(e -> {
-      publishComment();
-    });
+    
   }
 
-  /**
-   * Takes an input post and displayes the post and its comments.
-
-   * @param post The input post
-   */
-  public void setPost(ForumPost post) {
-    this.post = post;
-    generatePostContent();
-    drawComments();
-
-  }
 
   /**
    * Sets the controlelr forumboard to a specified input.
 
-   * @param board the new controller board
+   * @param boardAccess the new controller boardAccess
    */
-  public void setForumBoard(ForumBoard board) {
-    this.forumBoard = board;
+  public void setBoardAccess(BoardAccessInterface boardAccess) {
+    this.boardAccess = boardAccess;
   }
 
   /**
    * Javafx help method to display comments in the UI.
    */
-  public void drawComments() {
+  public void drawComments(String postId) {
 
+    ForumPost post = boardAccess.getPost(postId);
+    
+    newCommentButton.setOnAction(e -> {
+      publishComment(post.getId());
+    });
+
+    generatePostContent(post);
     List<PostComment> comments = post.getComments();
 
     this.commentsContainer.getChildren().clear();
@@ -98,13 +90,13 @@ public class PostPageController {
       PostComment comment = comments.get(indexId);
 
       try {
-        Pane commentPane = generateCommentPane(comment, indexId);
+        Pane commentPane = generateCommentPane(comment, postId);
         commentPane.setLayoutY((MARGIN_COMMENTS + SIZE_COMMENTS) * indexId + MARGIN_COMMENTS);
 
         this.commentsContainer.getChildren().add(commentPane);
 
-      } catch (IOException e) {
-        e.printStackTrace();
+      } catch (Exception error) {
+        UiUtils.exceptionAlert(error).showAndWait();
       }
 
     }
@@ -112,53 +104,66 @@ public class PostPageController {
         (MARGIN_COMMENTS + SIZE_COMMENTS) * comments.size() + MARGIN_COMMENTS);
   }
 
-  private void generatePostContent() {
+  private void generatePostContent(ForumPost post) {
     postTitleLabel.setText(post.getTitle());
-    postAuthorLabel.setText("Post by: "+post.getAuthor());
+    postAuthorLabel.setText("Post by: " + post.getAuthor().getUsername());
 
     postTextArea.setText(post.getText());
     postTextArea.setDisable(true);
     postTextArea.setStyle("-fx-opacity: 1;");
 
-    postLikeLabel.setText(this.post.getLikes() + " likes");
-    postDislikeLabel.setText(this.post.getDislikes() + " dislikes");
+    postLikeLabel.setText(post.getLikes() + " likes");
+    postDislikeLabel.setText(post.getDislikes() + " dislikes");
+
+    UiUtils.setStyleOfButton(postLikeButton,
+            post.getLikeUsers().contains(boardAccess.getActiveUser()));
+      UiUtils.setStyleOfButton(postDislikeButton,
+            post.getDislikeUsers().contains(boardAccess.getActiveUser()));
 
     postLikeButton.setOnAction(e -> {
       int prevLikes = post.getLikes();
 
       try {
-        this.post.incrementLikes();
-        JsonReadWrite.fileWrite(forumBoard);
-        
-      } catch (IOException error) {
-        this.post.setLikes(prevLikes);
+        boardAccess.likePost(post.getId(), boardAccess.getActiveUser());
+      } catch (Exception error) {
+        UiUtils.exceptionAlert(error).showAndWait();
       }
+      UiUtils.setStyleOfButton(postLikeButton,
+            post.getLikeUsers().contains(boardAccess.getActiveUser()));
+      UiUtils.setStyleOfButton(postDislikeButton,
+            post.getDislikeUsers().contains(boardAccess.getActiveUser()));
 
+      postDislikeLabel.setText(post.getDislikes() + " dislikes");
       postLikeLabel.setText(post.getLikes() + " likes");
     });
 
     postDislikeButton.setOnAction(e -> {
-      int prevDislikes = this.post.getDislikes();
+      int prevDislikes = post.getDislikes();
 
       try {
-        this.post.incrementDislikes();
-        JsonReadWrite.fileWrite(forumBoard);
-      } catch (IOException error) {
-        this.post.setDislikes(prevDislikes);
+        boardAccess.dislikePost(post.getId(), boardAccess.getActiveUser());
+      } catch (Exception error) {
+        UiUtils.exceptionAlert(error).showAndWait();
       }
+      UiUtils.setStyleOfButton(postLikeButton,
+            post.getLikeUsers().contains(boardAccess.getActiveUser()));
+      UiUtils.setStyleOfButton(postDislikeButton,
+            post.getDislikeUsers().contains(boardAccess.getActiveUser()));
 
-      postDislikeLabel.setText(this.post.getDislikes() + " dislikes");
+      postDislikeLabel.setText(post.getDislikes() + " dislikes");
+      postLikeLabel.setText(post.getLikes() + " likes");
     });
   }
 
-  private Pane generateCommentPane(PostComment comment, int indexId) throws IOException {
+  private Pane generateCommentPane(PostComment comment, String postId) 
+      throws IOException {
     Pane toReturn = FXMLLoader.load(getClass().getResource("CommentPaneTemplate.fxml"));
     List<Node> tempChildren = new ArrayList<>(toReturn.getChildren());
     toReturn.getChildren().clear();
 
     Label authorLabel = (Label) UiUtils.getNodeFromId(tempChildren, "authorLabel");
-    if(authorLabel != null){
-      authorLabel.setText(comment.getAuthor());
+    if (authorLabel != null) {
+      authorLabel.setText(comment.getAuthor().getUsername());
     }
     TextArea commentTextArea = (TextArea) UiUtils.getNodeFromId(tempChildren, "commentTextArea");
     if (commentTextArea != null) {
@@ -177,66 +182,76 @@ public class PostPageController {
     }
 
     Button likeButton = (Button) UiUtils.getNodeFromId(tempChildren, "likeCommentButton");
-    if (likeButton != null) {
+    Button dislikeButton = (Button) UiUtils.getNodeFromId(tempChildren, "dislikeCommentButton");
+    if (likeButton != null && dislikeButton != null) {
+      UiUtils.setStyleOfButton(likeButton,
+            comment.getLikeUsers().contains(boardAccess.getActiveUser()));
+      UiUtils.setStyleOfButton(dislikeButton,
+            comment.getDislikeUsers().contains(boardAccess.getActiveUser()));
+
       likeButton.setOnAction(e -> {
 
         int prevLikes = comment.getLikes();
 
         try {
-          comment.incrementLikes();
-          JsonReadWrite.fileWrite(forumBoard);
-        } catch (IOException error) {
-          comment.setLikes(prevLikes);
+          boardAccess.likeComment(postId, comment.getId(), boardAccess.getActiveUser());
+        } catch (Exception error) {
+          UiUtils.exceptionAlert(error).showAndWait();
         }
+        UiUtils.setStyleOfButton(likeButton,
+            comment.getLikeUsers().contains(boardAccess.getActiveUser()));
+        UiUtils.setStyleOfButton(dislikeButton,
+            comment.getDislikeUsers().contains(boardAccess.getActiveUser()));
 
         likeLabel.setText(comment.getLikes() + " likes");
+        dislikeLabel.setText(comment.getDislikes() + " dislikes");
       });
-    }
-
-    Button dislikeButton = (Button) UiUtils.getNodeFromId(tempChildren, "dislikeCommentButton");
-    if (dislikeButton != null) {
+    
       dislikeButton.setOnAction(e -> {
-
         int prevDislikes = comment.getDislikes();
 
         try {
-          comment.incrementDislikes();
-          JsonReadWrite.fileWrite(forumBoard);
-        } catch (IOException error) {
-          comment.setDislikes(prevDislikes);
+          boardAccess.dislikeComment(postId, comment.getId(), boardAccess.getActiveUser());
+        } catch (Exception error) {
+          UiUtils.exceptionAlert(error).showAndWait();
         }
+        UiUtils.setStyleOfButton(likeButton,
+            comment.getLikeUsers().contains(boardAccess.getActiveUser()));
+        UiUtils.setStyleOfButton(dislikeButton,
+            comment.getDislikeUsers().contains(boardAccess.getActiveUser()));
 
+        likeLabel.setText(comment.getLikes() + " likes");
         dislikeLabel.setText(comment.getDislikes() + " dislikes");
       });
     }
 
-    toReturn.getChildren().addAll(authorLabel,commentTextArea, likeLabel, dislikeLabel, 
-        likeButton, dislikeButton);
+    toReturn.getChildren().addAll(
+        authorLabel, commentTextArea, likeLabel, dislikeLabel, likeButton, dislikeButton);
     return toReturn;
   }
 
-  private void publishComment() {
+  private void publishComment(String postId) {
 
     try {
       String text = newCommentTextArea.getText();
 
-      if (text.length() < 3) {
+      if (text.length() < 4) {
+        UiUtils.popupAlert("Comment text must be longer than 3 characters").showAndWait();
         return;
       }
 
-      PostComment comment = new PostComment(text);
-      if(! anonymousAuthorCheckBox.isSelected()){
-        //String username = staticclass.getActiveUsername()
-        String username = "placeholder";
-        comment.setAuthor(username);
+      PostComment comment;
+
+      if (anonymousAuthorCheckBox.isSelected()) {
+        comment = new PostComment(text);
+      } else {
+        comment = new PostComment(text, boardAccess.getActiveUser());
       }
 
-      post.addComment(comment);
+      boardAccess.addComment(postId, comment);
+      drawComments(postId);
 
-      JsonReadWrite.fileWrite(forumBoard);
-      drawComments();
-
-    } catch (IOException e) {
+    } catch (Exception e) {
       UiUtils.exceptionAlert(e).show();
     }
   }
