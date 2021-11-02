@@ -14,11 +14,12 @@ import messeption.restapi.ForumBoardService;
 
 public class ForumConfig extends ResourceConfig {
   private ForumBoard board;
-  //(private JsonReadWrite readWrite;
+  private JsonReadWrite boardReadWrite;
 
   public ForumConfig(ForumBoard board) {
     setForumBoard(board);
-    //readWrite = new JsonReadWrite();
+    System.out.println(ForumConfig.class.getResource("Board.JSON"));
+    boardReadWrite = new JsonReadWrite(ForumConfig.class.getResource("Board.JSON"));
     //readWrite.setSaveFile("server-Forumlist.json");  //TODO implement new saving logic
     register(ForumBoardService.class);
     register(JacksonFeature.class);
@@ -26,7 +27,7 @@ public class ForumConfig extends ResourceConfig {
       @Override
       protected void configure() {
         bind(ForumConfig.this.board);
-        //bind(ForumConfig.this.readWrite);
+        bind(ForumConfig.this.boardReadWrite);
       }
     });
   }
@@ -44,12 +45,14 @@ public class ForumConfig extends ResourceConfig {
   }
 
   private static ForumBoard createDefaultForumBoard() {
-    URL url = ForumConfig.class.getResource("defaultBoard.JSON");
+    URL url = ForumConfig.class.getResource("Board.JSON");
     if (url != null) {
+      System.out.println(url.getPath());
+      JsonReadWrite boardReadWrite = new JsonReadWrite(url);
       try {
-        return JsonReadWrite.fileRead();// readWrite.fileRead();  //TODO implement new saving logic
+        return boardReadWrite.fileReadForumBoard();
       } catch (Exception e) {
-        System.out.println("Couldn't read default Board.JSON, so rigging ForumBoard manually ("
+        System.out.println("Couldn't read default Board.JSON, thus created empty board ("
             + e + ")");
       }
     }

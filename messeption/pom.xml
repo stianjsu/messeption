@@ -134,7 +134,8 @@
     <modules>
         <module>core</module>
         <module>json</module>
-        <module>rest</module>
+        <module>restapi</module>
+        <module>restserver</module>
         <module>ui</module>
     </modules>
 </project>

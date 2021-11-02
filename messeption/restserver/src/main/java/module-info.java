@@ -1,4 +1,4 @@
-module messeption.rest {
+module messeption.restserver {
     requires jakarta.ws.rs;
 
     requires jersey.common;
@@ -12,8 +12,10 @@ module messeption.rest {
 
     requires messeption.core;
     requires messeption.json;
+    requires messeption.restapi;
 
+    exports messeption.restserver;
 
+    opens messeption.restserver to jersey.server, com.google.gson;
 
-    opens messeption.restapi to jersey.server, com.google.gson;
 }

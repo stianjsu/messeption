@@ -45,7 +45,7 @@ public class ForumServiceTest extends JerseyTest {
   @Override
   public void setUp() throws Exception {
     super.setUp();
-    Gson gson = new GsonBuilder().setPrettyPrinting().create();
+    gson = new GsonBuilder().setPrettyPrinting().create();
   }
 
   @AfterEach
@@ -82,11 +82,8 @@ public class ForumServiceTest extends JerseyTest {
         .get();
     assertEquals(200, getResponse.getStatus());
     try { 
-      //should work with Gson.fromJson()
-      ForumBoard board = gson.fromJson(getResponse.readEntity(String.class), ForumBoard.class);
-      //AbstractTodoList todoList = objectMapper.readValue(getResponse.readEntity(String.class), AbstractTodoList.class); //TODO find solution for us  
-      assertEquals(true, true);
-      //assertEquals("todo1", todoList.getName());
+      ForumBoard board = gson.fromJson(getResponse.readEntity(String.class), ForumBoard.class); 
+      assertEquals("I like cheese", board.getPosts().get(0).getTitle());
     } catch (Exception e) {
       fail(e.getMessage());
     }
