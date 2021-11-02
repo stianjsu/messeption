@@ -134,6 +134,7 @@
     <modules>
         <module>core</module>
         <module>json</module>
+        <module>rest</module>
         <module>ui</module>
     </modules>
 </project>
