@@ -28,7 +28,7 @@ public class ForumBoardTest {
   @Test
   @DisplayName("Test getter")
   public void testGetter() {
-    post = board.getPost(0);
+    post = board.getPosts().get(0);
     assertEquals("POST", post.getTitle(), "Post title did not match expected title");
     assertEquals("Lorem ipsum dolor sit amet", post.getText(), "Post text did not match expected text");
   }
@@ -36,10 +36,10 @@ public class ForumBoardTest {
   @Test
   @DisplayName("Test delete post")
   public void testDeletePost() {
-    post = board.getPost(0);
+    post = board.getPosts().get(0);
     board.deletePost(post);
     assertThrows(IndexOutOfBoundsException.class, () -> {
-      board.getPost(0);
+      board.getPosts().get(0);
     }, "Did not throw exception when trying to get a deleted post");
   }
 

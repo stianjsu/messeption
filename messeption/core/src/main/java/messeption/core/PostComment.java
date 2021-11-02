@@ -9,10 +9,14 @@ public class PostComment extends UserTextSubmission {
     super(text);
   }
 
+  public PostComment(String text, User author) {
+    super(text, author);
+  }
+
   @Override
   public String toString() {
-    return "\tText: " + this.text + "\nLikes: " + this.likes + "\t Dislikes: "
-        + this.dislikes + "\n TimeStamp: " + this.timeStamp;
+    return "\tText: " + this.text + "\nLikes: " + this.likeUsers + "\t Dislikes: "
+        + this.dislikeUsers + "\n TimeStamp: " + this.timeStamp;
   }
 
   @Override
@@ -33,6 +37,6 @@ public class PostComment extends UserTextSubmission {
 
   @Override
   public int hashCode() {
-    return this.text.length() * 5 + this.likes * 7 + this.dislikes * 11;
+    return this.text.length() * 5 + this.likeUsers.size() * 7 + this.dislikeUsers.size() * 11;
   }
 }

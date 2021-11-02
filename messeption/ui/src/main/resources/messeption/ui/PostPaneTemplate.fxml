@@ -30,6 +30,6 @@
        <Label fx:id="dislikeLabel" layoutX="686.0" layoutY="75.0" text="N dislikes" />
        <Button fx:id="likeButton" layoutX="686.0" layoutY="95.0" mnemonicParsing="false" text="Like" />
        <Button fx:id="dislikeButton" layoutX="679.0" layoutY="130.0" mnemonicParsing="false" text="Dislike" />
-       <Button fx:id="threadButton" layoutX="662.0" layoutY="160.0" mnemonicParsing="false" text="Go to thread" />
+       <Button fx:id="threadButton" layoutX="662.0" layoutY="180.0" mnemonicParsing="false" text="Go to thread" />
     </children>
  </Pane>

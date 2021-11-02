@@ -4,8 +4,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import java.util.List;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Date;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -22,15 +24,22 @@ public class ForumPostTest {
   String text1;
   String testDate;
   SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss dd-MM-yyyy");
+  List<User> users;
 
 
   @BeforeEach
   public void setup() {
     title1 = "POST";
     text1 = "Lorem ipsum dolor sit amet";
-
+    users = new ArrayList<>();
     post = new ForumPost(title1, text1);
     testDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss dd-MM-yyyy"));
+    users.add(new User("tim", "Tom"));
+    users.add(new User("aim", "Tom"));
+    users.add(new User("bim", "Tom"));
+    users.add(new User("cim", "Tom"));
+    users.add(new User("dim", "Tom"));
+    users.add(new User("eim", "Tom"));
   }
 
   @Test
@@ -45,33 +54,17 @@ public class ForumPostTest {
   }
 
   @Test
-  @DisplayName("Test set likes and dislikes")
-  public void testSetLikesDislikes() {
-
-    post.setLikes(3);
-    post.setDislikes(5);
-
-    assertEquals(3, post.getLikes(), "Wrong likes value after setter");
-    assertEquals(5, post.getDislikes(), "Wrong dislikes value after setter");
-
-    assertThrows(IllegalArgumentException.class, () -> post.setLikes(-5),
-            "No exception was thrown when negative input was set");
-    assertThrows(IllegalArgumentException.class, () -> post.setDislikes(-9),
-            "No exception was thrown when negative input was set");
-  }
-
-  @Test
   @DisplayName("Test increment likes and dislikes")
   public void testIncrementLikesDislikes() {
 
     for (int i = 0; i < 3; i++) {
-      post.incrementLikes();
+      post.like(users.get(i));
     }
-    for (int i = 0; i < 5; i++) {
-      post.incrementDislikes();
-    }
-
     assertEquals(3, post.getLikes(), "Wrong likes value from getter");
+    for (int i = 0; i < 5; i++) {
+      post.dislike(users.get(i));
+    }
+    assertEquals(0, post.getLikes(), "Wrong likes value after liked posts were disliked");
     assertEquals(5, post.getDislikes(), "Wrong dislikes value from getter");
   }
 

@@ -19,7 +19,6 @@ import javafx.scene.shape.Line;
 import javafx.stage.Stage;
 import messeption.core.ForumBoard;
 import messeption.core.ForumPost;
-import messeption.json.JsonReadWrite;
 
 /**
  * Controller for the front page or main menu of the app.
@@ -36,53 +35,35 @@ public class FrontPageController {
   Button createPostButton;
 
   private Stage primaryStage;
-  private ForumBoard forumBoard;
+  private BoardAccessInterface boardAccess;
 
   private PostPageController postPageController;
   private Scene postPageScene;
 
-  public void initialize() throws IOException {
+  public void initialize() throws Exception {
+  }
+
+  public void setBoardAccess(BoardAccessInterface boardAccess) throws Exception {
+    this.boardAccess = boardAccess;
     drawPosts();
   }
-
-  public ForumBoard getBoard() {
-    return this.forumBoard;
-  }
-
-  public void setBoard(ForumBoard board) {
-    this.forumBoard = board;
-    writeBoard();
-  }
-
+  
   public void setPostPageController(PostPageController controller) {
-    postPageController = controller;
+    this.postPageController = controller;
   }
-
+  
   public void setPostCommentsScene(Scene scene) {
     postPageScene = scene;
   }
 
   /**
-   * Writes the current forumBoard state to file. Shows an alert if IOException.
-   */
-  public void writeBoard() {
-    try {
-      JsonReadWrite.fileWrite(forumBoard);
-    } catch (IOException e) {
-      Alert alert = UiUtils.exceptionAlert(e);
-      alert.show();
-    }
-  }
-
-  /**
    * Draws the posts in the UI and makes them visible.
 
-   * @throws IOException If board cannot read form file
+   * @throws Exception If board cannot read form file
    */
-  public void drawPosts() throws IOException {
-
-    forumBoard = JsonReadWrite.fileRead();
-    List<ForumPost> posts = forumBoard.getPosts();
+  public void drawPosts() throws Exception {
+    
+    List<ForumPost> posts = boardAccess.getPosts();
 
     postsContainer.getChildren().clear();
 
@@ -110,7 +91,7 @@ public class FrontPageController {
     }
     Label authorLabel = (Label) UiUtils.getNodeFromId(tempChildren, "authorLabel");
     if (titleLabel != null) {
-      authorLabel.setText("Post by: "+post.getAuthor());
+      authorLabel.setText("Post by: " + post.getAuthor().getUsername());
     }
 
     TextArea postTextArea = (TextArea) UiUtils.getNodeFromId(tempChildren, "postTextArea");
@@ -136,34 +117,48 @@ public class FrontPageController {
     }
 
     Button likeButton = (Button) UiUtils.getNodeFromId(tempChildren, "likeButton");
-    if (likeButton != null) {
+    Button dislikeButton = (Button) UiUtils.getNodeFromId(tempChildren, "dislikeButton");
+    if (likeButton != null && dislikeButton != null) {
+
+      UiUtils.setStyleOfButton(likeButton,
+          post.getLikeUsers().contains(boardAccess.getActiveUser()));
+      UiUtils.setStyleOfButton(dislikeButton,
+          post.getDislikeUsers().contains(boardAccess.getActiveUser()));
+          
       likeButton.setOnAction(e -> {
         int prevLikes = post.getLikes();
 
         try {
-          post.incrementLikes();
-          JsonReadWrite.fileWrite(forumBoard);
-        } catch (IOException error) {
-          post.setLikes(prevLikes);
+          boardAccess.likePost(post.getId(), boardAccess.getActiveUser());
+        } catch (Exception error) {
+          System.out.println("Klarte ikke like");
+          UiUtils.exceptionAlert(error).showAndWait();
         }
+        
+        UiUtils.setStyleOfButton(likeButton,
+            post.getLikeUsers().contains(boardAccess.getActiveUser()));
+        UiUtils.setStyleOfButton(dislikeButton,
+            post.getDislikeUsers().contains(boardAccess.getActiveUser()));
 
         likeLabel.setText(post.getLikes() + " likes");
+        dislikeLabel.setText(post.getDislikes() + " dislikes");
       });
-    }
 
-    Button dislikeButton = (Button) UiUtils.getNodeFromId(tempChildren, "dislikeButton");
-    if (dislikeButton != null) {
       dislikeButton.setOnAction(e -> {
         int prevDislikes = post.getDislikes();
 
         try {
-          post.incrementDislikes();
-          JsonReadWrite.fileWrite(forumBoard);
-        } catch (IOException error) {
-          post.setDislikes(prevDislikes);
+          boardAccess.dislikePost(post.getId(), boardAccess.getActiveUser());
+        } catch (Exception error) {
+          UiUtils.exceptionAlert(error).showAndWait();
         }
+        UiUtils.setStyleOfButton(likeButton,
+            post.getLikeUsers().contains(boardAccess.getActiveUser()));
+        UiUtils.setStyleOfButton(dislikeButton,
+            post.getDislikeUsers().contains(boardAccess.getActiveUser()));
 
         dislikeLabel.setText(post.getDislikes() + " dislikes");
+        likeLabel.setText(post.getLikes() + " likes");
       });
     }
 
@@ -172,16 +167,15 @@ public class FrontPageController {
       threadButton.setOnAction(e -> {
         primaryStage = (Stage) createPostButton.getScene().getWindow();
         primaryStage.setScene(postPageScene);
-        postPageController.setForumBoard(this.getBoard());
-        postPageController.setPost(post);
+        postPageController.drawComments(post.getId());
       });
     }
 
     Line titleLine = (Line) UiUtils.getNodeFromId(tempChildren, "titleLine");
-    
-    toReturn.getChildren().addAll(new ArrayList<Node>(Arrays.asList(
-        titleLabel, authorLabel, titleLine, postTextArea, likeLabel, dislikeLabel, 
-        replyLabel, likeButton, dislikeButton, threadButton)));
+
+    toReturn.getChildren().addAll(new ArrayList<Node>(Arrays.asList(titleLabel, authorLabel, 
+          titleLine, postTextArea, likeLabel, dislikeLabel, 
+          replyLabel, likeButton, dislikeButton, threadButton)));
     return toReturn;
   }
 
