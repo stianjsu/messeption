@@ -10,7 +10,7 @@ module messeption.restserver {
 
     requires com.google.gson;
 
-    requires messeption.core;
+    requires transitive messeption.core;
     requires messeption.json;
     requires messeption.restapi;
 

@@ -1,5 +1,5 @@
 module messeption.restapi {
-    requires jakarta.ws.rs;
+    requires transitive jakarta.ws.rs;
 
     requires jersey.common;
     requires jersey.server;
@@ -10,7 +10,7 @@ module messeption.restapi {
 
     requires com.google.gson;
 
-    requires messeption.core;
+    requires transitive messeption.core;
     requires messeption.json;
 
     exports messeption.restapi;

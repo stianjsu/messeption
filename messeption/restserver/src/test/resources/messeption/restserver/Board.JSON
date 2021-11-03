@@ -1,0 +1,30 @@
+{
+  "posts": [
+    {
+      "title": "Test",
+      "comments": [],
+      "author": {
+        "username": "Anonymous",
+        "password": ""
+      },
+      "text": "Post",
+      "likeUsers": [],
+      "dislikeUsers": [],
+      "timeStamp": "17:01:27 03-11-2021",
+      "id": "17:01:27 03-11-20214"
+    },
+    {
+      "title": "Beep",
+      "comments": [],
+      "author": {
+        "username": "Anonymous",
+        "password": ""
+      },
+      "text": "Boop",
+      "likeUsers": [],
+      "dislikeUsers": [],
+      "timeStamp": "17:01:27 03-11-2021",
+      "id": "17:01:27 03-11-20214"
+    }
+  ]
+}

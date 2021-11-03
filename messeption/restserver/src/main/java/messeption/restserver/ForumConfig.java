@@ -1,26 +1,29 @@
 package messeption.restserver;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.Reader;
+
 import java.net.URL;
-import java.nio.charset.StandardCharsets;
+import messeption.core.ForumBoard;
+import messeption.json.JsonReadWrite;
+import messeption.restapi.ForumBoardService;
 import org.glassfish.hk2.utilities.binding.AbstractBinder;
 import org.glassfish.jersey.jackson.JacksonFeature;
 import org.glassfish.jersey.server.ResourceConfig;
-import messeption.core.ForumBoard;
-import messeption.core.ForumPost;
-import messeption.json.JsonReadWrite;
-import messeption.restapi.ForumBoardService;
 
+
+/**
+ * Config file for the rest server.
+ */
 public class ForumConfig extends ResourceConfig {
   private ForumBoard board;
   private JsonReadWrite boardReadWrite;
 
+  /**
+   * Constructor for Config file from a ForumBoard object.
+
+   * @param board the board to construct from
+   */
   public ForumConfig(ForumBoard board) {
     setForumBoard(board);
-    System.out.println(ForumConfig.class.getResource("Board.JSON"));
     boardReadWrite = new JsonReadWrite(ForumConfig.class.getResource("Board.JSON"));
-    //readWrite.setSaveFile("server-Forumlist.json");  //TODO implement new saving logic
     register(ForumBoardService.class);
     register(JacksonFeature.class);
     register(new AbstractBinder() {
@@ -47,7 +50,6 @@ public class ForumConfig extends ResourceConfig {
   private static ForumBoard createDefaultForumBoard() {
     URL url = ForumConfig.class.getResource("Board.JSON");
     if (url != null) {
-      System.out.println(url.getPath());
       JsonReadWrite boardReadWrite = new JsonReadWrite(url);
       try {
         return boardReadWrite.fileReadForumBoard();
@@ -56,7 +58,6 @@ public class ForumConfig extends ResourceConfig {
             + e + ")");
       }
     }
-    ForumBoard ForumBoard = new ForumBoard();
-    return ForumBoard;
+    return new ForumBoard();
   }
 }

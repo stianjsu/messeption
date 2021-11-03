@@ -2,14 +2,16 @@ package messeption.restserver;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import static org.junit.Assert.assertFalse;
+
+import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
+
+import java.util.List;
+
+import jakarta.ws.rs.client.Entity;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.glassfish.jersey.logging.LoggingFeature;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.test.JerseyTest;
@@ -17,8 +19,9 @@ import org.glassfish.jersey.test.TestProperties;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import messeption.core.ForumPost;
 import messeption.core.ForumBoard;
+import messeption.core.ForumPost;
+import messeption.core.PostComment;
 import messeption.restapi.ForumBoardService;
 
 
@@ -41,40 +44,24 @@ public class ForumServiceTest extends JerseyTest {
 
   private Gson gson;
 
+  private ForumBoard board = new ForumBoard();
+
   @BeforeEach
   @Override
   public void setUp() throws Exception {
     super.setUp();
-    gson = new GsonBuilder().setPrettyPrinting().create();
+    gson = new GsonBuilder().create();
+    board.newPost("Test", "Post");
   }
 
+/*
   @AfterEach
   @Override
   public void tearDown() throws Exception {
     super.tearDown();
   }
-/*
-  @Test
-  public void testGet_todo() {
-    Response getResponse = target(TodoModelService.TODO_MODEL_SERVICE_PATH)
-        .request(MediaType.APPLICATION_JSON + ";" + MediaType.CHARSET_PARAMETER + "=UTF-8")
-        .get();
-    assertEquals(200, getResponse.getStatus());
-    try {
-      TodoModel todoModel = objectMapper.readValue(getResponse.readEntity(String.class), TodoModel.class);  //TODO find solution for us
-      Iterator<AbstractTodoList> it = todoModel.iterator();
-      assertTrue(it.hasNext());
-      AbstractTodoList todoList1 = it.next();
-      assertTrue(it.hasNext());
-      AbstractTodoList todoList2 = it.next();
-      assertFalse(it.hasNext());
-      assertEquals("todo1", todoList1.getName());
-      assertEquals("todo2", todoList2.getName());
-    } catch (Exception e) {
-      fail(e.getMessage());
-    }
-  }
 */
+
   @Test
   public void testGetBoard() {
     Response getResponse = target(ForumBoardService.FORUM_BOARD_SERVICE_PATH)
@@ -82,10 +69,47 @@ public class ForumServiceTest extends JerseyTest {
         .get();
     assertEquals(200, getResponse.getStatus());
     try { 
-      ForumBoard board = gson.fromJson(getResponse.readEntity(String.class), ForumBoard.class); 
-      assertEquals("I like cheese", board.getPosts().get(0).getTitle());
+      ForumBoard board = gson.fromJson(getResponse.readEntity(String.class), ForumBoard.class);
+      assertEquals("Test", board.getPosts().get(0).getTitle());
     } catch (Exception e) {
       fail(e.getMessage());
     }
   }
+
+  @Test
+  public void testSetBoard() {
+    board.newPost("Beep", "Boop");
+    Entity e = Entity.json(board);
+    Response postResponse = target(ForumBoardService.FORUM_BOARD_SERVICE_PATH)
+        .path("/set")
+        .request(MediaType.APPLICATION_JSON + ";" + MediaType.CHARSET_PARAMETER + "=UTF-8")
+        .put(e);
+    assertEquals(200, postResponse.getStatus());
+  }
+
+  @Test
+  public void testAddPost() {
+    ForumPost post = new ForumPost("Big title", "smol text");
+    Entity e = Entity.json(post);
+    Response postResponse = target(ForumBoardService.FORUM_BOARD_SERVICE_PATH)
+        .path("/posts/addPost")
+        .request(MediaType.APPLICATION_JSON + ";" + MediaType.CHARSET_PARAMETER + "=UTF-8")
+        .put(e);
+    assertEquals(200, postResponse.getStatus());
+  }
+
+  @Test
+  public void testAddComment() {
+    PostComment comment = new PostComment("I like cheeze");
+    Entity e = Entity.json(comment);
+    String id = board.getPosts().get(0).getId();
+    String[] idd = id.split(" ");
+    Response postResponse = target(ForumBoardService.FORUM_BOARD_SERVICE_PATH)
+        .path("/comments/addComment/")
+        .path(idd[0] + "_" + idd[1])
+        .request(MediaType.APPLICATION_JSON + ";" + MediaType.CHARSET_PARAMETER + "=UTF-8")
+        .put(e);
+    assertEquals(200, postResponse.getStatus());
+  }
+
 }
