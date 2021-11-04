@@ -34,24 +34,29 @@ public class MesseptionApp extends Application {
     loginPageScene = new Scene(loginPageLoader.load());
     loginPageController = loginPageLoader.getController();
     loginPageController.setBoardAccess(boardAccess);
-
+    UiUtils.setNavBarButtons(loginPageController.menuQuit, loginPageController.menuLogOut,
+        loginPageController.menuAbout, primaryStage, loginPageScene);
 
     FXMLLoader frontPageLoader = new FXMLLoader(getClass().getResource(FRONT_PAGE_PATH));
     frontPageScene = new Scene(frontPageLoader.load());
     frontPageController = frontPageLoader.getController();
     frontPageController.setBoardAccess(boardAccess);
-
+    UiUtils.setNavBarButtons(frontPageController.menuQuit, frontPageController.menuLogOut,
+        frontPageController.menuAbout, primaryStage, loginPageScene);
 
     FXMLLoader createPostPageLoader = new FXMLLoader(getClass().getResource(CREATE_POST_PAGE_PATH));
     createPostPageScene = new Scene(createPostPageLoader.load());
     createPostPageController = createPostPageLoader.getController();
     createPostPageController.setBoardAccess(boardAccess);
+    UiUtils.setNavBarButtons(createPostPageController.menuQuit, createPostPageController.menuLogOut,
+        createPostPageController.menuAbout, primaryStage, loginPageScene);
 
     FXMLLoader postPageLoader = new FXMLLoader(getClass().getResource(POST_PAGE_PATH));
     postPageScene = new Scene(postPageLoader.load());
     postPageController = postPageLoader.getController();
     postPageController.setBoardAccess(boardAccess);
-
+    UiUtils.setNavBarButtons(postPageController.menuQuit, postPageController.menuLogOut,
+        postPageController.menuAbout, primaryStage, loginPageScene);
     
     frontPageController.setPostCommentsScene(postPageScene);
     frontPageController.setPostPageController(postPageController);
@@ -73,6 +78,7 @@ public class MesseptionApp extends Application {
       primaryStage.setScene(frontPageScene);
       try {
         frontPageController.drawPosts();
+        frontPageController.sortMenuButton.setText("Time");
       } catch (Exception e) {
         UiUtils.exceptionAlert(e).show();
       }
@@ -82,10 +88,12 @@ public class MesseptionApp extends Application {
       primaryStage.setScene(frontPageScene);
       try {
         frontPageController.drawPosts();
+        frontPageController.sortMenuButton.setText("Time");
       } catch (Exception e) {
         UiUtils.exceptionAlert(e).show();
       }
     });
+    
   }
 
   public static void main(String[] args) {
