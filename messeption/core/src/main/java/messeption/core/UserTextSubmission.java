@@ -29,7 +29,7 @@ public abstract class UserTextSubmission {
     this.likeUsers = new ArrayList<>();
     this.dislikeUsers = new ArrayList<>();
     this.timeStamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss dd-MM-yyyy"));
-    this.id = timeStamp + text.length();
+    this.id = timeStamp.replaceAll("\\s+","") + text.length();
   }
 
   /**
@@ -74,6 +74,7 @@ public abstract class UserTextSubmission {
   * @param user the user to like the test
   */
   public void like(User user) {
+    /*
     if (this.likeUsers.contains(user)) {
       this.likeUsers.remove(user);
     } else {
@@ -82,6 +83,12 @@ public abstract class UserTextSubmission {
         this.dislikeUsers.remove(user);
       }
     }
+    */
+    if (! this.likeUsers.remove(user)) {
+      this.likeUsers.add(user);
+      this.dislikeUsers.remove(user);
+    }
+    
   }
 
   /**
