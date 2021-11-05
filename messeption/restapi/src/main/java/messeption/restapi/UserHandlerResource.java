@@ -15,7 +15,8 @@ import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import java.io.IOException;
-import messeption.core.*;
+import messeption.core.User;
+import messeption.core.UserHandler;
 import messeption.json.JsonReadWrite;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,6 +37,12 @@ public class UserHandlerResource {
   private UserHandler handler;
   private JsonReadWrite handlerReadWrite;
 
+  /**
+  * Instanciates UserHandlerResource for handling http-requests for users.
+
+  * @param handler UserHandler with users
+  * @param handlerReadWrite Persistance object for saving users to file 
+  */
   public UserHandlerResource(UserHandler handler, JsonReadWrite handlerReadWrite) {
     this.handler = handler;
     this.handlerReadWrite = handlerReadWrite;
@@ -59,24 +66,35 @@ public class UserHandlerResource {
     }
   }
 
+  /**
+   * Gets the userHandler for the server.
+
+   * @return the UserHandler
+   */
   @GET
-  public UserHandler getUserHandler(){
+  public UserHandler getUserHandler() {
     LOGG.debug("getForumBoard: " + handler);
     return handler;
   }
 
+  /**
+  * Adds a user to the current UserHandler.
 
+  * @param user User to add as json-string
+  * @return A appropriate http-response
+  */
   @POST
   @Path("/addUser")
   @Consumes(MediaType.APPLICATION_JSON)
   public Response addUser(String user) {
-    try{
+    try {
       User userToAdd = gson.fromJson(user, User.class);
-      if(!this.handler.addUser(userToAdd)){
+      if (!this.handler.addUser(userToAdd)) {
         return Response.notAcceptable(null).entity("User already added to server").build();
       }
     } catch (Exception e) {
-      return Response.notAcceptable(null).entity("Add user request was not processed due to bad json input").build();
+      return Response.notAcceptable(null).entity(
+            "Add user request was not processed due to bad json input").build();
     }
     
     Response r = saveUsersToServer();

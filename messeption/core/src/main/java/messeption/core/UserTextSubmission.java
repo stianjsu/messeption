@@ -29,7 +29,7 @@ public abstract class UserTextSubmission {
     this.likeUsers = new ArrayList<>();
     this.dislikeUsers = new ArrayList<>();
     this.timeStamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss dd-MM-yyyy"));
-    this.id = timeStamp.replaceAll("\\s+","") + text.length();
+    this.id = timeStamp.replaceAll("\\s+", "") + text.length();
   }
 
   /**

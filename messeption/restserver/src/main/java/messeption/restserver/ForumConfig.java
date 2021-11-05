@@ -46,7 +46,7 @@ public class ForumConfig extends ResourceConfig {
     });
   }
 
-  public ForumConfig () {
+  public ForumConfig() {
     this(createDefaultForumBoard(), createDefaultUserHandler());
   }
 
