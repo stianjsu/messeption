@@ -2,8 +2,6 @@ package messeption.core;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * User handler class for checking and verifying existing and new users.
@@ -34,6 +32,19 @@ public class UserHandler {
       throw passwordValidation;
     }
     users.add(new User(username, password));
+  }
+
+  /**
+   *  Method for adding an already existing object user.
+
+   * @param user the user to add
+   * @return ture if successful, false otherwise
+   */
+  public boolean addUser(User user) {
+    if (!users.contains(user)) {
+      return users.add(user);
+    }
+    return false;
   }
   
   /**
