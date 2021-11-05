@@ -1,90 +1,42 @@
 {
   "posts": [
     {
-      "title": "I like cheese",
+      "title": "Test",
       "comments": [
         {
           "author": {
-            "username": "Kenobi",
-            "password": "Hei123"
+            "username": "Anonymous",
+            "password": ""
           },
-          "text": "I disagree, but your opinion is valid",
+          "text": "Heylow",
           "likeUsers": [],
           "dislikeUsers": [],
-          "timeStamp": "15:15:12 13-10-2021",
-          "id": "1"
+          "timeStamp": "13:25:10 05-11-2021",
+          "id": "13:25:1005-11-20216"
         }
       ],
       "author": {
-            "username": "Kenobi",
-            "password": "Hei123"
-          },
-      "text": "Cheese is my favourite food.",
+        "username": "Anonymous",
+        "password": ""
+      },
+      "text": "Post",
       "likeUsers": [],
       "dislikeUsers": [],
-      "timeStamp": "15:27:09 22-09-2021",
+      "timeStamp": "17:01:27 03-11-2021",
+      "id": "1"
+    },
+    {
+      "title": "Beep",
+      "comments": [],
+      "author": {
+        "username": "Anonymous",
+        "password": ""
+      },
+      "text": "Boop",
+      "likeUsers": [],
+      "dislikeUsers": [],
+      "timeStamp": "17:01:27 03-11-2021",
       "id": "2"
-    },
-    {
-      "title": "Erna tapte valget",
-      "comments": [
-        {
-          "author": {
-            "username": "Kenobi",
-            "password": "Hei123"
-          },
-          "text": "Det er helt korrekt, men la oss unngå politikk her",
-          "likeUsers": [],
-          "dislikeUsers": [],
-          "timeStamp": "14:21:45 13-10-2021",
-          "id": "3"
-        }
-      ],
-      "author": {
-            "username": "Kenobi",
-            "password": "Hei123"
-          },
-      "text": "Valget var spennende",
-      "likeUsers": [],
-      "dislikeUsers": [],
-      "timeStamp": "15:23:09 24-09-2021",
-      "id": "4"
-    },
-    {
-      "title": "Kule tilbud?",
-      "comments": [
-        {
-          "author": {
-            "username": "Kenobi",
-            "password": "Hei123"
-          },
-          "text": "Billig kjøttdeig på bunnpris",
-          "likeUsers": [],
-          "dislikeUsers": [],
-          "timeStamp": "14:25:43 13-10-2021",
-          "id": "5"
-        },
-        {
-          "author": {
-            "username": "Kenobi",
-            "password": "Hei123"
-          },
-          "text": "Kjøttdeigen til 20kr er en steal",
-          "likeUsers": [],
-          "dislikeUsers": [],
-          "timeStamp": "16:21:45 13-10-2021",
-          "id": "6"
-        }
-      ],
-      "author": {
-            "username": "Kenobi",
-            "password": "Hei123"
-          },
-      "text": "Lurer på om noen har dere sett noen kule tilbud på buttan denne uken",
-      "likeUsers": [],
-      "dislikeUsers": [],
-      "timeStamp": "13:27:09 13-10-2021",
-      "id": "7"
     }
   ]
 }
