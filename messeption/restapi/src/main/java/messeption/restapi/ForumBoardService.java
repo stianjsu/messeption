@@ -135,6 +135,7 @@ public class ForumBoardService {
    */
   @POST
   @Path(POST_COMMENT_PATH + "/addComment/{id}")
+  @Consumes(MediaType.APPLICATION_JSON)
   public Response addComment(@PathParam("id") String id, String comment) {
     try {
       PostComment commentToSave = gson.fromJson(comment, PostComment.class);
@@ -165,6 +166,7 @@ public class ForumBoardService {
    */
   @PUT
   @Path(FORUM_POST_PATH + "/likePost/{id}")
+  @Consumes(MediaType.APPLICATION_JSON)
   public Response likePost(@PathParam("id") String id, String user) {
     try {
       User likingUser = gson.fromJson(user, User.class);
@@ -195,6 +197,7 @@ public class ForumBoardService {
    */
   @PUT
   @Path(FORUM_POST_PATH + "/dislikePost/{id}")
+  @Consumes(MediaType.APPLICATION_JSON)
   public Response dislikePost(@PathParam("id") String id, String user) {
     try {
       User likingUser = gson.fromJson(user, User.class);
@@ -222,6 +225,7 @@ public class ForumBoardService {
    */
   @PUT
   @Path(POST_COMMENT_PATH + "/likeComment/{postId}/{commentId}")
+  @Consumes(MediaType.APPLICATION_JSON)
   public Response likeComment(@PathParam("postId") String postId, 
         @PathParam("commentId") String commentId, String user) {
     try {
@@ -249,6 +253,7 @@ public class ForumBoardService {
    */
   @PUT
   @Path(POST_COMMENT_PATH + "/dislikeComment/{postId}/{commentId}")
+  @Consumes(MediaType.APPLICATION_JSON)
   public Response dislikeComment(@PathParam("postId") String postId, 
         @PathParam("commentId") String commentId, String user) {
     try {

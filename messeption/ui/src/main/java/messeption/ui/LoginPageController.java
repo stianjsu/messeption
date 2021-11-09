@@ -8,6 +8,8 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
@@ -18,6 +20,12 @@ import messeption.core.User;
  */
 public class LoginPageController {
 
+  @FXML
+  MenuItem menuQuit;
+  @FXML
+  MenuItem menuLogOut;
+  @FXML
+  MenuItem menuAbout;
 
   @FXML
   private Label errorLabel;
@@ -45,10 +53,6 @@ public class LoginPageController {
    * initializer for the scene.
    */
   public void initialize() {
-    // userHandler= JsonReadWrite.readUserData(); noe sånnt vi vil ha
-
-    // Midlertidig for testing
-    
 
     loginButton.setOnAction((e) -> {
       login();
