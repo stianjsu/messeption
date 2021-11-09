@@ -9,6 +9,7 @@ import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
@@ -24,13 +25,24 @@ public class PostPageController {
 
   private static final int SIZE_COMMENTS = 130;
   private static final int MARGIN_COMMENTS = 10;
-
+  
+  @FXML
+  MenuItem menuQuit;
+  @FXML
+  MenuItem menuLogOut;
+  @FXML
+  MenuItem menuAbout;
+  
   @FXML
   Label postTitleLabel;
   @FXML
   Label postAuthorLabel;
   @FXML
+  Label postTimeStampLabel;
+  @FXML
   TextArea postTextArea;
+  @FXML
+  Label postCommentsLabel;
   @FXML
   Label postLikeLabel;
   @FXML
@@ -57,7 +69,7 @@ public class PostPageController {
    * Initializes the publish comment button.
    */
   public void initialize() {
-    
+
   }
 
 
@@ -107,18 +119,20 @@ public class PostPageController {
   private void generatePostContent(ForumPost post) {
     postTitleLabel.setText(post.getTitle());
     postAuthorLabel.setText("Post by: " + post.getAuthor().getUsername());
+    postTimeStampLabel.setText(post.getTimeStamp());
 
     postTextArea.setText(post.getText());
     postTextArea.setDisable(true);
     postTextArea.setStyle("-fx-opacity: 1;");
 
+    postCommentsLabel.setText(post.getComments().size() + " comments");
     postLikeLabel.setText(post.getLikes() + " likes");
     postDislikeLabel.setText(post.getDislikes() + " dislikes");
 
     UiUtils.setStyleOfButton(postLikeButton,
-            post.getLikeUsers().contains(boardAccess.getActiveUser()));
-      UiUtils.setStyleOfButton(postDislikeButton,
-            post.getDislikeUsers().contains(boardAccess.getActiveUser()));
+        post.getLikeUsers().contains(boardAccess.getActiveUser()));
+    UiUtils.setStyleOfButton(postDislikeButton,
+        post.getDislikeUsers().contains(boardAccess.getActiveUser()));
 
     postLikeButton.setOnAction(e -> {
       int prevLikes = post.getLikes();
@@ -225,8 +239,13 @@ public class PostPageController {
       });
     }
 
-    toReturn.getChildren().addAll(
-        authorLabel, commentTextArea, likeLabel, dislikeLabel, likeButton, dislikeButton);
+    Label timeStampLabel = (Label) UiUtils.getNodeFromId(tempChildren, "commentTimeStampLabel");
+    if (timeStampLabel != null) {
+      timeStampLabel.setText(comment.getTimeStamp());
+    }
+
+    toReturn.getChildren().addAll(authorLabel, commentTextArea, 
+        likeLabel, dislikeLabel, likeButton, dislikeButton, timeStampLabel);
     return toReturn;
   }
 
