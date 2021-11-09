@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonParseException;
 import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.PUT;
@@ -139,7 +140,7 @@ public class ForumBoardService {
       try {
         board.getPost(id).addComment(commentToSave);
       } catch (Exception e) {
-          return "500;Could process json, but not add comment";
+        return "500;Could process json, but not add comment";
       }
     } catch (Exception e) {
       return "406;Add post request was not processed due to bad json input";
@@ -203,7 +204,31 @@ public class ForumBoardService {
       readBoardFromServer();
       return status;
     }
-    return "200;Server successfully updated like status";
+    return "200;Server successfully updated like status.";
+  }
+
+  /**
+   * Deletes a post with matching id.
+
+   * @param id id of the post to delete
+   * @return returns an appropriate string response
+   */
+  @DELETE
+  @Path(FORUM_POST_PATH + "/deletePost/{id}")
+  @Consumes(MediaType.APPLICATION_JSON)
+  public String deletePost(@PathParam("id") String id) {
+    try {
+      ForumPost postToDelete = board.getPost(id);
+      board.deletePost(postToDelete);
+    } catch (Exception e) {
+      return "404;Post not deleted because it does not exist.";
+    }
+    String status = saveBoardToServer();
+    if (!status.split(";")[0].equals("200")) {
+      readBoardFromServer();
+      return status;
+    }
+    return "200;Server successfully deleted post.";
   }
 
 
@@ -259,6 +284,33 @@ public class ForumBoardService {
       return status;
     }
     return "200;Server successfully updated dislike status";
+  }
+
+  /**
+   * Method for deleting comments on the server.
+
+   * @param postId id of the corresponding post
+   * @param commentId id of the comment to be deleted
+   * @return returns an appropriate string response
+   */
+  @DELETE
+  @Path(POST_COMMENT_PATH + "/deleteComment/{postId}/{commentId}")
+  @Consumes(MediaType.APPLICATION_JSON)
+  public String deleteComment(@PathParam("postId") String postId, 
+      @PathParam("commentId") String commentId) {
+    try {
+      ForumPost relevantPost = board.getPost(postId);
+      PostComment commentToDelete = relevantPost.getComment(commentId);
+      relevantPost.deleteComment(commentToDelete);
+    } catch (Exception e) {
+      return "404;Comment was not deleted because it does not exist";
+    }
+    String status = saveBoardToServer();
+    if (!status.split(";")[0].equals("200")) {
+      readBoardFromServer();
+      return status;
+    }
+    return "200;Server successfully deleted comment";
   }
 
   

@@ -81,7 +81,7 @@ public class BoardAccessDirect implements BoardAccessInterface {
   }
 
   @Override
-  public void removePost(String id) throws Exception {
+  public void deletePost(String id) throws Exception {
     board.deletePost(board.getPost(id));
     updateBoardChange();
   }
@@ -114,6 +114,11 @@ public class BoardAccessDirect implements BoardAccessInterface {
   public void addComment(String id, PostComment comment) throws Exception {
     board.getPost(id).addComment(comment);
     updateBoardChange();
+  }
+
+  @Override
+  public void deleteComment(String postId, String commentId) throws Exception {
+    board.getPost(postId).deleteComment(commentId);
   }
 
   public String getResourcesPath() {

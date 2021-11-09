@@ -88,11 +88,22 @@ public class ForumPost extends UserTextSubmission {
    * 
    * @throws IllegalArgumentException Comment not in comments
    */
-  public void removeComment(PostComment comment) throws IllegalArgumentException {
+  public void deleteComment(PostComment comment) throws IllegalArgumentException {
     if (!comments.contains(comment)) {
       throw new IllegalArgumentException("Comment is not in list of comments");
     }
     this.comments.remove(comment);
+  }
+
+  /**
+   * Removes a comment object from list of comments.
+
+   * @param id string formatted unique id
+
+   * @throws IllegalArgumentException Comment not in comments
+   */
+  public void deleteComment(String id) throws IllegalArgumentException {
+    deleteComment(this.getComment(id));
   }
 
   /**

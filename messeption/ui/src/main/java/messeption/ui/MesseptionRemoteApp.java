@@ -1,7 +1,6 @@
 package messeption.ui;
 
 import java.net.URI;
-
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
