@@ -258,6 +258,21 @@ public class FrontPageController {
     toReturn.getChildren().addAll(new ArrayList<Node>(Arrays.asList(titleLabel, authorLabel, 
           titleLine, postTextArea, likeLabel, dislikeLabel, 
           replyLabel, likeButton, dislikeButton, threadButton, timeStampLabel)));
+
+    if (boardAccess.getActiveUser()!= null && boardAccess.getActiveUser().equals(post.getAuthor())) {
+      Button deleteButton = (Button) UiUtils.getNodeFromId(tempChildren, "deleteButton");
+      if (deleteButton != null) {
+        deleteButton.setOnAction(e -> {
+          try {
+            boardAccess.removePost(post.getId());
+            drawPosts();
+          } catch (Exception e1) {
+            UiUtils.exceptionAlert(e1);
+          }
+        });
+        toReturn.getChildren().add(deleteButton);
+      }
+    }
     return toReturn;
   }
 

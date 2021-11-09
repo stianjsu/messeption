@@ -8,13 +8,13 @@
 <?import javafx.scene.text.Font?>
 
 <Pane fx:id="postPaneTemplate" layoutX="15.0" layoutY="15.0" prefHeight="220.0" prefWidth="760.0" style="-fx-background-color: E0E0E0; -fx-border-color: grey;" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1">
-    <children>
-       <Label fx:id="titleLabel" layoutX="34.0" layoutY="6.0" prefHeight="30.0" prefWidth="420.0" text="Title">
-          <font>
-             <Font size="20.0" />
-          </font>
-       </Label>
-       <Label fx:id="authorLabel" alignment="CENTER_RIGHT" layoutX="454.0" layoutY="6.0" prefHeight="30.0" prefWidth="178.0" text="Author">
+   <children>
+      <Label fx:id="titleLabel" layoutX="34.0" layoutY="6.0" prefHeight="30.0" prefWidth="420.0" text="Title">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <Label fx:id="authorLabel" alignment="CENTER_RIGHT" layoutX="454.0" layoutY="6.0" prefHeight="30.0" prefWidth="178.0" text="Author">
          <font>
             <Font size="16.0" />
          </font>
@@ -24,17 +24,18 @@
             <Font size="14.0" />
          </font>
       </Label>
-       <Line fx:id="titleLine" endX="510.0" layoutX="134.0" layoutY="35.0" startX="-110.0" />
-       <TextArea fx:id="postTextArea" editable="false" layoutX="34.0" layoutY="60.0" prefHeight="140.0" prefWidth="600.0">
-          <font>
-             <Font size="15.0" />
-          </font>
-       </TextArea>
-       <Label fx:id="replyLabel" alignment="CENTER" layoutX="649.0" layoutY="13.0" prefWidth="100.0" text="N comments" />
-       <Label fx:id="likeLabel" alignment="CENTER" layoutX="649.0" layoutY="70.0" prefWidth="100.0" text="N likes" />
-       <Label fx:id="dislikeLabel" alignment="CENTER" layoutX="649.0" layoutY="140.0" prefWidth="100.0" text="N dislikes" />
-       <Button fx:id="likeButton" layoutX="681.0" layoutY="95.0" mnemonicParsing="false" text="Like" />
-       <Button fx:id="dislikeButton" layoutX="674.0" layoutY="165.0" mnemonicParsing="false" text="Dislike" />
-       <Button fx:id="threadButton" layoutX="657.0" layoutY="34.0" mnemonicParsing="false" text="Go to thread" />
-    </children>
+      <Line fx:id="titleLine" endX="510.0" layoutX="134.0" layoutY="35.0" startX="-110.0" />
+      <TextArea fx:id="postTextArea" editable="false" layoutX="34.0" layoutY="60.0" prefHeight="140.0" prefWidth="600.0">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </TextArea>
+      <Label fx:id="replyLabel" alignment="CENTER" layoutX="649.0" layoutY="13.0" prefWidth="100.0" text="N comments" />
+      <Label fx:id="likeLabel" alignment="CENTER" layoutX="649.0" layoutY="70.0" prefWidth="100.0" text="N likes" />
+      <Label fx:id="dislikeLabel" alignment="CENTER" layoutX="649.0" layoutY="140.0" prefWidth="100.0" text="N dislikes" />
+      <Button fx:id="likeButton" layoutX="681.0" layoutY="95.0" mnemonicParsing="false" text="Like" />
+      <Button fx:id="dislikeButton" layoutX="674.0" layoutY="165.0" mnemonicParsing="false" text="Dislike" />
+      <Button fx:id="threadButton" layoutX="657.0" layoutY="34.0" mnemonicParsing="false" text="Go to thread" />
+      <Button fx:id="deleteButton" layoutX="578.0" layoutY="171.0" mnemonicParsing="false" prefHeight="29.0" prefWidth="56.0" style="-fx-border-color: salmon; -fx-border-width: 2px; -fx-border-radius: 0;" text="Delete" />
+   </children>
  </Pane>

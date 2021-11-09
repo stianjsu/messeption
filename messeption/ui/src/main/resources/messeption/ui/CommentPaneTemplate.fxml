@@ -27,5 +27,6 @@
             <Font size="14.0" />
          </font>
       </Label>
+      <Button fx:id="deleteButton" layoutX="569.0" layoutY="91.0" mnemonicParsing="false" prefHeight="29.0" prefWidth="56.0" style="-fx-border-color: salmon; -fx-border-width: 2px; -fx-border-radius: 0;" text="Delete" />
    </children>
 </Pane>
