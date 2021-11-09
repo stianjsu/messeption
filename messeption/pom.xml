@@ -136,6 +136,7 @@
         <module>json</module>
         <module>restapi</module>
         <module>restserver</module>
+        <module>integrationtests</module>
         <module>ui</module>
     </modules>
 </project>
