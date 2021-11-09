@@ -6,7 +6,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 /**
- * Controlls and starts the applicatuin UI. Also controlls scene switches.
+ * Controlls and starts the application UI. Also controls scene switches.
  */
 public class MesseptionApp extends Application {
 

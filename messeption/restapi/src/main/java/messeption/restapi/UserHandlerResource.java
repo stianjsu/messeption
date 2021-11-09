@@ -2,18 +2,12 @@ package messeption.restapi;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonParseException;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
-import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.Path;
-import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
-import jakarta.ws.rs.QueryParam;
-import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.MediaType;
-import jakarta.ws.rs.core.Response;
 import java.io.IOException;
 import messeption.core.User;
 import messeption.core.UserHandler;
@@ -49,20 +43,20 @@ public class UserHandlerResource {
     gson = new GsonBuilder().create();
   }
 
-  private Response saveUsersToServer() {
+  private String saveUsersToServer() {
     try {
       this.handlerReadWrite.fileWriteUserHandler(this.handler);
     } catch (IOException e) {
-      return Response.serverError().entity("Server failed to save users").build();
+      return "500;Server failed to save users";
     }
-    return Response.ok("Server successfully saved users").build();
+    return "200;Server successfully saved users";
   }
 
   private void readUsersFromServer() {
     try {
       this.handler = this.handlerReadWrite.fileReadUserHandler();
     } catch (IOException e) {
-      e.printStackTrace();  //TODO add throws
+      e.printStackTrace();
     }
   }
 
@@ -81,28 +75,27 @@ public class UserHandlerResource {
   * Adds a user to the current UserHandler.
 
   * @param user User to add as json-string
-  * @return A appropriate http-response
+  * @return A appropriate string response
   */
   @POST
   @Path("/addUser")
   @Consumes(MediaType.APPLICATION_JSON)
-  public Response addUser(String user) {
+  public String addUser(String user) {
     try {
       User userToAdd = gson.fromJson(user, User.class);
       if (!this.handler.addUser(userToAdd)) {
-        return Response.notAcceptable(null).entity("User already added to server").build();
+        return "406;User already added to server";
       }
     } catch (Exception e) {
-      return Response.notAcceptable(null).entity(
-            "Add user request was not processed due to bad json input").build();
+      return "406;Add user request was not processed due to bad json input";
     }
     
-    Response r = saveUsersToServer();
-    if (r.getStatus() != 200) {
+    String status = saveUsersToServer();
+    if (!status.split(";")[0].equals("200")) {
       readUsersFromServer();
-      return r;
+      return status;
     }
 
-    return Response.ok("Server successfully added post").build();
+    return "200;Server successfully added post";
   }
 }

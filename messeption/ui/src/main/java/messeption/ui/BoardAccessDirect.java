@@ -1,15 +1,12 @@
 package messeption.ui;
 
-import java.io.IOException;
 import java.util.List;
 import messeption.core.ForumBoard;
 import messeption.core.ForumPost;
 import messeption.core.PostComment;
 import messeption.core.User;
 import messeption.core.UserHandler;
-import messeption.core.UserTextSubmission;
 import messeption.json.JsonReadWrite;
-import messeption.ui.BoardAccessInterface;
 
 /**
  * Class for direct access to core for when the app is run localy.

@@ -8,7 +8,7 @@ module messeption.restapi {
     requires org.glassfish.hk2.api;
     requires org.slf4j;
 
-    requires com.google.gson;
+    requires transitive com.google.gson;
 
     requires transitive messeption.core;
     requires messeption.json;

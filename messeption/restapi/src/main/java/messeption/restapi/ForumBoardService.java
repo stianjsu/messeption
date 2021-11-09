@@ -10,10 +10,8 @@ import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
-import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.MediaType;
-import jakarta.ws.rs.core.Response;
 import java.io.IOException;
 import messeption.core.ForumBoard;
 import messeption.core.ForumPost;
@@ -54,20 +52,20 @@ public class ForumBoardService {
   private JsonReadWrite handlerReadWrite;
 
 
-  private Response saveBoardToServer() {
+  private String saveBoardToServer() {
     try {
       boardReadWrite.fileWriteForumBoard(board);
     } catch (IOException e) {
-      return Response.serverError().entity("Server failed to save request").build();
+      return "500;Server failed to save request";
     }
-    return Response.ok("Server successfully saved file").build();
+    return "200;Server successfully saved file";
   }
 
   private void readBoardFromServer() {
     try {
       this.board = boardReadWrite.fileReadForumBoard();
     } catch (IOException e) {
-      e.printStackTrace();  //TODO add throws
+      e.printStackTrace();
     }
   }
 
@@ -84,17 +82,17 @@ public class ForumBoardService {
    * Method for setting forum board to a scpeified state.
 
    * @param save the board to save in json string format
-   * @return returns an appropriate response
+   * @return returns an appropriate string response
    */
   @PUT
   @Path("/set")
   @Consumes(MediaType.APPLICATION_JSON)
-  public Response setForumBoard(String save) {
+  public String setForumBoard(String save) {
     LOGG.debug("setForumBoard: " + save);
     try {
       this.board = gson.fromJson(save, ForumBoard.class);
     } catch (JsonParseException e) {
-      return Response.serverError().entity("Server failed to parse request").build();
+      return "500;Server failed to parse request";
     }
     return saveBoardToServer();
   }
@@ -103,27 +101,26 @@ public class ForumBoardService {
    * Adds a post to the board.
 
    * @param post the post to add in json string format
-   * @return returns an appropriate response
+   * @return returns an appropriate string response
    */
   @POST
   @Path(FORUM_POST_PATH + "/addPost")
   @Consumes(MediaType.APPLICATION_JSON)
-  public Response addPost(String post) {
+  public String addPost(String post) {
     try {
       ForumPost postToSave = gson.fromJson(post, ForumPost.class);
       board.newPost(postToSave);
     } catch (Exception e) {
-      return Response.notAcceptable(null).entity(
-          "Add post request was not processed due to bad json input").build();
+      return "406;Add post request was not processed due to bad json input";
     }
 
-    Response r = saveBoardToServer();
-    if (r.getStatus() != 200) {
+    String status = saveBoardToServer();
+    if (!status.split(";")[0].equals("200")) {
       readBoardFromServer();
-      return r;
+      return status;
     }
 
-    return Response.ok("Server successfully added post").build();
+    return "200;Server successfully added post";
   }
 
   /**
@@ -131,30 +128,28 @@ public class ForumBoardService {
 
    * @param id if of the post to add to
    * @param comment the comment to add in json string format
-   * @return returns an appropriate response
+   * @return returns an appropriate string response
    */
   @POST
   @Path(POST_COMMENT_PATH + "/addComment/{id}")
   @Consumes(MediaType.APPLICATION_JSON)
-  public Response addComment(@PathParam("id") String id, String comment) {
+  public String addComment(@PathParam("id") String id, String comment) {
     try {
       PostComment commentToSave = gson.fromJson(comment, PostComment.class);
       try {
         board.getPost(id).addComment(commentToSave);
       } catch (Exception e) {
-        return Response.serverError().entity(
-          "Could process json, but not add comment").build();
+          return "500;Could process json, but not add comment";
       }
     } catch (Exception e) {
-      return Response.notAcceptable(null).entity(
-          "Add comment request was not processed due to bad json input").build();
+      return "406;Add post request was not processed due to bad json input";
     }
-    Response r = saveBoardToServer();
-    if (r.getStatus() != 200) {
+    String status = saveBoardToServer();
+    if (!status.split(";")[0].equals("200")) {
       readBoardFromServer();
-      return r;
+      return status;
     }
-    return Response.ok("Server successfully added comment").build();
+    return "200;Server successfully added comment";
   }
 
   /**
@@ -162,30 +157,28 @@ public class ForumBoardService {
 
    * @param id id of the post to like
    * @param user the user that likes the post
-   * @return returns an appropriate response
+   * @return returns an appropriate string response
    */
   @PUT
   @Path(FORUM_POST_PATH + "/likePost/{id}")
   @Consumes(MediaType.APPLICATION_JSON)
-  public Response likePost(@PathParam("id") String id, String user) {
+  public String likePost(@PathParam("id") String id, String user) {
     try {
       User likingUser = gson.fromJson(user, User.class);
       try {
         board.getPost(id).like(likingUser);
       } catch (Exception e) {
-        return Response.serverError().entity(
-          "Could process json, but not like post").build();
+        return "500;Could process json, but not like post";
       }
     } catch (Exception e) {
-      return Response.notAcceptable(null).entity(
-          "Like post request was not processed due to bad json input").build();
+      return "406;Add post request was not processed due to bad json input";
     }
-    Response r = saveBoardToServer();
-    if (r.getStatus() != 200) {
+    String status = saveBoardToServer();
+    if (!status.split(";")[0].equals("200")) {
       readBoardFromServer();
-      return r;
+      return status;
     }
-    return Response.ok("Server successfully updated like status").build();
+    return "200;Server successfully updated like status";
   }
 
   /**
@@ -193,25 +186,24 @@ public class ForumBoardService {
 
    * @param id id of the post to like
    * @param user the user that dislikes the post
-   * @return returns an appropriate response
+   * @return returns an appropriate string response
    */
   @PUT
   @Path(FORUM_POST_PATH + "/dislikePost/{id}")
   @Consumes(MediaType.APPLICATION_JSON)
-  public Response dislikePost(@PathParam("id") String id, String user) {
+  public String dislikePost(@PathParam("id") String id, String user) {
     try {
       User likingUser = gson.fromJson(user, User.class);
       board.getPost(id).dislike(likingUser);
     } catch (Exception e) {
-      return Response.notAcceptable(null).entity(
-          "Like post request was not processed due to bad json input").build();
+      return "406;Add post request was not processed due to bad json input";
     }
-    Response r = saveBoardToServer();
-    if (r.getStatus() != 200) {
+    String status = saveBoardToServer();
+    if (!status.split(";")[0].equals("200")) {
       readBoardFromServer();
-      return r;
+      return status;
     }
-    return Response.ok("Server successfully updated like status").build();
+    return "200;Server successfully updated like status";
   }
 
 
@@ -221,26 +213,25 @@ public class ForumBoardService {
    * @param postId id of post that contains comment
    * @param commentId id of the comment to like
    * @param user the user that likes the comment
-   * @return returns an appropriate response
+   * @return returns an appropriate string response
    */
   @PUT
   @Path(POST_COMMENT_PATH + "/likeComment/{postId}/{commentId}")
   @Consumes(MediaType.APPLICATION_JSON)
-  public Response likeComment(@PathParam("postId") String postId, 
+  public String likeComment(@PathParam("postId") String postId, 
         @PathParam("commentId") String commentId, String user) {
     try {
       User likingUser = gson.fromJson(user, User.class);
       board.getPost(postId).getComment(commentId).like(likingUser);
     } catch (Exception e) {
-      return Response.notAcceptable(null).entity(
-          "Like comment request was not processed due to bad json input").build();
+      return "406;Add post request was not processed due to bad json input";
     }
-    Response r = saveBoardToServer();
-    if (r.getStatus() != 200) {
+    String status = saveBoardToServer();
+    if (!status.split(";")[0].equals("200")) {
       readBoardFromServer();
-      return r;
+      return status;
     }
-    return Response.ok("Server successfully updated like status").build();
+    return "200;Server successfully updated like status";
   }
 
   /**
@@ -249,26 +240,25 @@ public class ForumBoardService {
    * @param postId id of post that contains comment
    * @param commentId id of the comment to dislike
    * @param user the user that dislikes the comment
-   * @return returns an appropriate response
+   * @return returns an appropriate string response
    */
   @PUT
   @Path(POST_COMMENT_PATH + "/dislikeComment/{postId}/{commentId}")
   @Consumes(MediaType.APPLICATION_JSON)
-  public Response dislikeComment(@PathParam("postId") String postId, 
+  public String dislikeComment(@PathParam("postId") String postId, 
         @PathParam("commentId") String commentId, String user) {
     try {
       User likingUser = gson.fromJson(user, User.class);
       board.getPost(postId).getComment(commentId).dislike(likingUser);
     } catch (Exception e) {
-      return Response.notAcceptable(null).entity(
-          "Dislike comment request was not processed due to bad json input").build();
+      return "406;Add post request was not processed due to bad json input";
     }
-    Response r = saveBoardToServer();
-    if (r.getStatus() != 200) {
+    String status = saveBoardToServer();
+    if (!status.split(";")[0].equals("200")) {
       readBoardFromServer();
-      return r;
+      return status;
     }
-    return Response.ok("Server successfully updated dislike status").build();
+    return "200;Server successfully updated dislike status";
   }
 
   
