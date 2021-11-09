@@ -33,13 +33,9 @@ public interface BoardAccessInterface {
 
   public void dislikeComment(String postId, String commentId, User user) throws Exception;
 
-  public List<PostComment> getComments(ForumPost post);
-
   public void addComment(String id, PostComment comment) throws Exception;
 
   public UserHandler readUsers() throws Exception;
-
-  public void updateUsersChange() throws Exception;
 
   public User getActiveUser();
 

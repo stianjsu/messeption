@@ -36,10 +36,12 @@ public class BoardAccessDirect implements BoardAccessInterface {
     }
   }
 
+  @Override
   public void updateBoardChange() throws Exception {
     boardReaderWriter.fileWriteForumBoard(board);
   }
 
+  @Override
   public ForumBoard readBoard() throws Exception {
     this.board = boardReaderWriter.fileReadForumBoard();
     return this.board;
@@ -48,7 +50,7 @@ public class BoardAccessDirect implements BoardAccessInterface {
   /**
    * Updates the local ForumBoard state by reading from file.
    */
-  public void updateLocalBoard() {
+  private void updateLocalBoard() {
     try {
       this.board = boardReaderWriter.fileReadForumBoard();
     } catch (Exception e) {
@@ -57,56 +59,61 @@ public class BoardAccessDirect implements BoardAccessInterface {
 
   }
 
+  @Override
   public void setBoard(ForumBoard board) throws Exception {
     this.board = board;
     updateBoardChange();
   }
 
+  @Override
   public ForumPost getPost(String id) {
     updateLocalBoard();
     return board.getPost(id);
   }
 
+  @Override
   public List<ForumPost> getPosts() {
     updateLocalBoard();
     return board.getPosts();
   }
 
+  @Override
   public void addPost(ForumPost post) throws Exception {
     board.newPost(post);
     updateBoardChange();
   }
 
+  @Override
   public void removePost(String id) throws Exception {
     board.deletePost(board.getPost(id));
     updateBoardChange();
   }
 
+  @Override
   public void likePost(String id, User user) throws Exception {
     board.getPost(id).like(user);
     updateBoardChange();
   }
 
+  @Override
   public void dislikePost(String id, User user) throws Exception {
     board.getPost(id).dislike(user);
     updateBoardChange();
   }
 
+  @Override
   public void likeComment(String postId, String commentId, User user) throws Exception {
     board.getPost(postId).getComment(commentId).like(user);
     updateBoardChange();
   }
 
+  @Override
   public void dislikeComment(String postId, String commentId, User user) throws Exception {
     board.getPost(postId).getComment(commentId).dislike(user);
     updateBoardChange();
   }
 
-
-  public List<PostComment> getComments(ForumPost post) {
-    return post.getComments();
-  }
-
+  @Override
   public void addComment(String id, PostComment comment) throws Exception {
     board.getPost(id).addComment(comment);
     updateBoardChange();
@@ -115,35 +122,40 @@ public class BoardAccessDirect implements BoardAccessInterface {
   public String getResourcesPath() {
     return boardReaderWriter.getSaveLocation();
   }
-
+  
+  @Override
   public UserHandler readUsers() throws Exception {
     this.userHandler = usersReaderWriter.fileReadUserHandler();
     return this.userHandler;
   }
 
-  public void updateUsersChange() throws Exception {
+  private void updateUsersChange() throws Exception {
     usersReaderWriter.fileWriteUserHandler(this.userHandler);
   }
 
+  @Override
   public User getActiveUser() {
     return this.activeUser;
   }
 
+  @Override
   public void setActiveUser(User user) {
     this.activeUser = user;
   }
-  
+
+  @Override
   public void addUser(String username, String password) throws Exception {
     this.userHandler.addUser(username, password);
     updateUsersChange();
   }
 
+  @Override
   public boolean userNameExists(String username) {
     return userHandler.userNameExists(username);
   }
-
+  
+  @Override
   public boolean correctPassword(String username, String password) {
     return userHandler.correctPassword(username, password);
   }
-
 }
