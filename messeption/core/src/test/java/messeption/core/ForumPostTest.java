@@ -24,6 +24,7 @@ public class ForumPostTest {
   String text1;
   String testDate;
   SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss dd-MM-yyyy");
+  User author;
   List<User> users;
 
 
@@ -32,7 +33,8 @@ public class ForumPostTest {
     title1 = "POST";
     text1 = "Lorem ipsum dolor sit amet";
     users = new ArrayList<>();
-    post = new ForumPost(title1, text1);
+    author = new User("Tester1", "test");
+    post = new ForumPost(title1, text1, author, true);
     testDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss dd-MM-yyyy"));
     users.add(new User("tim", "Tom"));
     users.add(new User("aim", "Tom"));
@@ -50,6 +52,8 @@ public class ForumPostTest {
 
     assertEquals(0, post.getLikes(), "Wrong likes value from getter");
     assertEquals(0, post.getDislikes(), "Wrong dislikes value likes getter");
+    assertEquals(author, post.getAuthor(), "Wrong author from author getter");
+    assertEquals(true, post.isAnonymous(), "Wrong bool from is anonymous getter");
     assertEquals(new ArrayList<>(), post.getComments(), "Wrong comment list from getter");
   }
 
@@ -88,14 +92,16 @@ public class ForumPostTest {
   @Test
   @DisplayName("Test adding and getting comments")
   public void testComments() {
-    PostComment comment1= new PostComment("comment");
+    User commenter = new User("Commenter1", "test");
+    PostComment comment1= new PostComment("comment", commenter, true);
     post.addComment(comment1);
 
     assertEquals(comment1, post.getComments().get(0), "comment was not correct after add comment");
 
-    PostComment comment2 = new PostComment("comment2");
+    User commenter2 = new User("Commenter2", "test");
+    PostComment comment2 = new PostComment("comment2", commenter2, true);
     post.addComment(comment2);
 
-    assertEquals(new ArrayList<>(Arrays.asList(comment1,comment2)), post.getComments(), "Wrong comment list from getComments");
+    assertEquals(new ArrayList<>(Arrays.asList(comment1, comment2)), post.getComments(), "Wrong comment list from getComments");
   }
 }

@@ -44,6 +44,7 @@ public class MesseptionAppTest extends ApplicationTest {
 
   private static ForumBoard boardBackup;
   List<User> users;
+  
 
   @Override
   public void start(Stage primaryStage) throws Exception {
@@ -127,10 +128,10 @@ public class MesseptionAppTest extends ApplicationTest {
     assertEquals(post.getText(), text, "Text did not match expected value");
   }
 
-  public void checkNewPostAuthor(String author) throws Exception {
+  public void checkNewPostAuthor(User author) throws Exception {
     List<ForumPost> posts = boardAccess.getPosts();
     ForumPost post = posts.get(posts.size() - 1);
-    assertEquals(post.getAuthor().getUsername(), author, "Author did not match expected value");
+    assertEquals(post.getAuthor(), author, "Author did not match expected value");
   }
 
   @ParameterizedTest
@@ -158,7 +159,7 @@ public class MesseptionAppTest extends ApplicationTest {
     clickOn("#postTextArea").write(text);
     click("Publish", "Quit To Front Page");
     checkNewPost(title, text);
-    checkNewPostAuthor("Anonymous");
+    checkNewPostAuthor(boardAccess.getActiveUser());
   }
 
   private static Stream<Arguments> testCreatePostValidAnonomous() {
@@ -318,7 +319,8 @@ public class MesseptionAppTest extends ApplicationTest {
     List<PostComment> comments = boardAccess.getPosts().get(0).getComments();
     PostComment comment = comments.get(comments.size() - 1);
     assertEquals(text, comment.getText(), "New comment was not saved");
-    assertEquals(comment.getAuthor().getUsername(), "Anonymous", "New comment was not posted anonymously");
+    assertEquals(boardAccess.getActiveUser(), comment.getAuthor(), "Wrong author of comment");
+    assertTrue(comment.isAnonymous(), "New comment was not posted anonymously");
   }
 
   private static Stream<Arguments> testCommentsAnonymous() {

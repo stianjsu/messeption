@@ -19,10 +19,11 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 public class PostCommentTest {
-  PostComment post;
+  PostComment comment;
   String text1;
   String testDate;
   SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss dd-MM-yyyy");
+  User author;
   List<User> users;
 
 
@@ -30,7 +31,8 @@ public class PostCommentTest {
   public void setup() {
     text1 = "Lorem ipsum dolor sit amet";
     users = new ArrayList<>();
-    post = new PostComment(text1);
+    author = new User("Tester1", "test");
+    comment = new PostComment(text1, author, true);
     testDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss dd-MM-yyyy"));
     users.add(new User("tim", "Tom"));
     users.add(new User("aim", "Tom"));
@@ -43,10 +45,11 @@ public class PostCommentTest {
   @Test
   @DisplayName("Test getters")
   public void testGetter() {
-    assertEquals(text1, post.getText(), "Wrong text from getter");
-
-    assertEquals(0, post.getLikes(), "Wrong likes value from getter");
-    assertEquals(0, post.getDislikes(), "Wrong dislikes value likes getter");
+    assertEquals(text1, comment.getText(), "Wrong text from getter");
+    assertEquals(0, comment.getLikes(), "Wrong likes value from getter");
+    assertEquals(0, comment.getDislikes(), "Wrong dislikes value likes getter");
+    assertEquals(author, comment.getAuthor(), "Wrong author from author getter");
+    assertEquals(true, comment.isAnonymous(), "Wrong bool from is anonymous getter");
   }
 
   @Test
@@ -54,15 +57,15 @@ public class PostCommentTest {
   public void testIncrementLikesDislikes() {
 
     for (int i = 0; i < 3; i++) {
-      post.like(users.get(i));
+      comment.like(users.get(i));
     }
-    assertEquals(3, post.getLikes(), "Wrong likes value from getter");
+    assertEquals(3, comment.getLikes(), "Wrong likes value from getter");
     for (int i = 0; i < 5; i++) {
-      post.dislike(users.get(i));
+      comment.dislike(users.get(i));
     }
 
-    assertEquals(0, post.getLikes(), "Wrong likes value after liked comments were disliked");
-    assertEquals(5, post.getDislikes(), "Wrong dislikes value from getter");
+    assertEquals(0, comment.getLikes(), "Wrong likes value after liked comments were disliked");
+    assertEquals(5, comment.getDislikes(), "Wrong dislikes value from getter");
 
   }
 
@@ -71,10 +74,10 @@ public class PostCommentTest {
   public void testTimeGetter() {
 
     try {
-      Date postDate = sdf.parse(post.getTimeStamp());
+      Date commentDate = sdf.parse(comment.getTimeStamp());
       Date testDateFormated = sdf.parse(testDate);
 
-      long diff = Math.abs(postDate.getTime() - testDateFormated.getTime());
+      long diff = Math.abs(commentDate.getTime() - testDateFormated.getTime());
 
       assertTrue(diff < 10000, "Time difference is more than 10 seconds");
 

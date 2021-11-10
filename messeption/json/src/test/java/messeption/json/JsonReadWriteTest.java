@@ -11,6 +11,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import messeption.core.ForumBoard;
 import messeption.core.UserHandler;
+import messeption.core.User;
 
 public class JsonReadWriteTest {
 
@@ -22,8 +23,9 @@ public class JsonReadWriteTest {
   public void setup() throws IOException {
     String title1 = "POST";
     String text1 = "Lorem ipsum dolor sit amet";
+    User author = new User("Tester1", "test");
     board = new ForumBoard();
-    board.newPost(title1, text1);
+    board.newPost(title1, text1, author, true);
 
     userHandler = new UserHandler();
     try {

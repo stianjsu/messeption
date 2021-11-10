@@ -74,16 +74,9 @@ public class CreatePostPageController {
         return;
       }
 
-      ForumPost post;
-
-      if (anonymousAuthorCheckBox.isSelected()) {
-        post = new ForumPost(title, text);
-      } else {
-        post = new ForumPost(title, text, boardAccess.getActiveUser());
-      }
-
       // updates and saves board
-      boardAccess.addPost(post);
+      boardAccess.addPost(new ForumPost(title, text, boardAccess.getActiveUser(), 
+          anonymousAuthorCheckBox.isSelected()));
 
       // confirmCreation
       feedbackAlertPostCreation(title);

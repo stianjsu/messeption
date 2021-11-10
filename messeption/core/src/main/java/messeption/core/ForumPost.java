@@ -12,20 +12,6 @@ public class ForumPost extends UserTextSubmission {
   private List<PostComment> comments;
 
   /**
-   * Constructur. Uses UserTextSubmissions constructur for text, likes/dislikes
-   * and time. Sets the title and initializes empty list of comments. Author gets set
-   * to anonymous
-
-   * @param title title of post
-   * @param text  text in post
-   */
-  public ForumPost(String title, String text) {
-    super(text);
-    this.title = title;
-    this.comments = new ArrayList<>();
-  }
-
-  /**
    * Constructur. Uses UserTextSubmissions constructur for text, author, likes/dislikes
    * and time. Sets the title and initializes empty list of comments.
 
@@ -33,8 +19,8 @@ public class ForumPost extends UserTextSubmission {
    * @param text  text in post
    * @param author author of post
    */
-  public ForumPost(String title, String text, User author) {
-    super(text, author);
+  public ForumPost(String title, String text, User author, boolean postedAnonymously) {
+    super(text, author, postedAnonymously);
     this.title = title;
     this.comments = new ArrayList<>();
   }
@@ -128,9 +114,11 @@ public class ForumPost extends UserTextSubmission {
       boolean equalLikes = this.getLikes() == (o.getLikes());
       boolean equalDislikes = this.getDislikes() == (o.getDislikes());
       boolean equalTimeStamp = this.getTimeStamp().equals(o.getTimeStamp());
+      boolean equalAuthor = this.getAuthor().equals(o.getAuthor());
+      boolean equalAnonymous = this.isAnonymous() == o.isAnonymous();
        
       return (equalTitle && equalComments && equalText && equalLikes 
-          && equalDislikes && equalTimeStamp && equalHashCode);
+          && equalDislikes && equalTimeStamp && equalHashCode && equalAuthor && equalAnonymous);
     } else {
       return false;
     }    

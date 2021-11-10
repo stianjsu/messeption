@@ -166,9 +166,11 @@ public class FrontPageController {
     if (titleLabel != null) {
       titleLabel.setText(post.getTitle());
     }
+
     Label authorLabel = (Label) UiUtils.getNodeFromId(tempChildren, "authorLabel");
     if (titleLabel != null) {
-      authorLabel.setText("Post by: " + post.getAuthor().getUsername());
+      authorLabel.setText("Post by: " + (post.isAnonymous()
+          ? ForumPost.ANONYMOUS_NAME : post.getAuthor().getUsername()));
     }
 
     TextArea postTextArea = (TextArea) UiUtils.getNodeFromId(tempChildren, "postTextArea");
@@ -203,8 +205,6 @@ public class FrontPageController {
           post.getDislikeUsers().contains(boardAccess.getActiveUser()));
           
       likeButton.setOnAction(e -> {
-        int prevLikes = post.getLikes();
-
         try {
           boardAccess.likePost(post.getId(), boardAccess.getActiveUser());
         } catch (Exception error) {
@@ -222,8 +222,6 @@ public class FrontPageController {
       });
 
       dislikeButton.setOnAction(e -> {
-        int prevDislikes = post.getDislikes();
-
         try {
           boardAccess.dislikePost(post.getId(), boardAccess.getActiveUser());
         } catch (Exception error) {
@@ -276,5 +274,4 @@ public class FrontPageController {
     }
     return toReturn;
   }
-
 }
