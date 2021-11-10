@@ -1,5 +1,6 @@
 package messeption.ui;
 
+import java.net.URI;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -8,25 +9,9 @@ import javafx.stage.Stage;
 /**
  * Controlls and starts the application UI. Also controls scene switches.
  */
-public class MesseptionApp extends Application {
+public class MesseptionRemoteApp extends Application {
 
-  public static void supportHeadless() {
-    if (Boolean.getBoolean("headless")) {
-      System.setProperty("testfx.robot", "glass");
-      System.setProperty("testfx.headless", "true");
-      System.setProperty("prism.order", "sw");
-      System.setProperty("prism.text", "t2k");
-      System.setProperty("java.awt.headless", "true");
-    }
-  }
-  
-
-
-  private BoardAccessInterface boardAccess = new BoardAccessDirect();
-
-  public void setBoardAccess(BoardAccessInterface boardAccess){
-    this.boardAccess = boardAccess;
-  }
+  private BoardAccessInterface boardAccess = new BoardAccessRemote(URI.create("http://localhost:8999/board"));
 
   public static final String LOGIN_PAGE_PATH = "LoginPage.fxml";
   public static final String FRONT_PAGE_PATH = "FrontPage.fxml";
@@ -81,7 +66,7 @@ public class MesseptionApp extends Application {
     
 
     primaryStage.setScene(loginPageScene);
-    primaryStage.setTitle("Messeption");
+    primaryStage.setTitle("MesseptionRemote");
     primaryStage.setResizable(false);
     primaryStage.show();
 
@@ -113,6 +98,6 @@ public class MesseptionApp extends Application {
   }
 
   public static void main(String[] args) {
-    launch(MesseptionApp.class, args);
+    launch(MesseptionRemoteApp.class, args);
   }
 }

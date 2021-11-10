@@ -58,14 +58,29 @@ public class ForumBoard {
     posts.add(post);
   }
 
+  
   /**
-   * Removed the given post from posts list.
+   * Removes a post object from list of posts.
 
    * @param post ForumPost
    * 
+   * @throws IllegalArgumentException Post not in list of posts
    */
-  public void deletePost(ForumPost post) {
-    posts.remove(post);
+  public void deletePost(ForumPost post) throws IllegalArgumentException {
+    if (!this.posts.contains(post)) {
+      throw new IllegalArgumentException("Post is not in list of posts");
+    }
+    this.posts.remove(post);
+  }
+
+  /**
+   * Removes a post object from list of posts.
+
+   * @param id PostId
+   * @throws IllegalArgumentException Post not in list of posts
+   */
+  public void deletePost(String id) throws IllegalArgumentException {
+    this.deletePost(this.getPost(id));
   }
 
   /**

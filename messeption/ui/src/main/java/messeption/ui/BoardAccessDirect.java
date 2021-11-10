@@ -1,15 +1,12 @@
 package messeption.ui;
 
-import java.io.IOException;
 import java.util.List;
 import messeption.core.ForumBoard;
 import messeption.core.ForumPost;
 import messeption.core.PostComment;
 import messeption.core.User;
 import messeption.core.UserHandler;
-import messeption.core.UserTextSubmission;
 import messeption.json.JsonReadWrite;
-import messeption.ui.BoardAccessInterface;
 
 /**
  * Class for direct access to core for when the app is run localy.
@@ -84,7 +81,7 @@ public class BoardAccessDirect implements BoardAccessInterface {
   }
 
   @Override
-  public void removePost(String id) throws Exception {
+  public void deletePost(String id) throws Exception {
     board.deletePost(board.getPost(id));
     updateBoardChange();
   }
@@ -117,6 +114,11 @@ public class BoardAccessDirect implements BoardAccessInterface {
   public void addComment(String id, PostComment comment) throws Exception {
     board.getPost(id).addComment(comment);
     updateBoardChange();
+  }
+
+  @Override
+  public void deleteComment(String postId, String commentId) throws Exception {
+    board.getPost(postId).deleteComment(commentId);
   }
 
   public String getResourcesPath() {

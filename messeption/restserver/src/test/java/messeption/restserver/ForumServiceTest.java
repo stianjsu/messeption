@@ -31,6 +31,11 @@ public class ForumServiceTest extends JerseyTest {
     return true;
   }
 
+  private String getCustomResponseStatus(Response resp){
+    //return gson.fromJson(resp.readEntity(String.class), String.class).split(";")[0];
+    return (resp.readEntity(String.class)).split(";")[0];
+  }
+
   @Override
   protected ResourceConfig configure() {
     final ForumConfig config = new ForumConfig();
@@ -103,7 +108,7 @@ public class ForumServiceTest extends JerseyTest {
         .path("/set")
         .request(MediaType.APPLICATION_JSON + ";" + MediaType.CHARSET_PARAMETER + "=UTF-8")
         .put(payload);
-    assertEquals(200, putResponse.getStatus());
+    assertEquals("200", getCustomResponseStatus(putResponse));
   }
 
   @Test
@@ -115,7 +120,7 @@ public class ForumServiceTest extends JerseyTest {
         .path("/posts/addPost")
         .request(MediaType.APPLICATION_JSON + ";" + MediaType.CHARSET_PARAMETER + "=UTF-8")
         .post(payload);
-    assertEquals(200, postResponse.getStatus());
+    assertEquals("200", getCustomResponseStatus(postResponse));
   }
 
   @Test
@@ -127,7 +132,7 @@ public class ForumServiceTest extends JerseyTest {
         .path(postId)
         .request(MediaType.APPLICATION_JSON + ";" + MediaType.CHARSET_PARAMETER + "=UTF-8")
         .post(payload);
-    assertEquals(200, postResponse.getStatus());
+    assertEquals("200", getCustomResponseStatus(postResponse));
   }
 
   @Test
@@ -139,7 +144,7 @@ public class ForumServiceTest extends JerseyTest {
         .path(postId)
         .request(MediaType.APPLICATION_JSON + ";" + MediaType.CHARSET_PARAMETER + "=UTF-8")
         .put(payload);
-    assertEquals(200, putResponse.getStatus());
+    assertEquals("200", getCustomResponseStatus(putResponse));
   }
 
   @Test
@@ -151,7 +156,7 @@ public class ForumServiceTest extends JerseyTest {
         .path(postId)
         .request(MediaType.APPLICATION_JSON + ";" + MediaType.CHARSET_PARAMETER + "=UTF-8")
         .put(sent);
-    assertEquals(200, putResponse.getStatus());
+    assertEquals("200", getCustomResponseStatus(putResponse));
   }
 
   @Test
@@ -165,7 +170,7 @@ public class ForumServiceTest extends JerseyTest {
         .path(commentId)
         .request(MediaType.APPLICATION_JSON + ";" + MediaType.CHARSET_PARAMETER + "=UTF-8")
         .put(payload);
-    assertEquals(200, putResponse.getStatus());
+    assertEquals("200", getCustomResponseStatus(putResponse));
   }
 
   @Test
@@ -179,7 +184,7 @@ public class ForumServiceTest extends JerseyTest {
         .path(commentId)
         .request(MediaType.APPLICATION_JSON + ";" + MediaType.CHARSET_PARAMETER + "=UTF-8")
         .put(payload);
-    assertEquals(200, putResponse.getStatus());
+    assertEquals("200", getCustomResponseStatus(putResponse));
   }
 
   @Test
@@ -207,7 +212,7 @@ public class ForumServiceTest extends JerseyTest {
         .path("/addUser")
         .request(MediaType.APPLICATION_JSON + ";" + MediaType.CHARSET_PARAMETER + "=UTF-8")
         .post(payload);
-    assertEquals(200, postResponse.getStatus());
+    assertEquals("200", getCustomResponseStatus(postResponse));
 
     Response getResponse = target(ForumBoardService.FORUM_BOARD_SERVICE_PATH)
         .path(ForumBoardService.USER_RESOURCE_PATH)

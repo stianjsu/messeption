@@ -23,7 +23,7 @@ public interface BoardAccessInterface {
 
   public void addPost(ForumPost post) throws Exception;
 
-  public void removePost(String id) throws Exception;
+  public void deletePost(String id) throws Exception;
 
   public void likePost(String id, User user) throws Exception;
 
@@ -34,6 +34,8 @@ public interface BoardAccessInterface {
   public void dislikeComment(String postId, String commentId, User user) throws Exception;
 
   public void addComment(String id, PostComment comment) throws Exception;
+
+  public void deleteComment(String postId, String commentId) throws Exception;
 
   public UserHandler readUsers() throws Exception;
 
