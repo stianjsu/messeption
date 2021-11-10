@@ -10,7 +10,23 @@ import javafx.stage.Stage;
  */
 public class MesseptionApp extends Application {
 
+  public static void supportHeadless() {
+    if (Boolean.getBoolean("headless")) {
+      System.setProperty("testfx.robot", "glass");
+      System.setProperty("testfx.headless", "true");
+      System.setProperty("prism.order", "sw");
+      System.setProperty("prism.text", "t2k");
+      System.setProperty("java.awt.headless", "true");
+    }
+  }
+  
+
+
   private BoardAccessInterface boardAccess = new BoardAccessDirect();
+
+  public void setBoardAccess(BoardAccessInterface boardAccess){
+    this.boardAccess = boardAccess;
+  }
 
   public static final String LOGIN_PAGE_PATH = "LoginPage.fxml";
   public static final String FRONT_PAGE_PATH = "FrontPage.fxml";
