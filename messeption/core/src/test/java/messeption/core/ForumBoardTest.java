@@ -2,12 +2,8 @@ package messeption.core;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-
-import java.io.File;
-import java.io.IOException;
-
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -72,10 +68,11 @@ public class ForumBoardTest {
   }
 
   @Test
-  @DisplayName("Test so string")
+  @DisplayName("Test to string")
   public void testToString() {
     board2 = board;
     assertEquals(board.toString(), board2.toString());
+    assertNotEquals(board.toString(), new Object().toString());
   }
 
   private void assertTrue(boolean equals) {

@@ -9,7 +9,6 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Date;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -126,7 +125,16 @@ public class ForumPostTest {
   public void testEquals() {
     ForumPost post2 = post;
     assertTrue(post.equals(post2));
+    assertFalse(post.equals(new ForumPost("This is title", "This is text", author, true)));
     assertFalse(post.equals(new Object()));
+  }
+
+  @Test
+  @DisplayName("Test to string")
+  public void testToString() {
+    ForumPost post2 = post;
+    assertEquals(post.toString(), post2.toString());
+    assertNotEquals(post.toString(), new Object().toString());
   }
 
   @Test
