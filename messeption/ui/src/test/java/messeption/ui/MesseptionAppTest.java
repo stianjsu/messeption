@@ -43,7 +43,8 @@ public class MesseptionAppTest extends ApplicationTest {
   private PostPageController postPageController;
 
   private static ForumBoard boardBackup;
-  List<User> users;
+  private List<User> users;
+  private String topPostId;
   
 
   @Override
@@ -51,6 +52,8 @@ public class MesseptionAppTest extends ApplicationTest {
 
     boardAccess.setActiveUser(new User("ADMIN", "POWERS"));
     boardBackup = this.boardAccess.readBoard();
+
+    topPostId = "7";
 
     users = new ArrayList<>();
     users.add(new User("tim", "Tom"));
@@ -151,6 +154,25 @@ public class MesseptionAppTest extends ApplicationTest {
 
   @ParameterizedTest
   @MethodSource
+  @DisplayName("Test deleting a newly added post")
+  public void testDeletePost(String title, String text) {
+    click("Create Post");
+    clickOn("#postTitleField").write(title);
+    clickOn("#postTextArea").write(text);
+    click("Publish", "Quit To Front Page");
+    clickOn("#deleteButton");
+    click("Yes");
+    List<ForumPost> posts = boardAccess.getPosts();
+    ForumPost post = posts.get(posts.size() - 1);
+    assertNotEquals(post.getTitle(), title, "Post was not successfully deleted");
+  }
+
+  private static Stream<Arguments> testDeletePost() {
+    return Stream.of(Arguments.of("Delete", "this"));
+  }
+
+  @ParameterizedTest
+  @MethodSource
   @DisplayName("Test create a valid post anonymously")
   public void testCreatePostValidAnonomous(String title, String text) throws Exception {
     click("Create Post");
@@ -213,16 +235,16 @@ public class MesseptionAppTest extends ApplicationTest {
   @MethodSource
   @DisplayName("Test likes and dislikes")
   public void testClickLike(int n) {
-    int likes = boardAccess.getPosts().get(0).getLikes();
-    int dislikes = boardAccess.getPosts().get(0).getDislikes();
+    int likes = boardAccess.getPost(topPostId).getLikes();
+    int dislikes = boardAccess.getPost(topPostId).getDislikes();
     for (int index = 0; index < n; index++) {
       boardAccess.setActiveUser(users.get(index));
       click("Like");
       boardAccess.setActiveUser(users.get(index + n));
       click("Dislike");
     }
-    assertEquals(likes + n, boardAccess.getPosts().get(0).getLikes(), "Like button did not increase likes");
-    assertEquals(dislikes + n, boardAccess.getPosts().get(0).getDislikes(), "Dislike button did not increase dislikes");
+    assertEquals(likes + n, boardAccess.getPost(topPostId).getLikes(), "Like button did not increase likes");
+    assertEquals(dislikes + n, boardAccess.getPost(topPostId).getDislikes(), "Dislike button did not increase dislikes");
   }
 
   private static Stream<Arguments> testClickLike() {
@@ -234,16 +256,16 @@ public class MesseptionAppTest extends ApplicationTest {
   @DisplayName("Test likes and dislikes post from postpage")
   public void testClickLikeFromPost(int n) throws Exception {
     click("Go to thread");
-    int likes = boardAccess.getPosts().get(0).getLikes();
-    int dislikes = boardAccess.getPosts().get(0).getDislikes();
+    int likes = boardAccess.getPost(topPostId).getLikes();
+    int dislikes = boardAccess.getPost(topPostId).getDislikes();
     for (int index = 0; index < n; index++) {
       boardAccess.setActiveUser(users.get(index));
       click("Like");
       boardAccess.setActiveUser(users.get(index + n));
       click("Dislike");
     }
-    assertEquals(likes + n, boardAccess.getPosts().get(0).getLikes(), "Like button did not increase likes from post page");
-    assertEquals(dislikes + n, boardAccess.getPosts().get(0).getDislikes(), "Like button did not increase likes from post page");
+    assertEquals(likes + n, boardAccess.getPost(topPostId).getLikes(), "Like button did not increase likes from post page");
+    assertEquals(dislikes + n, boardAccess.getPost(topPostId).getDislikes(), "Like button did not increase likes from post page");
   }
 
   private static Stream<Arguments> testClickLikeFromPost() {
@@ -255,17 +277,17 @@ public class MesseptionAppTest extends ApplicationTest {
   @DisplayName("Test likes and dislikes on comments")
   public void testClickLikeComment(int n) {
     click("Go to thread");
-    int likes = boardAccess.getPosts().get(0).getComments().get(0).getLikes();
-    int dislikes = boardAccess.getPosts().get(0).getComments().get(0).getDislikes();
+    int likes = boardAccess.getPost(topPostId).getComments().get(0).getLikes();
+    int dislikes = boardAccess.getPost(topPostId).getComments().get(0).getDislikes();
     for (int index = 0; index < n; index++) {
       boardAccess.setActiveUser(users.get(index));
       clickOn("#likeCommentButton");
       boardAccess.setActiveUser(users.get(index + n));
       clickOn("#dislikeCommentButton");
     }
-    assertEquals(likes + n, boardAccess.getPosts().get(0).getComments().get(0).getLikes(),
+    assertEquals(likes + n, boardAccess.getPost(topPostId).getComments().get(0).getLikes(),
         "Like button did not increase likes on comment");
-    assertEquals(dislikes + n, boardAccess.getPosts().get(0).getComments().get(0).getDislikes(),
+    assertEquals(dislikes + n, boardAccess.getPost(topPostId).getComments().get(0).getDislikes(),
         "Dislike button did not increase dislikes on comment");
   }
 
@@ -281,7 +303,7 @@ public class MesseptionAppTest extends ApplicationTest {
     clickOn("#newCommentTextArea").write(text);
     click("Comment");
 
-    List<PostComment> comments = boardAccess.getPosts().get(0).getComments();
+    List<PostComment> comments = boardAccess.getPost(topPostId).getComments();
     String commentText = comments.get(comments.size() - 1).getText();
     assertEquals(text, commentText, "New comment was not saved");
   }
@@ -292,13 +314,31 @@ public class MesseptionAppTest extends ApplicationTest {
 
   @ParameterizedTest
   @MethodSource
+  @DisplayName("Test deleting a newly added post")
+  public void testDeleteComment(String text) {
+    boardAccess.setActiveUser(new User("Kenobi", "Hei123"));
+    click("Go to thread");
+    clickOn("#deleteButton");
+    click("Yes");
+    List<ForumPost> posts = boardAccess.getPosts();
+    ForumPost post = posts.get(posts.size() - 1);
+    PostComment comment = post.getComments().get(post.getComments().size()-1);
+    assertNotEquals(comment.getText(), text, "Comment was not successfully deleted");
+  }
+
+  private static Stream<Arguments> testDeleteComment() {
+    return Stream.of(Arguments.of("Delete me"));
+  }
+
+  @ParameterizedTest
+  @MethodSource
   @DisplayName("Test creating comments invalid")
   public void testCommentsInvalid(String text) {
     click("Go to thread");
     clickOn("#newCommentTextArea").write(text);
     click("Comment");
 
-    List<PostComment> comments = boardAccess.getPosts().get(0).getComments();
+    List<PostComment> comments = boardAccess.getPost(topPostId).getComments();
     String commentText = comments.get(comments.size() - 1).getText();
     assertNotEquals(text, commentText, "New comment was saved when it shouldn't have been");
   }
@@ -316,7 +356,7 @@ public class MesseptionAppTest extends ApplicationTest {
     clickOn("#newCommentTextArea").write(text);
     click("Comment");
 
-    List<PostComment> comments = boardAccess.getPosts().get(0).getComments();
+    List<PostComment> comments = boardAccess.getPost(topPostId).getComments();
     PostComment comment = comments.get(comments.size() - 1);
     assertEquals(text, comment.getText(), "New comment was not saved");
     assertEquals(boardAccess.getActiveUser(), comment.getAuthor(), "Wrong author of comment");
