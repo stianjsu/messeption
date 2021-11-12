@@ -18,6 +18,7 @@ public abstract class UserTextSubmission {
   protected String timeStamp;
   protected String id;
   public static final String ANONYMOUS_NAME = "Anonymous";
+  public static final String DATE_FORMAT = "HH:mm:ss dd-MM-yyyy";
 
 
   /**
@@ -34,7 +35,7 @@ public abstract class UserTextSubmission {
     this.text = text;
     this.likeUsers = new ArrayList<>();
     this.dislikeUsers = new ArrayList<>();
-    this.timeStamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss dd-MM-yyyy"));
+    this.timeStamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern(DATE_FORMAT));
     this.id = timeStamp.replaceAll("\\s+", "") + text.length();
   }
 

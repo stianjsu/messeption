@@ -3,14 +3,11 @@ package messeption.ui;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Comparator;
 import java.util.List;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuButton;
@@ -20,7 +17,6 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Line;
 import javafx.stage.Stage;
-import messeption.core.ForumBoard;
 import messeption.core.ForumPost;
 
 /**
@@ -69,19 +65,19 @@ public class FrontPageController {
    */
   public void initialize() throws Exception {
     sortTime.setOnAction((e) -> {
-      filterPosts(sortTime);
+      sortPosts(sortTime.getText());
     });
     sortTitle.setOnAction((e) -> {
-      filterPosts(sortTitle);
+      sortPosts(sortTitle.getText());
     });
     sortAuthor.setOnAction((e) -> {
-      filterPosts(sortAuthor);
+      sortPosts(sortAuthor.getText());
     });
     sortTextLength.setOnAction((e) -> {
-      filterPosts(sortTextLength);
+      sortPosts(sortTextLength.getText());
     });
     sortCommentCount.setOnAction((e) -> {
-      filterPosts(sortCommentCount);
+      sortPosts(sortCommentCount.getText());
     });
   }
 
@@ -98,29 +94,13 @@ public class FrontPageController {
     postPageScene = scene;
   }
 
-  private void filterPosts(MenuItem sorting) {
-
+  private void sortPosts(String sortBy) {
+    
     try {
       List<ForumPost> posts = boardAccess.getPosts();
-      String sortingString = sorting.getText();
-
-      if (sortingString.equals("Title")) {
-        Comparator<ForumPost> c = Comparator.comparing(p -> p.getTitle());
-        posts.sort(c);
-      } else if (sortingString.equals("Author")) {
-        Comparator<ForumPost> c = Comparator.comparing(p -> p.getAuthor().getUsername());
-        posts.sort(c);
-      } else if (sortingString.equals("Text")) {
-        Comparator<ForumPost> c = Comparator.comparing(p -> p.getText().length());
-        posts.sort(c);
-      } else if (sortingString.equals("Comments")) {
-        Comparator<ForumPost> c = Comparator.comparing(p -> p.getComments().size());
-        posts.sort(c);
-      } else {
-        sortingString = "Time";
-      }
+      posts.sort(UiUtils.getPostSorting(sortBy));
       drawPosts(posts);
-      sortMenuButton.setText(sortingString);
+      sortMenuButton.setText(sortBy);
     } catch (Exception e) {
       UiUtils.exceptionAlert(e).show();
     }
@@ -128,12 +108,12 @@ public class FrontPageController {
   }
 
   /**
-   * Draws the posts in the UI and makes them visible.
+   * Draws the posts sorted by time by default in the UI and makes them visible.
 
    * @throws Exception If board cannot read form file
    */
   public void drawPosts() throws Exception {
-    drawPosts(boardAccess.getPosts());
+    sortPosts("Time");
   }
   /**
    * Draws the posts in the UI and makes them visible.
@@ -268,7 +248,7 @@ public class FrontPageController {
 
             if (confirmation) {
               boardAccess.deletePost(post.getId());
-              drawPosts();
+              sortPosts(sortMenuButton.getText());
             }
           } catch (Exception e1) {
             UiUtils.exceptionAlert(e1);

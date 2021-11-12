@@ -1,5 +1,7 @@
 package messeption.core;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,7 +9,7 @@ import java.util.List;
  * Forum Post is a single post that has text and can have children, in form of
  * comments.
  */
-public class ForumPost extends UserTextSubmission {
+public class ForumPost extends UserTextSubmission implements Comparable<ForumPost> {
   private String title;
   private List<PostComment> comments;
 
@@ -127,5 +129,15 @@ public class ForumPost extends UserTextSubmission {
   @Override
   public int hashCode() {
     return this.text.length() * 5 + this.likeUsers.size() * 7 + this.dislikeUsers.size() * 11;
+  }
+
+  @Override
+  public int compareTo(ForumPost o) {
+    SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
+    try {
+      return sdf.parse(o.getTimeStamp()).compareTo(sdf.parse(this.getTimeStamp()));
+    } catch (ParseException e) {
+      return 0;
+    }
   }
 }
