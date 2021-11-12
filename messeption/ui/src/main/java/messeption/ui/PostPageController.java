@@ -125,7 +125,6 @@ public class PostPageController {
     postTimeStampLabel.setText(post.getTimeStamp());
 
     postTextArea.setText(post.getText());
-    postTextArea.setDisable(true);
     postTextArea.setStyle("-fx-opacity: 1;");
 
     postCommentsLabel.setText(post.getComments().size() + " comments");

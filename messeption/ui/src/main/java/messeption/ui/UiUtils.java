@@ -137,34 +137,36 @@ public class UiUtils {
 
     return result.get() == confirm;
   }
+  /**
+   * GetPostSorting creates a comparator based on what we want to sort the posts by.
 
+   * @param sortBy String that defines what we will sort by
+   * @return the comparator
+   */
   public static Comparator<ForumPost> getPostSorting(String sortBy) {
-      if (sortBy.equals("Title")) {
-        return Comparator.comparing(p -> p.getTitle());
-        
-      } else if (sortBy.equals("Author")) {
-        return new Comparator<ForumPost>() {
-          @Override
-          public int compare(ForumPost o1, ForumPost o2) {
-            if (o1.isAnonymous()) {
-              return 1;
-            }
-            if (o2.isAnonymous()) {
-              return -1;
-            }
-            return o1.getAuthor().getUsername().compareTo(o2.getAuthor().getUsername());
+    if (sortBy.equals("Title")) {
+      return Comparator.comparing(p -> p.getTitle());    
+    }
+    if (sortBy.equals("Author")) {
+      return new Comparator<ForumPost>() {
+        @Override
+        public int compare(ForumPost o1, ForumPost o2) {
+          if (o1.isAnonymous()) {
+            return 1;
           }
-        };
-        
-      } else if (sortBy.equals("Text")) {
-        return Comparator.comparing(p -> - p.getText().length());
-        
-      } else if (sortBy.equals("Comments")) {
-        return Comparator.comparing(p -> - p.getComments().size());
-        
-      } else {
-        //return Comparator.comparing(p -> p.getTimeStamp());
-        return null;        
-      }
+          if (o2.isAnonymous()) {
+            return -1;
+          }
+          return o1.getAuthor().getUsername().compareTo(o2.getAuthor().getUsername());
+        }
+      };
+    }
+    if (sortBy.equals("Text")) {
+      return Comparator.comparing(p -> - p.getText().length());
+    }
+    if (sortBy.equals("Comments")) {
+      return Comparator.comparing(p -> - p.getComments().size());
+    }
+    return null;
   }
 }

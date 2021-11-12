@@ -156,7 +156,6 @@ public class FrontPageController {
     TextArea postTextArea = (TextArea) UiUtils.getNodeFromId(tempChildren, "postTextArea");
     if (postTextArea != null) {
       postTextArea.setText(post.getText());
-      postTextArea.setDisable(true);
       postTextArea.setStyle("-fx-opacity: 1;");
     }
 
