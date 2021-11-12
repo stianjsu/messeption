@@ -1,5 +1,7 @@
 package messeption.core;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,23 +9,9 @@ import java.util.List;
  * Forum Post is a single post that has text and can have children, in form of
  * comments.
  */
-public class ForumPost extends UserTextSubmission {
+public class ForumPost extends UserTextSubmission implements Comparable<ForumPost> {
   private String title;
   private List<PostComment> comments;
-
-  /**
-   * Constructur. Uses UserTextSubmissions constructur for text, likes/dislikes
-   * and time. Sets the title and initializes empty list of comments. Author gets set
-   * to anonymous
-
-   * @param title title of post
-   * @param text  text in post
-   */
-  public ForumPost(String title, String text) {
-    super(text);
-    this.title = title;
-    this.comments = new ArrayList<>();
-  }
 
   /**
    * Constructur. Uses UserTextSubmissions constructur for text, author, likes/dislikes
@@ -33,8 +21,8 @@ public class ForumPost extends UserTextSubmission {
    * @param text  text in post
    * @param author author of post
    */
-  public ForumPost(String title, String text, User author) {
-    super(text, author);
+  public ForumPost(String title, String text, User author, boolean postedAnonymously) {
+    super(text, author, postedAnonymously);
     this.title = title;
     this.comments = new ArrayList<>();
   }
@@ -128,9 +116,11 @@ public class ForumPost extends UserTextSubmission {
       boolean equalLikes = this.getLikes() == (o.getLikes());
       boolean equalDislikes = this.getDislikes() == (o.getDislikes());
       boolean equalTimeStamp = this.getTimeStamp().equals(o.getTimeStamp());
+      boolean equalAuthor = this.getAuthor().equals(o.getAuthor());
+      boolean equalAnonymous = this.isAnonymous() == o.isAnonymous();
        
       return (equalTitle && equalComments && equalText && equalLikes 
-          && equalDislikes && equalTimeStamp && equalHashCode);
+          && equalDislikes && equalTimeStamp && equalHashCode && equalAuthor && equalAnonymous);
     } else {
       return false;
     }    
@@ -139,5 +129,15 @@ public class ForumPost extends UserTextSubmission {
   @Override
   public int hashCode() {
     return this.text.length() * 5 + this.likeUsers.size() * 7 + this.dislikeUsers.size() * 11;
+  }
+
+  @Override
+  public int compareTo(ForumPost o) {
+    SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
+    try {
+      return sdf.parse(o.getTimeStamp()).compareTo(sdf.parse(this.getTimeStamp()));
+    } catch (ParseException e) {
+      return 0;
+    }
   }
 }

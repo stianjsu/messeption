@@ -102,7 +102,7 @@ public class ForumServiceTest extends JerseyTest {
   @Test
   public void testSetBoard() {
     ForumBoard setBoard = new ForumBoard();
-    setBoard.newPost("Beep", "Boop");
+    setBoard.newPost("Beep", "Boop", new User("Tester1", "test"), true);
     Entity payload = Entity.json(setBoard);
     Response putResponse = target(ForumBoardService.FORUM_BOARD_SERVICE_PATH)
         .path("/set")
@@ -113,7 +113,7 @@ public class ForumServiceTest extends JerseyTest {
 
   @Test
   public void testAddPost() {
-    ForumPost post = new ForumPost("Big title", "smol text");
+    ForumPost post = new ForumPost("Big title", "smol text", new User("Tester2", "test"), true);
     String id = post.getId();
     Entity payload = Entity.json(post);
     Response postResponse = target(ForumBoardService.FORUM_BOARD_SERVICE_PATH)
@@ -125,7 +125,7 @@ public class ForumServiceTest extends JerseyTest {
 
   @Test
   public void testAddComment() {
-    PostComment comment = new PostComment("I like cheeze");
+    PostComment comment = new PostComment("I like cheeze", new User("Tester3", "test"), true);
     Entity payload = Entity.json(comment);
     Response postResponse = target(ForumBoardService.FORUM_BOARD_SERVICE_PATH)
         .path("/comments/addComment/")

@@ -20,8 +20,9 @@ public class ForumBoardTest {
   public void setup() {
     String title1 = "POST";
     String text1 = "Lorem ipsum dolor sit amet";
+    User author = new User("Tester1", "test");
     board = new ForumBoard();
-    board.newPost(title1, text1);
+    board.newPost(title1, text1, author, true);
     
   }
 

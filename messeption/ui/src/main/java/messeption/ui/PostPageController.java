@@ -118,11 +118,13 @@ public class PostPageController {
 
   private void generatePostContent(ForumPost post) {
     postTitleLabel.setText(post.getTitle());
-    postAuthorLabel.setText("Post by: " + post.getAuthor().getUsername());
+    postAuthorLabel.setText("Post by: " + (post.isAnonymous()
+        ? ForumPost.ANONYMOUS_NAME : post.getAuthor().getUsername()));
+
+    
     postTimeStampLabel.setText(post.getTimeStamp());
 
     postTextArea.setText(post.getText());
-    postTextArea.setDisable(true);
     postTextArea.setStyle("-fx-opacity: 1;");
 
     postCommentsLabel.setText(post.getComments().size() + " comments");
@@ -135,8 +137,6 @@ public class PostPageController {
         post.getDislikeUsers().contains(boardAccess.getActiveUser()));
 
     postLikeButton.setOnAction(e -> {
-      int prevLikes = post.getLikes();
-
       try {
         boardAccess.likePost(post.getId(), boardAccess.getActiveUser());
       } catch (Exception error) {
@@ -152,8 +152,6 @@ public class PostPageController {
     });
 
     postDislikeButton.setOnAction(e -> {
-      int prevDislikes = post.getDislikes();
-
       try {
         boardAccess.dislikePost(post.getId(), boardAccess.getActiveUser());
       } catch (Exception error) {
@@ -177,7 +175,8 @@ public class PostPageController {
 
     Label authorLabel = (Label) UiUtils.getNodeFromId(tempChildren, "authorLabel");
     if (authorLabel != null) {
-      authorLabel.setText(comment.getAuthor().getUsername());
+      authorLabel.setText(comment.isAnonymous()
+          ? PostComment.ANONYMOUS_NAME : comment.getAuthor().getUsername());
     }
     TextArea commentTextArea = (TextArea) UiUtils.getNodeFromId(tempChildren, "commentTextArea");
     if (commentTextArea != null) {
@@ -205,8 +204,6 @@ public class PostPageController {
 
       likeButton.setOnAction(e -> {
 
-        int prevLikes = comment.getLikes();
-
         try {
           boardAccess.likeComment(postId, comment.getId(), boardAccess.getActiveUser());
         } catch (Exception error) {
@@ -222,8 +219,6 @@ public class PostPageController {
       });
     
       dislikeButton.setOnAction(e -> {
-        int prevDislikes = comment.getDislikes();
-
         try {
           boardAccess.dislikeComment(postId, comment.getId(), boardAccess.getActiveUser());
         } catch (Exception error) {
@@ -246,6 +241,28 @@ public class PostPageController {
 
     toReturn.getChildren().addAll(authorLabel, commentTextArea, 
         likeLabel, dislikeLabel, likeButton, dislikeButton, timeStampLabel);
+
+    if (boardAccess.getActiveUser() != null 
+        && boardAccess.getActiveUser().equals(comment.getAuthor())) {
+      Button deleteButton = (Button) UiUtils.getNodeFromId(tempChildren, "deleteButton");
+      if (deleteButton != null) {
+        deleteButton.setOnAction(e -> {
+          try {
+            boolean confirmation = UiUtils.confimationAlert("Confirm deletion",
+                "Delete comment on post: " + boardAccess.getPost(postId).getTitle(),
+                "Are you sure you want to delete your comment?");
+                
+            if (confirmation) {
+              boardAccess.deleteComment(postId, comment.getId());
+              drawComments(postId);
+            }
+          } catch (Exception e1) {
+            UiUtils.exceptionAlert(e1);
+          }
+        });
+        toReturn.getChildren().add(deleteButton);
+      }
+    }
     return toReturn;
   }
 
@@ -259,16 +276,10 @@ public class PostPageController {
         return;
       }
 
-      PostComment comment;
-
-      if (anonymousAuthorCheckBox.isSelected()) {
-        comment = new PostComment(text);
-      } else {
-        comment = new PostComment(text, boardAccess.getActiveUser());
-      }
-
-      boardAccess.addComment(postId, comment);
+      boardAccess.addComment(postId, new PostComment(text, boardAccess.getActiveUser(), 
+          anonymousAuthorCheckBox.isSelected()));
       drawComments(postId);
+      newCommentTextArea.clear();
 
     } catch (Exception e) {
       UiUtils.exceptionAlert(e).show();

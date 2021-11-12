@@ -44,9 +44,11 @@ public class ForumBoard {
 
    * @param title title of post
    * @param text  text in post
+   * @param author author of post
+   * @param postedAnonymously If post should be displayed as anonymous post
    */
-  public void newPost(String title, String text) {
-    posts.add(new ForumPost(title, text));
+  public void newPost(String title, String text, User author, Boolean postedAnonymously) {
+    posts.add(new ForumPost(title, text, author, postedAnonymously));
   }
 
   /**

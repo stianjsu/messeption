@@ -1,13 +1,18 @@
 package messeption.ui;
 
+import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonBar.ButtonData;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.MenuItem;
 import javafx.stage.Stage;
+import messeption.core.ForumPost;
 
 /**
  * UiUtil is a collcection of methods that are used in all of the controllers.
@@ -106,5 +111,62 @@ public class UiUtils {
       alert.showAndWait();
     });
     
+  }
+
+  /**
+   * Creates and alert to confirm choice and returns false if the user decides to cancel.
+
+   * @param title title of Alert
+   * @param header header of Alert
+   * @param text text of Alert
+   * @return true if the user confirms, false if cancel
+   */
+  public static boolean confimationAlert(String title, String header, String text) {
+    Alert confirmation = new Alert(AlertType.INFORMATION);
+
+    ButtonType cancel = new ButtonType("Cancel", ButtonData.CANCEL_CLOSE);
+    ButtonType confirm = new ButtonType("Yes");
+
+    confirmation.getButtonTypes().setAll(confirm, cancel);
+
+    confirmation.setTitle(title);
+    confirmation.setHeaderText(header);
+    confirmation.setContentText(text);
+
+    Optional<ButtonType> result = confirmation.showAndWait();
+
+    return result.get() == confirm;
+  }
+  /**
+   * GetPostSorting creates a comparator based on what we want to sort the posts by.
+
+   * @param sortBy String that defines what we will sort by
+   * @return the comparator
+   */
+  public static Comparator<ForumPost> getPostSorting(String sortBy) {
+    if (sortBy.equals("Title")) {
+      return Comparator.comparing(p -> p.getTitle());    
+    }
+    if (sortBy.equals("Author")) {
+      return new Comparator<ForumPost>() {
+        @Override
+        public int compare(ForumPost o1, ForumPost o2) {
+          if (o1.isAnonymous()) {
+            return 1;
+          }
+          if (o2.isAnonymous()) {
+            return -1;
+          }
+          return o1.getAuthor().getUsername().compareTo(o2.getAuthor().getUsername());
+        }
+      };
+    }
+    if (sortBy.equals("Text")) {
+      return Comparator.comparing(p -> - p.getText().length());
+    }
+    if (sortBy.equals("Comments")) {
+      return Comparator.comparing(p -> - p.getComments().size());
+    }
+    return null;
   }
 }

@@ -5,12 +5,8 @@ package messeption.core;
  */
 public class PostComment extends UserTextSubmission {
 
-  public PostComment(String text) {
-    super(text);
-  }
-
-  public PostComment(String text, User author) {
-    super(text, author);
+  public PostComment(String text, User author, boolean postedAnonymously) {
+    super(text, author, postedAnonymously);
   }
 
   @Override
@@ -28,8 +24,11 @@ public class PostComment extends UserTextSubmission {
       boolean equalLikes = this.getLikes() == (o.getLikes());
       boolean equalDislikes = this.getDislikes() == (o.getDislikes());
       boolean equalTimeStamp = this.getTimeStamp().equals(o.getTimeStamp());
+      boolean equalAuthor = this.getAuthor().equals(o.getAuthor());
+      boolean equalAnonymous = this.isAnonymous() == o.isAnonymous();
 
-      return (equalText && equalLikes && equalDislikes && equalTimeStamp && equalHashCode);
+      return (equalText && equalLikes && equalDislikes && equalTimeStamp
+        && equalHashCode && equalAuthor && equalAnonymous);
     } else {
       return false;
     }    
