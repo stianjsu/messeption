@@ -53,6 +53,7 @@ public class ForumServiceTest extends JerseyTest {
   private JsonReadWrite boardReadWrite;
   private UserHandler userHandler;
   private JsonReadWrite userReadWrite;
+  private final String BAD_JSON = "{'bad_json':'Not good'}}]";
 
 
   @BeforeEach
@@ -109,6 +110,15 @@ public class ForumServiceTest extends JerseyTest {
         .request(MediaType.APPLICATION_JSON + ";" + MediaType.CHARSET_PARAMETER + "=UTF-8")
         .put(payload);
     assertEquals("200", getCustomResponseStatus(putResponse));
+
+    User user = new User("Tester", "test");
+    
+    Entity failingPayload = Entity.json(BAD_JSON);
+    Response failingPutResponse = target(ForumBoardService.FORUM_BOARD_SERVICE_PATH)
+        .path("/set")
+        .request(MediaType.APPLICATION_JSON + ";" + MediaType.CHARSET_PARAMETER + "=UTF-8")
+        .put(failingPayload);
+    assertEquals("406", getCustomResponseStatus(failingPutResponse));
   }
 
   @Test
@@ -121,7 +131,31 @@ public class ForumServiceTest extends JerseyTest {
         .request(MediaType.APPLICATION_JSON + ";" + MediaType.CHARSET_PARAMETER + "=UTF-8")
         .post(payload);
     assertEquals("200", getCustomResponseStatus(postResponse));
+
+    Entity failingPayload = Entity.json(BAD_JSON);
+    Response failingPutResponse = target(ForumBoardService.FORUM_BOARD_SERVICE_PATH)
+        .path("/posts/addPost")
+        .request(MediaType.APPLICATION_JSON + ";" + MediaType.CHARSET_PARAMETER + "=UTF-8")
+        .post(failingPayload);
+    assertEquals("406", getCustomResponseStatus(failingPutResponse));
   }
+
+  @Test
+  public void testDeletePost() {
+    Response deleteResponse = target(ForumBoardService.FORUM_BOARD_SERVICE_PATH)
+        .path("/posts/deletePost/" + postId)
+        .request(MediaType.APPLICATION_JSON + ";" + MediaType.CHARSET_PARAMETER + "=UTF-8")
+        .delete();
+    assertEquals("200", getCustomResponseStatus(deleteResponse));
+
+    Response failingDeleteResponse = target(ForumBoardService.FORUM_BOARD_SERVICE_PATH)
+        .path("/posts/deletePost/")
+        .path(postId)
+        .request(MediaType.APPLICATION_JSON + ";" + MediaType.CHARSET_PARAMETER + "=UTF-8")
+        .delete();
+    assertEquals("404", getCustomResponseStatus(failingDeleteResponse));
+  }
+
 
   @Test
   public void testAddComment() {
@@ -133,6 +167,42 @@ public class ForumServiceTest extends JerseyTest {
         .request(MediaType.APPLICATION_JSON + ";" + MediaType.CHARSET_PARAMETER + "=UTF-8")
         .post(payload);
     assertEquals("200", getCustomResponseStatus(postResponse));
+
+    Entity failingPayload = Entity.json(BAD_JSON);
+    Response failingPutResponse = target(ForumBoardService.FORUM_BOARD_SERVICE_PATH)
+        .path("/comments/addComment/")
+        .path(postId)
+        .request(MediaType.APPLICATION_JSON + ";" + MediaType.CHARSET_PARAMETER + "=UTF-8")
+        .post(failingPayload);
+    assertEquals("406", getCustomResponseStatus(failingPutResponse));
+    
+  }
+
+  @Test
+  public void testDeleteComment() {
+    PostComment comment = new PostComment("I like cheeze", new User("Tester3", "test"), true);
+    String commentId = comment.getId();
+    Entity payload = Entity.json(comment);
+    Response postResponse = target(ForumBoardService.FORUM_BOARD_SERVICE_PATH)
+        .path("/comments/addComment/")
+        .path(postId)
+        .request(MediaType.APPLICATION_JSON + ";" + MediaType.CHARSET_PARAMETER + "=UTF-8")
+        .post(payload);
+    assertEquals("200", getCustomResponseStatus(postResponse));
+
+    Response deleteResponse = target(ForumBoardService.FORUM_BOARD_SERVICE_PATH)
+        .path("/comments/deleteComment/")
+        .path(postId)
+        .path(commentId)
+        .request(MediaType.APPLICATION_JSON + ";" + MediaType.CHARSET_PARAMETER + "=UTF-8")
+        .delete();
+    assertEquals("200", getCustomResponseStatus(deleteResponse));
+
+    Response failingDeleteResponse = target(ForumBoardService.FORUM_BOARD_SERVICE_PATH)
+        .path("/comments/deleteComment/" + postId + "/" + commentId)
+        .request(MediaType.APPLICATION_JSON + ";" + MediaType.CHARSET_PARAMETER + "=UTF-8")
+        .delete();
+    assertEquals("404", getCustomResponseStatus(failingDeleteResponse));
   }
 
   @Test
@@ -145,6 +215,14 @@ public class ForumServiceTest extends JerseyTest {
         .request(MediaType.APPLICATION_JSON + ";" + MediaType.CHARSET_PARAMETER + "=UTF-8")
         .put(payload);
     assertEquals("200", getCustomResponseStatus(putResponse));
+
+    Entity failingPayload = Entity.json(BAD_JSON);
+    Response failingPutResponse = target(ForumBoardService.FORUM_BOARD_SERVICE_PATH)
+        .path("/posts/likePost/")
+        .path(postId)
+        .request(MediaType.APPLICATION_JSON + ";" + MediaType.CHARSET_PARAMETER + "=UTF-8")
+        .put(failingPayload);
+    assertEquals("406", getCustomResponseStatus(failingPutResponse));
   }
 
   @Test
@@ -157,6 +235,14 @@ public class ForumServiceTest extends JerseyTest {
         .request(MediaType.APPLICATION_JSON + ";" + MediaType.CHARSET_PARAMETER + "=UTF-8")
         .put(sent);
     assertEquals("200", getCustomResponseStatus(putResponse));
+
+    Entity failingPayload = Entity.json(BAD_JSON);
+    Response failingPutResponse = target(ForumBoardService.FORUM_BOARD_SERVICE_PATH)
+        .path("/posts/dislikePost/")
+        .path(postId)
+        .request(MediaType.APPLICATION_JSON + ";" + MediaType.CHARSET_PARAMETER + "=UTF-8")
+        .put(failingPayload);
+    assertEquals("406", getCustomResponseStatus(failingPutResponse));
   }
 
   @Test
@@ -171,6 +257,15 @@ public class ForumServiceTest extends JerseyTest {
         .request(MediaType.APPLICATION_JSON + ";" + MediaType.CHARSET_PARAMETER + "=UTF-8")
         .put(payload);
     assertEquals("200", getCustomResponseStatus(putResponse));
+
+    Entity failingPayload = Entity.json(BAD_JSON);
+    Response failingPutResponse = target(ForumBoardService.FORUM_BOARD_SERVICE_PATH)
+        .path("/comments/likeComment/")
+        .path(postId)
+        .path(commentId)
+        .request(MediaType.APPLICATION_JSON + ";" + MediaType.CHARSET_PARAMETER + "=UTF-8")
+        .put(failingPayload);
+    assertEquals("406", getCustomResponseStatus(failingPutResponse));
   }
 
   @Test
@@ -185,6 +280,15 @@ public class ForumServiceTest extends JerseyTest {
         .request(MediaType.APPLICATION_JSON + ";" + MediaType.CHARSET_PARAMETER + "=UTF-8")
         .put(payload);
     assertEquals("200", getCustomResponseStatus(putResponse));
+
+    Entity failingPayload = Entity.json(BAD_JSON);
+    Response failingPutResponse = target(ForumBoardService.FORUM_BOARD_SERVICE_PATH)
+        .path("/comments/dislikeComment/")
+        .path(postId)
+        .path(commentId)
+        .request(MediaType.APPLICATION_JSON + ";" + MediaType.CHARSET_PARAMETER + "=UTF-8")
+        .put(failingPayload);
+    assertEquals("406", getCustomResponseStatus(failingPutResponse));
   }
 
   @Test
