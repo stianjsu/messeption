@@ -263,8 +263,13 @@ public class FrontPageController {
       if (deleteButton != null) {
         deleteButton.setOnAction(e -> {
           try {
-            boardAccess.deletePost(post.getId());
-            drawPosts();
+            boolean confirmation = UiUtils.confimationAlert("Confirm deletion",
+                "Delete post: " + post.getTitle(), "Are you sure you want to delete your post?");
+
+            if (confirmation) {
+              boardAccess.deletePost(post.getId());
+              drawPosts();
+            }
           } catch (Exception e1) {
             UiUtils.exceptionAlert(e1);
           }

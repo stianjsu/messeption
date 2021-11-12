@@ -119,6 +119,7 @@ public class BoardAccessDirect implements BoardAccessInterface {
   @Override
   public void deleteComment(String postId, String commentId) throws Exception {
     board.getPost(postId).deleteComment(commentId);
+    updateBoardChange();
   }
 
   public String getResourcesPath() {

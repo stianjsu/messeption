@@ -1,11 +1,14 @@
 package messeption.ui;
 
 import java.util.List;
+import java.util.Optional;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonBar.ButtonData;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.MenuItem;
 import javafx.stage.Stage;
 
@@ -106,5 +109,30 @@ public class UiUtils {
       alert.showAndWait();
     });
     
+  }
+
+  /**
+   * Creates and alert to confirm choice and returns false if the user decides to cancel.
+
+   * @param title title of Alert
+   * @param header header of Alert
+   * @param text text of Alert
+   * @return true if the user confirms, false if cancel
+   */
+  public static boolean confimationAlert(String title, String header, String text) {
+    Alert confirmation = new Alert(AlertType.INFORMATION);
+
+    ButtonType cancel = new ButtonType("Cancel", ButtonData.CANCEL_CLOSE);
+    ButtonType confirm = new ButtonType("Yes");
+
+    confirmation.getButtonTypes().setAll(confirm, cancel);
+
+    confirmation.setTitle(title);
+    confirmation.setHeaderText(header);
+    confirmation.setContentText(text);
+
+    Optional<ButtonType> result = confirmation.showAndWait();
+
+    return result.get() == confirm;
   }
 }

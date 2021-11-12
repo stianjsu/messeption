@@ -242,6 +242,28 @@ public class PostPageController {
 
     toReturn.getChildren().addAll(authorLabel, commentTextArea, 
         likeLabel, dislikeLabel, likeButton, dislikeButton, timeStampLabel);
+
+    if (boardAccess.getActiveUser() != null 
+        && boardAccess.getActiveUser().equals(comment.getAuthor())) {
+      Button deleteButton = (Button) UiUtils.getNodeFromId(tempChildren, "deleteButton");
+      if (deleteButton != null) {
+        deleteButton.setOnAction(e -> {
+          try {
+            boolean confirmation = UiUtils.confimationAlert("Confirm deletion",
+                "Delete comment on post: " + boardAccess.getPost(postId).getTitle(),
+                "Are you sure you want to delete your comment?");
+                
+            if (confirmation) {
+              boardAccess.deleteComment(postId, comment.getId());
+              drawComments(postId);
+            }
+          } catch (Exception e1) {
+            UiUtils.exceptionAlert(e1);
+          }
+        });
+        toReturn.getChildren().add(deleteButton);
+      }
+    }
     return toReturn;
   }
 
