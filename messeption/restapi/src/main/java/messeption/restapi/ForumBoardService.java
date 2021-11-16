@@ -36,6 +36,12 @@ public class ForumBoardService {
   public static final String POST_COMMENT_PATH = "/comments";
   public static final String USER_RESOURCE_PATH = "/users";
 
+  private static final String[] forumBoardFieldNames = {"posts"};
+  private static final String[] forumPostFieldNames = {"title", "comments", 
+      "id", "text", "author", "timeStamp"};
+  private static final String[] postCommentFieldNames = {"id", "text", "author", "timeStamp"};
+  private static final String[] userFieldNames = {"name", "password"};
+
   private static final Logger LOGG = LoggerFactory.getLogger(ForumBoardService.class);
 
   Gson gson = new GsonBuilder().create();
@@ -51,6 +57,12 @@ public class ForumBoardService {
 
   @Context
   private JsonReadWrite handlerReadWrite;
+
+  private void checkJsonIntegrety(String json, String... fieldNames) throws JsonParseException {
+    if (!JsonReadWrite.checkJsonFieldCoverage(json, fieldNames)) {
+      throw new JsonParseException("Failed to parse request due to bad json input");
+    }
+  }
 
 
   private String saveBoardToServer() {
@@ -91,9 +103,10 @@ public class ForumBoardService {
   public String setForumBoard(String save) {
     LOGG.debug("setForumBoard: " + save);
     try {
+      checkJsonIntegrety(save, forumBoardFieldNames);
       this.board = gson.fromJson(save, ForumBoard.class);
     } catch (JsonParseException e) {
-      return "500;Server failed to parse request";
+      return "406;Server failed to parse request due to bad json input";
     }
     return saveBoardToServer();
   }
@@ -108,10 +121,12 @@ public class ForumBoardService {
   @Path(FORUM_POST_PATH + "/addPost")
   @Consumes(MediaType.APPLICATION_JSON)
   public String addPost(String post) {
+    LOGG.debug("addPost: " + post);
     try {
+      checkJsonIntegrety(post, forumPostFieldNames);
       ForumPost postToSave = gson.fromJson(post, ForumPost.class);
       board.newPost(postToSave);
-    } catch (Exception e) {
+    } catch (JsonParseException e) {
       return "406;Add post request was not processed due to bad json input";
     }
 
@@ -135,14 +150,16 @@ public class ForumBoardService {
   @Path(POST_COMMENT_PATH + "/addComment/{id}")
   @Consumes(MediaType.APPLICATION_JSON)
   public String addComment(@PathParam("id") String id, String comment) {
+    LOGG.debug("addPostComment: " + comment);
     try {
+      checkJsonIntegrety(comment, postCommentFieldNames);
       PostComment commentToSave = gson.fromJson(comment, PostComment.class);
       try {
         board.getPost(id).addComment(commentToSave);
       } catch (Exception e) {
         return "500;Could process json, but not add comment";
       }
-    } catch (Exception e) {
+    } catch (JsonParseException e) {
       return "406;Add post request was not processed due to bad json input";
     }
     String status = saveBoardToServer();
@@ -164,14 +181,16 @@ public class ForumBoardService {
   @Path(FORUM_POST_PATH + "/likePost/{id}")
   @Consumes(MediaType.APPLICATION_JSON)
   public String likePost(@PathParam("id") String id, String user) {
+    LOGG.debug("likePost: " + id + "\t" + user);
     try {
+      checkJsonIntegrety(user, userFieldNames);
       User likingUser = gson.fromJson(user, User.class);
       try {
         board.getPost(id).like(likingUser);
       } catch (Exception e) {
         return "500;Could process json, but not like post";
       }
-    } catch (Exception e) {
+    } catch (JsonParseException e) {
       return "406;Add post request was not processed due to bad json input";
     }
     String status = saveBoardToServer();
@@ -193,10 +212,12 @@ public class ForumBoardService {
   @Path(FORUM_POST_PATH + "/dislikePost/{id}")
   @Consumes(MediaType.APPLICATION_JSON)
   public String dislikePost(@PathParam("id") String id, String user) {
+    LOGG.debug("dislikePost: " + id + "\t" + user);
     try {
+      checkJsonIntegrety(user, userFieldNames);
       User likingUser = gson.fromJson(user, User.class);
       board.getPost(id).dislike(likingUser);
-    } catch (Exception e) {
+    } catch (JsonParseException e) {
       return "406;Add post request was not processed due to bad json input";
     }
     String status = saveBoardToServer();
@@ -217,6 +238,7 @@ public class ForumBoardService {
   @Path(FORUM_POST_PATH + "/deletePost/{id}")
   @Consumes(MediaType.APPLICATION_JSON)
   public String deletePost(@PathParam("id") String id) {
+    LOGG.debug("deletePost: " + id);
     try {
       ForumPost postToDelete = board.getPost(id);
       board.deletePost(postToDelete);
@@ -245,10 +267,12 @@ public class ForumBoardService {
   @Consumes(MediaType.APPLICATION_JSON)
   public String likeComment(@PathParam("postId") String postId, 
         @PathParam("commentId") String commentId, String user) {
+    LOGG.debug("likeComment: " + postId + "\t" + commentId + "\t" + user);
     try {
+      checkJsonIntegrety(user, userFieldNames);
       User likingUser = gson.fromJson(user, User.class);
       board.getPost(postId).getComment(commentId).like(likingUser);
-    } catch (Exception e) {
+    } catch (JsonParseException e) {
       return "406;Add post request was not processed due to bad json input";
     }
     String status = saveBoardToServer();
@@ -272,10 +296,12 @@ public class ForumBoardService {
   @Consumes(MediaType.APPLICATION_JSON)
   public String dislikeComment(@PathParam("postId") String postId, 
         @PathParam("commentId") String commentId, String user) {
+    LOGG.debug("dislikeComment: " + postId + "\t" + commentId + "\t" + user);
     try {
+      checkJsonIntegrety(user, userFieldNames);
       User likingUser = gson.fromJson(user, User.class);
       board.getPost(postId).getComment(commentId).dislike(likingUser);
-    } catch (Exception e) {
+    } catch (JsonParseException e) {
       return "406;Add post request was not processed due to bad json input";
     }
     String status = saveBoardToServer();
@@ -298,6 +324,7 @@ public class ForumBoardService {
   @Consumes(MediaType.APPLICATION_JSON)
   public String deleteComment(@PathParam("postId") String postId, 
       @PathParam("commentId") String commentId) {
+    LOGG.debug("deletePost: " + postId + "\t" + commentId);
     try {
       ForumPost relevantPost = board.getPost(postId);
       PostComment commentToDelete = relevantPost.getComment(commentId);

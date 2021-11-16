@@ -1,13 +1,11 @@
 package messeption.core;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.List;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.Date;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -85,5 +83,23 @@ public class PostCommentTest {
       assertTrue(false, "Exception thrown when parsing dates from string. \n" + e.getMessage());
     }
 
+  }
+
+  @Test
+  @DisplayName("Test equals")
+  public void testEquals() {
+    PostComment comment2 = new PostComment("Hei", author, true);
+    PostComment comment3 = new PostComment("Hei", author, true);
+    assertTrue(comment2.equals(comment3));
+    assertFalse(comment2.equals(new PostComment("ieH", author, false)));
+    assertFalse(comment2.equals(new ForumBoard()));
+  }
+
+  @Test
+  @DisplayName("Test toString")
+  public void testToString() {
+    PostComment comment2 = new PostComment("Hei", author, false);
+    PostComment comment3 = new PostComment("Hei", author, false);
+    assertTrue(comment2.toString().equals(comment3.toString()));
   }
 }

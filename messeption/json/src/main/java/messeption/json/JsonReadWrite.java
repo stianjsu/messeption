@@ -101,9 +101,23 @@ public class JsonReadWrite {
     }
   }
   
-  
   public String getSaveLocation() {
     return this.saveLocationRecource;
   }
 
+  /**
+   * Checks if provided json contains values for all fields in provided in var-arg.
+
+   * @param json json to validate
+   * @param fieldNames field names to look for
+   * @return true if json cover all fields
+   */
+  public static boolean checkJsonFieldCoverage(String json, String... fieldNames) {
+    for (int i = 0; i < fieldNames.length; i++) {
+      if (!json.contains(fieldNames[i])) {
+        return false;
+      }
+    }
+    return true;
+  }
 }

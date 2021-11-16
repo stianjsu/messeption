@@ -1,6 +1,5 @@
 package messeption.core;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,7 +9,11 @@ import java.util.List;
  */
 public class ForumBoard {
 
-  private List<ForumPost> posts = new ArrayList<>();
+  private List<ForumPost> posts;
+
+  public ForumBoard() {
+    this.posts = new ArrayList<>();
+  }
 
   /**
    * Getter for posts list.

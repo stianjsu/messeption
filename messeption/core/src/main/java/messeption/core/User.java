@@ -12,10 +12,6 @@ public class User {
     this.password = password;
   }
 
-  public static User getAnonymousUser() {
-    return new User("Anonymous", "");
-  }
-
   public String getPassword() {
     return this.password;
   }

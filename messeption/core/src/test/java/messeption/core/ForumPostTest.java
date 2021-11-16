@@ -1,13 +1,14 @@
 package messeption.core;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Date;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -103,5 +104,43 @@ public class ForumPostTest {
     post.addComment(comment2);
 
     assertEquals(new ArrayList<>(Arrays.asList(comment1, comment2)), post.getComments(), "Wrong comment list from getComments");
+  }
+
+  @Test
+  @DisplayName("Test deleing a comment")
+  public void testDeleteComment(){
+    User commenter = new User("Commenter1", "test");
+    PostComment comment1= new PostComment("comment", commenter, true);
+    post.addComment(comment1);
+    assertEquals(comment1, post.getComments().get(0), "comment was not correct after add comment");
+    post.deleteComment(comment1.getId());
+    assertEquals(null, post.getComment(comment1.getId()));
+    assertThrows(IllegalArgumentException.class, () -> {
+      post.deleteComment(comment1.getId());
+    });
+  }
+
+  @Test
+  @DisplayName("Test equals")
+  public void testEquals() {
+    ForumPost post2 = post;
+    assertTrue(post.equals(post2));
+    assertFalse(post.equals(new ForumPost("This is title", "This is text", author, true)));
+    assertFalse(post.equals(new Object()));
+  }
+
+  @Test
+  @DisplayName("Test to string")
+  public void testToString() {
+    ForumPost post2 = post;
+    assertEquals(post.toString(), post2.toString());
+    assertNotEquals(post.toString(), new Object().toString());
+  }
+
+  @Test
+  @DisplayName("Test compare to")
+  public void testCompareTo() {
+    ForumPost post2 = post;
+    assertEquals(0, post.compareTo(post2));
   }
 }
