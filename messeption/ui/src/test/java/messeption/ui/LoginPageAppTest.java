@@ -23,7 +23,7 @@ import messeption.core.PostComment;
 /**
  * TestFX App test
  */
-public class LoginMesseptionAppTest extends ApplicationTest {
+public class LoginPageAppTest extends ApplicationTest {
 
   private BoardAccessDirect boardAccess = new BoardAccessDirect();
 
