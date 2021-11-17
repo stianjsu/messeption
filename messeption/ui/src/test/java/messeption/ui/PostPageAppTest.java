@@ -51,7 +51,7 @@ public class PostPageAppTest extends ApplicationTest {
     boardAccess.setActiveUser(new User("ADMIN", "POWERS"));
     boardBackup = this.boardAccess.readBoard();
 
-    topPostId = "7";
+    topPostId = boardAccess.getPosts().get(boardAccess.getPosts().size()-1).getId();
 
     users = new ArrayList<>();
     users.add(new User("tim", "Tom"));

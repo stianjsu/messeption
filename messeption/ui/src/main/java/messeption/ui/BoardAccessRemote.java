@@ -46,7 +46,6 @@ public class BoardAccessRemote implements BoardAccessInterface {
       HttpRequest request = HttpRequest.newBuilder()
           .uri(URI.create(endpointUri + "/set"))
           .header("Accept", "application/json")
-          .header("Content-Type", "application/x-www-form-urlencoded")
           .PUT(BodyPublishers.ofString(json))
           .build();
       final HttpResponse<String> response =

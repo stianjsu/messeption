@@ -54,7 +54,7 @@ public class FrontPageAppTest extends ApplicationTest {
     boardAccess.setActiveUser(new User("ADMIN", "POWERS"));
     boardBackup = this.boardAccess.readBoard();
 
-    topPostId = "7";
+    topPostId = boardAccess.getPosts().get(boardAccess.getPosts().size()-1).getId();
 
     users = new ArrayList<>();
     users.add(new User("tim", "Tom"));
@@ -142,9 +142,7 @@ public class FrontPageAppTest extends ApplicationTest {
   @Test
   @DisplayName("Test deleting a post")
   public void testDeletePost() throws Exception {
-    List<ForumPost> posts = boardAccess.getPosts();
-    ForumPost post1 = posts.get(posts.size() - 1);
-    String title = post1.getTitle();
+    String title = boardAccess.getPost(topPostId).getTitle();
     boardAccess.setActiveUser(new User ("Kenobi", "Hei123"));
     clickOn("Go to thread");
     clickOn("Go back");
