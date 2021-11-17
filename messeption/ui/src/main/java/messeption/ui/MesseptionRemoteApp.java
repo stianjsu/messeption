@@ -44,6 +44,7 @@ public class MesseptionRemoteApp extends Application {
     frontPageController.setBoardAccess(boardAccess);
     UiUtils.setNavBarButtons(frontPageController.menuQuit, frontPageController.menuLogOut,
         frontPageController.menuAbout, primaryStage, loginPageScene);
+    UiUtils.setLogOutButton(frontPageController.logOutButton, primaryStage, loginPageScene);
 
     FXMLLoader createPostPageLoader = new FXMLLoader(getClass().getResource(CREATE_POST_PAGE_PATH));
     createPostPageScene = new Scene(createPostPageLoader.load());
@@ -51,6 +52,7 @@ public class MesseptionRemoteApp extends Application {
     createPostPageController.setBoardAccess(boardAccess);
     UiUtils.setNavBarButtons(createPostPageController.menuQuit, createPostPageController.menuLogOut,
         createPostPageController.menuAbout, primaryStage, loginPageScene);
+    UiUtils.setLogOutButton(createPostPageController.logOutButton, primaryStage, loginPageScene);
 
     FXMLLoader postPageLoader = new FXMLLoader(getClass().getResource(POST_PAGE_PATH));
     postPageScene = new Scene(postPageLoader.load());
@@ -58,6 +60,7 @@ public class MesseptionRemoteApp extends Application {
     postPageController.setBoardAccess(boardAccess);
     UiUtils.setNavBarButtons(postPageController.menuQuit, postPageController.menuLogOut,
         postPageController.menuAbout, primaryStage, loginPageScene);
+    UiUtils.setLogOutButton(postPageController.logOutButton, primaryStage, loginPageScene);
     
     frontPageController.setPostCommentsScene(postPageScene);
     frontPageController.setPostPageController(postPageController);
@@ -66,7 +69,7 @@ public class MesseptionRemoteApp extends Application {
     
 
     primaryStage.setScene(loginPageScene);
-    primaryStage.setTitle("MesseptionRemote");
+    primaryStage.setTitle("Messeption");
     primaryStage.setResizable(false);
     primaryStage.show();
 

@@ -114,6 +114,12 @@ public class UiUtils {
     
   }
 
+  public static void setLogOutButton(Button logOutButton, Stage primaryStage, Scene loginPageScene) {
+    logOutButton.setOnAction(e -> {
+      primaryStage.setScene(loginPageScene);
+    });
+  }
+
   /**
    * Creates and alert to confirm choice and returns false if the user decides to cancel.
 

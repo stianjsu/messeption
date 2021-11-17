@@ -13,7 +13,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import messeption.core.ForumBoard;
 import messeption.core.ForumPost;
 
 /**
@@ -22,6 +21,8 @@ import messeption.core.ForumPost;
 public class CreatePostPageController {
   // Write title text -> CreatePostButton -> Create new post -> add post to board
   // -> save board.json -> go to frontpage -> load board.json
+  @FXML
+  Button logOutButton;
   @FXML
   MenuItem menuQuit;
   @FXML
@@ -52,6 +53,7 @@ public class CreatePostPageController {
    * initializer for the scene.
    */
   public void initialize() {
+
     publishButton.setOnAction(e -> {
       createPostInBoard();
     });

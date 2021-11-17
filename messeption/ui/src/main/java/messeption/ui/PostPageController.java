@@ -27,6 +27,8 @@ public class PostPageController {
   private static final int MARGIN_COMMENTS = 10;
   
   @FXML
+  Button logOutButton;
+  @FXML
   MenuItem menuQuit;
   @FXML
   MenuItem menuLogOut;

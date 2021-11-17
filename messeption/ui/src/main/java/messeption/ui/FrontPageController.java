@@ -30,6 +30,8 @@ public class FrontPageController {
   private static final int MARIGIN_POSTS = 30;
 
   @FXML
+  Button logOutButton;
+  @FXML
   MenuButton sortMenuButton;
   @FXML
   MenuItem menuQuit;
