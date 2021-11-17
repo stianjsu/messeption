@@ -32,7 +32,7 @@ public class BoardAccessRemote implements BoardAccessInterface {
 
    * @param endpointUri the endpoint the access will use
    */
-  public BoardAccessRemote(URI endpointUri) {
+  public BoardAccessRemote(URI endpointUri) throws Exception {
     this.endpointUri = endpointUri;
     this.gson = new GsonBuilder().create();
     getBoardFromEndpoint();
@@ -46,7 +46,6 @@ public class BoardAccessRemote implements BoardAccessInterface {
       HttpRequest request = HttpRequest.newBuilder()
           .uri(URI.create(endpointUri + "/set"))
           .header("Accept", "application/json")
-          .header("Content-Type", "application/x-www-form-urlencoded")
           .PUT(BodyPublishers.ofString(json))
           .build();
       final HttpResponse<String> response =
@@ -283,9 +282,11 @@ public class BoardAccessRemote implements BoardAccessInterface {
       final HttpResponse<String> response =
           HttpClient.newBuilder().build().send(request, HttpResponse.BodyHandlers.ofString());
       checkResponse(response.body());
-      this.userHandler.addUser(newUser);
+      this.userHandler.addUser(newUser.getUsername(), newUser.getPassword());
     } catch (IOException | InterruptedException e) {
       throw new RuntimeException(e);
+    } catch (IllegalArgumentException e) {
+      throw new IllegalArgumentException(e);
     }
   }
 

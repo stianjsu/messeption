@@ -83,9 +83,9 @@ public class UserHandlerResource {
   public String addUser(String user) {
     try {
       User userToAdd = gson.fromJson(user, User.class);
-      if (!this.handler.addUser(userToAdd)) {
-        return "406;User already added to server";
-      }
+      this.handler.addUser(userToAdd.getUsername(), userToAdd.getPassword());
+    } catch (IllegalArgumentException e) {
+      return "406;Invalid add user request. bad username or password";
     } catch (Exception e) {
       return "406;Add user request was not processed due to bad json input";
     }

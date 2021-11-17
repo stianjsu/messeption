@@ -19,12 +19,12 @@ public class UserHandler {
 
    * @param username the username of the user to be added
    * @param password the password of the user to be added
-   * @throws Exception throws an exception if the user details is not correct
+   * @throws IllegalArgumentException throws an exception if the user details is not correct
    */
-  public void addUser(String username, String password) throws Exception {
+  public void addUser(String username, String password) throws IllegalArgumentException {
 
-    Exception usernameValidation = validateNewUsername(username);
-    Exception passwordValidation = validateNewPassword(password);
+    IllegalArgumentException usernameValidation = validateNewUsername(username);
+    IllegalArgumentException passwordValidation = validateNewPassword(password);
     if (usernameValidation != null) {
       throw usernameValidation;
     }
@@ -84,7 +84,7 @@ public class UserHandler {
    * @param username the user name to be validated
    * @return Exception with descriptive message. Null if username complied with all constraints  
    */
-  private Exception validateNewUsername(String username) {
+  private IllegalArgumentException validateNewUsername(String username) {
     if (username.length() < 5) {
       return new IllegalArgumentException("Too short username. Must be at least 5 characters long");
     } else if (username.length() > 15) {
@@ -93,7 +93,7 @@ public class UserHandler {
       return new IllegalArgumentException(
           "Username can not cointain spaces. Try using underscores :)");
     } else if (userNameExists(username)) {
-      return new IllegalStateException("The username is taken");
+      return new IllegalArgumentException("The username is taken");
     }
     return null;
     
@@ -105,7 +105,7 @@ public class UserHandler {
    * @param password the password to be validated
    * @return Exception with descriptive message. Null if password complied with all constraints  
    */
-  private Exception validateNewPassword(String password) {
+  private IllegalArgumentException validateNewPassword(String password) {
     String nums = password.replaceAll("[^0-9]", "");
     if (password.length() < 5) {
       return new IllegalArgumentException("Too short password. Must be at least 5 characters long");

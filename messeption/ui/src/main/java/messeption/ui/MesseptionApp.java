@@ -10,6 +10,9 @@ import javafx.stage.Stage;
  */
 public class MesseptionApp extends Application {
 
+  /**
+   * Method for supporting headless class for integration tests.
+   */
   public static void supportHeadless() {
     if (Boolean.getBoolean("headless")) {
       System.setProperty("testfx.robot", "glass");
@@ -24,7 +27,7 @@ public class MesseptionApp extends Application {
 
   private BoardAccessInterface boardAccess = new BoardAccessDirect();
 
-  public void setBoardAccess(BoardAccessInterface boardAccess){
+  public void setBoardAccess(BoardAccessInterface boardAccess) {
     this.boardAccess = boardAccess;
   }
 
