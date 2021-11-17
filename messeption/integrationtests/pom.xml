@@ -175,7 +175,7 @@
                             <goal>verify</goal>
                         </goals>
                         <configuration>
-                            <skipTests>${skipUiTests}</skipTests>
+                            <skipTests>${skipTests}</skipTests>
                             <!-- System.getProperty("todo.port") gir riktig port -->
                             <systemPropertyVariables>
                                 <headless>${headlessTests}</headless>
