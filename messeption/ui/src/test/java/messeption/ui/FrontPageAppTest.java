@@ -148,7 +148,7 @@ public class FrontPageAppTest extends ApplicationTest {
     clickOn("Go back");
     clickOn("#deleteButton");
     click("Yes");
-    posts = boardAccess.getPosts();
+    List<ForumPost> posts = boardAccess.getPosts();
     ForumPost post2 = posts.get(posts.size() - 1);
     assertNotEquals(title, post2.getTitle(), "Post was not successfully deleted");
   }

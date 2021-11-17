@@ -184,9 +184,10 @@ public class ForumServiceTest extends JerseyTest {
 
   @Test
   public void testDeleteComment() {
-    PostComment comment = new PostComment("I like cheeze", new User("Tester3", "test"), true);
+    PostComment comment = new PostComment("I like cheeze", new User("Tester3", "Test123"), true);
     String commentId = comment.getId();
-    Entity payload = Entity.json(comment);
+    String jsonString = gson.toJson(comment);
+    Entity payload = Entity.entity(jsonString, MediaType.APPLICATION_JSON);
     Response postResponse = target(ForumBoardService.FORUM_BOARD_SERVICE_PATH)
         .path("/comments/addComment/")
         .path(postId)
@@ -208,6 +209,7 @@ public class ForumServiceTest extends JerseyTest {
         .delete();
     assertEquals("404", getCustomResponseStatus(failingDeleteResponse));
   }
+  
 
   @Test
   public void testLikePost() {
@@ -312,7 +314,7 @@ public class ForumServiceTest extends JerseyTest {
 
   @Test
   public void testAddUsers() {
-    User newUser = new User("Genral Kenobi", "HelloThere1");
+    User newUser = new User("GenralKenobi", "HelloThere1");
     userHandler.addUser(newUser);
     Entity payload = Entity.json(newUser);
     Response postResponse = target(ForumBoardService.FORUM_BOARD_SERVICE_PATH)
@@ -334,4 +336,5 @@ public class ForumServiceTest extends JerseyTest {
       fail(e.getMessage());
     }
   }
+ 
 }

@@ -11,7 +11,7 @@ import javafx.stage.Stage;
  */
 public class MesseptionRemoteApp extends Application {
 
-  private BoardAccessInterface boardAccess = new BoardAccessRemote(URI.create("http://localhost:8999/board"));
+  private BoardAccessInterface boardAccess;
 
   public static final String LOGIN_PAGE_PATH = "LoginPage.fxml";
   public static final String FRONT_PAGE_PATH = "FrontPage.fxml";
@@ -30,6 +30,8 @@ public class MesseptionRemoteApp extends Application {
 
   @Override
   public void start(Stage primaryStage) throws Exception {
+
+    boardAccess = new BoardAccessRemote(URI.create("http://localhost:8999/board"));
 
     FXMLLoader loginPageLoader = new FXMLLoader(getClass().getResource(LOGIN_PAGE_PATH));
     loginPageScene = new Scene(loginPageLoader.load());
