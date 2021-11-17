@@ -6,12 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.List;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.Date;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -21,7 +16,7 @@ import org.junit.jupiter.api.Test;
 public class PostCommentTest {
   PostComment comment;
   String text1;
-  String testDate;
+  Date testDate;
   SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss dd-MM-yyyy");
   User author;
   List<User> users;
@@ -33,7 +28,7 @@ public class PostCommentTest {
     users = new ArrayList<>();
     author = new User("Tester1", "test");
     comment = new PostComment(text1, author, true);
-    testDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss dd-MM-yyyy"));
+    testDate = new Date();
     users.add(new User("tim", "Tom"));
     users.add(new User("aim", "Tom"));
     users.add(new User("bim", "Tom"));
@@ -72,18 +67,7 @@ public class PostCommentTest {
   @Test
   @DisplayName("Test time getters")
   public void testTimeGetter() {
-
-    try {
-      Date commentDate = sdf.parse(comment.getTimeStamp());
-      Date testDateFormated = sdf.parse(testDate);
-
-      long diff = Math.abs(commentDate.getTime() - testDateFormated.getTime());
-
-      assertTrue(diff < 10000, "Time difference is more than 10 seconds");
-
-    } catch (ParseException e) {
-      assertTrue(false, "Exception thrown when parsing dates from string. \n" + e.getMessage());
-    }
-
+    Date commentDate = comment.getTimeStamp();
+    assertTrue(testDate.getTime()-commentDate.getTime() < 500, "Difference in time from comment and testTime is more than 500");
   }
 }

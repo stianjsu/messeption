@@ -122,7 +122,7 @@ public class PostPageController {
         ? ForumPost.ANONYMOUS_NAME : post.getAuthor().getUsername()));
 
     
-    postTimeStampLabel.setText(post.getTimeStamp());
+    postTimeStampLabel.setText(post.getTimeStamp().toString());
 
     postTextArea.setText(post.getText());
     postTextArea.setStyle("-fx-opacity: 1;");
@@ -236,7 +236,7 @@ public class PostPageController {
 
     Label timeStampLabel = (Label) UiUtils.getNodeFromId(tempChildren, "commentTimeStampLabel");
     if (timeStampLabel != null) {
-      timeStampLabel.setText(comment.getTimeStamp());
+      timeStampLabel.setText(comment.getTimeStamp().toString());
     }
 
     toReturn.getChildren().addAll(authorLabel, commentTextArea, 

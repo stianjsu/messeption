@@ -23,7 +23,8 @@ public class PostComment extends UserTextSubmission {
       boolean equalText = this.getText().equals(o.getText());
       boolean equalLikes = this.getLikes() == (o.getLikes());
       boolean equalDislikes = this.getDislikes() == (o.getDislikes());
-      boolean equalTimeStamp = this.getTimeStamp().equals(o.getTimeStamp());
+      boolean equalTimeStamp = Math.pow(this.getTimeStamp().getTime() - o.getTimeStamp().getTime(),
+          2) < Math.pow(1000, 2);
       boolean equalAuthor = this.getAuthor().equals(o.getAuthor());
       boolean equalAnonymous = this.isAnonymous() == o.isAnonymous();
 

@@ -73,7 +73,8 @@ public class ForumServiceTest extends JerseyTest {
   @Override
   public void tearDown() throws Exception {
     System.out.print("Teardown: ");
-    Entity payload = Entity.json(board);
+    String jsonString = gson.toJson(this.board);
+    Entity payload = Entity.entity(jsonString, MediaType.APPLICATION_JSON);
     Response postResponse = target(ForumBoardService.FORUM_BOARD_SERVICE_PATH)
         .path("/set")
         .request(MediaType.APPLICATION_JSON + ";" + MediaType.CHARSET_PARAMETER + "=UTF-8")
@@ -103,7 +104,8 @@ public class ForumServiceTest extends JerseyTest {
   public void testSetBoard() {
     ForumBoard setBoard = new ForumBoard();
     setBoard.newPost("Beep", "Boop", new User("Tester1", "test"), true);
-    Entity payload = Entity.json(setBoard);
+    String jsonString = gson.toJson(setBoard);
+    Entity payload = Entity.entity(jsonString, MediaType.APPLICATION_JSON);
     Response putResponse = target(ForumBoardService.FORUM_BOARD_SERVICE_PATH)
         .path("/set")
         .request(MediaType.APPLICATION_JSON + ";" + MediaType.CHARSET_PARAMETER + "=UTF-8")
@@ -115,7 +117,8 @@ public class ForumServiceTest extends JerseyTest {
   public void testAddPost() {
     ForumPost post = new ForumPost("Big title", "smol text", new User("Tester2", "test"), true);
     String id = post.getId();
-    Entity payload = Entity.json(post);
+    String jsonString = gson.toJson(post);
+    Entity payload = Entity.entity(jsonString, MediaType.APPLICATION_JSON);
     Response postResponse = target(ForumBoardService.FORUM_BOARD_SERVICE_PATH)
         .path("/posts/addPost")
         .request(MediaType.APPLICATION_JSON + ";" + MediaType.CHARSET_PARAMETER + "=UTF-8")
@@ -126,7 +129,8 @@ public class ForumServiceTest extends JerseyTest {
   @Test
   public void testAddComment() {
     PostComment comment = new PostComment("I like cheeze", new User("Tester3", "test"), true);
-    Entity payload = Entity.json(comment);
+    String jsonString = gson.toJson(comment);
+    Entity payload = Entity.entity(jsonString, MediaType.APPLICATION_JSON);
     Response postResponse = target(ForumBoardService.FORUM_BOARD_SERVICE_PATH)
         .path("/comments/addComment/")
         .path(postId)

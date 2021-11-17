@@ -7,11 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Date;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -22,7 +18,7 @@ public class ForumPostTest {
   ForumPost post;
   String title1;
   String text1;
-  String testDate;
+  Date testDate;
   SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss dd-MM-yyyy");
   User author;
   List<User> users;
@@ -35,7 +31,7 @@ public class ForumPostTest {
     users = new ArrayList<>();
     author = new User("Tester1", "test");
     post = new ForumPost(title1, text1, author, true);
-    testDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss dd-MM-yyyy"));
+    testDate = new Date();
     users.add(new User("tim", "Tom"));
     users.add(new User("aim", "Tom"));
     users.add(new User("bim", "Tom"));
@@ -75,18 +71,8 @@ public class ForumPostTest {
   @Test
   @DisplayName("Test time getters")
   public void testTimeGetter() {
-
-    try {
-      Date postDate = sdf.parse(post.getTimeStamp());
-      Date testDateFormated = sdf.parse(testDate);
-
-      long diff = Math.abs(postDate.getTime() - testDateFormated.getTime());
-
-      assertTrue(diff < 10000, "Time difference is more than 10 seconds");
-
-    } catch (ParseException e) {
-      assertTrue(false, "Exception thrown when parsing dates from string. \n" + e.getMessage());
-    }
+    Date postDate = post.getTimeStamp();
+    assertTrue(testDate.getTime()-postDate.getTime() < 501, "Difference in time from post and testTime is more than 500");
   }
 
   @Test

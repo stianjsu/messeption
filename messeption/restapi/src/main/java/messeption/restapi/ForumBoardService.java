@@ -71,9 +71,9 @@ public class ForumBoardService {
   }
 
   @GET
-  public ForumBoard getForumBoard() {
+  public String getForumBoard() {
     LOGG.debug("getForumBoard: " + board);
-    return board;
+    return gson.toJson(board);
   }
   
   //@PUT for å overskrive

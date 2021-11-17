@@ -229,7 +229,7 @@ public class FrontPageController {
 
     Label timeStampLabel = (Label) UiUtils.getNodeFromId(tempChildren, "timeStampLabel");
     if (timeStampLabel != null) {
-      timeStampLabel.setText(post.getTimeStamp());
+      timeStampLabel.setText(post.getTimeStamp().toString());
     }
 
     toReturn.getChildren().addAll(new ArrayList<Node>(Arrays.asList(titleLabel, authorLabel, 

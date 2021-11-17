@@ -1,7 +1,5 @@
 package messeption.core;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -115,10 +113,11 @@ public class ForumPost extends UserTextSubmission implements Comparable<ForumPos
       boolean equalText = this.getText().equals(o.getText());
       boolean equalLikes = this.getLikes() == (o.getLikes());
       boolean equalDislikes = this.getDislikes() == (o.getDislikes());
-      boolean equalTimeStamp = this.getTimeStamp().equals(o.getTimeStamp());
+      boolean equalTimeStamp = Math.pow(this.getTimeStamp().getTime() - o.getTimeStamp().getTime(),
+          2) < Math.pow(1000, 2);
       boolean equalAuthor = this.getAuthor().equals(o.getAuthor());
       boolean equalAnonymous = this.isAnonymous() == o.isAnonymous();
-       
+
       return (equalTitle && equalComments && equalText && equalLikes 
           && equalDislikes && equalTimeStamp && equalHashCode && equalAuthor && equalAnonymous);
     } else {
@@ -133,11 +132,6 @@ public class ForumPost extends UserTextSubmission implements Comparable<ForumPos
 
   @Override
   public int compareTo(ForumPost o) {
-    SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
-    try {
-      return sdf.parse(o.getTimeStamp()).compareTo(sdf.parse(this.getTimeStamp()));
-    } catch (ParseException e) {
-      return 0;
-    }
+    return o.getTimeStamp().compareTo(this.getTimeStamp());
   }
 }
