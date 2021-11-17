@@ -12,6 +12,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
@@ -46,6 +47,8 @@ public class FrontPageController {
   MenuItem sortTextLength;
   @FXML
   MenuItem sortCommentCount;
+  @FXML
+  ScrollPane scrollPane;
   @FXML
   AnchorPane postsContainer;
   @FXML
@@ -121,6 +124,7 @@ public class FrontPageController {
    * @throws Exception If board cannot read form file
    */
   public void drawPosts(List<ForumPost> posts) throws Exception {
+    scrollPane.setVvalue(0);
 
     postsContainer.getChildren().clear();
 
@@ -222,6 +226,7 @@ public class FrontPageController {
         primaryStage = (Stage) createPostButton.getScene().getWindow();
         primaryStage.setScene(postPageScene);
         postPageController.drawComments(post.getId());
+        postPageController.reloadPage();
       });
     }
 

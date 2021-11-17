@@ -90,6 +90,7 @@ public class LoginPageController {
         UiUtils.popupAlert("Wrong password for user " + username).showAndWait();
       } else {
         sucsessAlert(new User(username, password));
+        clearAllInputFields();
       }
     }
   }
@@ -161,5 +162,13 @@ public class LoginPageController {
       }
     }
     primaryStage.setScene(goTo);
+  }
+
+  private void clearAllInputFields() {
+    loginPasswordField.setText("");
+    loginUserTextField.setText("");
+    signUpUserTextField.setText("");
+    signUpPasswordField.setText("");
+    signUpPasswordFieldCheck.setText("");
   }
 }

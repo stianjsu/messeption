@@ -105,6 +105,7 @@ public class UiUtils {
     menuAbout.setOnAction(e -> {
       Alert alert = new Alert(AlertType.INFORMATION);
       alert.setTitle("About Messeption");
+      alert.setHeaderText("About us");
       alert.setContentText("Messeption is an app developed by 4 students at NTNU "
           + "in the Course IT1901 fall 2021. The app takes inspiration from forums,"
           + " for instance reddit.");
@@ -145,7 +146,7 @@ public class UiUtils {
    */
   public static Comparator<ForumPost> getPostSorting(String sortBy) {
     if (sortBy.equals("Title")) {
-      return Comparator.comparing(p -> p.getTitle());    
+      return Comparator.comparing(p -> p.getTitle().toLowerCase());    
     }
     if (sortBy.equals("Author")) {
       return new Comparator<ForumPost>() {
@@ -157,7 +158,7 @@ public class UiUtils {
           if (o2.isAnonymous()) {
             return -1;
           }
-          return o1.getAuthor().getUsername().compareTo(o2.getAuthor().getUsername());
+          return o1.getAuthor().getUsername().toLowerCase().compareTo(o2.getAuthor().getUsername().toLowerCase());
         }
       };
     }

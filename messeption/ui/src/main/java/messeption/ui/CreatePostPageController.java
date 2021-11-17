@@ -38,6 +38,13 @@ public class CreatePostPageController {
   TextArea postTextArea;
   @FXML
   CheckBox anonymousAuthorCheckBox;
+  @FXML
+  Label titleFeedbackLabel;
+  @FXML
+  Label textFeedbackLabel;
+  private String titleFeedback; 
+  private String textFeedback; 
+
 
   private BoardAccessInterface boardAccess;
 
@@ -45,9 +52,29 @@ public class CreatePostPageController {
    * initializer for the scene.
    */
   public void initialize() {
-    publishButton.setOnAction((e) -> {
+    publishButton.setOnAction(e -> {
       createPostInBoard();
     });
+    postTitleField.setOnKeyTyped(e -> {
+      if (postTitleField.getText().length() < 4) {
+        titleFeedbackLabel.setText(titleFeedback);
+      } else {
+        titleFeedbackLabel.setText("");
+      }
+      updateButtonEnabled();
+    });
+    postTextArea.setOnKeyTyped(e -> {
+      if (postTextArea.getText().length() < 4) {
+        textFeedbackLabel.setText(textFeedback);
+      } else {
+        textFeedbackLabel.setText("");
+      }
+      updateButtonEnabled();
+    });
+    this.titleFeedback = titleFeedbackLabel.getText();
+    this.textFeedback = textFeedbackLabel.getText();
+    titleFeedbackLabel.setText("");
+    textFeedbackLabel.setText("");
   }
 
   public void setBoardAccess(BoardAccessInterface boardAccess) {
@@ -112,6 +139,11 @@ public class CreatePostPageController {
     } 
   }
 
+  private void updateButtonEnabled() {
+    publishButton.setDisable(postTitleField.getText().length() < 4
+        || postTextArea.getText().length() < 4);
+  }
+
   /**
    * Method for refreshing the page with empty input fields.
    */
@@ -119,6 +151,9 @@ public class CreatePostPageController {
   public void reloadPage() {
     postTextArea.setText("");
     postTitleField.setText("");
+    publishButton.setDisable(true);
+    titleFeedbackLabel.setText("");
+    textFeedbackLabel.setText("");
   }
 
 }

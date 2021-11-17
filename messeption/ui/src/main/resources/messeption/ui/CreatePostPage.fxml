@@ -45,6 +45,16 @@
 		                  <Font size="24.0" />
 		               </font>
 		            </Label>
+                  <Label fx:id="textFeedbackLabel" alignment="CENTER_RIGHT" layoutX="404.0" layoutY="99.0" prefHeight="30.0" prefWidth="380.0" text="Text must be more than 3 characters" textFill="RED">
+                     <font>
+                        <Font size="17.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="titleFeedbackLabel" alignment="CENTER_RIGHT" layoutX="403.0" layoutY="19.0" prefHeight="30.0" prefWidth="381.0" text="Title must be more than 3 characters" textFill="RED">
+                     <font>
+                        <Font size="17.0" />
+                     </font>
+                  </Label>
 		         </children>
 		 	</Pane>
          </children>
@@ -76,7 +86,7 @@
          <children>
             <Pane layoutX="42.0" layoutY="155.0" prefHeight="302.0" prefWidth="200.0">
 		         <children>
-		            <Button fx:id="publishButton" layoutX="12.0" layoutY="100.0" mnemonicParsing="false" prefHeight="70.0" prefWidth="177.0" text="Publish">
+		            <Button fx:id="publishButton" disable="true" layoutX="12.0" layoutY="100.0" mnemonicParsing="false" prefHeight="70.0" prefWidth="177.0" text="Publish">
 		               <font>
 		                  <Font size="20.0" />
 		               </font>

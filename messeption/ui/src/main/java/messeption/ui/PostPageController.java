@@ -10,11 +10,11 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
-import messeption.core.ForumBoard;
 import messeption.core.ForumPost;
 import messeption.core.PostComment;
 
@@ -52,16 +52,21 @@ public class PostPageController {
   @FXML
   Button postDislikeButton;
   @FXML
+  ScrollPane commentsScrollPane;
+  @FXML
   AnchorPane commentsContainer;
   @FXML
   Button cancelButton;
 
+  @FXML
+  Label newCommentFeedbackLabel;
   @FXML
   TextArea newCommentTextArea;
   @FXML
   Button newCommentButton;
   @FXML
   CheckBox anonymousAuthorCheckBox;
+  private String commentFeedback;
 
   private BoardAccessInterface boardAccess;
 
@@ -69,7 +74,15 @@ public class PostPageController {
    * Initializes the publish comment button.
    */
   public void initialize() {
-
+    this.commentFeedback = newCommentFeedbackLabel.getText();
+    newCommentTextArea.setOnKeyTyped(e -> {
+      if (newCommentTextArea.getText().length() < 4) {
+        newCommentFeedbackLabel.setText(commentFeedback);
+      } else {        
+        newCommentFeedbackLabel.setText("");
+      }
+      updateButtonEnabled();
+    });
   }
 
 
@@ -92,6 +105,8 @@ public class PostPageController {
     newCommentButton.setOnAction(e -> {
       publishComment(post.getId());
     });
+
+    
 
     generatePostContent(post);
     List<PostComment> comments = post.getComments();
@@ -280,9 +295,25 @@ public class PostPageController {
           anonymousAuthorCheckBox.isSelected()));
       drawComments(postId);
       newCommentTextArea.clear();
+      updateButtonEnabled();
 
     } catch (Exception e) {
       UiUtils.exceptionAlert(e).show();
     }
+  }
+
+  private void updateButtonEnabled() {
+    newCommentButton.setDisable(newCommentTextArea.getText().length() < 4);
+  }
+  
+  /**
+   * Reload page resets the page to the normal state.
+   */
+  public void reloadPage() {
+    commentsScrollPane.setVvalue(0);
+    newCommentFeedbackLabel.setText("");
+    newCommentButton.setDisable(true);
+    newCommentTextArea.clear();
+    anonymousAuthorCheckBox.setSelected(false);
   }
 }
