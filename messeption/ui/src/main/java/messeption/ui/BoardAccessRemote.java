@@ -104,7 +104,6 @@ public class BoardAccessRemote implements BoardAccessInterface {
 
   @Override
   public void addPost(ForumPost post) throws Exception {
-    
     HttpRequest request = HttpRequest.newBuilder()
         .uri(URI.create(endpointUri + "/posts/addPost"))
         .header("Accept", "application/json")
@@ -122,7 +121,6 @@ public class BoardAccessRemote implements BoardAccessInterface {
 
   @Override
   public void deletePost(String id) throws Exception {
-    
     HttpRequest request = HttpRequest.newBuilder()
         .uri(URI.create(endpointUri + "/posts/deletePost/" + id))
         .header("Accept", "application/json")
@@ -255,7 +253,7 @@ public class BoardAccessRemote implements BoardAccessInterface {
       this.userHandler = gson.fromJson(response.body(), UserHandler.class);
       return userHandler;
     } catch (IOException | InterruptedException e) {
-      throw new RuntimeException("Failed to get board from api.\n" + e);
+      throw new RuntimeException("Failed to get users from api.\n" + e);
     }
   }
 
@@ -310,6 +308,54 @@ public class BoardAccessRemote implements BoardAccessInterface {
       throw new IOException(responseCode + ": Server error \n" + errorMessage);
     } else if (responseCode != 200) {
       throw new IOException(responseCode + ": Api input error \n" + errorMessage);
+    }
+  }
+
+
+  /**
+   * Method for telling the server that a changed has been made to the UserHandler.
+   */
+  public void updateUsersChange() throws Exception {
+    try {
+      String json = gson.toJson(this.userHandler);
+      System.out.println(json);
+      HttpRequest request = HttpRequest.newBuilder()
+          .uri(URI.create(endpointUri + "/users/set"))
+          .header("Accept", "application/json")
+          .PUT(BodyPublishers.ofString(json))
+          .build();
+      final HttpResponse<String> response =
+          HttpClient.newBuilder().build().send(request, HttpResponse.BodyHandlers.ofString());
+      checkResponse(response.body());
+    } catch (IOException | InterruptedException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
+  private void getUsersFromEndpoint() {
+    HttpRequest request = HttpRequest.newBuilder()
+        .uri(URI.create(endpointUri + "/users"))
+        .header("Accept", "application/json")
+        .GET()
+        .build();
+    try {
+      final HttpResponse<String> response =
+          HttpClient.newBuilder().build().send(request, HttpResponse.BodyHandlers.ofString()); 
+      this.userHandler = gson.fromJson(response.body(), UserHandler.class);
+      
+    } catch (IOException | InterruptedException e) {
+      throw new RuntimeException("Failed to get board from api.\n" + e);
+    }
+  }
+
+  @Override
+  public void setUserHandler(UserHandler userHandler) throws Exception {
+    try {
+      this.userHandler = userHandler;
+      updateUsersChange();
+    } catch (RuntimeException e) {
+      getUsersFromEndpoint();
+      throw new IOException(e);
     }
   }
 }

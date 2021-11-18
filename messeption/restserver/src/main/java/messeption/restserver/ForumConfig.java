@@ -17,9 +17,9 @@ import org.glassfish.jersey.server.ResourceConfig;
  */
 public class ForumConfig extends ResourceConfig {
   private ForumBoard board;
-  private JsonReadWrite boardReadWrite;
+  private JsonReadWrite readWrite;
   private UserHandler userHandler;
-  private JsonReadWrite usersReadWrite;
+
 
   /**
    * Constructor for Config file from a ForumBoard object.
@@ -29,19 +29,16 @@ public class ForumConfig extends ResourceConfig {
   public ForumConfig(ForumBoard board, UserHandler userHandler) {
     setForumBoard(board);
     setUserHandler(userHandler);
-    boardReadWrite = new JsonReadWrite(ForumConfig.class.getResource("Board.JSON"));
-    usersReadWrite = new JsonReadWrite(ForumConfig.class.getResource("Users.JSON"));
+    readWrite = new JsonReadWrite(ForumConfig.class.getResource("Board.JSON"), 
+        ForumConfig.class.getResource("Users.JSON"));
     
     register(ForumBoardService.class);
-    register(UserHandler.class);
-    register(JacksonFeature.class);
     register(new AbstractBinder() {
       @Override
       protected void configure() {
         bind(ForumConfig.this.board);
-        bind(ForumConfig.this.boardReadWrite);
+        bind(ForumConfig.this.readWrite);
         bind(ForumConfig.this.userHandler);
-        bind(ForumConfig.this.usersReadWrite);
       }
     });
   }
@@ -67,9 +64,10 @@ public class ForumConfig extends ResourceConfig {
   }
 
   private static ForumBoard createDefaultForumBoard() {
-    URL url = ForumConfig.class.getResource("Board.JSON");
-    if (url != null) {
-      JsonReadWrite boardReadWrite = new JsonReadWrite(url);
+    URL urlBoard = ForumConfig.class.getResource("Board.JSON");
+    URL urlUsers = ForumConfig.class.getResource("Users.JSON");
+    if (urlBoard != null) {
+      JsonReadWrite boardReadWrite = new JsonReadWrite(urlBoard, urlUsers);
       try {
         return boardReadWrite.fileReadForumBoard();
       } catch (Exception e) {
@@ -81,13 +79,14 @@ public class ForumConfig extends ResourceConfig {
   }
 
   private static UserHandler createDefaultUserHandler() {
-    URL url = ForumConfig.class.getResource("Users.JSON");
-    if (url != null) {
-      JsonReadWrite userReadWrite = new JsonReadWrite(url);
+    URL urlBoard = ForumConfig.class.getResource("Board.JSON");
+    URL urlUsers = ForumConfig.class.getResource("Users.JSON");
+    if (urlUsers != null) {
+      JsonReadWrite userReadWrite = new JsonReadWrite(urlBoard, urlUsers);
       try {
         return userReadWrite.fileReadUserHandler();
       } catch (Exception e) {
-        System.out.println("Couldn't read default Users.JSON, thus created empty board ("
+        System.out.println("Couldn't read default Users.JSON, thus created empty user handler ("
             + e + ")");
       }
     }
