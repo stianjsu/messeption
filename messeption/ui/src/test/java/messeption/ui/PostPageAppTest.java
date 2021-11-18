@@ -10,7 +10,6 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.stream.Stream;
 
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -48,7 +47,7 @@ public class PostPageAppTest extends ApplicationTest {
   @Override
   public void start(Stage primaryStage) throws Exception {
 
-    boardAccess.setActiveUser(new User("ADMIN", "POWERS"));
+    boardAccess.setActiveUser(new User("Kenobi", "Hei123"));
     boardBackup = this.boardAccess.readBoard();
 
     topPostId = boardAccess.getPosts().get(boardAccess.getPosts().size()-1).getId();
@@ -62,10 +61,10 @@ public class PostPageAppTest extends ApplicationTest {
     users.add(new User("eim", "Tom"));
     users.add(new User("Kim", "Tom"));
     users.add(new User("Wim", "Tom"));
-    users.add(new User("Tommelim", "Tom"));
     users.add(new User("linn", "Tom"));
     users.add(new User("kinn", "Tom"));
     users.add(new User("plim", "Tom"));
+    users.add(new User("Tommelim", "Tom"));
 
     FXMLLoader frontPageLoader = new FXMLLoader(getClass().getResource(FRONT_PAGE_PATH));
     FXMLLoader postPageLoader = new FXMLLoader(getClass().getResource(POST_PAGE_PATH));
@@ -76,11 +75,14 @@ public class PostPageAppTest extends ApplicationTest {
     frontPageController = frontPageLoader.getController();
     postPageController = postPageLoader.getController();
 
-    frontPageController.setPostCommentsScene(postPageScene);
+    frontPageController.setPostPageScene(postPageScene);
     frontPageController.setPostPageController(postPageController);
 
     frontPageController.setBoardAccess(boardAccess);
     postPageController.setBoardAccess(boardAccess);
+
+    frontPageController.setPrimaryStage(primaryStage);
+    postPageController.setPrimaryStage(primaryStage);
 
     
     String id = boardAccess.getPosts().get(boardAccess.getPosts().size() - 1).getId();
@@ -90,15 +92,10 @@ public class PostPageAppTest extends ApplicationTest {
     primaryStage.setTitle("Messeption");
     primaryStage.setResizable(false);
     primaryStage.show();
+    
+    postPageController.setFrontPageController(frontPageController);
+    postPageController.setFrontPageScene(frontPageScene);
 
-    postPageController.cancelButton.setOnAction(event -> {
-      primaryStage.setScene(frontPageScene);
-      try {
-        frontPageController.drawPosts();
-      } catch (Exception e) {
-        UiUtils.exceptionAlert(e).show();
-      }
-    });
   }
 
   private void click(String... labels) {
@@ -182,14 +179,11 @@ public class PostPageAppTest extends ApplicationTest {
   @Test
   @DisplayName("Test deleting a comment")
   public void testDeleteComment() {
-    boardAccess.setActiveUser(new User("Kenobi", "Hei123"));
     List<ForumPost> posts = boardAccess.getPosts();
     ForumPost post = posts.get(posts.size() - 1);
     PostComment comment = post.getComments().get(0);
     String text = comment.getText();
-    click("Go back");
-    click("Go to thread");
-    click("Delete");
+    clickOn("#deleteButton");
     click("Yes");
     posts = boardAccess.getPosts();
     post = posts.get(posts.size() - 1);

@@ -39,13 +39,12 @@ public class JsonReadWrite {
    * @return the Board object from the read file
    * @throws IOException throws in a regualr IO expetion is thrown
    */
-  public ForumBoard fileReadForumBoard()
-      throws IOException {
+  public ForumBoard fileReadForumBoard() throws IOException {
+    Gson gson = new GsonBuilder().setPrettyPrinting().create();
     try (InputStreamReader reader = new InputStreamReader(
           new FileInputStream(this.saveLocationBoard), StandardCharsets.UTF_8)) {
-      Gson gson = new GsonBuilder().setPrettyPrinting().create();
+      
       ForumBoard toReturn = gson.fromJson(reader, ForumBoard.class);
-      reader.close();
       return toReturn;
     } catch (Exception e) {
       throw new IOException(e);
@@ -58,13 +57,11 @@ public class JsonReadWrite {
    * @param board    the object to be written
    * @throws IOException     throws in a regualr IO expetion is thrown
    */
-  public void fileWriteForumBoard(ForumBoard board) 
-      throws IOException {
+  public void fileWriteForumBoard(ForumBoard board) throws IOException {
+    Gson gson = new GsonBuilder().setPrettyPrinting().create();
     try (OutputStreamWriter writer = new OutputStreamWriter(
           new FileOutputStream(this.saveLocationBoard), StandardCharsets.UTF_8)) {
-      Gson gson = new GsonBuilder().setPrettyPrinting().create();
       gson.toJson(board, writer);
-      writer.close();
     } catch (Exception e) {
       throw new IOException(e);
     }
@@ -76,13 +73,11 @@ public class JsonReadWrite {
    * @return the UserHandler object from the read file
    * @throws IOException throws in a regualr IO expetion is thrown
    */
-  public UserHandler fileReadUserHandler()
-      throws IOException {
+  public UserHandler fileReadUserHandler() throws IOException {
+    Gson gson = new GsonBuilder().setPrettyPrinting().create();
     try (InputStreamReader reader = new InputStreamReader(
           new FileInputStream(this.saveLocationUsers), StandardCharsets.UTF_8)) {
-      Gson gson = new GsonBuilder().setPrettyPrinting().create();
       UserHandler toReturn = gson.fromJson(reader, UserHandler.class);
-      reader.close();
       return toReturn;
     } catch (Exception e) {
       throw new IOException(e);
@@ -95,13 +90,11 @@ public class JsonReadWrite {
    * @param users    the object to be written
    * @throws IOException     throws in a regualr IO expetion is thrown
    */
-  public void fileWriteUserHandler(UserHandler users) 
-      throws IOException {
+  public void fileWriteUserHandler(UserHandler users) throws IOException {
+    Gson gson = new GsonBuilder().setPrettyPrinting().create();
     try (OutputStreamWriter writer = new OutputStreamWriter(
           new FileOutputStream(this.saveLocationUsers), StandardCharsets.UTF_8)) {
-      Gson gson = new GsonBuilder().setPrettyPrinting().create();
       gson.toJson(users, writer);
-      writer.close();
     } catch (Exception e) {
       throw new IOException(e);
     }

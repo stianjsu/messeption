@@ -7,12 +7,15 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import messeption.core.ForumBoard;
+import messeption.core.UserHandler;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.net.URI;
 
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -21,6 +24,8 @@ import org.junit.jupiter.api.DisplayName;
 public class LoginTestIT extends ApplicationTest {
 
   private BoardAccessRemote boardAccess;
+  private static BoardAccessRemote boardAccessInitial;
+  private static UserHandler usersBackup;
   
 
   @BeforeAll
@@ -49,6 +54,7 @@ public class LoginTestIT extends ApplicationTest {
     FXMLLoader loginPageLoader = new FXMLLoader(getClass().getResource(LOGIN_PAGE_PATH));
     loginPageScene = new Scene(loginPageLoader.load());
     loginPageController = loginPageLoader.getController();
+    loginPageController.setPrimaryStage(primaryStage);
 
 
     FXMLLoader frontPageLoader = new FXMLLoader(getClass().getResource(FRONT_PAGE_PATH));
@@ -65,13 +71,14 @@ public class LoginTestIT extends ApplicationTest {
     primaryStage.show();
   }
 
-
   @BeforeAll
   public static void initializeTests() throws Exception{
     String port = System.getProperty("jetty.port"); 
     assertNotNull(port, "No messeption.port system property set");
     baseUri = new URI("http://localhost:" + port + "/board");
     System.out.println("Base BoardAccesRemote URI: " + baseUri);
+    boardAccessInitial = new BoardAccessRemote(baseUri);
+    usersBackup = boardAccessInitial.readUsers();
   }
 
   @BeforeEach
@@ -113,8 +120,7 @@ public class LoginTestIT extends ApplicationTest {
   @Test
   @DisplayName("Test create new valid user")
   public void testNewUserValid() throws Exception {
-
-    String username = "ValidUserName";
+    String username = "ValidUserIT";
     String password = "Valid123";
     clickOn("#signUpUserTextField").write(username);
     clickOn("#signUpPasswordField").write(password);
@@ -147,5 +153,21 @@ public class LoginTestIT extends ApplicationTest {
     clickOn("OK");
     assertEquals(boardAccess.getActiveUser(), null, "Login was successful when it should have failed");
   }
+
+  @AfterEach
+  public void revertActiveUser() {
+    boardAccess.setActiveUser(null);
+  }
+
+  @AfterAll
+  public static void revertUsers() throws Exception {
+    System.out.println(usersBackup);
+    try {
+      boardAccessInitial.setUserHandler(usersBackup);
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
+
 
 }

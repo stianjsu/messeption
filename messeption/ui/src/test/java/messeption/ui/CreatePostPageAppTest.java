@@ -65,20 +65,15 @@ public class CreatePostPageAppTest extends ApplicationTest {
     primaryStage.setResizable(false);
     primaryStage.show();
 
+    frontPageController.setPrimaryStage(primaryStage);
+    createPostPageController.setPrimaryStage(primaryStage);
 
-    frontPageController.createPostButton.setOnAction(event -> {
-      primaryStage.setScene(createPostPageScene);
-    });
 
-    createPostPageController.cancelButton.setOnAction(event -> {
-      createPostPageController.reloadPage();
-      primaryStage.setScene(frontPageScene);
-      try {
-        frontPageController.drawPosts();
-      } catch (Exception e) {
-        UiUtils.exceptionAlert(e).show();
-      }
-    });
+    frontPageController.setCreatePostPageScene(createPostPageScene);
+
+    createPostPageController.setFrontPageScene(frontPageScene);
+    createPostPageController.setFrontPageController(frontPageController);
+
   }
 
 

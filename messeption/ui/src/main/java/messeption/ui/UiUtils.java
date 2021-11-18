@@ -114,7 +114,11 @@ public class UiUtils {
     
   }
 
-  public static void setLogOutButton(Button logOutButton, Stage primaryStage, Scene loginPageScene) {
+  /**
+   * Sets the porper functionality for the log out button.
+   */
+  public static void setLogOutButton(
+        Button logOutButton, Stage primaryStage, Scene loginPageScene) {
     logOutButton.setOnAction(e -> {
       primaryStage.setScene(loginPageScene);
     });
@@ -164,7 +168,8 @@ public class UiUtils {
           if (o2.isAnonymous()) {
             return -1;
           }
-          return o1.getAuthor().getUsername().toLowerCase().compareTo(o2.getAuthor().getUsername().toLowerCase());
+          return o1.getAuthor().getUsername().toLowerCase().compareTo(
+                o2.getAuthor().getUsername().toLowerCase());
         }
       };
     }

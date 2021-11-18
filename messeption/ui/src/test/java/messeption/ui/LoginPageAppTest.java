@@ -6,10 +6,10 @@ import javafx.stage.Stage;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.util.List;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -17,104 +17,64 @@ import org.junit.jupiter.params.provider.MethodSource;
 import org.testfx.framework.junit5.ApplicationTest;
 import org.testfx.matcher.control.LabeledMatchers;
 import messeption.core.ForumBoard;
-import messeption.core.ForumPost;
-import messeption.core.PostComment;
+import messeption.core.UserHandler;
 
 /**
  * TestFX App test
  */
 public class LoginPageAppTest extends ApplicationTest {
 
-  private BoardAccessDirect boardAccess = new BoardAccessDirect();
+  private static BoardAccessDirect boardAccess = new BoardAccessDirect();
 
   public static final String LOGIN_PAGE_PATH = "LoginPage.fxml";
   public static final String FRONT_PAGE_PATH = "FrontPage.fxml";
-  public static final String CREATE_POST_PAGE_PATH = "CreatePostPage.fxml";
-  public static final String POST_PAGE_PATH = "PostPage.fxml";
 
   private Scene loginPageScene;
   private Scene frontPageScene;
-  private Scene createPostPageScene;
-  private Scene postPageScene;
 
   private LoginPageController loginPageController;
   private FrontPageController frontPageController;
-  private CreatePostPageController createPostPageController;
-  private PostPageController postPageController;
 
-  private static ForumBoard boardBackup;
+  private static UserHandler usersBackup;
 
   @Override
   public void start(Stage primaryStage) throws Exception {
 
-    boardBackup = this.boardAccess.readBoard();
-
     FXMLLoader loginPageLoader = new FXMLLoader(getClass().getResource(LOGIN_PAGE_PATH));
     loginPageScene = new Scene(loginPageLoader.load());
     loginPageController = loginPageLoader.getController();
+    loginPageController.setPrimaryStage(primaryStage);
     loginPageController.setBoardAccess(boardAccess);
 
 
     FXMLLoader frontPageLoader = new FXMLLoader(getClass().getResource(FRONT_PAGE_PATH));
     frontPageScene = new Scene(frontPageLoader.load());
     frontPageController = frontPageLoader.getController();
+    frontPageController.setPrimaryStage(primaryStage);
     frontPageController.setBoardAccess(boardAccess);
-
-
-    FXMLLoader createPostPageLoader = new FXMLLoader(getClass().getResource(CREATE_POST_PAGE_PATH));
-    createPostPageScene = new Scene(createPostPageLoader.load());
-    createPostPageController = createPostPageLoader.getController();
-    createPostPageController.setBoardAccess(boardAccess);
-
-    FXMLLoader postPageLoader = new FXMLLoader(getClass().getResource(POST_PAGE_PATH));
-    postPageScene = new Scene(postPageLoader.load());
-    postPageController = postPageLoader.getController();
-    postPageController.setBoardAccess(boardAccess);
-
     
-    frontPageController.setPostCommentsScene(postPageScene);
-    frontPageController.setPostPageController(postPageController);
     loginPageController.setFrontPageController(frontPageController);
     loginPageController.setFrontPageScene(frontPageScene);
-    
 
     primaryStage.setScene(loginPageScene);
     primaryStage.setTitle("Messeption");
     primaryStage.setResizable(false);
     primaryStage.show();
 
-    frontPageController.createPostButton.setOnAction(event -> {
-      primaryStage.setScene(createPostPageScene);
-    });
-
-    createPostPageController.cancelButton.setOnAction(event -> {
-      createPostPageController.reloadPage();
-      primaryStage.setScene(frontPageScene);
-      try {
-        frontPageController.drawPosts();
-      } catch (Exception e) {
-        UiUtils.exceptionAlert(e).show();
-      }
-    });
-
-    postPageController.cancelButton.setOnAction(event -> {
-      primaryStage.setScene(frontPageScene);
-      try {
-        frontPageController.drawPosts();
-      } catch (Exception e) {
-        UiUtils.exceptionAlert(e).show();
-      }
-    });
   }
 
+  @BeforeAll
+  public static void setUpBackups() throws Exception {
+    BoardAccessDirect boardAccessInitial = new BoardAccessDirect();
+    usersBackup = boardAccessInitial.readUsers();
+    boardAccess.setActiveUser(null);
+  }
 
   private void click(String... labels) {
     for (var label : labels) {
       clickOn(LabeledMatchers.hasText(label));
     }
   }
-
-
 
   @ParameterizedTest
   @MethodSource
@@ -139,7 +99,7 @@ public class LoginPageAppTest extends ApplicationTest {
     clickOn("#loginPasswordField").write(password);
     clickOn("#loginButton");
     click("OK");
-    assertEquals(boardAccess.getActiveUser(), null, "Login was successful when it should have failed");
+    assertEquals(null, boardAccess.getActiveUser(), "Login was successful when it should have failed");
   }
 
   private static Stream<Arguments> testInvalidLogin() {
@@ -178,10 +138,15 @@ public class LoginPageAppTest extends ApplicationTest {
     return Stream.of(Arguments.of("NoUser", "no"), Arguments.of("No", "No1234"));
   }
 
-
   @AfterEach
-  public void revertBoard() throws Exception {
-    boardAccess.setBoard(boardBackup);
+  public void revertActiveUser() {
+    boardAccess.setActiveUser(null);
+  }
+
+  @AfterAll
+  public static void revertBoard() throws Exception {
+    boardAccess.setUserHandler(usersBackup);
+    boardAccess.setActiveUser(null);
   }
 
 }

@@ -79,10 +79,11 @@ public class FrontPageAppTest extends ApplicationTest {
     postPageScene = new Scene(postPageLoader.load());
 
     frontPageController = frontPageLoader.getController();
+    frontPageController.setPrimaryStage(primaryStage);
     createPostPageController = createPostPageLoader.getController();
     postPageController = postPageLoader.getController();
 
-    frontPageController.setPostCommentsScene(postPageScene);
+    frontPageController.setPostPageScene(postPageScene);
     frontPageController.setPostPageController(postPageController);
 
     frontPageController.setBoardAccess(boardAccess);
@@ -94,29 +95,18 @@ public class FrontPageAppTest extends ApplicationTest {
     primaryStage.setResizable(false);
     primaryStage.show();
 
+    
+    createPostPageController.setPrimaryStage(primaryStage);
+    postPageController.setPrimaryStage(primaryStage);
 
-    frontPageController.createPostButton.setOnAction(event -> {
-      primaryStage.setScene(createPostPageScene);
-    });
+    frontPageController.setCreatePostPageScene(createPostPageScene);
 
-    createPostPageController.cancelButton.setOnAction(event -> {
-      createPostPageController.reloadPage();
-      primaryStage.setScene(frontPageScene);
-      try {
-        frontPageController.drawPosts();
-      } catch (Exception e) {
-        UiUtils.exceptionAlert(e).show();
-      }
-    });
+    createPostPageController.setFrontPageScene(frontPageScene);
+    createPostPageController.setFrontPageController(frontPageController);
+    
+    postPageController.setFrontPageController(frontPageController);
+    postPageController.setFrontPageScene(frontPageScene);
 
-    postPageController.cancelButton.setOnAction(event -> {
-      primaryStage.setScene(frontPageScene);
-      try {
-        frontPageController.drawPosts();
-      } catch (Exception e) {
-        UiUtils.exceptionAlert(e).show();
-      }
-    });
   }
 
   private void click(String... labels) {
