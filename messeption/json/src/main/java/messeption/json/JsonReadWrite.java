@@ -17,14 +17,20 @@ import messeption.core.UserHandler;
  */
 public class JsonReadWrite {
 
-  private String saveLocationRecource;
+  private String saveLocationBoard;
+  private String saveLocationUsers;
 
-  public JsonReadWrite(URL saveLocationRecource) {
-    this.saveLocationRecource = saveLocationRecource.getPath();
+  public JsonReadWrite(URL saveLocationBoard, URL saveLocationUsers) {
+    this.saveLocationBoard = saveLocationBoard.getPath();
+    this.saveLocationUsers = saveLocationUsers.getPath();
   }
 
-  public void setSaveLocationRecource(URL saveLocationRecource) {
-    this.saveLocationRecource = saveLocationRecource.getPath();
+  public void setSaveLocationBoard(URL saveLocationBoard) {
+    this.saveLocationBoard = saveLocationBoard.getPath();
+  }
+
+  public void setSaveLocationUsers(URL saveLocationUsers) {
+    this.saveLocationUsers = saveLocationUsers.getPath();
   }
 
   /**
@@ -36,7 +42,7 @@ public class JsonReadWrite {
   public ForumBoard fileReadForumBoard()
       throws IOException {
     try (InputStreamReader reader = new InputStreamReader(
-          new FileInputStream(this.saveLocationRecource), StandardCharsets.UTF_8)) {
+          new FileInputStream(this.saveLocationBoard), StandardCharsets.UTF_8)) {
       Gson gson = new GsonBuilder().setPrettyPrinting().create();
       ForumBoard toReturn = gson.fromJson(reader, ForumBoard.class);
       reader.close();
@@ -55,7 +61,7 @@ public class JsonReadWrite {
   public void fileWriteForumBoard(ForumBoard board) 
       throws IOException {
     try (OutputStreamWriter writer = new OutputStreamWriter(
-          new FileOutputStream(this.saveLocationRecource), StandardCharsets.UTF_8)) {
+          new FileOutputStream(this.saveLocationBoard), StandardCharsets.UTF_8)) {
       Gson gson = new GsonBuilder().setPrettyPrinting().create();
       gson.toJson(board, writer);
       writer.close();
@@ -73,7 +79,7 @@ public class JsonReadWrite {
   public UserHandler fileReadUserHandler()
       throws IOException {
     try (InputStreamReader reader = new InputStreamReader(
-          new FileInputStream(this.saveLocationRecource), StandardCharsets.UTF_8)) {
+          new FileInputStream(this.saveLocationUsers), StandardCharsets.UTF_8)) {
       Gson gson = new GsonBuilder().setPrettyPrinting().create();
       UserHandler toReturn = gson.fromJson(reader, UserHandler.class);
       reader.close();
@@ -92,7 +98,7 @@ public class JsonReadWrite {
   public void fileWriteUserHandler(UserHandler users) 
       throws IOException {
     try (OutputStreamWriter writer = new OutputStreamWriter(
-          new FileOutputStream(this.saveLocationRecource), StandardCharsets.UTF_8)) {
+          new FileOutputStream(this.saveLocationUsers), StandardCharsets.UTF_8)) {
       Gson gson = new GsonBuilder().setPrettyPrinting().create();
       gson.toJson(users, writer);
       writer.close();
@@ -102,7 +108,7 @@ public class JsonReadWrite {
   }
   
   public String getSaveLocation() {
-    return this.saveLocationRecource;
+    return this.saveLocationBoard + " : " + this.saveLocationUsers;
   }
 
   /**
