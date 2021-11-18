@@ -18,7 +18,7 @@ import messeption.core.User;
 /**
  * Controller for the create post page.
  */
-public class LoginPageController {
+public class LoginPageController extends SceneController {
 
   @FXML
   MenuItem menuQuit;
@@ -45,9 +45,7 @@ public class LoginPageController {
   @FXML
   private Button signupButton;
 
-  private Scene frontPageScene;
   private FrontPageController frontPageController;
-  private BoardAccessInterface boardAccess;
 
   /**
    * initializer for the scene.
@@ -63,17 +61,9 @@ public class LoginPageController {
     });
   }
 
-  public void setBoardAccess(BoardAccessInterface boardAccess) {
-    this.boardAccess = boardAccess;
-  }
-
 
   public void setFrontPageController(FrontPageController frontPageController) {
     this.frontPageController = frontPageController;
-  }
-  
-  public void setFrontPageScene(Scene frontPageScene) {
-    this.frontPageScene = frontPageScene;
   }
 
   /**

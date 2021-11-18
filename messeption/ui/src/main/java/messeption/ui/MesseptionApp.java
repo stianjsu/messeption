@@ -53,6 +53,7 @@ public class MesseptionApp extends Application {
     loginPageScene = new Scene(loginPageLoader.load());
     loginPageController = loginPageLoader.getController();
     loginPageController.setBoardAccess(boardAccess);
+    loginPageController.setPrimaryStage(primaryStage);
     UiUtils.setNavBarButtons(loginPageController.menuQuit, loginPageController.menuLogOut,
         loginPageController.menuAbout, primaryStage, loginPageScene);
 
@@ -60,6 +61,7 @@ public class MesseptionApp extends Application {
     frontPageScene = new Scene(frontPageLoader.load());
     frontPageController = frontPageLoader.getController();
     frontPageController.setBoardAccess(boardAccess);
+    frontPageController.setPrimaryStage(primaryStage);
     UiUtils.setNavBarButtons(frontPageController.menuQuit, frontPageController.menuLogOut,
         frontPageController.menuAbout, primaryStage, loginPageScene);
     UiUtils.setLogOutButton(frontPageController.logOutButton, primaryStage, loginPageScene);
@@ -68,6 +70,7 @@ public class MesseptionApp extends Application {
     createPostPageScene = new Scene(createPostPageLoader.load());
     createPostPageController = createPostPageLoader.getController();
     createPostPageController.setBoardAccess(boardAccess);
+    createPostPageController.setPrimaryStage(primaryStage);
     UiUtils.setNavBarButtons(createPostPageController.menuQuit, createPostPageController.menuLogOut,
         createPostPageController.menuAbout, primaryStage, loginPageScene);
     UiUtils.setLogOutButton(createPostPageController.logOutButton, primaryStage, loginPageScene);
@@ -76,46 +79,30 @@ public class MesseptionApp extends Application {
     postPageScene = new Scene(postPageLoader.load());
     postPageController = postPageLoader.getController();
     postPageController.setBoardAccess(boardAccess);
+    postPageController.setPrimaryStage(primaryStage);
     UiUtils.setNavBarButtons(postPageController.menuQuit, postPageController.menuLogOut,
         postPageController.menuAbout, primaryStage, loginPageScene);
     UiUtils.setLogOutButton(postPageController.logOutButton, primaryStage, loginPageScene);
-    
-    frontPageController.setPostCommentsScene(postPageScene);
-    frontPageController.setPostPageController(postPageController);
-    loginPageController.setFrontPageController(frontPageController);
-    loginPageController.setFrontPageScene(frontPageScene);
-    
+  
 
     primaryStage.setScene(loginPageScene);
     primaryStage.setTitle("Messeption");
     primaryStage.setResizable(false);
     primaryStage.show();
 
-    frontPageController.createPostButton.setOnAction(event -> {
-      primaryStage.setScene(createPostPageScene);
-    });
 
-    createPostPageController.cancelButton.setOnAction(event -> {
-      createPostPageController.reloadPage();
-      primaryStage.setScene(frontPageScene);
-      try {
-        frontPageController.drawPosts();
-        frontPageController.sortMenuButton.setText("Time");
-      } catch (Exception e) {
-        UiUtils.exceptionAlert(e).show();
-      }
-    });
+    loginPageController.setFrontPageController(frontPageController);
+    loginPageController.setFrontPageScene(frontPageScene);
 
-    postPageController.cancelButton.setOnAction(event -> {
-      primaryStage.setScene(frontPageScene);
-      try {
-        frontPageController.drawPosts();
-        frontPageController.sortMenuButton.setText("Time");
-      } catch (Exception e) {
-        UiUtils.exceptionAlert(e).show();
-      }
-    });
+    frontPageController.setCreatePostPageScene(createPostPageScene);
+    frontPageController.setPostPageScene(postPageScene);
+    frontPageController.setPostPageController(postPageController);
+
+    createPostPageController.setFrontPageScene(frontPageScene);
+    createPostPageController.setFrontPageController(frontPageController);
     
+    postPageController.setFrontPageScene(frontPageScene);
+    postPageController.setFrontPageController(frontPageController);
   }
 
   public static void main(String[] args) {

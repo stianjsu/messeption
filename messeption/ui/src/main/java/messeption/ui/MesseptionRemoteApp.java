@@ -64,7 +64,7 @@ public class MesseptionRemoteApp extends Application {
         postPageController.menuAbout, primaryStage, loginPageScene);
     UiUtils.setLogOutButton(postPageController.logOutButton, primaryStage, loginPageScene);
     
-    frontPageController.setPostCommentsScene(postPageScene);
+    frontPageController.setPostPageScene(postPageScene);
     frontPageController.setPostPageController(postPageController);
     loginPageController.setFrontPageController(frontPageController);
     loginPageController.setFrontPageScene(frontPageScene);

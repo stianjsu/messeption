@@ -18,9 +18,8 @@ import messeption.core.ForumPost;
 /**
  * Controller for the create post page.
  */
-public class CreatePostPageController {
-  // Write title text -> CreatePostButton -> Create new post -> add post to board
-  // -> save board.json -> go to frontpage -> load board.json
+public class CreatePostPageController extends SceneController {
+  
   @FXML
   Button logOutButton;
   @FXML
@@ -47,12 +46,20 @@ public class CreatePostPageController {
   private String textFeedback; 
 
 
-  private BoardAccessInterface boardAccess;
-
   /**
    * initializer for the scene.
    */
   public void initialize() {
+
+    cancelButton.setOnAction(event -> {
+      this.reloadPage();
+      primaryStage.setScene(frontPageScene);
+      try {
+        frontPageController.drawPosts();
+      } catch (Exception e) {
+        UiUtils.exceptionAlert(e).show();
+      }
+    });
 
     publishButton.setOnAction(e -> {
       createPostInBoard();
@@ -79,13 +86,9 @@ public class CreatePostPageController {
     textFeedbackLabel.setText("");
   }
 
-  public void setBoardAccess(BoardAccessInterface boardAccess) {
-    this.boardAccess = boardAccess;
-  }
-
   /**
-   * Gets the text and title form the text input fields. Then checks if they are
-   * long enough adds a new post object
+   * Gets the text and title form the text input fields.
+   * Then checks if they are long enough adds a new post object
    */
   @FXML
   public void createPostInBoard() {
@@ -115,7 +118,7 @@ public class CreatePostPageController {
   }
 
   /**
-   * Creates and shows an alert on screen wehen the user successfully creates a
+   * Creates and shows an alert on screen when the user successfully creates a
    * post.
 
    * @param title The title name of the alert
@@ -134,7 +137,6 @@ public class CreatePostPageController {
 
     Optional<ButtonType> result = confirmation.showAndWait();
 
-    // refresh page
     reloadPage();
     if (result.get() == quitToFrontPage) {
       cancelButton.fire(); // go back to main menu

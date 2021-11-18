@@ -21,7 +21,7 @@ import messeption.core.PostComment;
 /**
  * Javafx controller for viewing individual posts.
  */
-public class PostPageController {
+public class PostPageController extends SceneController {
 
   private static final int SIZE_COMMENTS = 130;
   private static final int MARGIN_COMMENTS = 10;
@@ -68,14 +68,25 @@ public class PostPageController {
   Button newCommentButton;
   @FXML
   CheckBox anonymousAuthorCheckBox;
+
+
   private String commentFeedback;
 
-  private BoardAccessInterface boardAccess;
 
   /**
    * Initializes the publish comment button.
    */
   public void initialize() {
+
+    this.cancelButton.setOnAction(event -> {
+      primaryStage.setScene(frontPageScene);
+      try {
+        frontPageController.drawPosts();
+      } catch (Exception e) {
+        UiUtils.exceptionAlert(e).show();
+      }
+    });
+
     this.commentFeedback = newCommentFeedbackLabel.getText();
     newCommentTextArea.setOnKeyTyped(e -> {
       if (newCommentTextArea.getText().length() < 4) {
@@ -85,16 +96,6 @@ public class PostPageController {
       }
       updateButtonEnabled();
     });
-  }
-
-
-  /**
-   * Sets the controlelr forumboard to a specified input.
-
-   * @param boardAccess the new controller boardAccess
-   */
-  public void setBoardAccess(BoardAccessInterface boardAccess) {
-    this.boardAccess = boardAccess;
   }
 
   /**
@@ -107,8 +108,6 @@ public class PostPageController {
     newCommentButton.setOnAction(e -> {
       publishComment(post.getId());
     });
-
-    
 
     generatePostContent(post);
     List<PostComment> comments = post.getComments();
