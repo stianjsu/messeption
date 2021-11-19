@@ -71,7 +71,7 @@ public class PostPageController extends SceneController {
       try {
         frontPageController.drawPosts();
       } catch (Exception e) {
-        UiUtils.exceptionAlert(e).show();
+        UiUtils.popupAlert(e, "Something went wrong when loading page").showAndWait();
       }
     });
 
@@ -112,7 +112,7 @@ public class PostPageController extends SceneController {
         this.commentsContainer.getChildren().add(commentPane);
 
       } catch (Exception error) {
-        UiUtils.exceptionAlert(error).showAndWait();
+        UiUtils.popupAlert(error, "Something went wrong when loading page").showAndWait();
       }
 
     }
@@ -144,7 +144,8 @@ public class PostPageController extends SceneController {
       try {
         boardAccess.likePost(post.getId(), boardAccess.getActiveUser());
       } catch (Exception error) {
-        UiUtils.exceptionAlert(error).showAndWait();
+        UiUtils.popupAlert(error, "Something went wrong with liking a post").showAndWait();
+
       }
       UiUtils.setStyleOfButton(postLikeButton,
             post.getLikeUsers().contains(boardAccess.getActiveUser()));
@@ -159,7 +160,7 @@ public class PostPageController extends SceneController {
       try {
         boardAccess.dislikePost(post.getId(), boardAccess.getActiveUser());
       } catch (Exception error) {
-        UiUtils.exceptionAlert(error).showAndWait();
+        UiUtils.popupAlert(error, "Something went wrong with disliking a post").showAndWait();
       }
       UiUtils.setStyleOfButton(postLikeButton,
             post.getLikeUsers().contains(boardAccess.getActiveUser()));
@@ -176,7 +177,8 @@ public class PostPageController extends SceneController {
     FXMLLoader commentPaneTemplateLoader = new FXMLLoader(getClass().getResource(
         "CommentPaneTemplate.fxml"));
     commentPaneTemplateLoader.load();
-    CommentPaneTemplateController commentPaneTemplateController = commentPaneTemplateLoader.getController();
+    CommentPaneTemplateController commentPaneTemplateController =
+        commentPaneTemplateLoader.getController();
     commentPaneTemplateController.setBoardAccess(boardAccess);
     commentPaneTemplateController.setPostPageController(this);
     return commentPaneTemplateController.setFieldsComment(comment, postId);
@@ -187,11 +189,6 @@ public class PostPageController extends SceneController {
     try {
       String text = newCommentTextArea.getText();
 
-      if (text.length() < 4) {
-        UiUtils.popupAlert("Comment text must be longer than 3 characters").showAndWait();
-        return;
-      }
-
       boardAccess.addComment(postId, new PostComment(text, boardAccess.getActiveUser(), 
           anonymousAuthorCheckBox.isSelected()));
       drawComments(postId);
@@ -199,7 +196,7 @@ public class PostPageController extends SceneController {
       updateButtonEnabled();
 
     } catch (Exception e) {
-      UiUtils.exceptionAlert(e).show();
+      UiUtils.popupAlert(e, "Something went wrong when loading page").showAndWait();
     }
   }
 

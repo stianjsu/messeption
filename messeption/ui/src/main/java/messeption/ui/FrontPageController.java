@@ -79,17 +79,20 @@ public class FrontPageController extends SceneController {
     this.postPageController = postPageController;
   }
 
+  /**
+   * This method sorts the posts before drawing them on the FrontPage.
+
+   * @param sortBy a string that specifies what to sort the posts by
+   */
   public void sortPosts(String sortBy) {
-    
     try {
       List<ForumPost> posts = boardAccess.getPosts();
       posts.sort(UiUtils.getPostSorting(sortBy));
       drawPosts(posts);
       sortMenuButton.setText(sortBy);
     } catch (Exception e) {
-      UiUtils.exceptionAlert(e).show();
+      UiUtils.popupAlert(e, "Something went wrong when loading page").showAndWait();
     }
-    
   }
 
   /**

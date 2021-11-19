@@ -8,6 +8,9 @@ import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
 import messeption.core.PostComment;
 
+/**
+ * CommentPaneTemplateController fills the template with valid data.
+ */
 public class CommentPaneTemplateController {
 
   @FXML
@@ -32,21 +35,21 @@ public class CommentPaneTemplateController {
   private BoardAccessInterface boardAccess;
   private PostPageController postPageController;
 
+  public void initialize() {}
+
   public void setBoardAccess(BoardAccessInterface boardAccess) {
     this.boardAccess = boardAccess;
   }
+  
   public void setPostPageController(PostPageController postPageController) {
     this.postPageController = postPageController;
   }
-
-  public void initialize() {}
-
-
   /**
-   * Fills the FXML nodes with valid information for the given post.
-   * Title, Text, Author, Timestamp is shown and OnAction events are set for the buttons.
+   * Fills the FXML nodes with valid information for the given comment.
+   * Text, Author, Timestamp is shown and OnAction events are set for the buttons.
 
-   * @param post The Forumpost to be displayed
+   * @param comment The PostComment to be displayed
+   * @param postId the id of the post the comment "belongs to"
    */
   
   public Pane setFieldsComment(PostComment comment, String postId) {
@@ -71,7 +74,7 @@ public class CommentPaneTemplateController {
       try {
         boardAccess.likeComment(postId, comment.getId(), boardAccess.getActiveUser());
       } catch (Exception error) {
-        UiUtils.exceptionAlert(error).showAndWait();
+        UiUtils.popupAlert(error, "Something went wrong when liking a comment").showAndWait();
       }
       UiUtils.setStyleOfButton(likeCommentButton,
           comment.getLikeUsers().contains(boardAccess.getActiveUser()));
@@ -86,7 +89,7 @@ public class CommentPaneTemplateController {
       try {
         boardAccess.dislikeComment(postId, comment.getId(), boardAccess.getActiveUser());
       } catch (Exception error) {
-        UiUtils.exceptionAlert(error).showAndWait();
+        UiUtils.popupAlert(error, "Something went wrong when disliking a comment").showAndWait();
       }
       UiUtils.setStyleOfButton(likeCommentButton,
           comment.getLikeUsers().contains(boardAccess.getActiveUser()));
@@ -114,7 +117,7 @@ public class CommentPaneTemplateController {
             postPageController.drawComments(postId);
           }
         } catch (Exception e1) {
-          UiUtils.exceptionAlert(e1);
+          UiUtils.popupAlert(e1, "Something went wrong when deleting a comment").showAndWait();
         }
       });
       deleteButton.setVisible(true);

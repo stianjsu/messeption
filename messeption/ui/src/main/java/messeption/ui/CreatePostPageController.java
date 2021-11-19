@@ -46,7 +46,7 @@ public class CreatePostPageController extends SceneController {
       try {
         frontPageController.drawPosts();
       } catch (Exception e) {
-        UiUtils.exceptionAlert(e).show();
+        UiUtils.popupAlert(e, "Something went wrong when loading page").showAndWait();
       }
     });
 
@@ -102,7 +102,7 @@ public class CreatePostPageController extends SceneController {
       // confirmCreation
       feedbackAlertPostCreation(title);
     } catch (Exception e) {
-      UiUtils.exceptionAlert(e);
+      UiUtils.popupAlert(e, "Something went wrong when creating a post").showAndWait();
     }
   }
 

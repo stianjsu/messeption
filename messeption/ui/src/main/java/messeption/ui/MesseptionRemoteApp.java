@@ -86,7 +86,7 @@ public class MesseptionRemoteApp extends Application {
         frontPageController.drawPosts();
         frontPageController.sortMenuButton.setText("Time");
       } catch (Exception e) {
-        UiUtils.exceptionAlert(e).show();
+        UiUtils.popupAlert(e, "Something went wrong when loading page").showAndWait();
       }
     });
 
@@ -96,7 +96,8 @@ public class MesseptionRemoteApp extends Application {
         frontPageController.drawPosts();
         frontPageController.sortMenuButton.setText("Time");
       } catch (Exception e) {
-        UiUtils.exceptionAlert(e).show();
+        UiUtils.popupAlert(e, "Something went wrong when loading page").showAndWait();
+
       }
     });
     

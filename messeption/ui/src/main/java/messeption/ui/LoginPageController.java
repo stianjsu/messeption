@@ -131,7 +131,7 @@ public class LoginPageController extends SceneController {
         try {
           frontPageController.drawPosts();
         } catch (Exception e) {
-          UiUtils.exceptionAlert(e).showAndWait();
+          UiUtils.popupAlert(e,"Something went wrong when loading page").showAndWait();
           goTo = loginButton.getScene();
         }
       }

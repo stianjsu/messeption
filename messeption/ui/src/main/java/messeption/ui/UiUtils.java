@@ -20,33 +20,31 @@ public class UiUtils {
       "-fx-border-color: DarkOrange; -fx-border-radius: 3px; -fx-border-width: 2px;";
   private static final String NORMAL_STYLE = "";
 
-
   /**
    * If an exception is raised it is here processed into an alert for the UI.
 
-   * @param e the exception to be processed
+   * @param e the exception to be shown to developers
+   * @param toUser the string to be shown to the user
    * @return the finished Alert
    */
-  public static Alert exceptionAlert(Exception e) {
+  public static Alert popupAlert(Exception e, String toUser) {
 
     Alert toReturn = new Alert(AlertType.ERROR);
-    toReturn.setContentText(e.toString() + "\n" + e.getCause());
-    System.err.println(e.toString() + "\n" + e.getCause());
+    toReturn.setContentText(toUser);
+    System.err.println(e);
     toReturn.setTitle("Error");
     return toReturn;
   }
-
   /**
    * If an exception is raised it is here processed into an alert for the UI.
 
-   * @param e the string to be processed
+   * @param toUser the string to be shown to the user
    * @return the finished Alert
    */
-  public static Alert popupAlert(String e) {
+  public static Alert popupAlert(String toUser) {
 
     Alert toReturn = new Alert(AlertType.ERROR);
-    toReturn.setContentText(e);
-    System.err.println(e);
+    toReturn.setContentText(toUser);
     toReturn.setTitle("Error");
     return toReturn;
   }

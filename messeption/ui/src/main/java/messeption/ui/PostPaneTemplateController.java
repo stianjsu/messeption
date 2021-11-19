@@ -123,8 +123,7 @@ public class PostPaneTemplateController {
       try {
         boardAccess.likePost(post.getId(), boardAccess.getActiveUser());
       } catch (Exception error) {
-        System.out.println("Klarte ikke like");
-        UiUtils.exceptionAlert(error).showAndWait();
+        UiUtils.popupAlert(error, "Something went wrong with liking a post").showAndWait();
       }
       
       UiUtils.setStyleOfButton(likeButton,
@@ -140,7 +139,7 @@ public class PostPaneTemplateController {
       try {
         boardAccess.dislikePost(post.getId(), boardAccess.getActiveUser());
       } catch (Exception error) {
-        UiUtils.exceptionAlert(error).showAndWait();
+        UiUtils.popupAlert(error, "Something went wrong with disliking a post").showAndWait();
       }
       UiUtils.setStyleOfButton(likeButton,
           post.getLikeUsers().contains(boardAccess.getActiveUser()));
@@ -171,7 +170,7 @@ public class PostPaneTemplateController {
             frontPageController.sortPosts(frontPageController.sortMenuButton.getText());
           }
         } catch (Exception e1) {
-          UiUtils.exceptionAlert(e1);
+          UiUtils.popupAlert(e1, "Something went wrong with deleting a post").showAndWait();
         }
       });
 
