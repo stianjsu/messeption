@@ -83,7 +83,7 @@
             <scope>test</scope>
         </dependency>
 
-    </dependencies>
+    </dependencies> 
 
     <build>
         <plugins>
@@ -109,10 +109,42 @@
                 <!-- Usage: mvn javafx:run -->
                 <configuration>
                     <!-- syntax: module-name/full-app-class-name -->
-                    <mainClass>messeption.ui/messeption.ui.MesseptionApp</mainClass>
+                    <mainClass>messeption.ui/messeption.ui.MesseptionRemoteApp</mainClass>
+                    <!-- rest of options are for jlink -->
+                    <compress>2</compress>
+                    <noHeaderFiles>true</noHeaderFiles>
+                    <stripDebug>true</stripDebug>
+                    <noManPages>true</noManPages>
+                    <launcher>messeptionfx</launcher>
+                    <jlinkImageName>messeptionfx</jlinkImageName>
+                    <jlinkZipName>messeptionfx</jlinkZipName>
                 </configuration>
             </plugin>
             
+
+            <!-- config above and below taken from https://dev.to/cherrychain/javafx-jlink-and-jpackage-h9 -->
+            <plugin>
+                <groupId>org.panteleyev</groupId>
+                <artifactId>jpackage-maven-plugin</artifactId>
+                <version>1.4.0</version>
+                <configuration>
+                    <name>MesseptionFX</name>
+                    <appVersion>1.0.0</appVersion>
+                    <vendor>gr2122</vendor>
+                    <destination>target/dist</destination>
+                    <module>messeption.ui/messeption.ui.MesseptionRemoteApp</module>
+                    <runtimeImage>target/messeptionfx</runtimeImage>
+                    <javaOptions>
+                        <option>-Dfile.encoding=UTF-8</option>
+                    </javaOptions>
+                    <!-- windows options --> 
+                    <winDirChooser>true</winDirChooser>
+                    <winShortcut>true</winShortcut>
+                    <winMenu>true</winMenu>
+                    <winMenuGroup>MesseptionFX</winMenuGroup>
+                </configuration>
+            </plugin>
+
             <!-- Run the checkstyle code quality tool -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
