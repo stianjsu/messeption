@@ -11,7 +11,7 @@ import javafx.stage.Stage;
  */
 public class MesseptionRemoteApp extends Application {
 
-  private BoardAccessInterface boardAccess = new BoardAccessRemote(URI.create("http://localhost:8999/board"));
+  private BoardAccessInterface boardAccess;
 
   public static final String LOGIN_PAGE_PATH = "LoginPage.fxml";
   public static final String FRONT_PAGE_PATH = "FrontPage.fxml";
@@ -31,6 +31,8 @@ public class MesseptionRemoteApp extends Application {
   @Override
   public void start(Stage primaryStage) throws Exception {
 
+    boardAccess = new BoardAccessRemote(URI.create("http://localhost:8999/board"));
+
     FXMLLoader loginPageLoader = new FXMLLoader(getClass().getResource(LOGIN_PAGE_PATH));
     loginPageScene = new Scene(loginPageLoader.load());
     loginPageController = loginPageLoader.getController();
@@ -44,6 +46,7 @@ public class MesseptionRemoteApp extends Application {
     frontPageController.setBoardAccess(boardAccess);
     UiUtils.setNavBarButtons(frontPageController.menuQuit, frontPageController.menuLogOut,
         frontPageController.menuAbout, primaryStage, loginPageScene);
+    UiUtils.setLogOutButton(frontPageController.logOutButton, primaryStage, loginPageScene);
 
     FXMLLoader createPostPageLoader = new FXMLLoader(getClass().getResource(CREATE_POST_PAGE_PATH));
     createPostPageScene = new Scene(createPostPageLoader.load());
@@ -51,6 +54,7 @@ public class MesseptionRemoteApp extends Application {
     createPostPageController.setBoardAccess(boardAccess);
     UiUtils.setNavBarButtons(createPostPageController.menuQuit, createPostPageController.menuLogOut,
         createPostPageController.menuAbout, primaryStage, loginPageScene);
+    UiUtils.setLogOutButton(createPostPageController.logOutButton, primaryStage, loginPageScene);
 
     FXMLLoader postPageLoader = new FXMLLoader(getClass().getResource(POST_PAGE_PATH));
     postPageScene = new Scene(postPageLoader.load());
@@ -58,15 +62,16 @@ public class MesseptionRemoteApp extends Application {
     postPageController.setBoardAccess(boardAccess);
     UiUtils.setNavBarButtons(postPageController.menuQuit, postPageController.menuLogOut,
         postPageController.menuAbout, primaryStage, loginPageScene);
+    UiUtils.setLogOutButton(postPageController.logOutButton, primaryStage, loginPageScene);
     
-    frontPageController.setPostCommentsScene(postPageScene);
+    frontPageController.setPostPageScene(postPageScene);
     frontPageController.setPostPageController(postPageController);
     loginPageController.setFrontPageController(frontPageController);
     loginPageController.setFrontPageScene(frontPageScene);
     
 
     primaryStage.setScene(loginPageScene);
-    primaryStage.setTitle("MesseptionRemote");
+    primaryStage.setTitle("Messeption");
     primaryStage.setResizable(false);
     primaryStage.show();
 
@@ -81,7 +86,7 @@ public class MesseptionRemoteApp extends Application {
         frontPageController.drawPosts();
         frontPageController.sortMenuButton.setText("Time");
       } catch (Exception e) {
-        UiUtils.exceptionAlert(e).show();
+        UiUtils.popupAlert(e, "Something went wrong when loading page").showAndWait();
       }
     });
 
@@ -91,7 +96,8 @@ public class MesseptionRemoteApp extends Application {
         frontPageController.drawPosts();
         frontPageController.sortMenuButton.setText("Time");
       } catch (Exception e) {
-        UiUtils.exceptionAlert(e).show();
+        UiUtils.popupAlert(e, "Something went wrong when loading page").showAndWait();
+
       }
     });
     

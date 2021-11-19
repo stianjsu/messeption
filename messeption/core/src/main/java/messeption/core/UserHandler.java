@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 /**
- * User handler class for checking and verifying existing and new users.
+ * User handler class for containing users, and checking and verifying existing and new users.
  */
 public class UserHandler {
 
@@ -126,6 +126,12 @@ public class UserHandler {
 
   @Override
   public boolean equals(Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    if (obj == null) {
+      return false;
+    }
     if (obj instanceof UserHandler) {
       UserHandler other = (UserHandler) obj;
       boolean hashCodeCheck = this.hashCode() == other.hashCode();
@@ -138,11 +144,7 @@ public class UserHandler {
 
   @Override
   public int hashCode() {
-    int code = 0;
-    for (User user : users) {
-      code += user.hashCode();
-    }
-    return code;
+    return this.users.stream().mapToInt(e -> e.hashCode()).sum();
   }
 
   @Override

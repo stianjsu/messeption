@@ -49,4 +49,6 @@ public interface BoardAccessInterface {
 
   public boolean correctPassword(String username, String password);
 
+  public void setUserHandler(UserHandler handler) throws Exception;
+
 }

@@ -8,8 +8,6 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
-import javafx.scene.control.Menu;
-import javafx.scene.control.MenuItem;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
@@ -18,17 +16,10 @@ import messeption.core.User;
 /**
  * Controller for the create post page.
  */
-public class LoginPageController {
+public class LoginPageController extends SceneController {
 
-  @FXML
-  MenuItem menuQuit;
-  @FXML
-  MenuItem menuLogOut;
-  @FXML
-  MenuItem menuAbout;
-
-  @FXML
-  private Label errorLabel;
+  /*@FXML
+  private Label errorLabel;*/
   @FXML
   private TextField loginUserTextField;
   @FXML
@@ -45,15 +36,10 @@ public class LoginPageController {
   @FXML
   private Button signupButton;
 
-  private Scene frontPageScene;
-  private FrontPageController frontPageController;
-  private BoardAccessInterface boardAccess;
-
   /**
    * initializer for the scene.
    */
   public void initialize() {
-
     loginButton.setOnAction((e) -> {
       login();
 
@@ -63,18 +49,7 @@ public class LoginPageController {
     });
   }
 
-  public void setBoardAccess(BoardAccessInterface boardAccess) {
-    this.boardAccess = boardAccess;
-  }
 
-
-  public void setFrontPageController(FrontPageController frontPageController) {
-    this.frontPageController = frontPageController;
-  }
-  
-  public void setFrontPageScene(Scene frontPageScene) {
-    this.frontPageScene = frontPageScene;
-  }
 
   /**
    * Method is called when the user tries to login.
@@ -90,6 +65,7 @@ public class LoginPageController {
         UiUtils.popupAlert("Wrong password for user " + username).showAndWait();
       } else {
         sucsessAlert(new User(username, password));
+        clearAllInputFields();
       }
     }
   }
@@ -155,11 +131,19 @@ public class LoginPageController {
         try {
           frontPageController.drawPosts();
         } catch (Exception e) {
-          UiUtils.exceptionAlert(e).showAndWait();
+          UiUtils.popupAlert(e,"Something went wrong when loading page").showAndWait();
           goTo = loginButton.getScene();
         }
       }
     }
     primaryStage.setScene(goTo);
+  }
+
+  private void clearAllInputFields() {
+    loginPasswordField.setText("");
+    loginUserTextField.setText("");
+    signUpUserTextField.setText("");
+    signUpPasswordField.setText("");
+    signUpPasswordFieldCheck.setText("");
   }
 }

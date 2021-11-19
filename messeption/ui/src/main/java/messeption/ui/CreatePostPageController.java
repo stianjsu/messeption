@@ -1,6 +1,5 @@
 package messeption.ui;
 
-import java.io.IOException;
 import java.util.Optional;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -10,24 +9,14 @@ import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import messeption.core.ForumBoard;
 import messeption.core.ForumPost;
 
 /**
  * Controller for the create post page.
  */
-public class CreatePostPageController {
-  // Write title text -> CreatePostButton -> Create new post -> add post to board
-  // -> save board.json -> go to frontpage -> load board.json
-  @FXML
-  MenuItem menuQuit;
-  @FXML
-  MenuItem menuLogOut;
-  @FXML
-  MenuItem menuAbout;
+public class CreatePostPageController extends SceneController {
   @FXML
   Button publishButton;
   @FXML
@@ -38,25 +27,57 @@ public class CreatePostPageController {
   TextArea postTextArea;
   @FXML
   CheckBox anonymousAuthorCheckBox;
+  @FXML
+  Label titleFeedbackLabel;
+  @FXML
+  Label textFeedbackLabel;
+  private String titleFeedback; 
+  private String textFeedback; 
 
-  private BoardAccessInterface boardAccess;
 
   /**
    * initializer for the scene.
    */
   public void initialize() {
-    publishButton.setOnAction((e) -> {
+
+    cancelButton.setOnAction(event -> {
+      this.reloadPage();
+      primaryStage.setScene(frontPageScene);
+      try {
+        frontPageController.drawPosts();
+      } catch (Exception e) {
+        UiUtils.popupAlert(e, "Something went wrong when loading page").showAndWait();
+      }
+    });
+
+    publishButton.setOnAction(e -> {
       createPostInBoard();
     });
-  }
-
-  public void setBoardAccess(BoardAccessInterface boardAccess) {
-    this.boardAccess = boardAccess;
+    postTitleField.setOnKeyTyped(e -> {
+      if (postTitleField.getText().length() < 4) {
+        titleFeedbackLabel.setText(titleFeedback);
+      } else {
+        titleFeedbackLabel.setText("");
+      }
+      updateButtonEnabled();
+    });
+    postTextArea.setOnKeyTyped(e -> {
+      if (postTextArea.getText().length() < 4) {
+        textFeedbackLabel.setText(textFeedback);
+      } else {
+        textFeedbackLabel.setText("");
+      }
+      updateButtonEnabled();
+    });
+    this.titleFeedback = titleFeedbackLabel.getText();
+    this.textFeedback = textFeedbackLabel.getText();
+    titleFeedbackLabel.setText("");
+    textFeedbackLabel.setText("");
   }
 
   /**
-   * Gets the text and title form the text input fields. Then checks if they are
-   * long enough adds a new post object
+   * Gets the text and title form the text input fields.
+   * Then checks if they are long enough adds a new post object
    */
   @FXML
   public void createPostInBoard() {
@@ -81,12 +102,12 @@ public class CreatePostPageController {
       // confirmCreation
       feedbackAlertPostCreation(title);
     } catch (Exception e) {
-      UiUtils.exceptionAlert(e);
+      UiUtils.popupAlert(e, "Something went wrong when creating a post").showAndWait();
     }
   }
 
   /**
-   * Creates and shows an alert on screen wehen the user successfully creates a
+   * Creates and shows an alert on screen when the user successfully creates a
    * post.
 
    * @param title The title name of the alert
@@ -105,20 +126,26 @@ public class CreatePostPageController {
 
     Optional<ButtonType> result = confirmation.showAndWait();
 
-    // refresh page
     reloadPage();
     if (result.get() == quitToFrontPage) {
       cancelButton.fire(); // go back to main menu
     } 
   }
 
+  private void updateButtonEnabled() {
+    publishButton.setDisable(postTitleField.getText().length() < 4
+        || postTextArea.getText().length() < 4);
+  }
+
   /**
    * Method for refreshing the page with empty input fields.
    */
-  @FXML
   public void reloadPage() {
     postTextArea.setText("");
     postTitleField.setText("");
+    publishButton.setDisable(true);
+    titleFeedbackLabel.setText("");
+    textFeedbackLabel.setText("");
   }
 
 }

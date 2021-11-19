@@ -50,15 +50,19 @@ public class ForumBoardService {
   private ForumBoard board;
 
   @Context
-  private UserHandler handler;
+  private UserHandler userHandler;
 
   @Context
-  private JsonReadWrite boardReadWrite;
+  private JsonReadWrite readWrite;
 
-  @Context
-  private JsonReadWrite handlerReadWrite;
 
-  private void checkJsonIntegrety(String json, String... fieldNames) throws JsonParseException {
+  /**
+   * A method for checking if the json file can be parsed.
+
+   * @throws JsonParseException is thrown if the parsing fails
+   */
+  public static void checkJsonIntegrety(String json, String... fieldNames) 
+        throws JsonParseException {
     if (!JsonReadWrite.checkJsonFieldCoverage(json, fieldNames)) {
       throw new JsonParseException("Failed to parse request due to bad json input");
     }
@@ -67,7 +71,7 @@ public class ForumBoardService {
 
   private String saveBoardToServer() {
     try {
-      boardReadWrite.fileWriteForumBoard(board);
+      readWrite.fileWriteForumBoard(board);
     } catch (IOException e) {
       return "500;Server failed to save request";
     }
@@ -76,16 +80,16 @@ public class ForumBoardService {
 
   private void readBoardFromServer() {
     try {
-      this.board = boardReadWrite.fileReadForumBoard();
+      this.board = readWrite.fileReadForumBoard();
     } catch (IOException e) {
       e.printStackTrace();
     }
   }
 
   @GET
-  public ForumBoard getForumBoard() {
+  public String getForumBoard() {
     LOGG.debug("getForumBoard: " + board);
-    return board;
+    return gson.toJson(board);
   }
   
   //@PUT for å overskrive
@@ -340,11 +344,13 @@ public class ForumBoardService {
     return "200;Server successfully deleted comment";
   }
 
-  
+  /**
+   * Method for getting the user handler from the sub resource.
+   */
   @Path(USER_RESOURCE_PATH)
   public UserHandlerResource getUserHandler() {
     LOGG.debug("Sub resource for UserHandler");
-    return new UserHandlerResource(handler, handlerReadWrite);
+    return new UserHandlerResource(userHandler, readWrite);
   }
 
 }

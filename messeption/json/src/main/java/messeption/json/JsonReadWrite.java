@@ -17,14 +17,20 @@ import messeption.core.UserHandler;
  */
 public class JsonReadWrite {
 
-  private String saveLocationRecource;
+  private String saveLocationBoard;
+  private String saveLocationUsers;
 
-  public JsonReadWrite(URL saveLocationRecource) {
-    this.saveLocationRecource = saveLocationRecource.getPath();
+  public JsonReadWrite(URL saveLocationBoard, URL saveLocationUsers) {
+    this.saveLocationBoard = saveLocationBoard.getPath();
+    this.saveLocationUsers = saveLocationUsers.getPath();
   }
 
-  public void setSaveLocationRecource(URL saveLocationRecource) {
-    this.saveLocationRecource = saveLocationRecource.getPath();
+  public void setSaveLocationBoard(URL saveLocationBoard) {
+    this.saveLocationBoard = saveLocationBoard.getPath();
+  }
+
+  public void setSaveLocationUsers(URL saveLocationUsers) {
+    this.saveLocationUsers = saveLocationUsers.getPath();
   }
 
   /**
@@ -33,13 +39,12 @@ public class JsonReadWrite {
    * @return the Board object from the read file
    * @throws IOException throws in a regualr IO expetion is thrown
    */
-  public ForumBoard fileReadForumBoard()
-      throws IOException {
+  public ForumBoard fileReadForumBoard() throws IOException {
+    Gson gson = new GsonBuilder().setPrettyPrinting().create();
     try (InputStreamReader reader = new InputStreamReader(
-          new FileInputStream(this.saveLocationRecource), StandardCharsets.UTF_8)) {
-      Gson gson = new GsonBuilder().setPrettyPrinting().create();
+          new FileInputStream(this.saveLocationBoard), StandardCharsets.UTF_8)) {
+      
       ForumBoard toReturn = gson.fromJson(reader, ForumBoard.class);
-      reader.close();
       return toReturn;
     } catch (Exception e) {
       throw new IOException(e);
@@ -52,13 +57,11 @@ public class JsonReadWrite {
    * @param board    the object to be written
    * @throws IOException     throws in a regualr IO expetion is thrown
    */
-  public void fileWriteForumBoard(ForumBoard board) 
-      throws IOException {
+  public void fileWriteForumBoard(ForumBoard board) throws IOException {
+    Gson gson = new GsonBuilder().setPrettyPrinting().create();
     try (OutputStreamWriter writer = new OutputStreamWriter(
-          new FileOutputStream(this.saveLocationRecource), StandardCharsets.UTF_8)) {
-      Gson gson = new GsonBuilder().setPrettyPrinting().create();
+          new FileOutputStream(this.saveLocationBoard), StandardCharsets.UTF_8)) {
       gson.toJson(board, writer);
-      writer.close();
     } catch (Exception e) {
       throw new IOException(e);
     }
@@ -70,13 +73,11 @@ public class JsonReadWrite {
    * @return the UserHandler object from the read file
    * @throws IOException throws in a regualr IO expetion is thrown
    */
-  public UserHandler fileReadUserHandler()
-      throws IOException {
+  public UserHandler fileReadUserHandler() throws IOException {
+    Gson gson = new GsonBuilder().setPrettyPrinting().create();
     try (InputStreamReader reader = new InputStreamReader(
-          new FileInputStream(this.saveLocationRecource), StandardCharsets.UTF_8)) {
-      Gson gson = new GsonBuilder().setPrettyPrinting().create();
+          new FileInputStream(this.saveLocationUsers), StandardCharsets.UTF_8)) {
       UserHandler toReturn = gson.fromJson(reader, UserHandler.class);
-      reader.close();
       return toReturn;
     } catch (Exception e) {
       throw new IOException(e);
@@ -89,20 +90,18 @@ public class JsonReadWrite {
    * @param users    the object to be written
    * @throws IOException     throws in a regualr IO expetion is thrown
    */
-  public void fileWriteUserHandler(UserHandler users) 
-      throws IOException {
+  public void fileWriteUserHandler(UserHandler users) throws IOException {
+    Gson gson = new GsonBuilder().setPrettyPrinting().create();
     try (OutputStreamWriter writer = new OutputStreamWriter(
-          new FileOutputStream(this.saveLocationRecource), StandardCharsets.UTF_8)) {
-      Gson gson = new GsonBuilder().setPrettyPrinting().create();
+          new FileOutputStream(this.saveLocationUsers), StandardCharsets.UTF_8)) {
       gson.toJson(users, writer);
-      writer.close();
     } catch (Exception e) {
       throw new IOException(e);
     }
   }
   
   public String getSaveLocation() {
-    return this.saveLocationRecource;
+    return this.saveLocationBoard + " : " + this.saveLocationUsers;
   }
 
   /**
@@ -120,4 +119,5 @@ public class JsonReadWrite {
     }
     return true;
   }
+  
 }

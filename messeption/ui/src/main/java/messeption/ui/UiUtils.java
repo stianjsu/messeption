@@ -1,9 +1,7 @@
 package messeption.ui;
 
 import java.util.Comparator;
-import java.util.List;
 import java.util.Optional;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -21,48 +19,32 @@ public class UiUtils {
   private static final String HIGHLIGHTED_STYLE =
       "-fx-border-color: DarkOrange; -fx-border-radius: 3px; -fx-border-width: 2px;";
   private static final String NORMAL_STYLE = "";
-  /**
-   * Finds a node in a list of nodes from an ID.
-
-   * @param children the list of nodes to look in
-   * @param id       the ID to look for
-   * @return the node with the matching ID, if none return null
-   */
-  public static Node getNodeFromId(List<Node> children, String id) {
-    for (Node child : children) {
-      if (child.getId() != null && child.getId().equals(id)) {
-        return child;
-      }
-    }
-    return null;
-  }
 
   /**
    * If an exception is raised it is here processed into an alert for the UI.
 
-   * @param e the exception to be processed
+   * @param e the exception to be shown to developers
+   * @param toUser the string to be shown to the user
    * @return the finished Alert
    */
-  public static Alert exceptionAlert(Exception e) {
+  public static Alert popupAlert(Exception e, String toUser) {
 
     Alert toReturn = new Alert(AlertType.ERROR);
-    toReturn.setContentText(e.toString() + "\n" + e.getCause());
-    System.err.println(e.toString() + "\n" + e.getCause());
+    toReturn.setContentText(toUser);
+    System.err.println(e);
     toReturn.setTitle("Error");
     return toReturn;
   }
-
   /**
    * If an exception is raised it is here processed into an alert for the UI.
 
-   * @param e the string to be processed
+   * @param toUser the string to be shown to the user
    * @return the finished Alert
    */
-  public static Alert popupAlert(String e) {
+  public static Alert popupAlert(String toUser) {
 
     Alert toReturn = new Alert(AlertType.ERROR);
-    toReturn.setContentText(e);
-    System.err.println(e);
+    toReturn.setContentText(toUser);
     toReturn.setTitle("Error");
     return toReturn;
   }
@@ -105,12 +87,23 @@ public class UiUtils {
     menuAbout.setOnAction(e -> {
       Alert alert = new Alert(AlertType.INFORMATION);
       alert.setTitle("About Messeption");
+      alert.setHeaderText("About us");
       alert.setContentText("Messeption is an app developed by 4 students at NTNU "
           + "in the Course IT1901 fall 2021. The app takes inspiration from forums,"
           + " for instance reddit.");
       alert.showAndWait();
     });
     
+  }
+
+  /**
+   * Sets the porper functionality for the log out button.
+   */
+  public static void setLogOutButton(
+        Button logOutButton, Stage primaryStage, Scene loginPageScene) {
+    logOutButton.setOnAction(e -> {
+      primaryStage.setScene(loginPageScene);
+    });
   }
 
   /**
@@ -145,7 +138,7 @@ public class UiUtils {
    */
   public static Comparator<ForumPost> getPostSorting(String sortBy) {
     if (sortBy.equals("Title")) {
-      return Comparator.comparing(p -> p.getTitle());    
+      return Comparator.comparing(p -> p.getTitle().toLowerCase());    
     }
     if (sortBy.equals("Author")) {
       return new Comparator<ForumPost>() {
@@ -157,7 +150,8 @@ public class UiUtils {
           if (o2.isAnonymous()) {
             return -1;
           }
-          return o1.getAuthor().getUsername().compareTo(o2.getAuthor().getUsername());
+          return o1.getAuthor().getUsername().toLowerCase().compareTo(
+                o2.getAuthor().getUsername().toLowerCase());
         }
       };
     }

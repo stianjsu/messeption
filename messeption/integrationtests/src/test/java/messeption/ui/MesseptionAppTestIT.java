@@ -83,10 +83,13 @@ public class MesseptionAppTestIT extends ApplicationTest {
     postPageScene = new Scene(postPageLoader.load());
 
     frontPageController = frontPageLoader.getController();
+    frontPageController.setPrimaryStage(primaryStage);
     createPostPageController = createPostPageLoader.getController();
+    createPostPageController.setPrimaryStage(primaryStage);
     postPageController = postPageLoader.getController();
+    postPageController.setPrimaryStage(primaryStage);
 
-    frontPageController.setPostCommentsScene(postPageScene);
+    frontPageController.setPostPageScene(postPageScene);
     frontPageController.setPostPageController(postPageController);
 
     frontPageController.setBoardAccess(boardAccess);
@@ -98,29 +101,13 @@ public class MesseptionAppTestIT extends ApplicationTest {
     primaryStage.setResizable(false);
     primaryStage.show();
 
+    frontPageController.setCreatePostPageScene(createPostPageScene);
+    
+    createPostPageController.setFrontPageScene(frontPageScene);
+    createPostPageController.setFrontPageController(frontPageController);
 
-    frontPageController.createPostButton.setOnAction(event -> {
-      primaryStage.setScene(createPostPageScene);
-    });
-
-    createPostPageController.cancelButton.setOnAction(event -> {
-      createPostPageController.reloadPage();
-      primaryStage.setScene(frontPageScene);
-      try {
-        frontPageController.drawPosts();
-      } catch (Exception e) {
-        UiUtils.exceptionAlert(e).show();
-      }
-    });
-
-    postPageController.cancelButton.setOnAction(event -> {
-      primaryStage.setScene(frontPageScene);
-      try {
-        frontPageController.drawPosts();
-      } catch (Exception e) {
-        UiUtils.exceptionAlert(e).show();
-      }
-    });
+    postPageController.setFrontPageScene(frontPageScene);
+    postPageController.setFrontPageController(frontPageController);
   }
 
   private String getTopPostId() {

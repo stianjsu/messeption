@@ -3,6 +3,7 @@ package messeption.restserver;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
@@ -23,6 +24,7 @@ import messeption.core.User;
 import messeption.core.UserHandler;
 import messeption.json.JsonReadWrite;
 import messeption.restapi.ForumBoardService;
+import messeption.restapi.UserHandlerResource;
 
 
 public class ForumServiceTest extends JerseyTest {
@@ -50,9 +52,8 @@ public class ForumServiceTest extends JerseyTest {
   private Gson gson;
   private ForumBoard board;
   private String postId;
-  private JsonReadWrite boardReadWrite;
+  private JsonReadWrite readWrite;
   private UserHandler userHandler;
-  private JsonReadWrite userReadWrite;
   private final String BAD_JSON = "{'bad_json':'Not good'}}]";
 
 
@@ -61,12 +62,11 @@ public class ForumServiceTest extends JerseyTest {
   public void setUp() throws Exception {
     super.setUp();
     gson = new GsonBuilder().create();
-    boardReadWrite = new JsonReadWrite(ForumConfig.class.getResource("Board.JSON"));
-    board = boardReadWrite.fileReadForumBoard();  //ensures proper board state compared to server before each test
+    readWrite = new JsonReadWrite(ForumConfig.class.getResource("Board.JSON"), ForumConfig.class.getResource("Users.JSON"));
+    board = readWrite.fileReadForumBoard();  //ensures proper board state compared to server before each test
     postId = board.getPosts().get(0).getId();
-    
-    userReadWrite = new JsonReadWrite(ForumConfig.class.getResource("Users.JSON"));
-    userHandler = userReadWrite.fileReadUserHandler();
+  
+    userHandler = readWrite.fileReadUserHandler();
   }
 
   // properly resets serverside board state after each test.
@@ -74,7 +74,8 @@ public class ForumServiceTest extends JerseyTest {
   @Override
   public void tearDown() throws Exception {
     System.out.print("Teardown: ");
-    Entity payload = Entity.json(board);
+    String jsonString = gson.toJson(this.board);
+    Entity payload = Entity.entity(jsonString, MediaType.APPLICATION_JSON);
     Response postResponse = target(ForumBoardService.FORUM_BOARD_SERVICE_PATH)
         .path("/set")
         .request(MediaType.APPLICATION_JSON + ";" + MediaType.CHARSET_PARAMETER + "=UTF-8")
@@ -82,8 +83,21 @@ public class ForumServiceTest extends JerseyTest {
     if (postResponse.getStatus() != 200) {
       throw new IllegalStateException(postResponse.getEntity().toString());
     }
+    
+    String jsonString2 = gson.toJson(this.userHandler);
+    Entity payload2 = Entity.entity(jsonString2, MediaType.APPLICATION_JSON);
+    Response postResponse2 = target(ForumBoardService.FORUM_BOARD_SERVICE_PATH)
+        .path(UserHandlerResource.USER_SERVICE_PATH)
+        .path("/set")
+        .request(MediaType.APPLICATION_JSON + ";" + MediaType.CHARSET_PARAMETER + "=UTF-8")
+        .put(payload2);
+    if (postResponse2.getStatus() != 200) {
+      throw new IllegalStateException(postResponse2.getEntity().toString());
+    }
+    
     super.tearDown();
   }
+  
 
 
   @Test
@@ -104,7 +118,8 @@ public class ForumServiceTest extends JerseyTest {
   public void testSetBoard() {
     ForumBoard setBoard = new ForumBoard();
     setBoard.newPost("Beep", "Boop", new User("Tester1", "test"), true);
-    Entity payload = Entity.json(setBoard);
+    String jsonString = gson.toJson(setBoard);
+    Entity payload = Entity.entity(jsonString, MediaType.APPLICATION_JSON);
     Response putResponse = target(ForumBoardService.FORUM_BOARD_SERVICE_PATH)
         .path("/set")
         .request(MediaType.APPLICATION_JSON + ";" + MediaType.CHARSET_PARAMETER + "=UTF-8")
@@ -125,7 +140,8 @@ public class ForumServiceTest extends JerseyTest {
   public void testAddPost() {
     ForumPost post = new ForumPost("Big title", "smol text", new User("Tester2", "test"), true);
     String id = post.getId();
-    Entity payload = Entity.json(post);
+    String jsonString = gson.toJson(post);
+    Entity payload = Entity.entity(jsonString, MediaType.APPLICATION_JSON);
     Response postResponse = target(ForumBoardService.FORUM_BOARD_SERVICE_PATH)
         .path("/posts/addPost")
         .request(MediaType.APPLICATION_JSON + ";" + MediaType.CHARSET_PARAMETER + "=UTF-8")
@@ -160,7 +176,8 @@ public class ForumServiceTest extends JerseyTest {
   @Test
   public void testAddComment() {
     PostComment comment = new PostComment("I like cheeze", new User("Tester3", "test"), true);
-    Entity payload = Entity.json(comment);
+    String jsonString = gson.toJson(comment);
+    Entity payload = Entity.entity(jsonString, MediaType.APPLICATION_JSON);
     Response postResponse = target(ForumBoardService.FORUM_BOARD_SERVICE_PATH)
         .path("/comments/addComment/")
         .path(postId)
@@ -180,9 +197,10 @@ public class ForumServiceTest extends JerseyTest {
 
   @Test
   public void testDeleteComment() {
-    PostComment comment = new PostComment("I like cheeze", new User("Tester3", "test"), true);
+    PostComment comment = new PostComment("I like cheeze", new User("Tester3", "Test123"), true);
     String commentId = comment.getId();
-    Entity payload = Entity.json(comment);
+    String jsonString = gson.toJson(comment);
+    Entity payload = Entity.entity(jsonString, MediaType.APPLICATION_JSON);
     Response postResponse = target(ForumBoardService.FORUM_BOARD_SERVICE_PATH)
         .path("/comments/addComment/")
         .path(postId)
@@ -204,6 +222,7 @@ public class ForumServiceTest extends JerseyTest {
         .delete();
     assertEquals("404", getCustomResponseStatus(failingDeleteResponse));
   }
+  
 
   @Test
   public void testLikePost() {
@@ -290,6 +309,7 @@ public class ForumServiceTest extends JerseyTest {
         .put(failingPayload);
     assertEquals("406", getCustomResponseStatus(failingPutResponse));
   }
+  
 
   @Test
   public void testGetUsers() {
@@ -307,8 +327,34 @@ public class ForumServiceTest extends JerseyTest {
   }
 
   @Test
-  public void testAddUsers() {
-    User newUser = new User("Genral Kenobi", "HelloThere1");
+  public void testSetUsers() throws Exception {
+    UserHandler newUserHandler = new UserHandler();
+    newUserHandler.addUser(new User("SpaceGeneral", "Goldy68"));
+
+    Entity payload = Entity.json(newUserHandler);
+    Response postResponse = target(ForumBoardService.FORUM_BOARD_SERVICE_PATH)
+        .path(ForumBoardService.USER_RESOURCE_PATH)
+        .path("set")
+        .request(MediaType.APPLICATION_JSON + ";" + MediaType.CHARSET_PARAMETER + "=UTF-8")
+        .put(payload);
+    assertEquals("200", getCustomResponseStatus(postResponse));
+    
+    Response getResponse = target(ForumBoardService.FORUM_BOARD_SERVICE_PATH)
+        .path(ForumBoardService.USER_RESOURCE_PATH)
+        .request(MediaType.APPLICATION_JSON + ";" + MediaType.CHARSET_PARAMETER + "=UTF-8")
+        .get();
+    assertEquals(200, getResponse.getStatus());
+    try { 
+      UserHandler loadedHandler = gson.fromJson(getResponse.readEntity(String.class), UserHandler.class);
+      assertNotEquals(userHandler, loadedHandler);
+    } catch (Exception e) {
+      fail(e.getMessage());
+    }
+  }
+
+  @Test
+  public void testAddUsers() { 
+    User newUser = new User("GenralKenobi", "HelloThere1");
     userHandler.addUser(newUser);
     Entity payload = Entity.json(newUser);
     Response postResponse = target(ForumBoardService.FORUM_BOARD_SERVICE_PATH)
@@ -330,4 +376,5 @@ public class ForumServiceTest extends JerseyTest {
       fail(e.getMessage());
     }
   }
+ 
 }

@@ -1,37 +1,26 @@
 package messeption.ui;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.MenuItem;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.text.Font;
-import messeption.core.ForumBoard;
 import messeption.core.ForumPost;
 import messeption.core.PostComment;
 
 /**
  * Javafx controller for viewing individual posts.
  */
-public class PostPageController {
+public class PostPageController extends SceneController {
 
   private static final int SIZE_COMMENTS = 130;
   private static final int MARGIN_COMMENTS = 10;
-  
-  @FXML
-  MenuItem menuQuit;
-  @FXML
-  MenuItem menuLogOut;
-  @FXML
-  MenuItem menuAbout;
   
   @FXML
   Label postTitleLabel;
@@ -52,10 +41,14 @@ public class PostPageController {
   @FXML
   Button postDislikeButton;
   @FXML
+  ScrollPane commentsScrollPane;
+  @FXML
   AnchorPane commentsContainer;
   @FXML
   Button cancelButton;
 
+  @FXML
+  Label newCommentFeedbackLabel;
   @FXML
   TextArea newCommentTextArea;
   @FXML
@@ -63,23 +56,34 @@ public class PostPageController {
   @FXML
   CheckBox anonymousAuthorCheckBox;
 
-  private BoardAccessInterface boardAccess;
+
+  private String commentFeedback;
+
 
   /**
    * Initializes the publish comment button.
    */
   public void initialize() {
+    
 
-  }
+    this.cancelButton.setOnAction(event -> {
+      primaryStage.setScene(frontPageScene);
+      try {
+        frontPageController.drawPosts();
+      } catch (Exception e) {
+        UiUtils.popupAlert(e, "Something went wrong when loading page").showAndWait();
+      }
+    });
 
-
-  /**
-   * Sets the controlelr forumboard to a specified input.
-
-   * @param boardAccess the new controller boardAccess
-   */
-  public void setBoardAccess(BoardAccessInterface boardAccess) {
-    this.boardAccess = boardAccess;
+    this.commentFeedback = newCommentFeedbackLabel.getText();
+    newCommentTextArea.setOnKeyTyped(e -> {
+      if (newCommentTextArea.getText().length() < 4) {
+        newCommentFeedbackLabel.setText(commentFeedback);
+      } else {        
+        newCommentFeedbackLabel.setText("");
+      }
+      updateButtonEnabled();
+    });
   }
 
   /**
@@ -108,7 +112,7 @@ public class PostPageController {
         this.commentsContainer.getChildren().add(commentPane);
 
       } catch (Exception error) {
-        UiUtils.exceptionAlert(error).showAndWait();
+        UiUtils.popupAlert(error, "Something went wrong when loading page").showAndWait();
       }
 
     }
@@ -122,7 +126,7 @@ public class PostPageController {
         ? ForumPost.ANONYMOUS_NAME : post.getAuthor().getUsername()));
 
     
-    postTimeStampLabel.setText(post.getTimeStamp());
+    postTimeStampLabel.setText(post.getTimeStamp().toString());
 
     postTextArea.setText(post.getText());
     postTextArea.setStyle("-fx-opacity: 1;");
@@ -140,7 +144,8 @@ public class PostPageController {
       try {
         boardAccess.likePost(post.getId(), boardAccess.getActiveUser());
       } catch (Exception error) {
-        UiUtils.exceptionAlert(error).showAndWait();
+        UiUtils.popupAlert(error, "Something went wrong with liking a post").showAndWait();
+
       }
       UiUtils.setStyleOfButton(postLikeButton,
             post.getLikeUsers().contains(boardAccess.getActiveUser()));
@@ -155,7 +160,7 @@ public class PostPageController {
       try {
         boardAccess.dislikePost(post.getId(), boardAccess.getActiveUser());
       } catch (Exception error) {
-        UiUtils.exceptionAlert(error).showAndWait();
+        UiUtils.popupAlert(error, "Something went wrong with disliking a post").showAndWait();
       }
       UiUtils.setStyleOfButton(postLikeButton,
             post.getLikeUsers().contains(boardAccess.getActiveUser()));
@@ -169,101 +174,14 @@ public class PostPageController {
 
   private Pane generateCommentPane(PostComment comment, String postId) 
       throws IOException {
-    Pane toReturn = FXMLLoader.load(getClass().getResource("CommentPaneTemplate.fxml"));
-    List<Node> tempChildren = new ArrayList<>(toReturn.getChildren());
-    toReturn.getChildren().clear();
-
-    Label authorLabel = (Label) UiUtils.getNodeFromId(tempChildren, "authorLabel");
-    if (authorLabel != null) {
-      authorLabel.setText(comment.isAnonymous()
-          ? PostComment.ANONYMOUS_NAME : comment.getAuthor().getUsername());
-    }
-    TextArea commentTextArea = (TextArea) UiUtils.getNodeFromId(tempChildren, "commentTextArea");
-    if (commentTextArea != null) {
-      commentTextArea.setFont(new Font(15));
-      commentTextArea.setText(comment.getText());
-    }
-
-    Label likeLabel = (Label) UiUtils.getNodeFromId(tempChildren, "likeCommentLabel");
-    if (likeLabel != null) {
-      likeLabel.setText(comment.getLikes() + " likes");
-    }
-
-    Label dislikeLabel = (Label) UiUtils.getNodeFromId(tempChildren, "dislikeCommentLabel");
-    if (dislikeLabel != null) {
-      dislikeLabel.setText(comment.getDislikes() + " dislikes");
-    }
-
-    Button likeButton = (Button) UiUtils.getNodeFromId(tempChildren, "likeCommentButton");
-    Button dislikeButton = (Button) UiUtils.getNodeFromId(tempChildren, "dislikeCommentButton");
-    if (likeButton != null && dislikeButton != null) {
-      UiUtils.setStyleOfButton(likeButton,
-            comment.getLikeUsers().contains(boardAccess.getActiveUser()));
-      UiUtils.setStyleOfButton(dislikeButton,
-            comment.getDislikeUsers().contains(boardAccess.getActiveUser()));
-
-      likeButton.setOnAction(e -> {
-
-        try {
-          boardAccess.likeComment(postId, comment.getId(), boardAccess.getActiveUser());
-        } catch (Exception error) {
-          UiUtils.exceptionAlert(error).showAndWait();
-        }
-        UiUtils.setStyleOfButton(likeButton,
-            comment.getLikeUsers().contains(boardAccess.getActiveUser()));
-        UiUtils.setStyleOfButton(dislikeButton,
-            comment.getDislikeUsers().contains(boardAccess.getActiveUser()));
-
-        likeLabel.setText(comment.getLikes() + " likes");
-        dislikeLabel.setText(comment.getDislikes() + " dislikes");
-      });
-    
-      dislikeButton.setOnAction(e -> {
-        try {
-          boardAccess.dislikeComment(postId, comment.getId(), boardAccess.getActiveUser());
-        } catch (Exception error) {
-          UiUtils.exceptionAlert(error).showAndWait();
-        }
-        UiUtils.setStyleOfButton(likeButton,
-            comment.getLikeUsers().contains(boardAccess.getActiveUser()));
-        UiUtils.setStyleOfButton(dislikeButton,
-            comment.getDislikeUsers().contains(boardAccess.getActiveUser()));
-
-        likeLabel.setText(comment.getLikes() + " likes");
-        dislikeLabel.setText(comment.getDislikes() + " dislikes");
-      });
-    }
-
-    Label timeStampLabel = (Label) UiUtils.getNodeFromId(tempChildren, "commentTimeStampLabel");
-    if (timeStampLabel != null) {
-      timeStampLabel.setText(comment.getTimeStamp());
-    }
-
-    toReturn.getChildren().addAll(authorLabel, commentTextArea, 
-        likeLabel, dislikeLabel, likeButton, dislikeButton, timeStampLabel);
-
-    if (boardAccess.getActiveUser() != null 
-        && boardAccess.getActiveUser().equals(comment.getAuthor())) {
-      Button deleteButton = (Button) UiUtils.getNodeFromId(tempChildren, "deleteButton");
-      if (deleteButton != null) {
-        deleteButton.setOnAction(e -> {
-          try {
-            boolean confirmation = UiUtils.confimationAlert("Confirm deletion",
-                "Delete comment on post: " + boardAccess.getPost(postId).getTitle(),
-                "Are you sure you want to delete your comment?");
-                
-            if (confirmation) {
-              boardAccess.deleteComment(postId, comment.getId());
-              drawComments(postId);
-            }
-          } catch (Exception e1) {
-            UiUtils.exceptionAlert(e1);
-          }
-        });
-        toReturn.getChildren().add(deleteButton);
-      }
-    }
-    return toReturn;
+    FXMLLoader commentPaneTemplateLoader = new FXMLLoader(getClass().getResource(
+        "CommentPaneTemplate.fxml"));
+    commentPaneTemplateLoader.load();
+    CommentPaneTemplateController commentPaneTemplateController =
+        commentPaneTemplateLoader.getController();
+    commentPaneTemplateController.setBoardAccess(boardAccess);
+    commentPaneTemplateController.setPostPageController(this);
+    return commentPaneTemplateController.setFieldsComment(comment, postId);
   }
 
   private void publishComment(String postId) {
@@ -271,18 +189,29 @@ public class PostPageController {
     try {
       String text = newCommentTextArea.getText();
 
-      if (text.length() < 4) {
-        UiUtils.popupAlert("Comment text must be longer than 3 characters").showAndWait();
-        return;
-      }
-
       boardAccess.addComment(postId, new PostComment(text, boardAccess.getActiveUser(), 
           anonymousAuthorCheckBox.isSelected()));
       drawComments(postId);
       newCommentTextArea.clear();
+      updateButtonEnabled();
 
     } catch (Exception e) {
-      UiUtils.exceptionAlert(e).show();
+      UiUtils.popupAlert(e, "Something went wrong when loading page").showAndWait();
     }
+  }
+
+  private void updateButtonEnabled() {
+    newCommentButton.setDisable(newCommentTextArea.getText().length() < 4);
+  }
+  
+  /**
+   * Reload page resets the page to the normal state.
+   */
+  public void reloadPage() {
+    commentsScrollPane.setVvalue(0);
+    newCommentFeedbackLabel.setText("");
+    newCommentButton.setDisable(true);
+    newCommentTextArea.clear();
+    anonymousAuthorCheckBox.setSelected(false);
   }
 }

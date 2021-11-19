@@ -16,15 +16,16 @@ public class BoardAccessDirect implements BoardAccessInterface {
   private User activeUser;
   private ForumBoard board;
   private UserHandler userHandler;
-  private JsonReadWrite boardReaderWriter;
-  private JsonReadWrite usersReaderWriter;
+  private JsonReadWrite readerWriter;
+
 
   /**
    * Constructor for Direct Access that reads from file to prevent null pointer.
    */
   public BoardAccessDirect() {
-    boardReaderWriter = new JsonReadWrite(this.getClass().getResource("Board.JSON"));
-    usersReaderWriter = new JsonReadWrite(this.getClass().getResource("Users.JSON"));
+    readerWriter = new JsonReadWrite(this.getClass().getResource("Board.JSON"), 
+      this.getClass().getResource("Users.JSON"));
+    
     updateLocalBoard();
     try {
       readUsers();
@@ -35,12 +36,12 @@ public class BoardAccessDirect implements BoardAccessInterface {
 
   @Override
   public void updateBoardChange() throws Exception {
-    boardReaderWriter.fileWriteForumBoard(board);
+    readerWriter.fileWriteForumBoard(board);
   }
 
   @Override
   public ForumBoard readBoard() throws Exception {
-    this.board = boardReaderWriter.fileReadForumBoard();
+    this.board = readerWriter.fileReadForumBoard();
     return this.board;
   }
 
@@ -49,7 +50,7 @@ public class BoardAccessDirect implements BoardAccessInterface {
    */
   private void updateLocalBoard() {
     try {
-      this.board = boardReaderWriter.fileReadForumBoard();
+      this.board = readerWriter.fileReadForumBoard();
     } catch (Exception e) {
       System.out.println(e);
     }
@@ -123,17 +124,17 @@ public class BoardAccessDirect implements BoardAccessInterface {
   }
 
   public String getResourcesPath() {
-    return boardReaderWriter.getSaveLocation();
+    return readerWriter.getSaveLocation();
   }
   
   @Override
   public UserHandler readUsers() throws Exception {
-    this.userHandler = usersReaderWriter.fileReadUserHandler();
+    this.userHandler = readerWriter.fileReadUserHandler();
     return this.userHandler;
   }
 
   private void updateUsersChange() throws Exception {
-    usersReaderWriter.fileWriteUserHandler(this.userHandler);
+    readerWriter.fileWriteUserHandler(this.userHandler);
   }
 
   @Override
@@ -161,4 +162,10 @@ public class BoardAccessDirect implements BoardAccessInterface {
   public boolean correctPassword(String username, String password) {
     return userHandler.correctPassword(username, password);
   }
+
+  public void setUserHandler(UserHandler handler) throws Exception {
+    this.userHandler = handler;
+    updateUsersChange();
+  }
+
 }

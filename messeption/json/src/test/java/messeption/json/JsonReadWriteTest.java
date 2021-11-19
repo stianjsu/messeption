@@ -37,7 +37,7 @@ public class JsonReadWriteTest {
       System.err.println(e);
     }
     
-    this.readWrite = new JsonReadWrite(this.getClass().getResource("BoardTest.JSON"));
+    this.readWrite = new JsonReadWrite(this.getClass().getResource("BoardTest.JSON"), this.getClass().getResource("UserMapTest.JSON"));
   }
 
   @Test
@@ -51,7 +51,6 @@ public class JsonReadWriteTest {
   @Test
   @DisplayName("Test save and load of UserHandler")
   public void testfileWriteAndReadUserHandler() throws IOException {
-    readWrite.setSaveLocationRecource(this.getClass().getResource("UserMapTest.JSON"));
     readWrite.fileWriteUserHandler(this.userHandler);
     UserHandler userHandler2 = readWrite.fileReadUserHandler();
     assertEquals(userHandler, userHandler2, "Post did not save and load users properly");
@@ -60,7 +59,7 @@ public class JsonReadWriteTest {
   @Test
   @DisplayName("Test failed save and load")
   public void testFailSaveLoad() throws IOException {
-    readWrite.setSaveLocationRecource(this.getClass().getResource(""));
+    readWrite.setSaveLocationBoard(this.getClass().getResource(""));
     assertThrows(IOException.class, () -> {
       readWrite.fileWriteForumBoard(board);
     }, "Did not throw IOException");

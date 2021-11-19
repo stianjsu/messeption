@@ -7,7 +7,7 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<Pane fx:id="postPaneTemplate" layoutX="15.0" layoutY="15.0" prefHeight="220.0" prefWidth="760.0" style="-fx-background-color: E0E0E0; -fx-border-color: grey;" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<Pane fx:id="postPaneTemplate" layoutX="15.0" layoutY="15.0" prefHeight="220.0" prefWidth="760.0" style="-fx-background-color: E0E0E0; -fx-border-color: grey;" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="messeption.ui.PostPaneTemplateController">
    <children>
       <Label fx:id="titleLabel" layoutX="34.0" layoutY="6.0" prefHeight="30.0" prefWidth="420.0" text="Title">
          <font>
@@ -36,6 +36,6 @@
       <Button fx:id="likeButton" layoutX="681.0" layoutY="95.0" mnemonicParsing="false" text="Like" />
       <Button fx:id="dislikeButton" layoutX="674.0" layoutY="165.0" mnemonicParsing="false" text="Dislike" />
       <Button fx:id="threadButton" layoutX="657.0" layoutY="34.0" mnemonicParsing="false" text="Go to thread" />
-      <Button fx:id="deleteButton" layoutX="578.0" layoutY="171.0" mnemonicParsing="false" prefHeight="29.0" prefWidth="56.0" style="-fx-border-color: salmon; -fx-border-width: 2px; -fx-border-radius: 0;" text="Delete" />
+      <Button fx:id="deleteButton" layoutX="578.0" layoutY="171.0" mnemonicParsing="false" prefHeight="29.0" prefWidth="56.0" style="-fx-border-color: salmon; -fx-border-width: 2px; -fx-border-radius: 0;" text="Delete" visible="false" disable="true"/>
    </children>
  </Pane>

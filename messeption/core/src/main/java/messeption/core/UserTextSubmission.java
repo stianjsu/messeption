@@ -1,24 +1,22 @@
 package messeption.core;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 
 /**
- * Abstract object used as a template for user submission to the application.
+ * Abstract object used as a template for user submissions to the application.
  */
 public abstract class UserTextSubmission {
 
+  protected String text;
   protected User author;
   protected boolean postedAnonymously;
-  protected String text;
   protected Collection<User> likeUsers;
   protected Collection<User> dislikeUsers;
-  protected String timeStamp;
+  protected Date timeStamp;
   protected String id;
   public static final String ANONYMOUS_NAME = "Anonymous";
-  public static final String DATE_FORMAT = "HH:mm:ss dd-MM-yyyy";
 
 
   /**
@@ -35,8 +33,8 @@ public abstract class UserTextSubmission {
     this.text = text;
     this.likeUsers = new ArrayList<>();
     this.dislikeUsers = new ArrayList<>();
-    this.timeStamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern(DATE_FORMAT));
-    this.id = timeStamp.replaceAll("\\s+", "") + text.length();
+    this.timeStamp = new Date();
+    this.id = timeStamp.toString().replaceAll("\\s+", "") + text.length();
   }
 
   public String getText() {
@@ -96,7 +94,7 @@ public abstract class UserTextSubmission {
     this.author = user;
   }
 
-  public String getTimeStamp() {
+  public Date getTimeStamp() {
     return this.timeStamp;
   }
 

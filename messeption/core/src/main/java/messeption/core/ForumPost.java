@@ -1,12 +1,10 @@
 package messeption.core;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Forum Post is a single post that has text and can have children, in form of
+ * Forum Post is a single post that has a title and can have children, in form of
  * comments.
  */
 public class ForumPost extends UserTextSubmission implements Comparable<ForumPost> {
@@ -107,6 +105,12 @@ public class ForumPost extends UserTextSubmission implements Comparable<ForumPos
 
   @Override
   public boolean equals(Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    if (obj == null) {
+      return false;
+    }
     if (obj instanceof ForumPost) {
       ForumPost o = (ForumPost) obj;
       boolean equalHashCode = this.hashCode() == o.hashCode();
@@ -115,29 +119,27 @@ public class ForumPost extends UserTextSubmission implements Comparable<ForumPos
       boolean equalText = this.getText().equals(o.getText());
       boolean equalLikes = this.getLikes() == (o.getLikes());
       boolean equalDislikes = this.getDislikes() == (o.getDislikes());
-      boolean equalTimeStamp = this.getTimeStamp().equals(o.getTimeStamp());
+
+      //Dates gets floored to nearest second when saved. Checks if within one second
+      boolean equalTimeStamp = Math.pow(this.getTimeStamp().getTime() - o.getTimeStamp().getTime(),
+          2) < Math.pow(1000, 2);
       boolean equalAuthor = this.getAuthor().equals(o.getAuthor());
       boolean equalAnonymous = this.isAnonymous() == o.isAnonymous();
-       
+
       return (equalTitle && equalComments && equalText && equalLikes 
           && equalDislikes && equalTimeStamp && equalHashCode && equalAuthor && equalAnonymous);
     } else {
       return false;
-    }    
+    }
   }
 
   @Override
   public int hashCode() {
-    return this.text.length() * 5 + this.likeUsers.size() * 7 + this.dislikeUsers.size() * 11;
+    return this.text.length() * this.likeUsers.size() * this.dislikeUsers.size();
   }
 
   @Override
   public int compareTo(ForumPost o) {
-    SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
-    try {
-      return sdf.parse(o.getTimeStamp()).compareTo(sdf.parse(this.getTimeStamp()));
-    } catch (ParseException e) {
-      return 0;
-    }
+    return o.getTimeStamp().compareTo(this.getTimeStamp());
   }
 }
