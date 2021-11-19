@@ -118,6 +118,8 @@ public class UserHandlerTest {
   @Test
   @DisplayName("Test equals")
   public void testEquals() {
+    assertTrue(users.equals(users));
+    assertFalse(users.equals(null));
     users.addUser(user);
     UserHandler users2 = users;
     assertTrue(users.equals(users2));
@@ -125,7 +127,7 @@ public class UserHandlerTest {
   }
 
   @Test
-  @DisplayName("Test equals")
+  @DisplayName("Test toString")
   public void testToString() {
     users.addUser(user);
     UserHandler users2 = users;

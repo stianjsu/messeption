@@ -22,6 +22,12 @@ public class User {
 
   @Override
   public boolean equals(Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    if (obj == null) {
+      return false;
+    }
     if (obj instanceof User) {
       User o = (User) obj;
       return o.getUsername().equals(this.username) && o.getPassword().equals(this.password);
@@ -31,6 +37,6 @@ public class User {
 
   @Override
   public int hashCode() {
-    return this.password.length() + this.username.length();
+    return this.password.length() * this.username.length();
   }
 }

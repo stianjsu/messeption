@@ -4,10 +4,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.util.List;
 import java.util.ArrayList;
 import java.util.Date;
-import java.text.SimpleDateFormat;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -37,6 +35,7 @@ public class PostCommentTest extends UserTextSubmissionTestAbstract {
   @DisplayName("Test equals")
   public void testEquals() {
     PostComment comment2 = new PostComment("Hei", author, true);
+    assertFalse(comment2.equals(null));
     PostComment comment3 = new PostComment("Hei", author, true);
     assertTrue(comment2.equals(comment3));
     assertFalse(comment2.equals(new PostComment("ieH", author, false)));

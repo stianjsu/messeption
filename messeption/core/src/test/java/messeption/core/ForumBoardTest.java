@@ -4,6 +4,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -64,7 +66,9 @@ public class ForumBoardTest {
   public void testEquals() {
     board2 = board;
     assertTrue(board.equals(board2));
+    assertTrue(board.equals(board));
     assertFalse(board.equals(new Object()));
+    assertFalse(board.equals(null));
   }
 
   @Test
@@ -73,15 +77,6 @@ public class ForumBoardTest {
     board2 = board;
     assertEquals(board.toString(), board2.toString());
     assertNotEquals(board.toString(), new Object().toString());
-  }
-
-  private void assertTrue(boolean equals) {
-  }
-
-  @Test
-  @DisplayName("Test hashCode")
-  public void testHashCode() {
-    assertEquals(1, board.hashCode(), "Wrong hash code");
   }
 
 }

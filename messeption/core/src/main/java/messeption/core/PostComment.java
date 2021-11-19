@@ -17,6 +17,12 @@ public class PostComment extends UserTextSubmission {
 
   @Override
   public boolean equals(Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    if (obj == null) {
+      return false;
+    }
     if (obj instanceof PostComment) {
       PostComment o = (PostComment) obj;
       boolean equalHashCode = (this.hashCode() == o.hashCode());
@@ -37,6 +43,6 @@ public class PostComment extends UserTextSubmission {
 
   @Override
   public int hashCode() {
-    return this.text.length() * 5 + this.likeUsers.size() * 7 + this.dislikeUsers.size() * 11;
+    return this.text.length() * this.likeUsers.size() * this.dislikeUsers.size();
   }
 }

@@ -5,19 +5,18 @@ import java.util.Collection;
 import java.util.Date;
 
 /**
- * Abstract object used as a template for user submission to the application.
+ * Abstract object used as a template for user submissions to the application.
  */
 public abstract class UserTextSubmission {
 
+  protected String text;
   protected User author;
   protected boolean postedAnonymously;
-  protected String text;
   protected Collection<User> likeUsers;
   protected Collection<User> dislikeUsers;
   protected Date timeStamp;
   protected String id;
   public static final String ANONYMOUS_NAME = "Anonymous";
-  public static final String DATE_FORMAT = "HH:mm:ss dd-MM-yyyy";
 
 
   /**

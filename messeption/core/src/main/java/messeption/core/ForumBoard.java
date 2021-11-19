@@ -2,6 +2,7 @@ package messeption.core;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * ForumBoard has a collection of posts.
@@ -103,11 +104,17 @@ public class ForumBoard {
   }
 
   @Override
-  public boolean equals(Object obj) {
-    if (obj instanceof ForumBoard) {
-      ForumBoard o = (ForumBoard) obj;
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null) {
+      return false;
+    }
+    if (o instanceof ForumBoard) {
+      ForumBoard other = (ForumBoard) o;
 
-      return this.getPosts().equals(o.getPosts()) && o.hashCode() == this.hashCode();
+      return this.getPosts().equals(other.getPosts()) && other.hashCode() == this.hashCode();
     } else {
       return false;
     }
@@ -115,6 +122,6 @@ public class ForumBoard {
 
   @Override
   public int hashCode() {
-    return this.posts.size();
+    return this.posts.stream().mapToInt(e -> e.hashCode()).sum();
   }
 }

@@ -6,12 +6,10 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
-import java.text.SimpleDateFormat;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -82,6 +80,8 @@ public class ForumPostTest extends UserTextSubmissionTestAbstract {
   @DisplayName("Test equals")
   @Override
   public void testEquals() {
+    assertFalse(post.equals(null));
+    assertTrue(post.equals(post));
     ForumPost post2 = post;
     assertTrue(post.equals(post2));
     assertFalse(post.equals(new ForumPost("This is title", "This is text", author, true)));
