@@ -1,6 +1,9 @@
 package messeption.ui;
 
+import javafx.fxml.FXML;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.MenuItem;
 import javafx.stage.Stage;
 
 /**
@@ -16,6 +19,15 @@ public class SceneController {
 
   protected FrontPageController frontPageController;
   protected BoardAccessInterface boardAccess;
+  
+  @FXML
+  protected Button logOutButton;
+  @FXML
+  protected MenuItem menuQuit;
+  @FXML
+  protected MenuItem menuLogOut;
+  @FXML
+  protected MenuItem menuAbout;
 
   public FrontPageController getFrontPageController() {
     return this.frontPageController;

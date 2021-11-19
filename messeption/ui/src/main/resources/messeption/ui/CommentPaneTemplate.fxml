@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<Pane layoutX="10.0" layoutY="10.0" prefHeight="130.0" prefWidth="725.0" style="-fx-background-color: E0E0E0; -fx-border-color: grey;" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<Pane fx:id="commentPane" layoutX="10.0" layoutY="10.0" prefHeight="130.0" prefWidth="725.0" style="-fx-background-color: E0E0E0; -fx-border-color: grey;" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="messeption.ui.CommentPaneTemplateController">
    <children>
       <TextArea fx:id="commentTextArea" editable="false" layoutX="5.0" layoutY="30.0" prefHeight="90.0" prefWidth="620.0">
          <font>
@@ -27,6 +27,6 @@
             <Font size="14.0" />
          </font>
       </Label>
-      <Button fx:id="deleteButton" layoutX="569.0" layoutY="91.0" mnemonicParsing="false" prefHeight="29.0" prefWidth="56.0" style="-fx-border-color: salmon; -fx-border-width: 2px; -fx-border-radius: 0;" text="Delete" />
+      <Button fx:id="deleteButton" layoutX="569.0" layoutY="91.0" mnemonicParsing="false" prefHeight="29.0" prefWidth="56.0" style="-fx-border-color: salmon; -fx-border-width: 2px; -fx-border-radius: 0;" text="Delete" visible="false"/>
    </children>
 </Pane>

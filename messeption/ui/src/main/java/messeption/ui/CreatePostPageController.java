@@ -1,6 +1,5 @@
 package messeption.ui;
 
-import java.io.IOException;
 import java.util.Optional;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -10,7 +9,6 @@ import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import messeption.core.ForumPost;
@@ -19,15 +17,6 @@ import messeption.core.ForumPost;
  * Controller for the create post page.
  */
 public class CreatePostPageController extends SceneController {
-  
-  @FXML
-  Button logOutButton;
-  @FXML
-  MenuItem menuQuit;
-  @FXML
-  MenuItem menuLogOut;
-  @FXML
-  MenuItem menuAbout;
   @FXML
   Button publishButton;
   @FXML
@@ -151,7 +140,6 @@ public class CreatePostPageController extends SceneController {
   /**
    * Method for refreshing the page with empty input fields.
    */
-  @FXML
   public void reloadPage() {
     postTextArea.setText("");
     postTitleField.setText("");

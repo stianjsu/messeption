@@ -1,23 +1,15 @@
 package messeption.ui;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TextArea;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.shape.Line;
-import javafx.stage.Stage;
 import messeption.core.ForumPost;
 
 /**
@@ -30,15 +22,7 @@ public class FrontPageController extends SceneController {
   private static final int MARIGIN_POSTS = 30;
 
   @FXML
-  Button logOutButton;
-  @FXML
   MenuButton sortMenuButton;
-  @FXML
-  MenuItem menuQuit;
-  @FXML
-  MenuItem menuLogOut;
-  @FXML
-  MenuItem menuAbout;
   @FXML
   MenuItem sortTime;
   @FXML
@@ -91,11 +75,11 @@ public class FrontPageController extends SceneController {
     drawPosts();
   }
   
-  public void setPostPageController(PostPageController controller) {
-    this.postPageController = controller;
+  public void setPostPageController(PostPageController postPageController) {
+    this.postPageController = postPageController;
   }
 
-  void sortPosts(String sortBy) {
+  public void sortPosts(String sortBy) {
     
     try {
       List<ForumPost> posts = boardAccess.getPosts();
