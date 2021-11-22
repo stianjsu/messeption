@@ -86,7 +86,12 @@ public class LoginPageController extends SceneController {
         signUpPasswordField.clear();
         signUpPasswordFieldCheck.clear();
       } catch (IllegalArgumentException e) {
-        UiUtils.popupAlert(e.getMessage().split(":")[1]).showAndWait(); //removed error type from ui feedabck
+        String message = e.getMessage();
+        String[] splitMessage = message.split(":");
+        if (splitMessage.length > 1) { //removed error type from ui feedabck while running remote
+          message = splitMessage[1];
+        }
+        UiUtils.popupAlert(message).showAndWait(); 
       } catch (Exception e) {
         UiUtils.popupAlert(e, "Somthing went wrong when signing up new user").showAndWait();
       }
