@@ -306,6 +306,8 @@ public class BoardAccessRemote implements BoardAccessInterface {
     String errorMessage = array[1];
     if (responseCode >= 500) {
       throw new IOException(responseCode + ": Server error \n" + errorMessage);
+    } else if (responseCode == 403) {
+      throw new IllegalArgumentException(errorMessage);
     } else if (responseCode != 200) {
       throw new IOException(responseCode + ": Api input error \n" + errorMessage);
     }

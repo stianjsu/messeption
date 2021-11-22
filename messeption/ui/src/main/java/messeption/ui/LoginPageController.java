@@ -86,7 +86,7 @@ public class LoginPageController extends SceneController {
         signUpPasswordField.clear();
         signUpPasswordFieldCheck.clear();
       } catch (IllegalArgumentException e) {
-        UiUtils.popupAlert(e.getMessage()).showAndWait();
+        UiUtils.popupAlert(e.getMessage().split(":")[1]).showAndWait(); //removed error type from ui feedabck
       } catch (Exception e) {
         UiUtils.popupAlert(e, "Somthing went wrong when signing up new user").showAndWait();
       }

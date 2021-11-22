@@ -161,7 +161,6 @@ public class LoginTestIT extends ApplicationTest {
 
   @AfterAll
   public static void revertUsers() throws Exception {
-    System.out.println(usersBackup);
     try {
       boardAccessInitial.setUserHandler(usersBackup);
     } catch (Exception e) {
