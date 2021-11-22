@@ -1,6 +1,9 @@
 package messeption.ui;
 
+import java.net.URI;
+
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -25,7 +28,7 @@ public class MesseptionApp extends Application {
   
 
 
-  private BoardAccessInterface boardAccess = new BoardAccessDirect();
+  private BoardAccessInterface boardAccess;
 
   public void setBoardAccess(BoardAccessInterface boardAccess) {
     this.boardAccess = boardAccess;
@@ -46,8 +49,23 @@ public class MesseptionApp extends Application {
   private CreatePostPageController createPostPageController;
   private PostPageController postPageController;
 
+
+  
+
   @Override
   public void start(Stage primaryStage) throws Exception {
+
+    if(!Boolean.parseBoolean(System.getProperty("run.local"))) {
+      try {
+        boardAccess = new BoardAccessRemote(URI.create("http://localhost:8080/board"));
+      } catch (Exception e) {
+        UiUtils.popupAlert("Could not connect to server from http://localhost:8080/").showAndWait();
+        e.printStackTrace();
+        Platform.exit();
+      }
+    } else {
+      boardAccess = new BoardAccessDirect();
+    }
 
     FXMLLoader loginPageLoader = new FXMLLoader(getClass().getResource(LOGIN_PAGE_PATH));
     loginPageScene = new Scene(loginPageLoader.load());
@@ -106,6 +124,10 @@ public class MesseptionApp extends Application {
   }
 
   public static void main(String[] args) {
+    if (args.length > 0 && args[0].equals("true")) {
+      System.setProperty("run.local", "true");
+    }
+
     launch(MesseptionApp.class, args);
   }
 }

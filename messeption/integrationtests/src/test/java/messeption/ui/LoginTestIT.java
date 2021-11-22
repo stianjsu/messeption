@@ -73,7 +73,7 @@ public class LoginTestIT extends ApplicationTest {
 
   @BeforeAll
   public static void initializeTests() throws Exception{
-    String port = System.getProperty("jetty.port"); 
+    String port = System.getProperty("messeption.port"); 
     assertNotNull(port, "No messeption.port system property set");
     baseUri = new URI("http://localhost:" + port + "/board");
     System.out.println("Base BoardAccesRemote URI: " + baseUri);
