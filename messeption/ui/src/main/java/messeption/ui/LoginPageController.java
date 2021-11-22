@@ -84,8 +84,10 @@ public class LoginPageController extends SceneController {
         signUpUserTextField.clear();
         signUpPasswordField.clear();
         signUpPasswordFieldCheck.clear();
-      } catch (Exception e) {
+      } catch (IllegalArgumentException e) {
         UiUtils.popupAlert(e.getMessage()).showAndWait();
+      } catch (Exception e) {
+        UiUtils.popupAlert(e, "Somthing went wrong when signing up new user").showAndWait();
       }
     } else {
       UiUtils.popupAlert("You did not type the same password twice").showAndWait();

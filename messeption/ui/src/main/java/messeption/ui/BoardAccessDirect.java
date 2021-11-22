@@ -148,7 +148,7 @@ public class BoardAccessDirect implements BoardAccessInterface {
   }
 
   @Override
-  public void addUser(String username, String password) throws Exception {
+  public void addUser(String username, String password) throws IllegalArgumentException, Exception {
     this.userHandler.addUser(username, password);
     updateUsersChange();
   }

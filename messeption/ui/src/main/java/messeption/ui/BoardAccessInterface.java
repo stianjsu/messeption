@@ -43,7 +43,7 @@ public interface BoardAccessInterface {
 
   public void setActiveUser(User user);
 
-  public void addUser(String username, String password) throws Exception;
+  public void addUser(String username, String password) throws IllegalArgumentException, Exception;
 
   public boolean userNameExists(String username);
 

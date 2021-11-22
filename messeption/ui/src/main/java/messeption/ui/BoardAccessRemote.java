@@ -268,7 +268,7 @@ public class BoardAccessRemote implements BoardAccessInterface {
   }
 
   @Override
-  public void addUser(String username, String password) throws Exception {
+  public void addUser(String username, String password) throws IllegalArgumentException, Exception {
     User newUser = new User(username, password);
     String payload = gson.toJson(newUser);
     HttpRequest request = HttpRequest.newBuilder()

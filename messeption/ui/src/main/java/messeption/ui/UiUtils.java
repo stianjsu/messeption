@@ -28,12 +28,8 @@ public class UiUtils {
    * @return the finished Alert
    */
   public static Alert popupAlert(Exception e, String toUser) {
-
-    Alert toReturn = new Alert(AlertType.ERROR);
-    toReturn.setContentText(toUser);
-    System.err.println(e);
-    toReturn.setTitle("Error");
-    return toReturn;
+    e.printStackTrace();
+    return popupAlert(toUser);
   }
   /**
    * If an exception is raised it is here processed into an alert for the UI.
@@ -102,7 +98,10 @@ public class UiUtils {
   public static void setLogOutButton(
         Button logOutButton, Stage primaryStage, Scene loginPageScene) {
     logOutButton.setOnAction(e -> {
-      primaryStage.setScene(loginPageScene);
+      if(confimationAlert("Log out?", "Are you sure you want to log out?",
+          "Your posts and comments wont be lost")) {
+        primaryStage.setScene(loginPageScene);
+      }
     });
   }
 
