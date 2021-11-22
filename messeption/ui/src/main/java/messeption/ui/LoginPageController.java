@@ -40,6 +40,7 @@ public class LoginPageController extends SceneController {
    * initializer for the scene.
    */
   public void initialize() {
+    super.setNavBarButtons();
     loginButton.setOnAction((e) -> {
       login();
 
@@ -133,7 +134,7 @@ public class LoginPageController extends SceneController {
         try {
           frontPageController.drawPosts();
         } catch (Exception e) {
-          UiUtils.popupAlert(e,"Something went wrong when loading page").showAndWait();
+          UiUtils.popupAlert(e, "Something went wrong when loading page").showAndWait();
           goTo = loginButton.getScene();
         }
       }

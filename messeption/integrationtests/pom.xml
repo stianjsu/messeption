@@ -13,6 +13,7 @@
     <properties>
         <slf4jVersion>1.7.25</slf4jVersion>
         <jerseyVersion>3.0.1</jerseyVersion>
+        <!--Default jetty port. Can be overwritten with flag -Djetty.port=...-->
         <jetty.port>8080</jetty.port>
     </properties>
 

@@ -48,6 +48,8 @@ public class FrontPageController extends SceneController {
    * @throws Exception If board cannot read form file
    */
   public void initialize() throws Exception {
+    super.init();
+
     sortTime.setOnAction((e) -> {
       sortPosts(sortTime.getText());
     });

@@ -59,52 +59,6 @@ public class UiUtils {
     }
   }
 
-
-  
-  /** 
-   * This method is used to set the onAction events of the navbarbuttons on every page/scene.
-
-   * @param menuQuit menuItem for quitting the app
-   * @param menuLogOut menuItem for logging out
-   * @param menuAbout menuItem for reading about info
-   * @param primaryStage primaryStage of the application
-   * @param loginPageScene the scene you get directed to when "logging out"
-   */
-  public static void setNavBarButtons(MenuItem menuQuit, MenuItem menuLogOut, MenuItem menuAbout,
-      Stage primaryStage, Scene loginPageScene) {
-    menuQuit.setOnAction(e -> {
-      primaryStage.close();
-    });
-    
-    menuLogOut.setOnAction(e -> {
-      primaryStage.setScene(loginPageScene);
-    });
-
-    menuAbout.setOnAction(e -> {
-      Alert alert = new Alert(AlertType.INFORMATION);
-      alert.setTitle("About Messeption");
-      alert.setHeaderText("About us");
-      alert.setContentText("Messeption is an app developed by 4 students at NTNU "
-          + "in the Course IT1901 fall 2021. The app takes inspiration from forums,"
-          + " for instance reddit.");
-      alert.showAndWait();
-    });
-    
-  }
-
-  /**
-   * Sets the porper functionality for the log out button.
-   */
-  public static void setLogOutButton(
-        Button logOutButton, Stage primaryStage, Scene loginPageScene) {
-    logOutButton.setOnAction(e -> {
-      if(confimationAlert("Log out?", "Are you sure you want to log out?",
-          "Your posts and comments wont be lost")) {
-        primaryStage.setScene(loginPageScene);
-      }
-    });
-  }
-
   /**
    * Creates and alert to confirm choice and returns false if the user decides to cancel.
 

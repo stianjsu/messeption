@@ -1,7 +1,6 @@
 package messeption.ui;
 
 import java.net.URI;
-
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -13,26 +12,7 @@ import javafx.stage.Stage;
  */
 public class MesseptionApp extends Application {
 
-  /**
-   * Method for supporting headless class for integration tests.
-   */
-  public static void supportHeadless() {
-    if (Boolean.getBoolean("headless")) {
-      System.setProperty("testfx.robot", "glass");
-      System.setProperty("testfx.headless", "true");
-      System.setProperty("prism.order", "sw");
-      System.setProperty("prism.text", "t2k");
-      System.setProperty("java.awt.headless", "true");
-    }
-  }
-  
-
-
   private BoardAccessInterface boardAccess;
-
-  public void setBoardAccess(BoardAccessInterface boardAccess) {
-    this.boardAccess = boardAccess;
-  }
 
   public static final String LOGIN_PAGE_PATH = "LoginPage.fxml";
   public static final String FRONT_PAGE_PATH = "FrontPage.fxml";
@@ -49,13 +29,23 @@ public class MesseptionApp extends Application {
   private CreatePostPageController createPostPageController;
   private PostPageController postPageController;
 
-
-  
+  /**
+   * Method for supporting headless class for integration tests.
+   */
+  public static void supportHeadless() {
+    if (Boolean.getBoolean("headless")) {
+      System.setProperty("testfx.robot", "glass");
+      System.setProperty("testfx.headless", "true");
+      System.setProperty("prism.order", "sw");
+      System.setProperty("prism.text", "t2k");
+      System.setProperty("java.awt.headless", "true");
+    }
+  }
 
   @Override
   public void start(Stage primaryStage) throws Exception {
 
-    if(!Boolean.parseBoolean(System.getProperty("run.local"))) {
+    if (!Boolean.parseBoolean(System.getProperty("run.local"))) {
       try {
         boardAccess = new BoardAccessRemote(URI.create("http://localhost:8080/board"));
       } catch (Exception e) {
@@ -72,42 +62,33 @@ public class MesseptionApp extends Application {
     loginPageController = loginPageLoader.getController();
     loginPageController.setBoardAccess(boardAccess);
     loginPageController.setPrimaryStage(primaryStage);
-    UiUtils.setNavBarButtons(loginPageController.menuQuit, loginPageController.menuLogOut,
-        loginPageController.menuAbout, primaryStage, loginPageScene);
+    loginPageController.setLoginPageScene(loginPageScene);
 
     FXMLLoader frontPageLoader = new FXMLLoader(getClass().getResource(FRONT_PAGE_PATH));
     frontPageScene = new Scene(frontPageLoader.load());
     frontPageController = frontPageLoader.getController();
     frontPageController.setBoardAccess(boardAccess);
     frontPageController.setPrimaryStage(primaryStage);
-    UiUtils.setNavBarButtons(frontPageController.menuQuit, frontPageController.menuLogOut,
-        frontPageController.menuAbout, primaryStage, loginPageScene);
-    UiUtils.setLogOutButton(frontPageController.logOutButton, primaryStage, loginPageScene);
+    frontPageController.setLoginPageScene(loginPageScene);
 
     FXMLLoader createPostPageLoader = new FXMLLoader(getClass().getResource(CREATE_POST_PAGE_PATH));
     createPostPageScene = new Scene(createPostPageLoader.load());
     createPostPageController = createPostPageLoader.getController();
     createPostPageController.setBoardAccess(boardAccess);
     createPostPageController.setPrimaryStage(primaryStage);
-    UiUtils.setNavBarButtons(createPostPageController.menuQuit, createPostPageController.menuLogOut,
-        createPostPageController.menuAbout, primaryStage, loginPageScene);
-    UiUtils.setLogOutButton(createPostPageController.logOutButton, primaryStage, loginPageScene);
+    createPostPageController.setLoginPageScene(loginPageScene);
 
     FXMLLoader postPageLoader = new FXMLLoader(getClass().getResource(POST_PAGE_PATH));
     postPageScene = new Scene(postPageLoader.load());
     postPageController = postPageLoader.getController();
     postPageController.setBoardAccess(boardAccess);
     postPageController.setPrimaryStage(primaryStage);
-    UiUtils.setNavBarButtons(postPageController.menuQuit, postPageController.menuLogOut,
-        postPageController.menuAbout, primaryStage, loginPageScene);
-    UiUtils.setLogOutButton(postPageController.logOutButton, primaryStage, loginPageScene);
+    postPageController.setLoginPageScene(loginPageScene);
   
-
     primaryStage.setScene(loginPageScene);
     primaryStage.setTitle("Messeption");
     primaryStage.setResizable(false);
     primaryStage.show();
-
 
     loginPageController.setFrontPageController(frontPageController);
     loginPageController.setFrontPageScene(frontPageScene);
@@ -123,6 +104,11 @@ public class MesseptionApp extends Application {
     postPageController.setFrontPageController(frontPageController);
   }
 
+  /**
+   * Checks whether app is set to run locally. Connect remotely by default
+
+   * @param args args[0] defined in pom as run.local property's value
+   */
   public static void main(String[] args) {
     if (args.length > 0 && args[0].equals("true")) {
       System.setProperty("run.local", "true");

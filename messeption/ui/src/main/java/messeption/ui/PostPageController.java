@@ -64,7 +64,7 @@ public class PostPageController extends SceneController {
    * Initializes the publish comment button.
    */
   public void initialize() {
-    
+    super.init();
 
     this.cancelButton.setOnAction(event -> {
       primaryStage.setScene(frontPageScene);
