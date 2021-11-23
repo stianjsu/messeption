@@ -1,5 +1,5 @@
 # Messeption: release 3
-
+We have decided to expand the current application with new features, instead of creating a new frontend client for the application
 ## Release 3 gives Messeption these new features:
 - Ability to create an account
     - A user can now create an account, and log in to the application with this account
@@ -14,28 +14,78 @@
         - title
         - Descending text length
         - Descending number of comments
-
-
+- Likes has been changed to a collection of Users
+    - A user can only like/dislike a post once
+    - A user can not like and dislike a post simultaniously
+    - A user can also remove a like or a dislike
 
 ## Integrationtests
-- TODO
+- This module is for testing the combined project with all the modules running simultaneously as a composite. This takes the form of an app test that is running connected to the REST server. This module also contains the necessary files for running the server locally. This can be done with the command **mvn -pl integrationtests jetty:run**. The integration tests automatically start a server for testing during **mvn verify**
+- Additionally a port can be specified when running the server by adding **-Djetty.port=zzzz** where zzzz is the desired port. The project runs with port 8080 by default
 
 ## Restserver
-- TODO
+- The REST-service acts as a server and api for messeption while the app is running remotely. Instead of accessing the data layer directly it sends calls through the REST api. The api accepts http post, put, get and delete requests on specific urls. This would typically be "http://localhost:8080/board" for a request to get the current ForumBoard state with a locals server with default settings. For creating a new ForumPost a http post-request would be sent to ../board/posts/addPost. The objects sent with the http request are json serialized utf-8 encoded strings. These are then decoded back into java objects, with Gson, after being passed through the api
+
+
+- Current acceptable adresses for board
+  - get: ../board
+  - put: ../board/set
+
+
+- Current acceptable adresses for ForumPosts. (Where {id} represents the unique id of a ForumPost)
+  - get: ../board/posts/{id}
+  - post: ../board/posts
+  - put: ../board/posts/likePost/{id}, ../board/posts/dislikePost/{id}
+  - delete: ../board/posts/deletePost/{id}
+
+
+- Current acceptable adresses for comments
+  - post: ../board/comments/addComment/{postId}
+  - put: ../board/comments/likeComment/{postId}/{commentId}, ../board/comments/dislikeComment/{postId}/{commentId},
+  - delete: ../board/comments/deleteComment/{postId}/{commentId}
+
+
+- Current acceptable adresses for users
+  - get: ..board/users
+  - post: ..board/users/addUser
+
+
+- The server responds with http responses throught the api. We also send custom response codes based on http status codes as messages in the responses. This is to gain additional information in case of errors in the server or in case of invalid user input in text fields. This allows us to process these accordingly
+
+## Shippable product
+- The project is configured with jlink and jpackage in order to create a shippable product. In order to ship the project the command **mvn compile javafx:jlink jpackage:jpackage** is used in the messeption/ui directory. This will produce messeptionfx in messeption/ui/target that can be used for running the app locally without the use of an IDE such as VScode.
+The command will also produce a MesseptionFX.exe file in messeption/ui/target/dist for distribution and installing messeption as a program localy on a computer. Both require a connection to a REST server running locally in order to work
 
 <br/>
 
 ## Screenshots of the finished application
+
+<br/>
+
 <div align="left">
     <img src="../images/release3/LoginPage.png" alt="Login page" width=80%/>
 </div>
+
+<br/>
+
 <div align="left">
     <img src="../images/release3/FrontPage_r3.png" alt="Front page" width=80%/>
 </div>
 
+**Here are the posts sorted by Title instead of Time:**
+
+<div align="left">
+    <img src="../images/release3/FrontPage_title.png" alt="Front page" width=80%/>
+</div>
+
+<br/>
+
 <div align="left">
     <img src="../images/release3/CreatePostPage_r3.png" alt="CreatePostPage" width=80%/>
 </div>
+
+<br/>
+
 <div align="left">
     <img src="../images/release3/PostPage_r3.png" alt="PostPage" width=80%/>
 </div>

@@ -1,4 +1,4 @@
-# Description of the app /project
+# Description of the messeption app 
 
 ## Messeption
 Messeption is an app that takes inspiration from messaging apps and forums. 
@@ -11,13 +11,17 @@ Posts can be sorted by different criteria
 
 The platform allows for account creation, so posts, comments and likes/dislikes are connected to a given account. A given account can delete it's own posts and comments
 
+We have only focused on the connection between Users and posts/comments/likes, and not on security. Hence we have no hashing or encryption for password
+
+<br/>
+
 ## Images
 
 These images are from the finished app:
 
 #### Login Page
 
-Here the user can sign up to Messeption by creating a new account or log in to an existing account.
+Here the user can sign up to Messeption by creating a new account or log in to an existing account
 
 
 <div align="left">
@@ -29,7 +33,7 @@ Here the user can sign up to Messeption by creating a new account or log in to a
 Here you will be able to see a lot of posts.
 You can navigate to the Create Post Page by pressing the "Create Post" button on the right.
 Posts can be liked/disliked from the Front Page.
-You can go view a specific post by pressing "Go to thread", this takes the user to the Post Page.
+You can go view a specific post by pressing "Go to thread", this takes the user to the Post Page
 
 The user can sort posts by different properties by pressing the dropdown menu:
 Posts can be sorted by:
@@ -49,7 +53,7 @@ Posts can be sorted by:
 
 Here you can create a new post that will be added to the Front Page
 
-The user can choose to post anonymously, then the author of the post will not be shown.
+The user can choose to post anonymously, then the author of the post will not be shown
 
 <div align="left">
     <img src="../docs/images/finished/createPostPage.png" alt="Create post page" width="80%"/>
@@ -57,30 +61,34 @@ The user can choose to post anonymously, then the author of the post will not be
 
 #### Post Page
 
-Here you can look at a post in more detail, and review its comments.
+Here you can look at a post in more detail, and review its comments
 
 - You can create a comment to the post
 - You can like/dislike the post and/or its comments
 
-Posts and comments can only be liked or disliked once and not both. This means that if a user has liked a posts and presses 'like' the user will then unlike the post.
+Posts and comments can only be liked or disliked once and not both. This means that if a user has liked a posts and presses 'like' the user will then unlike the post
 
 <div align="left">
     <img src="../docs/images/finished/postPage.png" alt="Post Page" width="80%"/ >
 </div>
 
-# Saving userdata
-## Autosaving (saving metaphor)
+<br/>
 
-We automaticly save the state of the app whenever the user changes some of the data. For instance: creating or liking a post. This is because the user does not need to manually decide when the state should be saved. The saved state should always be up to date with current state. While running the app connected to a server the server handles saving data
+# Saving userdata
+## Autosaving (saving-metaphor)
+
+We automaticly save the state of the app whenever the user changes some of the data. For instance: creating or liking a post. This is because the user does not need to manually decide when the state should be saved. The saved state should always be up to date with current state. While running the app connected to a server the server handles the saving of data
+
+<br/>
 
 ## File format
 
 ### Gson
 We use gson to serialize and deserialize java objects to/from JSON
 
-JSON saves all the fields of a given ForumBoard
+JSON files are used to store all the fields of a given ForumBoard
 
-This is a bief description of BOARD.JSON:
+This is a brief description of a typical ForumBoard JSON-file (Board.JSON):
 
 - The file consist of a Map with one element. (since the only field in ForumBoard is a List of ForumPosts)
 
@@ -107,11 +115,40 @@ This is a bief description of BOARD.JSON:
     - "username"
     - "password"
 
+<br/>
+
 # REST server
-Dokumentasjon av REST-tjenesten, altså (format for) forespørslene som støttes
 
-The REST-service acts as a server and api for messeption while the app is running remotely. Instead of accessing the data layer directly it sends calls through the REST api. The api accepts http post, put, get and delete requests on secifiq urls.
 
+- The REST-service acts as a server and api for messeption while the app is running remotely. Instead of accessing the data layer directly it sends calls through the REST api. The api accepts http post, put, get and delete requests on specific urls. This would typically be "http://localhost:8080/board" for a request to get the current ForumBoard state with a local server with default settings. For creating a new ForumPost a http post-request would be sent to ../board/posts/addPost. The objects sent with the http request are json serialized utf-8 encoded strings. These are then decoded back into java objects, with Gson, after being passed through the api
+
+
+- Current acceptable adresses for board
+  - get: ../board
+  - put: ../board/set
+
+
+- Current acceptable adresses for ForumPosts. (Where {id} represents the unique id of a ForumPost)
+  - get: ../board/posts/{id}
+  - post: ../board/posts
+  - put: ../board/posts/likePost/{id}, ../board/posts/dislikePost/{id}
+  - delete: ../board/posts/deletePost/{id}
+
+
+- Current acceptable adresses for comments
+  - post: ../board/comments/addComment/{postId}
+  - put: ../board/comments/likeComment/{postId}/{commentId}, ../board/comments/dislikeComment/{postId}/{commentId},
+  - delete: ../board/comments/deleteComment/{postId}/{commentId}
+
+
+- Current acceptable adresses for users
+  - get: ..board/users
+  - post: ..board/users/addUser
+
+
+- The server responds with http responses throught the api. We also send custon response codes based on http status codes as messages in the responses. This is to gain additional information in case of errors in the server or in case of invalid user input in text fields. This allows us to process theese accordingly
+
+<br/>
 
 # User stories
 

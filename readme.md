@@ -10,7 +10,19 @@
 
 - The project use a 'modular' approach for organising files
 
-**In order to start the application in gitpod use mvn javafx:run in messeption/ui**
+## Running the app
+- You can run the app from gr2122/messeption
+###
+- Run local with:
+  - **mvn -pl ui javafx:run -Drun.local=true**
+###
+- Run remotely with:
+  - first start the server with **mvn -pl integrationtests jetty:run**
+  - then in a seperate terminal instance **mvn -pl ui javafx:run**
+
+
+<br/>
+
 ## Repository structure:
 - In the 'Messeption' folder you can find the project
 
@@ -25,7 +37,13 @@
 - 'java' folders contain java-files for code logic and module-info files for declaring dependencies in the project
 - 'resources' folders contain JSON files for text saving and java-fxml files for ui representation
 
+<br/>
 
+## Shippable product
+- The project is configured with jlink and jpackage in order to create a shippable product. In order to ship the project the command **mvn compile javafx:jlink jpackage:jpackage** is used in the messeption/ui directory. This will produce messeptionfx in messeption/ui/target that can be used for running the app locally without the use of an IDE such as VScode.
+The command will also produce a MesseptionFX.exe file in messeption/ui/target/dist for distribution and installing messeption as a program localy on a computer. Both require a connection to a REST server running locally in order to work
+
+<br/>
 
 ## Workflow:
 - During this developement process we have used a number of different strategies and techniques to improve workflow and group efficiency
@@ -56,11 +74,12 @@
 #### Code verification:
 - The code for each release is checked and verified both manually by each group member and by tests created for the different modules
 - Issues are verified after completion before they are marked as 'closed', to ensure that if a mistake has been made it is picked up as early as possible
-- We have used jacoco to show how much of the code is covered by the tests. A report is put into target/site/jacoco which shows coverage in percent. Jacoco is configured for every module and compiles a report after mvn verify or equivelent is run
-- Spotbugs has also been implemented to check the code for common mistakes. For soptbugs to function properly it must be run from gr2122/messeption and not lower
-- Checkstyle has been implemented to cehck the codes formatting and visual style so that is in inline with the google checktyle convention
+- We have used jacoco to show how much of the code is covered by the tests. A report is put into target/site/jacoco which shows coverage in percent. Jacoco is configured for every module and compiles a report after mvn verify or equivelent is run. 
+  - Note: BoardAccessRemote is not tested in ui, but in integration tests and thus isn't marked as tested int the jacoco rapport for messeption/ui.
+- Spotbugs has also been implemented to check the code for common mistakes. For spotbugs to function properly it must be run from gr2122/messeption and not any lower directories
+- Checkstyle has been implemented to check the codes formatting and visual style so that is in inline with the google checktyle convention
 
 #### Commit practises:
-- In Sprint 3 we started using commitizen
-- Hence our commitmessages have become much richer with information
+- In Sprint 3 we started using commitizen for formating commits
+- Hence our commit messages have become much more detailed and richer with information
 - This has made the development-progress much easier to follow and document
