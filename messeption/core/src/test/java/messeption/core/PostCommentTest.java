@@ -1,6 +1,5 @@
 package messeption.core;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -39,7 +38,6 @@ public class PostCommentTest extends UserTextSubmissionTestAbstract {
     PostComment comment3 = new PostComment("Hei", author, true);
     assertTrue(comment2.equals(comment3));
     assertFalse(comment2.equals(new PostComment("ieH", author, false)));
-    assertFalse(comment2.equals(new ForumBoard()));
   }
 
   @Test

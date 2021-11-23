@@ -8,7 +8,6 @@ import messeption.core.UserHandler;
 import messeption.json.JsonReadWrite;
 import messeption.restapi.ForumBoardService;
 import org.glassfish.hk2.utilities.binding.AbstractBinder;
-import org.glassfish.jersey.jackson.JacksonFeature;
 import org.glassfish.jersey.server.ResourceConfig;
 
 

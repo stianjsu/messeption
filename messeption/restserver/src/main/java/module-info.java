@@ -1,6 +1,4 @@
 module messeption.restserver {
-    requires jakarta.ws.rs;
-
     requires jersey.common;
     requires jersey.server;
     requires jersey.media.json.jackson;
@@ -10,7 +8,7 @@ module messeption.restserver {
 
     requires com.google.gson;
 
-    requires transitive messeption.core;
+    requires messeption.core;
     requires messeption.json;
     requires messeption.restapi;
 

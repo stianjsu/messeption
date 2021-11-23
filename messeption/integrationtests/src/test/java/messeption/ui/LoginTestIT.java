@@ -2,11 +2,9 @@ package messeption.ui;
 
 import org.junit.jupiter.api.Test;
 import org.testfx.framework.junit5.ApplicationTest;
-
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import messeption.core.ForumBoard;
 import messeption.core.UserHandler;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;

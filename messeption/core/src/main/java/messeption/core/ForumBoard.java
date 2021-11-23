@@ -2,7 +2,6 @@ package messeption.core;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * ForumBoard has a collection of posts.

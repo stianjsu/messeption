@@ -1,11 +1,7 @@
 package messeption.json;
 
 import static org.junit.jupiter.api.Assertions.*;
-
-import java.io.File;
 import java.io.IOException;
-
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -64,7 +60,7 @@ public class JsonReadWriteTest {
       readWrite.fileWriteForumBoard(board);
     }, "Did not throw IOException");
     assertThrows(IOException.class, () -> {
-      ForumBoard board2 = readWrite.fileReadForumBoard();
+      readWrite.fileReadForumBoard();
     }, "Did not throw IOException");
   }
 
