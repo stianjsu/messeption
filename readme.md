@@ -60,3 +60,7 @@
 - Spotbugs has also been implemented to check the code for common mistakes. For soptbugs to function properly it must be run from gr2122/messeption and not lower
 - Checkstyle has been implemented to cehck the codes formatting and visual style so that is in inline with the google checktyle convention
 
+#### Commit practises:
+- In Sprint 3 we started using commitizen
+- Hence our commitmessages have become much richer with information
+- This has made the development-progress much easier to follow and document
