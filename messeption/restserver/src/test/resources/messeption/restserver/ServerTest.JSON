@@ -96,10 +96,10 @@
         {
           "text": "Dude i am so stoked. Its going to be so cool",
           "author": {
-            "username": "Jonah",
+            "username": "Kenobi",
             "password": "Hei123"
           },
-          "postedAnonymously": false,
+          "postedAnonymously": true,
           "likeUsers": [
             {
               "username": "Trygve",
