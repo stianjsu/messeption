@@ -1,0 +1,17 @@
+title Class Diagram json
+
+package messeption.json <<Frame>> {
+    class JSONReadWrite {
+        - String saveLocationBoard
+        - String saveLocationUsers
+        
+        + ForumBoard fileReadForumBoard()
+        + void fileWriteForumBoard(ForumBoard board)
+        
+        + UserHandler fileReadUserHandler()
+        + void fileWriteUserHandler(UserHandler users)
+        
+        + {static} boolean checkJsonFieldCoverage(String json, String... fieldNames)
+
+    }
+}
