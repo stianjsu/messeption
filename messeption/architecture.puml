@@ -1,17 +1,19 @@
 @startuml
 
-component core {
-    package messeption.core
-}
+together {
 component json {
     package messeption.json
 }
 
-messeption.core ..> messeption.json
+component core {
+    package messeption.core
+}
+}
+messeption.json .down.> messeption.core
 component gson {
 }
 
-messeption.json ..> gson
+json ..> gson
 
 component javafx {
     component fxml {
@@ -22,44 +24,60 @@ component ui {
     package messeption.ui
 }
 
-interface RemoteDataAccess
-interface DirectDataAccess
+interface "Remote Data Access" as RDA
+interface "Direct Data Access" as DDA
 interface HTTP
 
-messeption.ui ..> DirectDataAccess
-messeption.ui ..> RemoteDataAccess
-RemoteDataAccess ..> HTTP
-DirectDataAccess ..> messeption.core
-DirectDataAccess ..> messeption.json
+messeption.ui ..> DDA
+messeption.ui ..> RDA
+RDA ..> HTTP
+DDA ..> messeption.core
+DDA ..> messeption.json
+RDA ..> gson
 
 
 
-javafx <.right. ui
+javafx <.. ui
 
-component jaxrs {
-}
 
-component rest {
-    package messeption.restapi
-    package messeption.restserver
+
+node "Restful Service" as rest {
+    component restapi {
+        package messeption.restapi
+    }
+    component restserver {
+        package messeption.restserver
+    }
+
 }
 
 HTTP ..> messeption.restapi
-rest ..> jaxrs
+
 
 messeption.restapi ..> messeption.core
+restapi ..> gson
 
 messeption.restserver ..> messeption.core
 messeption.restserver ..> messeption.json
 messeption.restserver ..> messeption.restapi
 
-component jersey {
+together {
+    component jaxrs {
+    }
+    
+    component jersey {
+    }
+    
+    component grizzly2 {
+    }
 }
+rest .[hidden].> jaxrs
+rest .[hidden].> jersey
+rest .[hidden].> grizzly2
 
-component grizzly2 {
-}
+restserver ..> jersey
+restserver ..> grizzly2
 
-rest ..> jersey
-rest ..> grizzly2
+restapi ..> jaxrs
 
 @enduml
