@@ -1,90 +1,178 @@
 {
   "posts": [
     {
-      "title": "I like cheese",
+      "title": "Billig kjøttdeig på bunnpris!",
       "comments": [
         {
+          "text": "Dude det er meganice",
           "author": {
-            "username": "Kenobi",
+            "username": "Jonah",
             "password": "Hei123"
           },
-          "text": "I disagree, but your opinion is valid",
+          "postedAnonymously": false,
           "likeUsers": [],
           "dislikeUsers": [],
-          "timeStamp": "Nov 16, 2021, 12:29:23 PM",
-          "id": "1"
-        }
-      ],
-      "author": {
-            "username": "Kenobi",
-            "password": "Hei123"
-          },
-      "text": "Cheese is my favourite food.",
-      "likeUsers": [],
-      "dislikeUsers": [],
-      "timeStamp": "Nov 16, 2021, 12:31:23 PM",
-      "id": "2"
-    },
-    {
-      "title": "Erna tapte valget",
-      "comments": [
-        {
-          "author": {
-            "username": "Kenobi",
-            "password": "Hei123"
-          },
-          "text": "Det er helt korrekt, men la oss unngå politikk her",
-          "likeUsers": [],
-          "dislikeUsers": [],
-          "timeStamp": "Nov 16, 2021, 12:33:23 PM",
-          "id": "3"
-        }
-      ],
-      "author": {
-            "username": "Kenobi",
-            "password": "Hei123"
-          },
-      "text": "Valget var spennende",
-      "likeUsers": [],
-      "dislikeUsers": [],
-      "timeStamp": "Nov 16, 2021, 12:36:23 PM",
-      "id": "4"
-    },
-    {
-      "title": "Kule tilbud?",
-      "comments": [
-        {
-          "author": {
-            "username": "Kenobi",
-            "password": "Hei123"
-          },
-          "text": "Billig kjøttdeig på bunnpris",
-          "likeUsers": [],
-          "dislikeUsers": [],
-          "timeStamp": "Nov 16, 2021, 12:39:23 PM",
-          "id": "5"
+          "timeStamp": "Nov 16, 2021, 2:15:02 PM",
+          "id": "TueNov2313:05:14CET202120"
         },
         {
+          "text": "Huge",
+          "author": {
+            "username": "Jonah",
+            "password": "Hei123"
+          },
+          "postedAnonymously": true,
+          "likeUsers": [],
+          "dislikeUsers": [],
+          "timeStamp": "Nov 17, 2021, 1:34:17 PM",
+          "id": "TueNov2313:05:17CET20214"
+        }
+      ],
+      "text": "Det er sykt gode tilbud på bunnpris denne uka.\n2 * 400g gilde kjøttdeig for 79,-",
+      "author": {
+        "username": "Mattias",
+        "password": "Hei123"
+      },
+      "postedAnonymously": false,
+      "likeUsers": [
+        {
+          "username": "Stian",
+          "password": "Hei123"
+        }
+      ],
+      "dislikeUsers": [
+        {
+          "username": "Kenobi",
+          "password": "Hei123"
+        }
+      ],
+      "timeStamp": "Nov 15, 2021, 1:03:04 PM",
+      "id": "TueNov2313:03:04CET202180"
+    },
+    {
+      "title": "Jeg er en liten luring",
+      "comments": [
+        {
+          "text": "Den har sine moments, men personlig syntes jeg at piratkopier er uetiske",
+          "author": {
+            "username": "Stian",
+            "password": "Hei123"
+          },
+          "postedAnonymously": false,
+          "likeUsers": [],
+          "dislikeUsers": [],
+          "timeStamp": "Nov 21, 2021, 1:11:25 PM",
+          "id": "TueNov2313:11:25CET202172"
+        }
+      ],
+      "text": "Jeg synes faktisk \u0027Star war: the Third Gathers, Backstroke of the West\u0027 er bedre\nenn \u0027Star wars: Episode 3, Revenge of the Sith\u0027",
+      "author": {
+        "username": "Jonah",
+        "password": "Hei123"
+      },
+      "postedAnonymously": true,
+      "likeUsers": [
+        {
+          "username": "Jonah",
+          "password": "Hei123"
+        }
+      ],
+      "dislikeUsers": [
+        {
+          "username": "Kenobi",
+          "password": "Hei123"
+        },
+        {
+          "username": "Stian",
+          "password": "Hei123"
+        }
+      ],
+      "timeStamp": "Nov 20, 2021, 11:04:44 AM",
+      "id": "TueNov2313:04:44CET2021128"
+    },
+    {
+      "title": "I get my own television series soon",
+      "comments": [
+        {
+          "text": "Dude i am so stoked. Its going to be so cool",
           "author": {
             "username": "Kenobi",
             "password": "Hei123"
           },
-          "text": "Kjøttdeigen til 20kr er en steal",
-          "likeUsers": [],
+          "postedAnonymously": true,
+          "likeUsers": [
+            {
+              "username": "Trygve",
+              "password": "Hei123"
+            },
+            {
+              "username": "Kenobi",
+              "password": "Hei123"
+            }
+          ],
           "dislikeUsers": [],
-          "timeStamp": "Nov 16, 2021, 12:42:23 PM",
-          "id": "6"
-        }
-      ],
-      "author": {
+          "timeStamp": "Nov 24, 2021, 1:06:29 PM",
+          "id": "TueNov2313:06:29CET202144"
+        },
+        {
+          "text": "When does it air?",
+          "author": {
+            "username": "Trygve",
+            "password": "Hei123"
+          },
+          "postedAnonymously": false,
+          "likeUsers": [
+            {
+              "username": "Kenobi",
+              "password": "Hei123"
+            }
+          ],
+          "dislikeUsers": [],
+          "timeStamp": "Nov 25, 2021, 4:37:27 PM",
+          "id": "TueNov2313:06:47CET202117"
+        },
+        {
+          "text": "I think it airs Q1 in 2022. Official date coming out soon",
+          "author": {
             "username": "Kenobi",
             "password": "Hei123"
           },
-      "text": "Lurer på om noen har dere sett noen kule tilbud på buttan denne uken",
-      "likeUsers": [],
-      "dislikeUsers": [],
-      "timeStamp": "Nov 16, 2021, 12:46:23 PM",
-      "id": "7"
+          "postedAnonymously": false,
+          "likeUsers": [
+            {
+              "username": "Kenobi",
+              "password": "Hei123"
+            }
+          ],
+          "dislikeUsers": [],
+          "timeStamp": "Nov 25, 2021, 4:50:47 PM",
+          "id": "TueNov2313:07:47CET202157"
+        }
+      ],
+      "text": "I am really exited to be streaming on Disney+",
+      "author": {
+        "username": "Kenobi",
+        "password": "Hei123"
+      },
+      "postedAnonymously": false,
+      "likeUsers": [
+        {
+          "username": "Jonah",
+          "password": "Hei123"
+        },
+        {
+          "username": "Trygve",
+          "password": "Hei123"
+        }
+      ],
+      "dislikeUsers": [
+        {
+          "username": "Mattias",
+          "password": "Hei123"
+        }
+      ],
+      "timeStamp": "Nov 23, 2021, 1:05:43 PM",
+      "id": "TueNov2313:05:43CET202145"
     }
   ]
 }
