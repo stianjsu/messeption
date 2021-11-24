@@ -10,8 +10,8 @@ We have decided to expand the current application with new features, instead of 
 - Ability to sort posts
     - A user can now sort posts by spesific criteria, such as:
         - Descending post date
-        - author
-        - title
+        - Author
+        - Title
         - Descending text length
         - Descending number of comments
 - Likes has been changed to a collection of Users
@@ -19,11 +19,26 @@ We have decided to expand the current application with new features, instead of 
     - A user can not like and dislike a post simultaniously
     - A user can also remove a like or a dislike
 
+The user functionality has been implemented by a new Data class User.java and a class for validation and holding all users, UserHandler.java.
+The rest of the code has been updated accordingly to accomodate the User class. For instance, like on a UserTextSubmission has been changes from 'int likes' to 'Collection\<User\> likeUsers'
+
+UserTextSubmission now has a field for Author.
+
+Here you can see how User has affected the core module:
+<div align="left">
+    <img src="../images/release3/coreClassDiagram.png" alt="coreClassDiagram" width=700px/>
+</div>
+
 ## Integrationtests
 - This module is for testing the combined project with all the modules running simultaneously as a composite. This takes the form of an app test that is running connected to the REST server. This module also contains the necessary files for running the server locally. This can be done with the command **mvn -pl integrationtests jetty:run**. The integration tests automatically start a server for testing during **mvn verify**
 - Additionally a port can be specified when running the server by adding **-Djetty.port=zzzz** where zzzz is the desired port. The project runs with port 8080 by default
 
-## Restserver
+## Rest service
+<div align="left">
+    <img src="../images/release3/restfulServiceArchitecture.png" alt="restfulServiceArchitecture" width=800px/>
+</div>
+
+
 - The REST-service acts as a server and api for messeption while the app is running remotely. Instead of accessing the data layer directly it sends calls through the REST api. The api accepts http post, put, get and delete requests on specific urls. This would typically be "http://localhost:8080/board" for a request to get the current ForumBoard state with a locals server with default settings. For creating a new ForumPost a http post-request would be sent to ../board/posts/addPost. The objects sent with the http request are json serialized utf-8 encoded strings. These are then decoded back into java objects, with Gson, after being passed through the api
 
 
@@ -33,7 +48,6 @@ We have decided to expand the current application with new features, instead of 
 
 
 - Current acceptable adresses for ForumPosts. (Where {id} represents the unique id of a ForumPost)
-  - get: ../board/posts/{id}
   - post: ../board/posts
   - put: ../board/posts/likePost/{id}, ../board/posts/dislikePost/{id}
   - delete: ../board/posts/deletePost/{id}
@@ -52,9 +66,31 @@ We have decided to expand the current application with new features, instead of 
 
 - The server responds with http responses throught the api. We also send custom response codes based on http status codes as messages in the responses. This is to gain additional information in case of errors in the server or in case of invalid user input in text fields. This allows us to process these accordingly
 
+This is an example of how our app uses the REST Service:
+<div align="left">
+    <img src="../images/release3/sequenceDiagram.png" alt="sequenceDiagramREST" width=500px/>
+</div>
+
 ## Shippable product
-- The project is configured with jlink and jpackage in order to create a shippable product. In order to ship the project the command **mvn compile javafx:jlink jpackage:jpackage** is used in the messeption/ui directory. This will produce messeptionfx in messeption/ui/target that can be used for running the app locally without the use of an IDE such as VScode.
-The command will also produce a MesseptionFX.exe file in messeption/ui/target/dist for distribution and installing messeption as a program localy on a computer. Both require a connection to a REST server running locally in order to work
+- The project is configured with jlink and jpackage in order to create a shippable product. In order to ship the project the command **mvn compile javafx:jlink jpackage:jpackage** is used in the messeption/ui directory. In gitpod drop jpackage as wix is not installed.
+- This will produce messeptionfx in messeption/ui/target that can be used for running the app locally without the use of an IDE such as VScode.
+The command will also produce a MesseptionFX.exe file in messeption/ui/target/dist for distribution and installing messeption as a program localy on a computer. 
+- Shipped products require a connection to a REST server running locally on port 8080 in order to work.
+
+<br/>
+
+## New access classes
+- In this release we added an access interface to the ui module for communicating with the core module. 
+- This interface has been implemenbted by a direct and a remote access class. The direct access class communicates directly with the core module locally, while the remote access class sends calls through the REST api to the server.
+
+The BoardAccess is set in MesseptionApp. Its set to local if the user has set the system property run.local=true, otherwise its set to BoardAccessRemote.
+The SceneControllers get this BoardAccess from MesseptionApp.
+
+This is illustrated in the classDiagram of ui:
+
+<div align="left">
+    <img src="../images/release3/uiClassDiagram.png" alt="uiClassDiagram" width=1000px/>
+</div>
 
 <br/>
 
@@ -63,31 +99,31 @@ The command will also produce a MesseptionFX.exe file in messeption/ui/target/di
 <br/>
 
 <div align="left">
-    <img src="../images/release3/LoginPage.png" alt="Login page" width=80%/>
+    <img src="../images/release3/LoginPage.png" alt="Login page" width=800px/>
 </div>
 
 <br/>
 
 <div align="left">
-    <img src="../images/release3/FrontPage_r3.png" alt="Front page" width=80%/>
+    <img src="../images/release3/FrontPage_r3.png" alt="Front page" width=800px/>
 </div>
 
 **Here are the posts sorted by Title instead of Time:**
 
 <div align="left">
-    <img src="../images/release3/FrontPage_title.png" alt="Front page" width=80%/>
+    <img src="../images/release3/FrontPage_title.png" alt="Front page" width=800px/>
 </div>
 
 <br/>
 
 <div align="left">
-    <img src="../images/release3/CreatePostPage_r3.png" alt="CreatePostPage" width=80%/>
+    <img src="../images/release3/CreatePostPage_r3.png" alt="CreatePostPage" width=800px/>
 </div>
 
 <br/>
 
 <div align="left">
-    <img src="../images/release3/PostPage_r3.png" alt="PostPage" width=80%/>
+    <img src="../images/release3/PostPage_r3.png" alt="PostPage" width=800px/>
 </div>
 
 <br/>
@@ -128,7 +164,7 @@ An individual wishes to be able to delete posts and comments they have created b
 
 ### Important details for reading
 - Deleted posts and comments are removed for all users
-- **(*) The delete button works as an indicator to which posts and comments are owned by the logged-in user**
+- **(*) The delete button works as an indicator to which posts and comments are owned by the logged-in user** in addition to the author-label
 
 ### Important details for interaction
 - Ability to delete own posts

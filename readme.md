@@ -14,7 +14,7 @@
 - You can run the app from gr2122/messeption
 ###
 - Run local with:
-  - **mvn -pl ui javafx:run -Drun.local=true**
+  - **mvn -pl ui javafx:run -Drun.local**
 ###
 - Run remotely with:
   - first start the server with **mvn -pl integrationtests jetty:run**
@@ -28,20 +28,15 @@
 
 - In the 'docs' folder you can find release-documentations for the applications releases
 
-- The project contains two README files, one on root-level and one inside of the project folder which describes the application
-
-### File structure:
-- The project is divided into modules, namely 'core', 'json' and 'ui'
-- In both every module we have a 'src' folder. There the code is divided into 'main' and 'test' folders, for their respective purposes
-- The 'main' folders split into 'java' and 'resources' folders
-- 'java' folders contain java-files for code logic and module-info files for declaring dependencies in the project
-- 'resources' folders contain JSON files for text saving and java-fxml files for ui representation
+- The project contains two README files, one on root-level (the one you are reading now) and one inside of the project folder which describes the application
 
 <br/>
 
 ## Shippable product
-- The project is configured with jlink and jpackage in order to create a shippable product. In order to ship the project the command **mvn compile javafx:jlink jpackage:jpackage** is used in the messeption/ui directory. This will produce messeptionfx in messeption/ui/target that can be used for running the app locally without the use of an IDE such as VScode.
-The command will also produce a MesseptionFX.exe file in messeption/ui/target/dist for distribution and installing messeption as a program localy on a computer. Both require a connection to a REST server running locally in order to work
+- The project is configured with jlink and jpackage in order to create a shippable product. In order to ship the project the command **mvn compile javafx:jlink jpackage:jpackage** is used in the messeption/ui directory. In gitpod drop jpackage as wix is not installed.
+- This will produce messeptionfx in messeption/ui/target that can be used for running the app locally without the use of an IDE such as VScode.
+The command will also produce a MesseptionFX.exe file in messeption/ui/target/dist for distribution and installing messeption as a program localy on a computer. 
+- Shipped products require a connection to a REST server running locally on port 8080 in order to work.
 
 <br/>
 
@@ -81,5 +76,10 @@ The command will also produce a MesseptionFX.exe file in messeption/ui/target/di
 
 #### Commit practises:
 - In Sprint 3 we started using commitizen for formating commits
-- Hence our commit messages have become much more detailed and richer with information
+- Hence our commit messages have become much more detailed and richer with information including type of change, scope, description
+relation to issues in gitlab and development method (induvidual, pair, group).
 - This has made the development-progress much easier to follow and document
+
+
+## Account security
+- User account security has not been a focus for this project. Thus all users are saved as open JSON text files and can easily be read. The server also regularly shows user credentials as part of the debug information. 
