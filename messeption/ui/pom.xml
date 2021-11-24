@@ -31,12 +31,6 @@
             <version>2.8.9</version>
         </dependency>
 
-        <dependency>    
-            <groupId>jakarta.ws.rs</groupId>
-            <artifactId>jakarta.ws.rs-api</artifactId>
-            <version>3.0.0</version>
-        </dependency>
-
         <!-- javafx -->
         <dependency>
             <groupId>org.openjfx</groupId>
@@ -138,6 +132,9 @@
                     <javaOptions>
                         <option>-Dfile.encoding=UTF-8</option>
                     </javaOptions>
+                    <!-- linux options --> 
+                    <linuxShortcut>true</linuxShortcut>
+                    <linuxMenuGroup>MesseptionFX</linuxMenuGroup>
                     <!-- windows options --> 
                     <winDirChooser>true</winDirChooser>
                     <winShortcut>true</winShortcut>

@@ -21,7 +21,7 @@ import messeption.core.ForumPost;
 import messeption.core.User;
 
 /**
- * TestFX App test
+ * TestFX for CreatePostPage
  */
 public class CreatePostPageAppTest extends ApplicationTest {
 

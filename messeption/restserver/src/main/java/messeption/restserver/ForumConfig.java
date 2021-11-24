@@ -15,10 +15,10 @@ import org.glassfish.jersey.server.ResourceConfig;
  * Config file for the rest server.
  */
 public class ForumConfig extends ResourceConfig {
+
   private ForumBoard board;
   private JsonReadWrite readWrite;
   private UserHandler userHandler;
-
 
   /**
    * Constructor for Config file from a ForumBoard object.

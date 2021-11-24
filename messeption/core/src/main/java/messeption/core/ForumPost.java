@@ -8,6 +8,7 @@ import java.util.List;
  * comments.
  */
 public class ForumPost extends UserTextSubmission implements Comparable<ForumPost> {
+
   private String title;
   private List<PostComment> comments;
 
@@ -71,7 +72,6 @@ public class ForumPost extends UserTextSubmission implements Comparable<ForumPos
    * Removes a comment object from list of comments.
 
    * @param comment PostComment
-   * 
    * @throws IllegalArgumentException Comment not in comments
    */
   public void deleteComment(PostComment comment) throws IllegalArgumentException {
@@ -85,7 +85,6 @@ public class ForumPost extends UserTextSubmission implements Comparable<ForumPos
    * Removes a comment object from list of comments.
 
    * @param id string formatted unique id
-
    * @throws IllegalArgumentException Comment not in comments
    */
   public void deleteComment(String id) throws IllegalArgumentException {
@@ -103,6 +102,14 @@ public class ForumPost extends UserTextSubmission implements Comparable<ForumPos
         + this.likeUsers + "\t Dislikes: " + this.dislikeUsers + "\n TimeStamp: " + this.timeStamp;
   }
 
+  /**
+   * Custom defined equals method for use when comparing with this objects serialized
+   * and deserialized clone. Follows equals contract of reflexitivity, symmetry,
+   * transitivity and consitancy
+
+   * @param obj Other object to compare
+   * @return true if objects have the same properties 
+   */
   @Override
   public boolean equals(Object obj) {
     if (this == obj) {

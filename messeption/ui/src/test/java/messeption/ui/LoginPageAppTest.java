@@ -19,7 +19,7 @@ import org.testfx.matcher.control.LabeledMatchers;
 import messeption.core.UserHandler;
 
 /**
- * TestFX App test
+ * TestFX for LoginPage
  */
 public class LoginPageAppTest extends ApplicationTest {
 

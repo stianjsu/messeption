@@ -8,7 +8,7 @@ import messeption.core.User;
 import messeption.core.UserHandler;
 
 /**
- * Interface for how the ui interacts with the core moduel.
+ * Interface for how the ui should interact with the core module.
  */
 public interface BoardAccessInterface {
   public void updateBoardChange() throws Exception;

@@ -13,7 +13,8 @@ import messeption.core.ForumBoard;
 import messeption.core.UserHandler;
 
 /**
- * A class with methods for writing ForumBoard objects and UserHandler objects to Json file.
+ * A class with methods for reading and writing ForumBoard objects 
+ * and UserHandler objects to Json file.
  */
 public class JsonReadWrite {
 
@@ -54,8 +55,8 @@ public class JsonReadWrite {
   /**
    * Writes a ForumBoard object to a Json file at specified location.
 
-   * @param board    the object to be written
-   * @throws IOException     throws in a regualr IO expetion is thrown
+   * @param board the object to be written
+   * @throws IOException throws in a regualr IO expetion is thrown
    */
   public void fileWriteForumBoard(ForumBoard board) throws IOException {
     Gson gson = new GsonBuilder().setPrettyPrinting().create();
@@ -87,8 +88,8 @@ public class JsonReadWrite {
   /**
    * Writes a UserHandler object to a Json file at specifified location.
 
-   * @param users    the object to be written
-   * @throws IOException     throws in a regualr IO expetion is thrown
+   * @param users the object to be written
+   * @throws IOException throws in a regualr IO expetion is thrown
    */
   public void fileWriteUserHandler(UserHandler users) throws IOException {
     Gson gson = new GsonBuilder().setPrettyPrinting().create();

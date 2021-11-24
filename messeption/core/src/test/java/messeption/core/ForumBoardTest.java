@@ -2,7 +2,6 @@ package messeption.core;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -58,7 +57,7 @@ public class ForumBoardTest {
 
     assertThrows(IllegalArgumentException.class, () -> {
       board.deletePost(post.getId());
-    }, "Did not throw exception when trying to delet a post twice");
+    }, "Did not throw exception when trying to delete a post twice");
   }
 
   @Test
@@ -70,13 +69,4 @@ public class ForumBoardTest {
     assertFalse(board.equals(new Object()));
     assertFalse(board.equals(null));
   }
-
-  @Test
-  @DisplayName("Test to string")
-  public void testToString() {
-    board2 = board;
-    assertEquals(board.toString(), board2.toString());
-    assertNotEquals(board.toString(), new Object().toString());
-  }
-
 }

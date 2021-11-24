@@ -17,8 +17,7 @@ import messeption.core.User;
  */
 public class LoginPageController extends SceneController {
 
-  /*@FXML
-  private Label errorLabel;*/
+  
   @FXML
   private TextField loginUserTextField;
   @FXML
@@ -48,8 +47,6 @@ public class LoginPageController extends SceneController {
       signUp();
     });
   }
-
-
 
   /**
    * Method is called when the user tries to login.
@@ -87,7 +84,7 @@ public class LoginPageController extends SceneController {
       } catch (IllegalArgumentException e) {
         String message = e.getMessage();
         String[] splitMessage = message.split(":");
-        if (splitMessage.length > 1) { //removed error type from ui feedabck while running remote
+        if (splitMessage.length > 1) { //removed error type from ui feedback while running remote
           message = splitMessage[1];
         }
         UiUtils.popupAlert(message).showAndWait(); 
