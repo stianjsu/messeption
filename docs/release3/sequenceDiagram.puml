@@ -1,0 +1,49 @@
+@startuml
+
+title "Messeption - Sequence Diagram"
+
+actor User
+boundary "App GUI" as GUI
+control "Remote Access" as RC
+box REST Server #DDDDDD
+    boundary API
+    entity Core as LG
+    database Persistance as JSON
+end box
+
+group Case: publish new post
+
+User -> GUI : Writes a post.\nPresses publish post
+GUI -> RC : onActionEvent
+RC -> API : POST Request
+
+    else successfull request
+        API -> LG : newPost()
+        LG --> API : no error
+        API -> JSON : saveBoard()
+        JSON --> API : no error
+        API -> RC: ok response
+        RC <- RC : locally\naddPost()
+        RC -->GUI : no error
+        GUI --> User : User sees new post
+
+    else bad request body
+        API -> LG : newPost()
+        LG -> API : ERROR
+        API -> RC: 406 response
+        RC -> GUI : ERROR
+        GUI --> User : User sees error prompt
+        
+    else server persistance error
+        API -> LG : newPost()
+        LG --> API : no error
+        API -> JSON : saveBoard()
+        JSON -> API : ERROR
+        API -> LG : revertBoard()
+        LG --> API : no error
+        API -> RC: 500 response
+        RC -> GUI : ERROR
+        GUI --> User : User sees error prompt
+        end
+        
+@enduml 

@@ -1,0 +1,78 @@
+@startuml
+
+title Class Diagram Restful Service\n
+
+package "Rest Service\n\n" <<Cloud>> {
+    package messeption.restapi <<Frame>> {
+        class ForumBoardService {
+            + {static} String SERVICE_PATHS ...
+            - {static} String[] fieldNamesCore ...
+            - {static} Logger LOGG
+            - Gson gson
+            ..Context..
+            - ForumBoard board
+            - UserHandler userHandler
+            - JsonReadWrite readWrite
+            ..Helper methods..
+            + {static} void checkJsonIntegrety(String json, String... fieldNames)
+            - String saveBoardToServer()
+            - readBoardToServer()
+            - readBoardFromServer()
+            ..GET..
+            + String getForumBoard()
+            ..POST..
+            + String addPost(String post)
+            + String addComment(@PathParam("id") String id, String comment)
+            ..PUT..
+            + String setForumBoard(String save)
+            + String likePost(@PathParam("id") String id, String user)
+            + String dislikePost(@PathParam("id) String id, String user)
+            + String likeComment(@PathParam("postId", "commentId) String postId; commentId, String user)
+            + String dislikeComment(@PathParam("postId", "commentId) String postId; commentId, String user)
+            ..DELETE..
+            + String deletePost(@PathParam("id") String id)
+            + String deletePost(@PathParam("postId", "commentId) String postId; commentId)
+            ..Path("/users")..
+            + UserHandlerResource getUserHandlerResource()
+        }   
+        
+        class UserHandlerResource {
+            + {static} String USER_SERVICE_PATH
+            - {static} String[] UserHandlerFieldNames[]
+            - {static} Logger LOGG
+            - Gson gson
+            - UserHandler userHandler
+            - JsonReadWrite readWrite
+            ..Helper methods..
+            - readUsersToServer()
+            - readUsersFromserver()
+            ..GET..
+            + String getUserHandler()
+            ..POST..
+            + String addUser(String user)
+            ..PUT..
+            + String setUserHandler(String save)
+            
+        }
+        UserHandlerResource .up.> ForumBoardService : ForumBoardService delegates\nrequests concerning users
+    }
+    package messeption.restserver <<Database>> {
+    
+        class ForumConfig {
+            - ForumBoard board
+            - JsonreadWrite readWrite
+            - UserHandler userHandler
+            ..Constructors..
+            + ForumConfig(ForumBoard, UserHandler userHandler)
+            + ForumConfig()
+            ..Default generation helper methods..
+            - {static} ForumBoard createDefaultForumBoard()
+            - {static} Forumboard createDefaultUserHandler()
+        }
+    }
+}
+
+ForumBoardService -right-* ForumConfig : \n\nContext fields in\nForumBoardService are bound\nto same fields in ForumConfig
+
+
+@enduml
