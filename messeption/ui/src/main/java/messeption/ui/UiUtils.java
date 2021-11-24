@@ -10,9 +10,10 @@ import javafx.scene.control.ButtonType;
 import messeption.core.ForumPost;
 
 /**
- * UiUtil is a collcection of methods that are used in all of the controllers.
+ * UiUtil is a collection of methods that are used in all of the controllers.
  */
 public class UiUtils {
+  
   private static final String HIGHLIGHTED_STYLE =
       "-fx-border-color: DarkOrange; -fx-border-radius: 3px; -fx-border-width: 2px;";
   private static final String NORMAL_STYLE = "";
@@ -28,6 +29,7 @@ public class UiUtils {
     e.printStackTrace();
     return popupAlert(toUser);
   }
+
   /**
    * If an exception is raised it is here processed into an alert for the UI.
 
@@ -80,6 +82,7 @@ public class UiUtils {
 
     return result.get() == confirm;
   }
+
   /**
    * GetPostSorting creates a comparator based on what we want to sort the posts by.
 

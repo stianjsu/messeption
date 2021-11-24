@@ -129,7 +129,13 @@ public class FrontPageController extends SceneController {
     postsContainer.setPrefHeight(indexId * (SIZE_POSTS + MARIGIN_POSTS));
   }
 
+  /**
+   * Generates a pane that contains all information about the post and relevant buttons.
 
+   * @param post post to display
+   * @return pane to add to scene
+   * @throws IOException When failing to read PostPaneTemplate.fxml
+   */
   private Pane generatePostPane(ForumPost post) throws IOException {
 
     FXMLLoader postPaneTemplateLoader = new FXMLLoader(getClass().getResource(

@@ -120,6 +120,12 @@ public class PostPageController extends SceneController {
         (MARGIN_COMMENTS + SIZE_COMMENTS) * comments.size() + MARGIN_COMMENTS);
   }
 
+
+  /**
+   * Displays all information about the post and relevant buttons on the page.
+
+   * @param post post to display
+   */
   private void generatePostContent(ForumPost post) {
     postTitleLabel.setText(post.getTitle());
     postAuthorLabel.setText("Post by: " + (post.isAnonymous()
@@ -172,6 +178,15 @@ public class PostPageController extends SceneController {
     });
   }
 
+
+  /**
+   * Generates a pane that contains all information about the comment and relevant buttons.
+
+   * @param comment comment to display
+   * @param postId id of post that contains comment 
+   * @return pane to add to scene
+   * @throws IOException When failing to load CommentPaneTemplate.fxml
+   */
   private Pane generateCommentPane(PostComment comment, String postId) 
       throws IOException {
     FXMLLoader commentPaneTemplateLoader = new FXMLLoader(getClass().getResource(

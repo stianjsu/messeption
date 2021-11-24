@@ -40,11 +40,4 @@ public class PostCommentTest extends UserTextSubmissionTestAbstract {
     assertFalse(comment2.equals(new PostComment("ieH", author, false)));
   }
 
-  @Test
-  @DisplayName("Test toString")
-  public void testToString() {
-    PostComment comment2 = new PostComment("Hei", author, false);
-    PostComment comment3 = new PostComment("Hei", author, false);
-    assertTrue(comment2.toString().equals(comment3.toString()));
-  }
 }

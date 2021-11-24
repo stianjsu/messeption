@@ -2,7 +2,6 @@ package messeption.core;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -68,7 +67,9 @@ public class ForumPostTest extends UserTextSubmissionTestAbstract {
     User commenter = new User("Commenter1", "test");
     PostComment comment1= new PostComment("comment", commenter, true);
     post.addComment(comment1);
+
     assertEquals(comment1, post.getComments().get(0), "comment was not correct after add comment");
+
     post.deleteComment(comment1.getId());
     assertEquals(null, post.getComment(comment1.getId()));
     assertThrows(IllegalArgumentException.class, () -> {
@@ -86,15 +87,6 @@ public class ForumPostTest extends UserTextSubmissionTestAbstract {
     assertTrue(post.equals(post2));
     assertFalse(post.equals(new ForumPost("This is title", "This is text", author, true)));
     assertFalse(post.equals(new Object()));
-  }
-
-  @Test
-  @DisplayName("Test to string")
-  @Override
-  public void testToString() {
-    ForumPost post2 = post;
-    assertEquals(post.toString(), post2.toString());
-    assertNotEquals(post.toString(), new Object().toString());
   }
 
   @Test

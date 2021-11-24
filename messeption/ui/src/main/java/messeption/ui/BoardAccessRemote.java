@@ -226,7 +226,7 @@ public class BoardAccessRemote implements BoardAccessInterface {
   @Override
   public void deleteComment(String postId, String commentId) throws Exception {
     HttpRequest request = HttpRequest.newBuilder()
-        .uri(URI.create(endpointUri + "/comments/deleteComment" + postId + "/" + commentId))
+        .uri(URI.create(endpointUri + "/comments/deleteComment/" + postId + "/" + commentId))
         .header("Accept", "application/json")
         .DELETE()
         .build();

@@ -23,7 +23,7 @@ import messeption.core.ForumPost;
 import messeption.core.User;
 
 /**
- * TestFX App test
+ * TestFX for FrontPage
  */
 public class FrontPageAppTest extends ApplicationTest {
 

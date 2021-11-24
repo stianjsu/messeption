@@ -44,8 +44,6 @@ public class LoginTestIT extends ApplicationTest {
 
   private static URI baseUri;
 
-  //private static ForumBoard boardBackup;
-
   @Override
   public void start(Stage primaryStage) throws Exception {
 

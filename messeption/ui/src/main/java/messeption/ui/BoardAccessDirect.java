@@ -9,7 +9,7 @@ import messeption.core.UserHandler;
 import messeption.json.JsonReadWrite;
 
 /**
- * Class for direct access to core for when the app is run localy.
+ * Class for direct access to core modules for when the app is run localy.
  */
 public class BoardAccessDirect implements BoardAccessInterface {
 

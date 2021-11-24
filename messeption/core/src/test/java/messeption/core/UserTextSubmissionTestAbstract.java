@@ -57,5 +57,5 @@ public abstract class UserTextSubmissionTestAbstract {
   }
 
   public abstract void testEquals();
-  public abstract void testToString();
+
 }

@@ -24,7 +24,7 @@ import messeption.core.PostComment;
 import messeption.core.User;
 
 /**
- * TestFX App test
+ * TestFX for PostPage
  */
 public class PostPageAppTest extends ApplicationTest {
 
