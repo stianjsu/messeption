@@ -4,12 +4,11 @@ module messeption.restserver {
     requires jersey.media.json.jackson;
 
     requires org.glassfish.hk2.api;
-    requires org.slf4j;
 
     requires com.google.gson;
 
-    requires messeption.core;
-    requires messeption.json;
+    requires transitive messeption.core;
+    requires transitive messeption.json;
     requires messeption.restapi;
 
     exports messeption.restserver;

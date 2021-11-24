@@ -6,8 +6,8 @@ module messeption.restapi {
 
     requires com.google.gson;
 
-    requires messeption.core;
-    requires messeption.json;
+    requires transitive messeption.core;
+    requires transitive messeption.json;
 
     exports messeption.restapi;
 
