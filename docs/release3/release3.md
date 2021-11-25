@@ -129,10 +129,10 @@ The SceneControllers get this BoardAccess from MesseptionApp.
 </div>
 <br/>
 
-### Here are the posts sorted by Title instead of Time:
+**Here are the posts sorted by Comments instead of Time:**
 
 <div align="left">
-    <img src="../images/release3/FrontPage_title.png" alt="Front page" width=800px/>
+    <img src="../images/release3/FrontPageSortedComments.png" alt="Front page sorted" width=800px/>
 </div>
 
 <br/>
