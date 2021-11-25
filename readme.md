@@ -10,16 +10,22 @@
 
 - The project use a 'modular' approach for organising files
 
+<br/>
+
 ## Running the app
-- You can run the app from gr2122/messeption
+- You can run the app by cloning the repository to a local machine, or from gitpod by using the gitpod button above
+- Due to gitpod instability some ui tests do not function properly in gitpod at all times
+- The app is run from the file location gr2122/messeption with the commands specified below
 ###
-- Run local with:
+- Run local (not connected to server) with:
   - **mvn -pl ui javafx:run -Drun.local**
 ###
-- Run remotely with:
+- Run remotely (connected to server) with:
   - first start the server with **mvn -pl integrationtests jetty:run**
   - then in a seperate terminal instance **mvn -pl ui javafx:run**
-
+###
+- Note: Testing app in gitpod:
+  - Due to unreliable javafx-testing of ui in gitpod, the project is configured to skip the ui-tests when the project is opened in gitpod. For running all tests in the project, it is recommended to use command **mvn clean install** in project folder locally (gr2122/messeption).  
 
 <br/>
 
@@ -33,10 +39,10 @@
 <br/>
 
 ## Shippable product
-- The project is configured with jlink and jpackage in order to create a shippable product. In order to ship the project the command **mvn compile javafx:jlink jpackage:jpackage** is used in the messeption/ui directory. In gitpod drop jpackage as wix is not installed.
-- This will produce messeptionfx in messeption/ui/target that can be used for running the app locally without the use of an IDE such as VScode.
-The command will also produce a MesseptionFX.exe file in messeption/ui/target/dist for distribution and installing messeption as a program localy on a computer. 
-- Shipped products require a connection to a REST server running locally on port 8080 in order to work.
+- The project is configured with jlink and jpackage in order to create a shippable product. In order to ship the project the command **mvn compile javafx:jlink jpackage:jpackage** is used in the messeption/ui directory. In gitpod exclude jpackage:jpackage as wix is not installed.
+- This will produce messeptionfx in messeption/ui/target that can be used for running the app locally without the use of an IDE.
+The command will also produce a MesseptionFX.exe file in messeption/ui/target/dist for distribution and installing messeption as a program localy on a computer
+- Shipped products require a connection to a REST server running locally on port 8080 in order to work
 
 <br/>
 
@@ -70,9 +76,9 @@ The command will also produce a MesseptionFX.exe file in messeption/ui/target/di
 - The code for each release is checked and verified both manually by each group member and by tests created for the different modules
 - Issues are verified after completion before they are marked as 'closed', to ensure that if a mistake has been made it is picked up as early as possible
 - We have used jacoco to show how much of the code is covered by the tests. A report is put into target/site/jacoco which shows coverage in percent. Jacoco is configured for every module and compiles a report after mvn verify or equivelent is run. 
-  - Note: BoardAccessRemote is not tested in ui, but in integration tests and thus isn't marked as tested int the jacoco rapport for messeption/ui.
+  - Note: BoardAccessRemote is not tested in ui, but in integration tests and thus isn't marked as tested int the jacoco rapport for messeption/ui
 - Spotbugs has also been implemented to check the code for common mistakes. For spotbugs to function properly it must be run from gr2122/messeption and not any lower directories
-- Checkstyle has been implemented to check the codes formatting and visual style so that is in inline with the google checktyle convention
+- Checkstyle has been implemented to check the codes formatting and visual style so that all code is in line with the google checktyle convention
 
 #### Commit practises:
 - In Sprint 3 we started using commitizen for formating commits
@@ -82,4 +88,4 @@ relation to issues in gitlab and development method (induvidual, pair, group).
 
 
 ## Account security
-- User account security has not been a focus for this project. Thus all users are saved as open JSON text files and can easily be read. The server also regularly shows user credentials as part of the debug information. 
+- User account security has not been a focus for this project. Thus all users are saved as open JSON text files and can easily be read. The server also regularly shows user credentials as part of the debug information

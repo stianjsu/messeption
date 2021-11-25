@@ -9,9 +9,9 @@ The posts can be commented and liked/disliked.
 Comments can also recieve likes and dislikes.
 Posts can be sorted by different criteria
 
-The platform allows for account creation, so that posts, comments and likes/dislikes are connected to a given account. A given account can delete it's own posts and comments.
+The platform allows for account creation, so that posts, comments and likes/dislikes are connected to a given account. A given account can delete it's own posts and comments
 
-We have only focused on the connection between Users and posts/comments/likes, and not on security. **Hence we have no hashing or encryption for passwords, and they are saved as plain text.**
+We have only focused on the connection between Users and posts/comments/likes, and not on security. **Hence we have no hashing or encryption for passwords, and they are saved as plain text in json format**
 
 <br/>
 
@@ -39,7 +39,9 @@ We have only focused on the connection between Users and posts/comments/likes, a
 ### Architecture
 
 Architecture with and without external dependencies.
+
 <br>
+
 <div align="left">
     <img src="../docs/images/release3/architectureNoExtDependencies.png" alt="architectureNoExtDependencies" width=800px/>
     <img src="../docs/images/release3/architecture.png" alt="architecture" width=800px/>
@@ -57,6 +59,8 @@ Here the user can sign up to Messeption by creating a new account or log in to a
 <div align="left">
     <img src="../docs/images/finished/loginPage.png" alt="Login page" width=800px/>
 </div>
+
+<br/>
 
 #### Front Page
 
@@ -77,7 +81,7 @@ Posts can be sorted by:
     <img src="../docs/images/finished/frontPage.png" alt="Front page" width=800px/>
 </div>
 
-
+<br/>
 
 #### Create Post Page
 
@@ -89,6 +93,8 @@ If the user chooses to post anonymously, the author of the post will not be show
     <img src="../docs/images/finished/createPostPage.png" alt="Create post page" width="800px"/>
 </div>
 
+<br/>
+
 #### Post Page
 
 Here you can look at a post in more detail and review its comments
@@ -99,7 +105,7 @@ Here you can look at a post in more detail and review its comments
 Posts and comments can either be liked or disliked and not both. A user can only give a post/comment one like or dislike. This means that if a user has liked a posts and presses 'like' the user will then remove his 'like' from the post. (Unliking)
 
 <div align="left">
-    <img src="../docs/images/finished/postPage.png" alt="Post Page" width="800px"/ >
+    <img src="../docs/images/finished/postPage.png" alt="Post Page" width="800px"/>
 </div>
 
 <br/>
@@ -148,34 +154,34 @@ This is a brief description of a typical ForumBoard JSON-file (Board.JSON):
 Here is an example of a post serialized to Json with gson:
 
 { <br/>
-&nbsp;&nbsp;&nbsp;"title": "I like cheese",<br/>
-&nbsp;&nbsp;&nbsp;"comments": [ <br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"author": { <br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"username": "Kenobi", <br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"password": "Hei123" <br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"text": "I disagree, but your opinion is valid",<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"likeUsers": [],<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"dislikeUsers": [],<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"timeStamp": "Nov 16, 2021, 2:15:02 PM",<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"id": "TueNov2313:05:14CET202120"<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} <br/>
-&nbsp;&nbsp;&nbsp;],<br/>
-&nbsp;&nbsp;&nbsp;"author": { <br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"username": "Trygve", <br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"password": "Hei123" <br/>
-&nbsp;&nbsp;&nbsp;},<br/>
-&nbsp;&nbsp;&nbsp;"text": "Cheese is my favourite food.",<br/>
-&nbsp;&nbsp;&nbsp;"likeUsers": [ <br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{ <br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"username": "Jonah" <br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"password": "Hei123" <br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} <br/>
-&nbsp;&nbsp;&nbsp;],<br/>
-&nbsp;&nbsp;&nbsp;"dislikeUsers": [],<br/>
-&nbsp;&nbsp;&nbsp;"timeStamp": "Nov 15, 2021, 1:03:04 PM",<br/>
-&nbsp;&nbsp;&nbsp;"id": "TueNov2313:03:04CET202180" <br/>
+&ensp;&nbsp;"title": "I like cheese",<br/>
+&ensp;&nbsp;"comments": [ <br/>
+&emsp;&nbsp;{<br/>
+&emsp;&nbsp;&nbsp;"author": { <br/>
+&emsp;&nbsp;&ensp;"username": "Kenobi", <br/>
+&emsp;&nbsp;&ensp;"password": "Hei123" <br/>
+&emsp;&ensp;},<br/>
+&emsp;&ensp;;"text": "I disagree, but your opinion is valid",<br/>
+&emsp;&ensp;"likeUsers": [],<br/>
+&emsp;&ensp;"dislikeUsers": [],<br/>
+&emsp;&ensp;"timeStamp": "Nov 16, 2021, 2:15:02 PM",<br/>
+&emsp;&ensp;"id": "TueNov2313:05:14CET202120"<br/>
+&emsp;&nbsp;} <br/>
+&nbsp;&ensp;],<br/>
+&nbsp;&ensp;"author": { <br/>
+&emsp;&nbsp;"username": "Trygve", <br/>
+&emsp;&nbsp;"password": "Hei123" <br/>
+&nbsp;&ensp;},<br/>
+&nbsp;&ensp;;"text": "Cheese is my favourite food.",<br/>
+&nbsp;&ensp;;"likeUsers": [ <br/>
+&emsp;&nbsp;{ <br/>
+&emsp;&ensp;"username": "Jonah" <br/>
+&emsp;&ensp;"password": "Hei123" <br/>
+&emsp;&nbsp;} <br/>
+&ensp;&nbsp;],<br/>
+&ensp;&nbsp;"dislikeUsers": [],<br/>
+&ensp;&nbsp;"timeStamp": "Nov 15, 2021, 1:03:04 PM",<br/>
+&ensp;&nbsp;"id": "TueNov2313:03:04CET202180" <br/>
 } <br/>
 <br/>
 
@@ -184,7 +190,7 @@ Here is an example of a post serialized to Json with gson:
     <img src="../docs/images/release3/restfulServiceArchitecture.png" alt="restfulServiceArchitecture" width=800px/>
 </div>
 
-- The REST-modules in the project provides a server and api for messeption while the app is running remotely. Instead of accessing the data layer directly, it sends requests through the REST api. The api accepts http post, put, get and delete requests on specific urls. This would typically be "http://localhost:8080/board" for a request to get the current ForumBoard state with a local server with default settings. For creating a new ForumPost a http post-request would be sent to ../board/posts/addPost. The objects sent with the http request are json serialized utf-8 encoded strings. These are then decoded back into java objects with the Gson library, after being passed through the api.
+- The REST-modules in the project provides a server and api for messeption while the app is running remotely. Instead of accessing the data layer directly, it sends requests through the REST api. The api accepts http post, put, get and delete requests on specific urls. With default server settings this is "http://localhost:8080/board" (../board) for a request to get the current ForumBoard state. For creating a new ForumPost a http post-request would be sent to ../board/posts/addPost. The objects sent with the http request are json serialized utf-8 encoded strings. These are then decoded back into java objects with the Gson library, after being passed through the api.
 
 
 - Current acceptable adresses for board
@@ -211,6 +217,8 @@ Here is an example of a post serialized to Json with gson:
 
 
 - The server responds with http responses throught the api. We also send custom response codes based on http status codes as messages in the responses. This is to gain additional information in case of errors in the server or in case of invalid user input in text fields. This allows us to process these accordingly
+
+<br/>
 
 This is an example of how our app uses the REST Service:
 <div align="left">
