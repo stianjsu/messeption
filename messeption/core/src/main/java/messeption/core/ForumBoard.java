@@ -2,7 +2,6 @@ package messeption.core;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * ForumBoard has a collection of posts.
@@ -103,6 +102,14 @@ public class ForumBoard {
     return s.toString();
   }
 
+  /**
+   * Custom defined equals method for use when comparing with this objects serialized
+   * and deserialized clone. Follows equals contract of reflexitivity, symmetry,
+   * transitivity and consitancy
+
+   * @param o Other object to compare
+   * @return true if objects have the same properties 
+   */
   @Override
   public boolean equals(Object o) {
     if (this == o) {

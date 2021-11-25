@@ -8,7 +8,6 @@ import messeption.core.UserHandler;
 import messeption.json.JsonReadWrite;
 import messeption.restapi.ForumBoardService;
 import org.glassfish.hk2.utilities.binding.AbstractBinder;
-import org.glassfish.jersey.jackson.JacksonFeature;
 import org.glassfish.jersey.server.ResourceConfig;
 
 
@@ -16,10 +15,10 @@ import org.glassfish.jersey.server.ResourceConfig;
  * Config file for the rest server.
  */
 public class ForumConfig extends ResourceConfig {
+
   private ForumBoard board;
   private JsonReadWrite readWrite;
   private UserHandler userHandler;
-
 
   /**
    * Constructor for Config file from a ForumBoard object.

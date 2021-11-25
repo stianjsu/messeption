@@ -75,7 +75,7 @@ public class ForumServiceTest extends JerseyTest {
   public void tearDown() throws Exception {
     System.out.print("Teardown: ");
     String jsonString = gson.toJson(this.board);
-    Entity payload = Entity.entity(jsonString, MediaType.APPLICATION_JSON);
+    Entity<String> payload = Entity.entity(jsonString, MediaType.APPLICATION_JSON);
     Response postResponse = target(ForumBoardService.FORUM_BOARD_SERVICE_PATH)
         .path("/set")
         .request(MediaType.APPLICATION_JSON + ";" + MediaType.CHARSET_PARAMETER + "=UTF-8")
@@ -85,7 +85,7 @@ public class ForumServiceTest extends JerseyTest {
     }
     
     String jsonString2 = gson.toJson(this.userHandler);
-    Entity payload2 = Entity.entity(jsonString2, MediaType.APPLICATION_JSON);
+    Entity<String> payload2 = Entity.entity(jsonString2, MediaType.APPLICATION_JSON);
     Response postResponse2 = target(ForumBoardService.FORUM_BOARD_SERVICE_PATH)
         .path(UserHandlerResource.USER_SERVICE_PATH)
         .path("/set")
@@ -119,16 +119,14 @@ public class ForumServiceTest extends JerseyTest {
     ForumBoard setBoard = new ForumBoard();
     setBoard.newPost("Beep", "Boop", new User("Tester1", "test"), true);
     String jsonString = gson.toJson(setBoard);
-    Entity payload = Entity.entity(jsonString, MediaType.APPLICATION_JSON);
+    Entity<String> payload = Entity.entity(jsonString, MediaType.APPLICATION_JSON);
     Response putResponse = target(ForumBoardService.FORUM_BOARD_SERVICE_PATH)
         .path("/set")
         .request(MediaType.APPLICATION_JSON + ";" + MediaType.CHARSET_PARAMETER + "=UTF-8")
         .put(payload);
     assertEquals("200", getCustomResponseStatus(putResponse));
-
-    User user = new User("Tester", "test");
     
-    Entity failingPayload = Entity.json(BAD_JSON);
+    Entity<String> failingPayload = Entity.json(BAD_JSON);
     Response failingPutResponse = target(ForumBoardService.FORUM_BOARD_SERVICE_PATH)
         .path("/set")
         .request(MediaType.APPLICATION_JSON + ";" + MediaType.CHARSET_PARAMETER + "=UTF-8")
@@ -139,16 +137,15 @@ public class ForumServiceTest extends JerseyTest {
   @Test
   public void testAddPost() {
     ForumPost post = new ForumPost("Big title", "smol text", new User("Tester2", "test"), true);
-    String id = post.getId();
     String jsonString = gson.toJson(post);
-    Entity payload = Entity.entity(jsonString, MediaType.APPLICATION_JSON);
+    Entity<String> payload = Entity.entity(jsonString, MediaType.APPLICATION_JSON);
     Response postResponse = target(ForumBoardService.FORUM_BOARD_SERVICE_PATH)
         .path("/posts/addPost")
         .request(MediaType.APPLICATION_JSON + ";" + MediaType.CHARSET_PARAMETER + "=UTF-8")
         .post(payload);
     assertEquals("200", getCustomResponseStatus(postResponse));
 
-    Entity failingPayload = Entity.json(BAD_JSON);
+    Entity<String> failingPayload = Entity.json(BAD_JSON);
     Response failingPutResponse = target(ForumBoardService.FORUM_BOARD_SERVICE_PATH)
         .path("/posts/addPost")
         .request(MediaType.APPLICATION_JSON + ";" + MediaType.CHARSET_PARAMETER + "=UTF-8")
@@ -177,7 +174,7 @@ public class ForumServiceTest extends JerseyTest {
   public void testAddComment() {
     PostComment comment = new PostComment("I like cheeze", new User("Tester3", "test"), true);
     String jsonString = gson.toJson(comment);
-    Entity payload = Entity.entity(jsonString, MediaType.APPLICATION_JSON);
+    Entity<String> payload = Entity.entity(jsonString, MediaType.APPLICATION_JSON);
     Response postResponse = target(ForumBoardService.FORUM_BOARD_SERVICE_PATH)
         .path("/comments/addComment/")
         .path(postId)
@@ -185,7 +182,7 @@ public class ForumServiceTest extends JerseyTest {
         .post(payload);
     assertEquals("200", getCustomResponseStatus(postResponse));
 
-    Entity failingPayload = Entity.json(BAD_JSON);
+    Entity<String> failingPayload = Entity.json(BAD_JSON);
     Response failingPutResponse = target(ForumBoardService.FORUM_BOARD_SERVICE_PATH)
         .path("/comments/addComment/")
         .path(postId)
@@ -200,7 +197,7 @@ public class ForumServiceTest extends JerseyTest {
     PostComment comment = new PostComment("I like cheeze", new User("Tester3", "Test123"), true);
     String commentId = comment.getId();
     String jsonString = gson.toJson(comment);
-    Entity payload = Entity.entity(jsonString, MediaType.APPLICATION_JSON);
+    Entity<String> payload = Entity.entity(jsonString, MediaType.APPLICATION_JSON);
     Response postResponse = target(ForumBoardService.FORUM_BOARD_SERVICE_PATH)
         .path("/comments/addComment/")
         .path(postId)
@@ -227,7 +224,7 @@ public class ForumServiceTest extends JerseyTest {
   @Test
   public void testLikePost() {
     User user = new User("Madddd", "Lad123");
-    Entity payload = Entity.json(user);
+    Entity<User> payload = Entity.json(user);
     Response putResponse = target(ForumBoardService.FORUM_BOARD_SERVICE_PATH)
         .path("/posts/likePost/")
         .path(postId)
@@ -235,7 +232,7 @@ public class ForumServiceTest extends JerseyTest {
         .put(payload);
     assertEquals("200", getCustomResponseStatus(putResponse));
 
-    Entity failingPayload = Entity.json(BAD_JSON);
+    Entity<String> failingPayload = Entity.json(BAD_JSON);
     Response failingPutResponse = target(ForumBoardService.FORUM_BOARD_SERVICE_PATH)
         .path("/posts/likePost/")
         .path(postId)
@@ -247,7 +244,7 @@ public class ForumServiceTest extends JerseyTest {
   @Test
   public void testDislikePost() {
     User user = new User("Madddd", "Lad123");
-    Entity sent = Entity.json(user);
+    Entity<User> sent = Entity.json(user);
     Response putResponse = target(ForumBoardService.FORUM_BOARD_SERVICE_PATH)
         .path("/posts/dislikePost/")
         .path(postId)
@@ -255,7 +252,7 @@ public class ForumServiceTest extends JerseyTest {
         .put(sent);
     assertEquals("200", getCustomResponseStatus(putResponse));
 
-    Entity failingPayload = Entity.json(BAD_JSON);
+    Entity<String> failingPayload = Entity.json(BAD_JSON);
     Response failingPutResponse = target(ForumBoardService.FORUM_BOARD_SERVICE_PATH)
         .path("/posts/dislikePost/")
         .path(postId)
@@ -267,7 +264,7 @@ public class ForumServiceTest extends JerseyTest {
   @Test
   public void testLikeComment() {
     User user = new User("Madddd", "Lad123");
-    Entity payload = Entity.json(user);
+    Entity<User> payload = Entity.json(user);
     String commentId = board.getPost(postId).getComments().get(0).getId();
     Response putResponse = target(ForumBoardService.FORUM_BOARD_SERVICE_PATH)
         .path("/comments/likeComment/")
@@ -277,7 +274,7 @@ public class ForumServiceTest extends JerseyTest {
         .put(payload);
     assertEquals("200", getCustomResponseStatus(putResponse));
 
-    Entity failingPayload = Entity.json(BAD_JSON);
+    Entity<String> failingPayload = Entity.json(BAD_JSON);
     Response failingPutResponse = target(ForumBoardService.FORUM_BOARD_SERVICE_PATH)
         .path("/comments/likeComment/")
         .path(postId)
@@ -290,7 +287,7 @@ public class ForumServiceTest extends JerseyTest {
   @Test
   public void testDislikeComment() {
     User user = new User("Madddd", "Lad123");
-    Entity payload = Entity.json(user);
+    Entity<User> payload = Entity.json(user);
     String commentId = board.getPost(postId).getComments().get(0).getId();
     Response putResponse = target(ForumBoardService.FORUM_BOARD_SERVICE_PATH)
         .path("/comments/dislikeComment/")
@@ -300,7 +297,7 @@ public class ForumServiceTest extends JerseyTest {
         .put(payload);
     assertEquals("200", getCustomResponseStatus(putResponse));
 
-    Entity failingPayload = Entity.json(BAD_JSON);
+    Entity<String> failingPayload = Entity.json(BAD_JSON);
     Response failingPutResponse = target(ForumBoardService.FORUM_BOARD_SERVICE_PATH)
         .path("/comments/dislikeComment/")
         .path(postId)
@@ -331,7 +328,7 @@ public class ForumServiceTest extends JerseyTest {
     UserHandler newUserHandler = new UserHandler();
     newUserHandler.addUser(new User("SpaceGeneral", "Goldy68"));
 
-    Entity payload = Entity.json(newUserHandler);
+    Entity<UserHandler> payload = Entity.json(newUserHandler);
     Response postResponse = target(ForumBoardService.FORUM_BOARD_SERVICE_PATH)
         .path(ForumBoardService.USER_RESOURCE_PATH)
         .path("set")
@@ -356,7 +353,7 @@ public class ForumServiceTest extends JerseyTest {
   public void testAddUsers() { 
     User newUser = new User("GenralKenobi", "HelloThere1");
     userHandler.addUser(newUser);
-    Entity payload = Entity.json(newUser);
+    Entity<User> payload = Entity.json(newUser);
     Response postResponse = target(ForumBoardService.FORUM_BOARD_SERVICE_PATH)
         .path(ForumBoardService.USER_RESOURCE_PATH)
         .path("/addUser")

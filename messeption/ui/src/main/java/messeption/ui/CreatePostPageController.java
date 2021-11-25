@@ -17,6 +17,7 @@ import messeption.core.ForumPost;
  * Controller for the create post page.
  */
 public class CreatePostPageController extends SceneController {
+  
   @FXML
   Button publishButton;
   @FXML
@@ -31,14 +32,15 @@ public class CreatePostPageController extends SceneController {
   Label titleFeedbackLabel;
   @FXML
   Label textFeedbackLabel;
+
   private String titleFeedback; 
   private String textFeedback; 
-
 
   /**
    * initializer for the scene.
    */
   public void initialize() {
+    super.init();
 
     cancelButton.setOnAction(event -> {
       this.reloadPage();

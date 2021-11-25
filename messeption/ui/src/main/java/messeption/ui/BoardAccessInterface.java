@@ -8,7 +8,7 @@ import messeption.core.User;
 import messeption.core.UserHandler;
 
 /**
- * Interface for how the ui interacts with the core moduel.
+ * Interface for how the ui should interact with the core module.
  */
 public interface BoardAccessInterface {
   public void updateBoardChange() throws Exception;
@@ -43,7 +43,7 @@ public interface BoardAccessInterface {
 
   public void setActiveUser(User user);
 
-  public void addUser(String username, String password) throws Exception;
+  public void addUser(String username, String password) throws IllegalArgumentException, Exception;
 
   public boolean userNameExists(String username);
 

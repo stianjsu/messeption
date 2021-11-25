@@ -7,10 +7,8 @@ import javafx.stage.Stage;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.List;
-import java.util.ArrayList;
 import java.util.stream.Stream;
 
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -20,11 +18,10 @@ import org.testfx.framework.junit5.ApplicationTest;
 import org.testfx.matcher.control.LabeledMatchers;
 import messeption.core.ForumBoard;
 import messeption.core.ForumPost;
-import messeption.core.PostComment;
 import messeption.core.User;
 
 /**
- * TestFX App test
+ * TestFX for CreatePostPage
  */
 public class CreatePostPageAppTest extends ApplicationTest {
 
@@ -40,7 +37,6 @@ public class CreatePostPageAppTest extends ApplicationTest {
   private CreatePostPageController createPostPageController;
 
   private static ForumBoard boardBackup;
-  private List<User> users;
   
 
   @Override

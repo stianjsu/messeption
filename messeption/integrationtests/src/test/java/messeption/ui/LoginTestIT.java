@@ -2,11 +2,9 @@ package messeption.ui;
 
 import org.junit.jupiter.api.Test;
 import org.testfx.framework.junit5.ApplicationTest;
-
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import messeption.core.ForumBoard;
 import messeption.core.UserHandler;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -46,8 +44,6 @@ public class LoginTestIT extends ApplicationTest {
 
   private static URI baseUri;
 
-  //private static ForumBoard boardBackup;
-
   @Override
   public void start(Stage primaryStage) throws Exception {
 
@@ -73,7 +69,7 @@ public class LoginTestIT extends ApplicationTest {
 
   @BeforeAll
   public static void initializeTests() throws Exception{
-    String port = System.getProperty("jetty.port"); 
+    String port = System.getProperty("messeption.port"); 
     assertNotNull(port, "No messeption.port system property set");
     baseUri = new URI("http://localhost:" + port + "/board");
     System.out.println("Base BoardAccesRemote URI: " + baseUri);
@@ -161,7 +157,6 @@ public class LoginTestIT extends ApplicationTest {
 
   @AfterAll
   public static void revertUsers() throws Exception {
-    System.out.println(usersBackup);
     try {
       boardAccessInitial.setUserHandler(usersBackup);
     } catch (Exception e) {

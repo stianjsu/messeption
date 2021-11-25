@@ -117,7 +117,7 @@ public class UserHandlerResource {
       User userToAdd = gson.fromJson(user, User.class);
       this.handler.addUser(userToAdd.getUsername(), userToAdd.getPassword());
     } catch (IllegalArgumentException e) {
-      return "406;Invalid add user request. bad username or password";
+      return "403;" + e.getMessage();
     } catch (Exception e) {
       return "406;Add user request was not processed due to bad json input";
     }

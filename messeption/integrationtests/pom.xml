@@ -13,6 +13,8 @@
     <properties>
         <slf4jVersion>1.7.25</slf4jVersion>
         <jerseyVersion>3.0.1</jerseyVersion>
+        <!--Default jetty port. Can be overwritten with flag -Djetty.port=...-->
+        <jetty.port>8080</jetty.port>
     </properties>
 
     <packaging>war</packaging>
@@ -175,11 +177,12 @@
                             <goal>verify</goal>
                         </goals>
                         <configuration>
+                            <skip>${skipUiTests}</skip>
                             <skipTests>${skipTests}</skipTests>
-                            <!-- System.getProperty("todo.port") gir riktig port -->
+                            <!-- System.getProperty("messeption.port") gir riktig port -->
                             <systemPropertyVariables>
                                 <headless>${headlessTests}</headless>
-                                <todo.port>${jetty.port}</todo.port>
+                                <messeption.port>${jetty.port}</messeption.port>
                             </systemPropertyVariables>
                         </configuration>
                     </execution>

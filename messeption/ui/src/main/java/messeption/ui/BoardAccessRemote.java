@@ -226,7 +226,7 @@ public class BoardAccessRemote implements BoardAccessInterface {
   @Override
   public void deleteComment(String postId, String commentId) throws Exception {
     HttpRequest request = HttpRequest.newBuilder()
-        .uri(URI.create(endpointUri + "/comments/deleteComment" + postId + "/" + commentId))
+        .uri(URI.create(endpointUri + "/comments/deleteComment/" + postId + "/" + commentId))
         .header("Accept", "application/json")
         .DELETE()
         .build();
@@ -268,7 +268,7 @@ public class BoardAccessRemote implements BoardAccessInterface {
   }
 
   @Override
-  public void addUser(String username, String password) throws Exception {
+  public void addUser(String username, String password) throws IllegalArgumentException, Exception {
     User newUser = new User(username, password);
     String payload = gson.toJson(newUser);
     HttpRequest request = HttpRequest.newBuilder()
@@ -306,6 +306,8 @@ public class BoardAccessRemote implements BoardAccessInterface {
     String errorMessage = array[1];
     if (responseCode >= 500) {
       throw new IOException(responseCode + ": Server error \n" + errorMessage);
+    } else if (responseCode == 403) {
+      throw new IllegalArgumentException(errorMessage);
     } else if (responseCode != 200) {
       throw new IOException(responseCode + ": Api input error \n" + errorMessage);
     }

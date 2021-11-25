@@ -44,7 +44,7 @@ public class ForumBoardService {
 
   private static final Logger LOGG = LoggerFactory.getLogger(ForumBoardService.class);
 
-  Gson gson = new GsonBuilder().create();
+  private Gson gson = new GsonBuilder().create();
 
   @Context
   private ForumBoard board;
@@ -88,12 +88,9 @@ public class ForumBoardService {
 
   @GET
   public String getForumBoard() {
-    LOGG.debug("getForumBoard: " + board);
+    LOGG.debug("getForumBoard: posts amount:" + board.getPosts().size());
     return gson.toJson(board);
   }
-  
-  //@PUT for å overskrive
-  //@POST for å legge til
   
   /**
    * Method for setting forum board to a scpeified state.

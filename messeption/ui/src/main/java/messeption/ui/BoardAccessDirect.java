@@ -9,7 +9,7 @@ import messeption.core.UserHandler;
 import messeption.json.JsonReadWrite;
 
 /**
- * Class for direct access to core for when the app is run localy.
+ * Class for direct access to core modules for when the app is run localy.
  */
 public class BoardAccessDirect implements BoardAccessInterface {
 
@@ -148,7 +148,7 @@ public class BoardAccessDirect implements BoardAccessInterface {
   }
 
   @Override
-  public void addUser(String username, String password) throws Exception {
+  public void addUser(String username, String password) throws IllegalArgumentException, Exception {
     this.userHandler.addUser(username, password);
     updateUsersChange();
   }

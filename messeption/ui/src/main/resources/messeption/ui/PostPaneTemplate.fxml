@@ -36,6 +36,6 @@
       <Button fx:id="likeButton" layoutX="681.0" layoutY="95.0" mnemonicParsing="false" text="Like" />
       <Button fx:id="dislikeButton" layoutX="674.0" layoutY="165.0" mnemonicParsing="false" text="Dislike" />
       <Button fx:id="threadButton" layoutX="657.0" layoutY="34.0" mnemonicParsing="false" text="Go to thread" />
-      <Button fx:id="deleteButton" layoutX="578.0" layoutY="171.0" mnemonicParsing="false" prefHeight="29.0" prefWidth="56.0" style="-fx-border-color: salmon; -fx-border-width: 2px; -fx-border-radius: 0;" text="Delete" visible="false" disable="true"/>
+      <Button fx:id="deleteButton" layoutX="554.0" layoutY="171.0" mnemonicParsing="false" prefHeight="29.0" prefWidth="80.0" style="-fx-border-color: salmon; -fx-border-width: 2px; -fx-border-radius: 0;" text="Delete" visible="false"/>
    </children>
  </Pane>

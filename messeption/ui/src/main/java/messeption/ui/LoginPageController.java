@@ -7,7 +7,6 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
-import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
@@ -18,8 +17,7 @@ import messeption.core.User;
  */
 public class LoginPageController extends SceneController {
 
-  /*@FXML
-  private Label errorLabel;*/
+  
   @FXML
   private TextField loginUserTextField;
   @FXML
@@ -40,6 +38,7 @@ public class LoginPageController extends SceneController {
    * initializer for the scene.
    */
   public void initialize() {
+    super.setNavBarButtons();
     loginButton.setOnAction((e) -> {
       login();
 
@@ -48,8 +47,6 @@ public class LoginPageController extends SceneController {
       signUp();
     });
   }
-
-
 
   /**
    * Method is called when the user tries to login.
@@ -84,8 +81,15 @@ public class LoginPageController extends SceneController {
         signUpUserTextField.clear();
         signUpPasswordField.clear();
         signUpPasswordFieldCheck.clear();
+      } catch (IllegalArgumentException e) {
+        String message = e.getMessage();
+        String[] splitMessage = message.split(":");
+        if (splitMessage.length > 1) { //removed error type from ui feedback while running remote
+          message = splitMessage[1];
+        }
+        UiUtils.popupAlert(message).showAndWait(); 
       } catch (Exception e) {
-        UiUtils.popupAlert(e.getMessage()).showAndWait();
+        UiUtils.popupAlert(e, "Somthing went wrong when signing up new user").showAndWait();
       }
     } else {
       UiUtils.popupAlert("You did not type the same password twice").showAndWait();
@@ -131,7 +135,7 @@ public class LoginPageController extends SceneController {
         try {
           frontPageController.drawPosts();
         } catch (Exception e) {
-          UiUtils.popupAlert(e,"Something went wrong when loading page").showAndWait();
+          UiUtils.popupAlert(e, "Something went wrong when loading page").showAndWait();
           goTo = loginButton.getScene();
         }
       }

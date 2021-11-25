@@ -21,9 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 
 
@@ -116,7 +114,7 @@ public class MesseptionAppTestIT extends ApplicationTest {
 
   @BeforeAll
   public static void initializeTests() throws Exception{
-    String port = System.getProperty("jetty.port"); 
+    String port = System.getProperty("messeption.port");
     assertNotNull(port, "No messeption.port system property set");
     baseUri = new URI("http://localhost:" + port + "/board");
     System.out.println("Base BoardAccesRemote URI: " + baseUri);

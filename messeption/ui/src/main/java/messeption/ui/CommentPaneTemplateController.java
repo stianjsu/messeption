@@ -44,6 +44,7 @@ public class CommentPaneTemplateController {
   public void setPostPageController(PostPageController postPageController) {
     this.postPageController = postPageController;
   }
+  
   /**
    * Fills the FXML nodes with valid information for the given comment.
    * Text, Author, Timestamp is shown and OnAction events are set for the buttons.
@@ -51,7 +52,6 @@ public class CommentPaneTemplateController {
    * @param comment The PostComment to be displayed
    * @param postId the id of the post the comment "belongs to"
    */
-  
   public Pane setFieldsComment(PostComment comment, String postId) {
 
     authorLabel.setText(comment.isAnonymous()

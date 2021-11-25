@@ -2,20 +2,18 @@ package messeption.ui;
 
 import java.util.Comparator;
 import java.util.Optional;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.control.ButtonType;
-import javafx.scene.control.MenuItem;
-import javafx.stage.Stage;
 import messeption.core.ForumPost;
 
 /**
- * UiUtil is a collcection of methods that are used in all of the controllers.
+ * UiUtil is a collection of methods that are used in all of the controllers.
  */
 public class UiUtils {
+  
   private static final String HIGHLIGHTED_STYLE =
       "-fx-border-color: DarkOrange; -fx-border-radius: 3px; -fx-border-width: 2px;";
   private static final String NORMAL_STYLE = "";
@@ -28,13 +26,10 @@ public class UiUtils {
    * @return the finished Alert
    */
   public static Alert popupAlert(Exception e, String toUser) {
-
-    Alert toReturn = new Alert(AlertType.ERROR);
-    toReturn.setContentText(toUser);
-    System.err.println(e);
-    toReturn.setTitle("Error");
-    return toReturn;
+    e.printStackTrace();
+    return popupAlert(toUser);
   }
+
   /**
    * If an exception is raised it is here processed into an alert for the UI.
 
@@ -63,49 +58,6 @@ public class UiUtils {
     }
   }
 
-
-  
-  /** 
-   * This method is used to set the onAction events of the navbarbuttons on every page/scene.
-
-   * @param menuQuit menuItem for quitting the app
-   * @param menuLogOut menuItem for logging out
-   * @param menuAbout menuItem for reading about info
-   * @param primaryStage primaryStage of the application
-   * @param loginPageScene the scene you get directed to when "logging out"
-   */
-  public static void setNavBarButtons(MenuItem menuQuit, MenuItem menuLogOut, MenuItem menuAbout,
-      Stage primaryStage, Scene loginPageScene) {
-    menuQuit.setOnAction(e -> {
-      primaryStage.close();
-    });
-    
-    menuLogOut.setOnAction(e -> {
-      primaryStage.setScene(loginPageScene);
-    });
-
-    menuAbout.setOnAction(e -> {
-      Alert alert = new Alert(AlertType.INFORMATION);
-      alert.setTitle("About Messeption");
-      alert.setHeaderText("About us");
-      alert.setContentText("Messeption is an app developed by 4 students at NTNU "
-          + "in the Course IT1901 fall 2021. The app takes inspiration from forums,"
-          + " for instance reddit.");
-      alert.showAndWait();
-    });
-    
-  }
-
-  /**
-   * Sets the porper functionality for the log out button.
-   */
-  public static void setLogOutButton(
-        Button logOutButton, Stage primaryStage, Scene loginPageScene) {
-    logOutButton.setOnAction(e -> {
-      primaryStage.setScene(loginPageScene);
-    });
-  }
-
   /**
    * Creates and alert to confirm choice and returns false if the user decides to cancel.
 
@@ -130,6 +82,7 @@ public class UiUtils {
 
     return result.get() == confirm;
   }
+
   /**
    * GetPostSorting creates a comparator based on what we want to sort the posts by.
 
