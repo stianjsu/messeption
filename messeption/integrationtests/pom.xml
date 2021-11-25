@@ -177,6 +177,7 @@
                             <goal>verify</goal>
                         </goals>
                         <configuration>
+                            <skip>${skipUiTests}</skip>
                             <skipTests>${skipTests}</skipTests>
                             <!-- System.getProperty("messeption.port") gir riktig port -->
                             <systemPropertyVariables>
