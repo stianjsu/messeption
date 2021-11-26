@@ -134,7 +134,7 @@ public class LoginPageAppTest extends ApplicationTest {
   }
 
   private static Stream<Arguments> testNewUserInvalid() {
-    return Stream.of(Arguments.of("NoUser", "no"), Arguments.of("No", "No1234"));
+    return Stream.of(Arguments.of("NoUser", "no"), Arguments.of("No", "No1234"), Arguments.of("Hei/padeg;","Hei123"));
   }
 
   @AfterEach

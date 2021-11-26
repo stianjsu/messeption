@@ -41,7 +41,7 @@ public class UserHandlerTest {
   @DisplayName("Test add user with invalid username")
   public void testAddInvalidUsername() {
     assertThrows(Exception.class, () -> {
-      users.addUser("OkayName", "");
+      users.addUser("Okay_Name", "");
     });
     assertThrows(Exception.class, () -> {
       users.addUser("LoooooooooooooooooooooooooongName", "");
@@ -54,6 +54,9 @@ public class UserHandlerTest {
     });
     assertThrows(Exception.class, () -> {
       users.addUser("", "       ");
+    });
+    assertThrows(Exception.class, () -> {
+      users.addUser("Hei/padeg", "Hei123");
     });
     users.addUser(user);
     assertThrows(Exception.class, () -> {

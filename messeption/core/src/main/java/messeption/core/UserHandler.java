@@ -89,9 +89,9 @@ public class UserHandler {
       return new IllegalArgumentException("Too short username. Must be at least 5 characters long");
     } else if (username.length() > 15) {
       return new IllegalArgumentException("Too long username. Must be less than 16 characters");
-    } else if (username.contains(" ")) {
+    } else if (!username.matches("^\\w*$")) {
       return new IllegalArgumentException(
-          "Username can not cointain spaces. Try using underscores :)");
+          "Username must be alphanumerical. Try using underscores :)");
     } else if (userNameExists(username)) {
       return new IllegalArgumentException("The username is taken");
     }
