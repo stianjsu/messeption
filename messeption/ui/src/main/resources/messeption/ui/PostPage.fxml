@@ -25,7 +25,7 @@
             </Label>             
             <Label fx:id="postTitleLabel" layoutX="82.0" layoutY="23.0" prefHeight="51.0" prefWidth="481.0" text="Post1">
                <font>                   
-                  <Font size="35.0" />                
+                  <Font size="30.0" />                
                </font>             
             </Label>
             <Label fx:id="postTimeStampLabel" layoutX="73.0" layoutY="79.0" prefHeight="27.0" prefWidth="760.0" text="Timestamp">

@@ -15,6 +15,7 @@ import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.test.JerseyTest;
 import org.glassfish.jersey.test.TestProperties;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import messeption.core.ForumBoard;
@@ -50,11 +51,20 @@ public class ForumServiceTest extends JerseyTest {
   }
 
   private Gson gson;
+  private static ForumBoard boardBackup;
   private ForumBoard board;
   private String postId;
   private JsonReadWrite readWrite;
   private UserHandler userHandler;
+  private static UserHandler usersBackup;
   private final String BAD_JSON = "{'bad_json':'Not good'}}]";
+
+  @BeforeAll
+  public static void setBackup() throws Exception {
+    JsonReadWrite readWriteTemp = new JsonReadWrite(ForumConfig.class.getResource("Board.JSON"), ForumConfig.class.getResource("Users.JSON"));
+    boardBackup = readWriteTemp.fileReadForumBoard();  
+    usersBackup = readWriteTemp.fileReadUserHandler();
+  }
 
 
   @BeforeEach
@@ -74,7 +84,7 @@ public class ForumServiceTest extends JerseyTest {
   @Override
   public void tearDown() throws Exception {
     System.out.print("Teardown: ");
-    String jsonString = gson.toJson(this.board);
+    String jsonString = gson.toJson(boardBackup);
     Entity<String> payload = Entity.entity(jsonString, MediaType.APPLICATION_JSON);
     Response postResponse = target(ForumBoardService.FORUM_BOARD_SERVICE_PATH)
         .path("/set")
@@ -83,8 +93,8 @@ public class ForumServiceTest extends JerseyTest {
     if (postResponse.getStatus() != 200) {
       throw new IllegalStateException(postResponse.getEntity().toString());
     }
-    
-    String jsonString2 = gson.toJson(this.userHandler);
+
+    String jsonString2 = gson.toJson(usersBackup);
     Entity<String> payload2 = Entity.entity(jsonString2, MediaType.APPLICATION_JSON);
     Response postResponse2 = target(ForumBoardService.FORUM_BOARD_SERVICE_PATH)
         .path(UserHandlerResource.USER_SERVICE_PATH)
