@@ -1,0 +1,188 @@
+@startuml
+
+title Class Diagram Ui
+
+package messeption.ui <<Frame>> {
+    
+
+    class MesseptionApp {
+        - BoardAccessInterface boardAccess
+        
+        - Scene loginPageScene
+        - Scene frontPageScene
+        - Scene createPostPageScene
+        - Scene postPageScene
+        
+        - LoginPageController loginPageController
+        - FrontPageController frontPageController
+        - CreatePostPageController createPostPageController
+        - PostPageController postPageController
+        + {static} void supportHeadless()
+        + void start(Stage primaryStage)
+        + void Main(String[] args)
+        
+    }
+    package "Data Access" <<node>> {
+        interface BoardAccessInterface {
+            + ForumPost getPost(String id)
+            + List<ForumPost> getPosts()
+            + User getActiveUser()
+            + void setActiveUser(User user)
+            ..
+            + void setBoard(ForumBoard board) 
+            + void setUserHandler(UserHandler handler)
+            ..
+            + void updateBoardChange() 
+            + ForumBoard readBoard() 
+            + UserHandler readUsers() 
+            + void addUser(String username, String password) 
+    
+            + void addPost(ForumPost post) 
+            + void deletePost(String id) 
+            + void likePost(String id, User user) 
+            + void dislikePost(String id, User user) 
+            + void likeComment(String postId, String commentId, User user) 
+            + void dislikeComment(String postId, String commentId, User user) 
+            + void addComment(String id, PostComment comment) 
+            + void deleteComment(String postId, String commentId) 
+            ..validation..
+            + boolean userNameExists(String username)
+            + boolean correctPassword(String username, String password)
+        }
+        class BoardAccessDirect {
+            - User activeUser
+            - ForumBoard board
+            - UserHandler userHandler
+            - JsonReadWrite readerWriter
+            --
+            + setUserHandler(UserHandler handler)
+            - void updateUsersChange()
+            + String getResourcesPath()
+            - void updateLocalBoard()
+        }
+        class BoardAccessRemote {
+            - URI endpointUri
+            - ForumBoard board
+            - UserHandler userHandler
+            - Gson gson
+            - User activeUser
+            --
+            + BoardAccessRemote(URI endpointUri)
+            - void getBoardFromEndPoint()
+            - void checkResponse(String reponseBody)
+            + void updateUsersChange()
+            - void getUsersFromEndPoint()
+        }
+    }
+
+    class SceneController {
+        # Stage primaryStage
+        # Scene frontPageScene
+        # Scene loginPageScene
+        # Scene postPageScene
+        # Scene createPostPageScene
+        # FrontPageController frontPageController
+        # BoardAccessInterface boardAccess
+        ..
+        + void init()
+        + void setLogOutButton()
+        + void setNavBarButtons()
+    }
+    class FrontPageController extends SceneController {
+        - {static} int SIZE_POSTS
+        - {static} int MARGIN_TOP
+        - {static} int MARGIN_POSTS
+        --
+        + void initialize()
+        .. Methods for generating Content ..
+        + void sortPosts(String sortBy)
+        + void drawPosts()
+        + void drawPosts(List<ForumPost> posts)
+        - Pane generatePostPan(ForumPost post)
+    }
+    class CreatePostPageController extends SceneController {
+        - String titleFeedback
+        - String textFeedback
+        --
+        + void initialize()
+        + void createPostInBoard()
+        + void feedbackAlertPostCreation(String title)
+        + void updateButtonEnabled()
+        + void reloadPage()
+    }
+    class PostPageController extends SceneController {
+        - {static} int SIZE_COMMENTS
+        - {static} int MARGIN_COMMENTS
+        - String commentFeedback
+        --
+        + void initialize()
+        + void updateButtonEnabled()
+        + void reloadPage()
+        - void publishCommnt(String postId)
+        .. Methods for generating Content ..
+        + void drawComments(String postId)
+        - void generatePostContent(ForumPost post)
+        - Pane generateCommentPane(PostComment comment, String postId)
+    }
+    class LoginPageController extends SceneController {
+        
+        - TextField loginUserTextField
+        - PasswordField loginPasswordField
+        - Button loginButton
+        - TextField signUpUserTextField
+        - PasswordField signUpPasswordField
+        - PasswordField signUpPasswordFieldCheck
+        - Button signupButton
+        --
+        + void initialize()
+        + void login()
+        + void signUp()
+        + void sucsessAlert(User user)
+        - void clearAllInputFields()
+    }
+    class PostPaneTemplateController {
+        - BoardAccessInterface boardAccess
+        - Stage primaryStage
+        - Scene postPageScene
+        - PostPageController postPageController
+        - FrontPageController frontPageController
+        + Pane setFieldsPostPane(ForumPost post)
+    }
+    class CommentPaneTemplateController {
+        - BoardAccessInterface boardAccess
+        - PostPageController postPageController
+        --Setup--
+        + void setBoardAccess(BoardAccessInterface boardAccess)
+        + void setPostPageController(PostPageController postPageController)
+        .. Generate Pane ..
+        + Pane setFieldsComment(PostComment comment, String postId)
+    }
+    
+    class UiUtils {
+        
+        - {static} String HIGHLIGHTED_STYLE
+        - {static} String NORMAL_STYLE
+        --
+        + {static} Alert exceptionAlert(Exception e, String toUser)
+        + {static} Alert popupAlert(String toUser)
+        + {static} void setStyleOfButton(Button button, boolean highlighted)
+        + {static} boolean confirmationAlert(String title, String header, String text)
+        + {static} Comparator<ForumPost> getPostSorting(String sortBy)
+    }
+    note right of UiUtils: Scene Controllers uses this\nclass's static methods
+    
+    BoardAccessDirect .left.|> BoardAccessInterface
+    BoardAccessDirect .[hidden]up.> BoardAccessRemote
+    BoardAccessRemote ..|> BoardAccessInterface
+    
+    MesseptionApp -left-> "1" BoardAccessInterface
+    MesseptionApp -down-> SceneController : Contains all four\nscene controllers
+    MesseptionApp <.down. SceneController : BoardAccessInterface
+    
+    PostPaneTemplateController "1" *-up- FrontPageController
+    CommentPaneTemplateController "1" *-up- PostPageController
+}
+note "fxml fields and generic getters/setters\nhave been hidden to improve readability" as N1
+N1 .[hidden]down. "Data Access"
+
+@enduml
