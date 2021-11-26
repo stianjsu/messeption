@@ -24,7 +24,7 @@ We have decided to expand the current application with new features, instead of 
 - Integration tests
     - A set of tests for testing the full application
 - Shippable product
-    - The app can now be shipped as a working program
+    - The app can now be shipped as a installable executable
 
 The user functionality has been implemented by a new Data class User.java and a class for validation and holding all users, UserHandler.java.
 The rest of the code has been updated accordingly to accomodate the User class. For instance, like on a UserTextSubmission has been changes from 'int likes' to 'Collection\<User\> likeUsers'
@@ -42,10 +42,12 @@ UserTextSubmission now has a field for Author
 
 
 ## Rest service
+<br/>
 <div align="left">
     <img src="../images/release3/restfulServiceArchitecture.png" alt="restfulServiceArchitecture" width=800px/>
 </div>
 
+<br/>
 
 - The REST-modules in the project provides a server and api for messeption while the app is running remotely. Instead of accessing the data layer directly, it sends requests through the REST api. The api accepts http post, put, get and delete requests on specific urls. With default server settings this is "http://localhost:8080/board" (../board) for a request to get the current ForumBoard state. For creating a new ForumPost a http post-request would be sent to ../board/posts/addPost. The objects sent with the http request are json serialized utf-8 encoded strings. These are then decoded back into java objects with the Gson library, after being passed through the api.
 
@@ -82,13 +84,13 @@ UserTextSubmission now has a field for Author
 <br/>
 
 ## Integrationtests
-- This module is for testing the combined project with all the modules running simultaneously as a composite. This takes the form of an app test that is running connected to the REST server. This module also contains the necessary files for running the server locally. This can be done with the command **mvn -pl integrationtests jetty:run**. The integration tests automatically start a server for testing during **mvn verify**
-- Additionally a port can be specified when running the server by adding **-Djetty.port=zzzz** where zzzz is the desired port. The project runs with port 8080 by default
+- This module is for testing the combined project with all the modules running simultaneously as a composite. This takes the form of an app test that is running connected to the REST server. This module also contains the necessary files for running the server locally. This can be done with the command `mvn -pl integrationtests jetty:run`. The integration tests automatically start a server for testing during `mvn verify`
+- Additionally a port can be specified when running the server by adding `-Djetty.port=zzzz` where zzzz is the desired port. The project runs with port 8080 by default
 
 <br/>
 
 ## Shippable product
-- The project is configured with jlink and jpackage in order to create a shippable product. In order to ship the project the command **mvn compile javafx:jlink jpackage:jpackage** is used in the messeption/ui directory. In gitpod drop jpackage as wix is not installed.
+- The project is configured with jlink and jpackage in order to create a shippable product. In order to ship the project the command `mvn compile javafx:jlink jpackage:jpackage` is used in the messeption/ui directory. In gitpod drop jpackage as wix is not installed.
 - This will produce messeptionfx in messeption/ui/target that can be used for running the app locally without the use of an IDE such as VScode.
 The command will also produce a MesseptionFX.exe file in messeption/ui/target/dist for distribution and installing messeption as a program localy on a computer. 
 - Shipped products require a connection to a REST server running locally on port 8080 in order to work.
@@ -97,7 +99,7 @@ The command will also produce a MesseptionFX.exe file in messeption/ui/target/di
 
 ## New access classes
 - In this release we added an access interface to the ui module for communicating with the core module. 
-- This interface has been implemenbted by a direct and a remote data access class. The direct access class communicates directly with the core module locally, while the remote access class sends calls through the REST api to the server.
+- This interface has been implemented by a direct and a remote data access class. The direct access class communicates directly with the core module locally, while the remote access class sends requests through the REST api to the server.
 
 The BoardAccess is set in MesseptionApp. It is set to use BoardAccessDirect if the user has set the system property run.local=true, otherwise it is set to BoardAccessRemote.
 The SceneControllers get this BoardAccess from MesseptionApp.

@@ -16,16 +16,22 @@
 - You can run the app by cloning the repository to a local machine, or from gitpod by using the gitpod button above
 - Due to gitpod instability some ui tests do not function properly in gitpod at all times
 - The app is run from the file location gr2122/messeption with the commands specified below
-###
-- Run local (not connected to server) with:
-  - **mvn -pl ui javafx:run -Drun.local**
-###
-- Run remotely (connected to server) with:
-  - first start the server with **mvn -pl integrationtests jetty:run**
-  - then in a seperate terminal instance **mvn -pl ui javafx:run**
-###
-- Note: Testing app in gitpod:
-  - Due to unreliable javafx-testing of ui in gitpod, the project is configured to skip the ui-tests when the project is opened in gitpod. For running all tests in the project, it is recommended to use command **mvn clean install** in project folder locally (gr2122/messeption).  
+### Run local (not connected to server):
+```
+mvn -pl ui javafx:run -Drun.local
+```
+
+### Run remotely (connected to server):
+```
+mvn -pl integrationtests jetty:run
+```
+then, in a seperate terminal instance:
+```
+mvn -pl ui javafx:run
+```
+
+### Note - Testing app in gitpod:
+  - Due to unreliable javafx-testing of ui in gitpod, the project is configured to skip the ui-tests when the project is opened in gitpod. For running all tests in the project, it is recommended to use command `mvn clean install` in project folder locally (gr2122/messeption).  
 
 <br/>
 
@@ -39,7 +45,7 @@
 <br/>
 
 ## Shippable product
-- The project is configured with jlink and jpackage in order to create a shippable product. In order to ship the project the command **mvn compile javafx:jlink jpackage:jpackage** is used in the messeption/ui directory. In gitpod exclude jpackage:jpackage as wix is not installed.
+- The project is configured with jlink and jpackage in order to create a shippable product. In order to ship the project the command `mvn compile javafx:jlink jpackage:jpackage` is used in the messeption/ui directory. In gitpod exclude jpackage:jpackage as wix is not installed.
 - This will produce messeptionfx in messeption/ui/target that can be used for running the app locally without the use of an IDE.
 The command will also produce a MesseptionFX.exe file in messeption/ui/target/dist for distribution and installing messeption as a program localy on a computer
 - Shipped products require a connection to a REST server running locally on port 8080 in order to work

@@ -1,0 +1,178 @@
+{
+  "posts": [
+    {
+      "title": "Billig kjøttdeig på bunnpris!",
+      "comments": [
+        {
+          "text": "Dude det er meganice",
+          "author": {
+            "username": "Jonah",
+            "password": "Hei123"
+          },
+          "postedAnonymously": false,
+          "likeUsers": [],
+          "dislikeUsers": [],
+          "timeStamp": "Nov 16, 2021, 2:15:02 PM",
+          "id": "1635470392382_2794362397_Jonah"
+        },
+        {
+          "text": "Huge",
+          "author": {
+            "username": "Jonah",
+            "password": "Hei123"
+          },
+          "postedAnonymously": true,
+          "likeUsers": [],
+          "dislikeUsers": [],
+          "timeStamp": "Nov 17, 2021, 1:34:17 PM",
+          "id": "1632721893612_817480129_Jonah"
+        }
+      ],
+      "text": "Det er sykt gode tilbud på bunnpris denne uka.\n2 * 400g gilde kjøttdeig for 79,-",
+      "author": {
+        "username": "Mattias",
+        "password": "Hei123"
+      },
+      "postedAnonymously": false,
+      "likeUsers": [
+        {
+          "username": "Stian",
+          "password": "Hei123"
+        }
+      ],
+      "dislikeUsers": [
+        {
+          "username": "Kenobi",
+          "password": "Hei123"
+        }
+      ],
+      "timeStamp": "Nov 15, 2021, 1:03:04 PM",
+      "id": "1631729369123_231978461_Mattias"
+    },
+    {
+      "title": "Jeg er en liten luring",
+      "comments": [
+        {
+          "text": "Den har sine moments, men personlig syntes jeg at piratkopier er uetiske",
+          "author": {
+            "username": "Stian",
+            "password": "Hei123"
+          },
+          "postedAnonymously": false,
+          "likeUsers": [],
+          "dislikeUsers": [],
+          "timeStamp": "Nov 21, 2021, 1:11:25 PM",
+          "id": "1633871263201_913274361_Stian"
+        }
+      ],
+      "text": "Jeg synes faktisk \u0027Star war: the Third Gathers, Backstroke of the West\u0027\ner bedre enn \u0027Star wars: Episode 3, Revenge of the Sith\u0027",
+      "author": {
+        "username": "Jonah",
+        "password": "Hei123"
+      },
+      "postedAnonymously": true,
+      "likeUsers": [
+        {
+          "username": "Jonah",
+          "password": "Hei123"
+        }
+      ],
+      "dislikeUsers": [
+        {
+          "username": "Kenobi",
+          "password": "Hei123"
+        },
+        {
+          "username": "Stian",
+          "password": "Hei123"
+        }
+      ],
+      "timeStamp": "Nov 20, 2021, 11:04:44 AM",
+      "id": "1633982147312_1231283071_Jonah"
+    },
+    {
+      "title": "Obi Wan show coming soon!",
+      "comments": [
+        {
+          "text": "Dude i am so stoked. Its going to be so cool",
+          "author": {
+            "username": "Kenobi",
+            "password": "Hei123"
+          },
+          "postedAnonymously": true,
+          "likeUsers": [
+            {
+              "username": "Trygve",
+              "password": "Hei123"
+            },
+            {
+              "username": "Kenobi",
+              "password": "Hei123"
+            }
+          ],
+          "dislikeUsers": [],
+          "timeStamp": "Nov 24, 2021, 1:06:29 PM",
+          "id": "1634329176300_89437101_Kenobi"
+        },
+        {
+          "text": "When does it air?",
+          "author": {
+            "username": "Trygve",
+            "password": "Hei123"
+          },
+          "postedAnonymously": false,
+          "likeUsers": [
+            {
+              "username": "Kenobi",
+              "password": "Hei123"
+            }
+          ],
+          "dislikeUsers": [],
+          "timeStamp": "Nov 25, 2021, 4:37:27 PM",
+          "id": "1638623451112_978309458_Trygve"
+        },
+        {
+          "text": "I think it airs Q1 in 2022. Official date coming out soon",
+          "author": {
+            "username": "Kenobi",
+            "password": "Hei123"
+          },
+          "postedAnonymously": false,
+          "likeUsers": [
+            {
+              "username": "Kenobi",
+              "password": "Hei123"
+            }
+          ],
+          "dislikeUsers": [],
+          "timeStamp": "Nov 25, 2021, 4:50:47 PM",
+          "id": "1633673112423_91487611_Kenobi"
+        }
+      ],
+      "text": "I am really exited to be streaming on Disney+",
+      "author": {
+        "username": "Kenobi",
+        "password": "Hei123"
+      },
+      "postedAnonymously": false,
+      "likeUsers": [
+        {
+          "username": "Jonah",
+          "password": "Hei123"
+        },
+        {
+          "username": "Trygve",
+          "password": "Hei123"
+        }
+      ],
+      "dislikeUsers": [
+        {
+          "username": "Mattias",
+          "password": "Hei123"
+        }
+      ],
+      "timeStamp": "Nov 23, 2021, 1:05:43 PM",
+      "id": "1633123777923_9823744562_Kenobi"
+    }
+  ]
+}

@@ -165,7 +165,7 @@ Here is an example of a post serialized to Json with gson:
 &emsp;&ensp;"likeUsers": [],<br/>
 &emsp;&ensp;"dislikeUsers": [],<br/>
 &emsp;&ensp;"timeStamp": "Nov 16, 2021, 2:15:02 PM",<br/>
-&emsp;&ensp;"id": "TueNov2313:05:14CET202120"<br/>
+&emsp;&ensp;"id": "163978234692;81273621312;Kenobi"<br/>
 &emsp;&nbsp;} <br/>
 &nbsp;&ensp;],<br/>
 &nbsp;&ensp;"author": { <br/>
@@ -181,7 +181,7 @@ Here is an example of a post serialized to Json with gson:
 &ensp;&nbsp;],<br/>
 &ensp;&nbsp;"dislikeUsers": [],<br/>
 &ensp;&nbsp;"timeStamp": "Nov 15, 2021, 1:03:04 PM",<br/>
-&ensp;&nbsp;"id": "TueNov2313:03:04CET202180" <br/>
+&ensp;&nbsp;"id": "1637923644232;3682452813;Trygve" <br/>
 } <br/>
 <br/>
 
