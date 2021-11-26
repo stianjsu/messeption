@@ -7,65 +7,118 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.net.URL;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Paths;
 import messeption.core.ForumBoard;
+import messeption.core.UserHandler;
 
 /**
- * A class with static methods for writing ForumBoard objects to Json file.
+ * A class with methods for reading and writing ForumBoard objects 
+ * and UserHandler objects to Json file.
  */
 public class JsonReadWrite {
-  public static final String ROOT_PATH = Paths.get("").toAbsolutePath().toString() 
-      + "/src/main/resources/messeption/";  // ends with messeption/core/ or messeption/ui/
-  public static final String UI_PATH = "ui/";
-  public static final String DEFAULT_BOARD_FILE = "Board.JSON";
+
+  private String saveLocationBoard;
+  private String saveLocationUsers;
+
+  public JsonReadWrite(URL saveLocationBoard, URL saveLocationUsers) {
+    this.saveLocationBoard = saveLocationBoard.getPath();
+    this.saveLocationUsers = saveLocationUsers.getPath();
+  }
+
+  public void setSaveLocationBoard(URL saveLocationBoard) {
+    this.saveLocationBoard = saveLocationBoard.getPath();
+  }
+
+  public void setSaveLocationUsers(URL saveLocationUsers) {
+    this.saveLocationUsers = saveLocationUsers.getPath();
+  }
 
   /**
    * Reads from a specific file and returns a ForumBoard object.
 
-   * @param filePath the path of the file to read from
-   * @param fileName the name of the file to read from
    * @return the Board object from the read file
-   * @throws IOException         throws in a regualr IO expetion is thrown
+   * @throws IOException throws in a regualr IO expetion is thrown
    */
-  public static ForumBoard fileRead(String filePath, String fileName)
-      throws IOException {
+  public ForumBoard fileReadForumBoard() throws IOException {
+    Gson gson = new GsonBuilder().setPrettyPrinting().create();
     try (InputStreamReader reader = new InputStreamReader(
-          new FileInputStream(ROOT_PATH + filePath + fileName), StandardCharsets.UTF_8)) {
-      Gson gson = new GsonBuilder().setPrettyPrinting().create();
+          new FileInputStream(this.saveLocationBoard), StandardCharsets.UTF_8)) {
+      
       ForumBoard toReturn = gson.fromJson(reader, ForumBoard.class);
-      reader.close();
       return toReturn;
     } catch (Exception e) {
       throw new IOException(e);
     }
   }
 
-  public static ForumBoard fileRead() throws IOException {
-    return fileRead(UI_PATH, DEFAULT_BOARD_FILE);
-  }
-
   /**
-   * Writes a ForumBoard object to a Json file and a specific location.
+   * Writes a ForumBoard object to a Json file at specified location.
 
-   * @param filePath the path of the file to read from
-   * @param fileName the name of the file to read from
-   * @param board    the object to be written
-   * @throws IOException     throws in a regualr IO expetion is thrown
+   * @param board the object to be written
+   * @throws IOException throws in a regualr IO expetion is thrown
    */
-  public static void fileWrite(String filePath, String fileName, ForumBoard board) 
-      throws IOException {
+  public void fileWriteForumBoard(ForumBoard board) throws IOException {
+    Gson gson = new GsonBuilder().setPrettyPrinting().create();
     try (OutputStreamWriter writer = new OutputStreamWriter(
-          new FileOutputStream(ROOT_PATH + filePath + fileName), StandardCharsets.UTF_8)) {
-      Gson gson = new GsonBuilder().setPrettyPrinting().create();
+          new FileOutputStream(this.saveLocationBoard), StandardCharsets.UTF_8)) {
       gson.toJson(board, writer);
-      writer.close();
     } catch (Exception e) {
       throw new IOException(e);
     }
   }
 
-  public static void fileWrite(ForumBoard board) throws IOException {
-    fileWrite(UI_PATH, DEFAULT_BOARD_FILE, board);
+  /**
+   * Reads from file and returns a UserHandler object.
+
+   * @return the UserHandler object from the read file
+   * @throws IOException throws in a regualr IO expetion is thrown
+   */
+  public UserHandler fileReadUserHandler() throws IOException {
+    Gson gson = new GsonBuilder().setPrettyPrinting().create();
+    try (InputStreamReader reader = new InputStreamReader(
+          new FileInputStream(this.saveLocationUsers), StandardCharsets.UTF_8)) {
+      UserHandler toReturn = gson.fromJson(reader, UserHandler.class);
+      return toReturn;
+    } catch (Exception e) {
+      throw new IOException(e);
+    }
   }
+
+  /**
+   * Writes a UserHandler object to a Json file at specifified location.
+
+   * @param users the object to be written
+   * @throws IOException throws in a regualr IO expetion is thrown
+   */
+  public void fileWriteUserHandler(UserHandler users) throws IOException {
+    Gson gson = new GsonBuilder().setPrettyPrinting().create();
+    try (OutputStreamWriter writer = new OutputStreamWriter(
+          new FileOutputStream(this.saveLocationUsers), StandardCharsets.UTF_8)) {
+      gson.toJson(users, writer);
+    } catch (Exception e) {
+      throw new IOException(e);
+    }
+  }
+  
+  public String getSaveLocation() {
+    return this.saveLocationBoard + " : " + this.saveLocationUsers;
+  }
+
+  /**
+   * Checks if provided json contains values for all fields in provided in var-arg.
+
+   * @param json json to validate
+   * @param fieldNames field names to look for
+   * @return true if json cover all fields
+   */
+  public static boolean checkJsonFieldCoverage(String json, String... fieldNames) {
+    for (int i = 0; i < fieldNames.length; i++) {
+      if (!json.contains(fieldNames[i])) {
+        return false;
+      }
+    }
+    return true;
+  }
+  
 }

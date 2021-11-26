@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
@@ -17,9 +18,19 @@
    <center>
       <Pane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
-            <Label fx:id="postTitleLabel" layoutX="82.0" layoutY="23.0" prefHeight="51.0" prefWidth="700.0" text="Post1">
+            <Label fx:id="postAuthorLabel" alignment="CENTER_RIGHT" layoutX="569.0" layoutY="39.0" prefHeight="35.0" prefWidth="260.0" text="post by: lalal">                
+               <font>                   
+                  <Font size="22.0" />                
+               </font>             
+            </Label>             
+            <Label fx:id="postTitleLabel" layoutX="82.0" layoutY="23.0" prefHeight="51.0" prefWidth="481.0" text="Post1">
+               <font>                   
+                  <Font size="35.0" />                
+               </font>             
+            </Label>
+            <Label fx:id="postTimeStampLabel" layoutX="73.0" layoutY="79.0" prefHeight="27.0" prefWidth="760.0" text="Timestamp">
                <font>
-                  <Font size="35.0" />
+                  <Font size="14.0" />
                </font>
             </Label>
             <Line endX="900.0" endY="80.0" layoutX="-31.0" layoutY="-5.0" startX="80.0" startY="80.0" />
@@ -27,58 +38,43 @@
 		    	<children>
                   <Pane layoutX="14.0" layoutY="14.0" prefHeight="200.0" prefWidth="760.0" style="-fx-background-color: E0E0E0; -fx-border-color: grey;">
                      <children>
-                        <TextArea fx:id="postTextArea" editable="false" layoutX="12.0" layoutY="13.0" prefHeight="180.0" prefWidth="621.0" text="&quot;Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.&quot;">
+                        <TextArea fx:id="postTextArea" editable="false" layoutX="12.0" layoutY="13.0" prefHeight="180.0" prefWidth="632.0" text="&quot;Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.&quot;">
                            <font>
                               <Font size="15.0" />
                            </font>
                         </TextArea>
-                        <Label fx:id="postLikeLabel" layoutX="680.0" layoutY="35.0" text="N replies" />
-                        <Label fx:id="postDislikeLabel" layoutX="686.0" layoutY="63.0" text="N likes" />
-                        <Button fx:id="postLikeButton" layoutX="686.0" layoutY="93.0" mnemonicParsing="false" text="Like" />
-                        <Button fx:id="postDislikeButton" layoutX="679.0" layoutY="125.0" mnemonicParsing="false" text="Dislike" />
+                        <Label fx:id="postLikeLabel" alignment="CENTER" layoutX="654.0" layoutY="49.0" prefWidth="100.0" text="N likes" />
+                        <Label fx:id="postDislikeLabel" alignment="CENTER" layoutX="654.0" layoutY="115.0" prefWidth="100.0" text="N dilsikes" />
+                        <Button fx:id="postLikeButton" layoutX="686.0" layoutY="75.0" mnemonicParsing="false" text="Like" />
+                        <Button fx:id="postDislikeButton" layoutX="679.0" layoutY="144.0" mnemonicParsing="false" text="Dislike" />
+                        <Label fx:id="postCommentsLabel" alignment="CENTER" layoutX="654.0" layoutY="18.0" prefWidth="100.0" text="N comments" />
                      </children>
                   </Pane>
-                  <ScrollPane layoutX="14.0" layoutY="214.0" prefHeight="216.0" prefWidth="761.0">
+                  <ScrollPane fx:id="commentsScrollPane" layoutX="14.0" layoutY="214.0" prefHeight="216.0" prefWidth="761.0">
                     <content>
                       <AnchorPane fx:id="commentsContainer" minHeight="0.0" minWidth="0.0" prefHeight="464.0" prefWidth="741.0">
                            <children>
-                              <Pane layoutX="18.0" layoutY="14.0" prefHeight="132.0" prefWidth="705.0" style="-fx-background-color: E0E0E0; -fx-border-color: grey;">
+                              <Pane layoutX="10.0" layoutY="14.0" prefHeight="130.0" prefWidth="725.0" style="-fx-background-color: E0E0E0; -fx-border-color: grey;">
                                  <children>
-                                    <TextArea editable="false" layoutX="5.0" layoutY="5.0" prefHeight="126.0" prefWidth="620.0" text="&quot;Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.&quot;">
+                                    <TextArea fx:id="commentTextArea" editable="false" layoutX="5.0" layoutY="30.0" prefHeight="90.0" prefWidth="620.0">
                                        <font>
                                           <Font size="15.0" />
                                        </font>
                                     </TextArea>
-                                    <Label layoutX="643.0" layoutY="11.0" text="N replies" />
-                                    <Label layoutX="648.0" layoutY="38.0" text="N likes" />
-                                    <Button layoutX="648.0" layoutY="61.0" mnemonicParsing="false" text="Like" />
-                                    <Button layoutX="640.0" layoutY="101.0" mnemonicParsing="false" text="Dislike" />
-                                 </children>
-                              </Pane>
-                              <Pane layoutX="18.0" layoutY="162.0" prefHeight="132.0" prefWidth="705.0" style="-fx-background-color: E0E0E0; -fx-border-color: grey;">
-                                 <children>
-                                    <TextArea editable="false" layoutX="5.0" layoutY="5.0" prefHeight="126.0" prefWidth="620.0" text="&quot;Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.&quot;">
+                                    <Label fx:id="likeCommentLabel" alignment="CENTER" layoutX="631.0" layoutY="15.0" prefWidth="80.0" text="N likes" />
+                                    <Label fx:id="dislikeCommentLabel" alignment="CENTER" layoutX="631.0" layoutY="73.0" prefWidth="80.0" text="N dislikes" />
+                                    <Button fx:id="likeCommentButton" layoutX="653.0" layoutY="32.0" mnemonicParsing="false" text="Like" />
+                                    <Button fx:id="dislikeCommentButton" layoutX="646.0" layoutY="91.0" mnemonicParsing="false" text="Dislike" />
+                                    <Label fx:id="authorLabel" layoutX="5.0" layoutY="5.0" prefHeight="25.0" prefWidth="320.0" text="Label">
                                        <font>
-                                          <Font size="15.0" />
+                                          <Font size="16.0" />
                                        </font>
-                                    </TextArea>
-                                    <Label layoutX="643.0" layoutY="11.0" text="N replies" />
-                                    <Label layoutX="648.0" layoutY="38.0" text="N likes" />
-                                    <Button layoutX="648.0" layoutY="61.0" mnemonicParsing="false" text="Like" />
-                                    <Button layoutX="640.0" layoutY="101.0" mnemonicParsing="false" text="Dislike" />
-                                 </children>
-                              </Pane>
-                              <Pane layoutX="18.0" layoutY="294.0" prefHeight="132.0" prefWidth="705.0" style="-fx-background-color: E0E0E0; -fx-border-color: grey;">
-                                 <children>
-                                    <TextArea editable="false" layoutX="5.0" layoutY="5.0" prefHeight="126.0" prefWidth="620.0" text="&quot;Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.&quot;">
+                                    </Label>
+                                    <Label fx:id="commentTimeStampLabel" alignment="CENTER_RIGHT" layoutX="324.0" layoutY="5.0" prefHeight="25.0" prefWidth="300.0" text="Timestamp">
                                        <font>
-                                          <Font size="15.0" />
+                                          <Font size="14.0" />
                                        </font>
-                                    </TextArea>
-                                    <Label layoutX="643.0" layoutY="11.0" text="N replies" />
-                                    <Label layoutX="648.0" layoutY="38.0" text="N likes" />
-                                    <Button layoutX="648.0" layoutY="61.0" mnemonicParsing="false" text="Like" />
-                                    <Button layoutX="640.0" layoutY="101.0" mnemonicParsing="false" text="Dislike" />
+                                    </Label>
                                  </children>
                               </Pane>
                            </children>
@@ -95,17 +91,17 @@
          <menus>
             <Menu mnemonicParsing="false" text="File">
                <items>
-                  <MenuItem mnemonicParsing="false" text="Close" />
+                  <MenuItem fx:id="menuQuit" mnemonicParsing="false" text="Quit" />
                </items>
             </Menu>
             <Menu mnemonicParsing="false" text="Edit">
                <items>
-                  <MenuItem mnemonicParsing="false" text="Delete" />
+                  <MenuItem fx:id="menuLogOut" mnemonicParsing="false" text="Log out" />
                </items>
             </Menu>
             <Menu mnemonicParsing="false" text="Help">
                <items>
-                  <MenuItem mnemonicParsing="false" text="About" />
+                  <MenuItem fx:id="menuAbout" mnemonicParsing="false" text="About" />
                </items>
             </Menu>
          </menus>
@@ -121,13 +117,13 @@
 		                  <Font size="20.0" />
 		               </font>
 		            </Button>
-		            <Label fx:id="errorLabel" layoutX="66.0" layoutY="32.0" text="">
-		               <font>
-		                  <Font size="15.0" />
-		               </font>
-		            </Label>
 		         </children>
 		      </Pane>
+            <Button fx:id="logOutButton" layoutX="53.0" layoutY="25.0" mnemonicParsing="false" prefHeight="47.0" prefWidth="177.0" text="Log out">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Button>
          </children>
       </Pane>
    </right>
@@ -137,8 +133,15 @@
    <bottom>
       <Pane prefHeight="109.0" prefWidth="1200.0" BorderPane.alignment="CENTER">
          <children>
-            <TextArea fx:id="newCommentTextArea" layoutX="71.0" layoutY="14.0" prefHeight="76.0" prefWidth="728.0" promptText="Write a new comment here"/>
-            <Button fx:id="newCommentButton" layoutX="840.0" layoutY="32.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="83.0" text="Comment" />
-         </children></Pane>
+            <TextArea fx:id="newCommentTextArea" layoutX="71.0" layoutY="14.0" prefHeight="76.0" prefWidth="728.0" promptText="Write a new comment here" />
+            <Button fx:id="newCommentButton" layoutX="840.0" layoutY="52.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="83.0" text="Comment" />
+            <CheckBox fx:id="anonymousAuthorCheckBox" layoutX="845.0" layoutY="14.0" mnemonicParsing="false" text="Post as an anonymous user" />
+            <Label fx:id="newCommentFeedbackLabel" layoutX="71.0" layoutY="-8.0" prefHeight="19.0" prefWidth="285.0" text="Comment must be longer than 3 characters" textFill="RED">
+               <font>
+                  <Font size="13.0" />
+               </font>
+            </Label>
+         </children>
+      </Pane>
    </bottom>
 </BorderPane>

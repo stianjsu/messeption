@@ -1,0 +1,57 @@
+@startuml
+
+title Class Diagram
+
+package messeption.core <<Frame>> {
+    Abstract class UserTextSubmission {
+        # String text
+        # User author
+        # boolen postetAnonymoulsy
+        # Collection<User> likeUsers
+        # Collection<User> dislikeUser
+        # Date timeStamp
+        # String id
+        + {static} String ANONYMOUS_NAME
+        
+        + void like(User user)
+        + void dislike(User user)
+    }
+    class ForumBoard {
+        - List<ForumPost> posts
+
+        + void newPost(String title, String text)
+        + void deletePost(ForumPost post)
+        
+    }
+    class PostComment extends UserTextSubmission {
+        + String toString()
+    }
+    class ForumPost extends UserTextSubmission {
+        - String title
+        - List<PostComment> comments
+        
+        + void addComment(PostComment comment)
+        + void deleteComment(PostComment comment)
+        + void deleteComment(String id)
+    }
+    
+    class UserHandler {
+        - Collection<User> users
+        
+        + void addUser(String username, String password)
+        + boolean addUser(User user)
+        - IllegalArgumentExc validateUsername(String username)
+        - IllegalArgumentExc validatePassword(String password)
+    }
+    
+    class User {
+        - String username
+        - String password
+    }
+    
+    UserHandler -up-> "*" User
+    ForumPost -left-> "*" PostComment
+    ForumPost "*" <-down- ForumBoard
+    UserTextSubmission -right-> "*" User
+}
+@enduml

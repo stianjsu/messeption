@@ -1,0 +1,83 @@
+@startuml
+
+together {
+component json {
+    package messeption.json
+}
+
+component core {
+    package messeption.core
+}
+}
+messeption.json .down.> messeption.core
+component gson {
+}
+
+json ..> gson
+
+component javafx {
+    component fxml {
+    }
+}
+
+component ui {
+    package messeption.ui
+}
+
+interface "Remote Data Access" as RDA
+interface "Direct Data Access" as DDA
+interface HTTP
+
+messeption.ui ..> DDA
+messeption.ui ..> RDA
+RDA ..> HTTP
+DDA ..> messeption.core
+DDA ..> messeption.json
+RDA ..> gson
+
+
+
+javafx <.. ui
+
+
+
+node "Restful Service" as rest {
+    component restapi {
+        package messeption.restapi
+    }
+    component restserver {
+        package messeption.restserver
+    }
+
+}
+
+HTTP ..> messeption.restapi
+
+
+messeption.restapi ..> messeption.core
+restapi ..> gson
+
+messeption.restserver ..> messeption.core
+messeption.restserver ..> messeption.json
+messeption.restserver ..> messeption.restapi
+
+together {
+    component jaxrs {
+    }
+    
+    component jersey {
+    }
+    
+    component grizzly2 {
+    }
+}
+rest .[hidden].> jaxrs
+rest .[hidden].> jersey
+rest .[hidden].> grizzly2
+
+restserver ..> jersey
+restserver ..> grizzly2
+
+restapi ..> jaxrs
+
+@enduml

@@ -1,10 +1,7 @@
 package messeption.core;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
-
 
 /**
  * ForumBoard has a collection of posts.
@@ -12,7 +9,11 @@ import java.util.List;
  */
 public class ForumBoard {
 
-  private List<ForumPost> posts = new ArrayList<>();
+  private List<ForumPost> posts;
+
+  public ForumBoard() {
+    this.posts = new ArrayList<>();
+  }
 
   /**
    * Getter for posts list.
@@ -27,34 +28,64 @@ public class ForumBoard {
   }
 
   /**
-   * Getter for specified post at index i.
+   * Getter for specified post with the indentifier id.
 
-   * @param i index
-   * @return ForumPost at index i
+   * @param id unique id
+   * @return ForumPost with the correct id
    */
-  public ForumPost getPost(int i) {
-    return posts.get(i);
-  }
+  public ForumPost getPost(String id) {
+    for (int index = 0; index < posts.size(); index++) {
+      if (posts.get(index).getId().equals(id)) {
+        return posts.get(index);
+      }
+    }
+    return null;
+  } 
 
   /**
    * Creates a new post and adds it to the list posts.
 
    * @param title title of post
    * @param text  text in post
+   * @param author author of post
+   * @param postedAnonymously If post should be displayed as anonymous post
    */
-  public void newPost(String title, String text) {
-    posts.add(new ForumPost(title, text));
+  public void newPost(String title, String text, User author, Boolean postedAnonymously) {
+    posts.add(new ForumPost(title, text, author, postedAnonymously));
   }
 
-
   /**
-   * Removed the given post from posts list.
+   * Adds an already existing post to the posts list.
+
+   * @param post the post to be added
+   */
+  public void newPost(ForumPost post) {
+    posts.add(post);
+  }
+
+  
+  /**
+   * Removes a post object from list of posts.
 
    * @param post ForumPost
    * 
+   * @throws IllegalArgumentException Post not in list of posts
    */
-  public void deletePost(ForumPost post) {
-    posts.remove(post);
+  public void deletePost(ForumPost post) throws IllegalArgumentException {
+    if (!this.posts.contains(post)) {
+      throw new IllegalArgumentException("Post is not in list of posts");
+    }
+    this.posts.remove(post);
+  }
+
+  /**
+   * Removes a post object from list of posts.
+
+   * @param id PostId
+   * @throws IllegalArgumentException Post not in list of posts
+   */
+  public void deletePost(String id) throws IllegalArgumentException {
+    this.deletePost(this.getPost(id));
   }
 
   /**
@@ -71,13 +102,26 @@ public class ForumBoard {
     return s.toString();
   }
 
-  
-  @Override
-  public boolean equals(Object obj) {
-    if (obj instanceof ForumBoard) {
-      ForumBoard o = (ForumBoard) obj;
+  /**
+   * Custom defined equals method for use when comparing with this objects serialized
+   * and deserialized clone. Follows equals contract of reflexitivity, symmetry,
+   * transitivity and consitancy
 
-      return this.getPosts().equals(o.getPosts()) && o.hashCode() == this.hashCode();
+   * @param o Other object to compare
+   * @return true if objects have the same properties 
+   */
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null) {
+      return false;
+    }
+    if (o instanceof ForumBoard) {
+      ForumBoard other = (ForumBoard) o;
+
+      return this.getPosts().equals(other.getPosts()) && other.hashCode() == this.hashCode();
     } else {
       return false;
     }
@@ -85,6 +129,6 @@ public class ForumBoard {
 
   @Override
   public int hashCode() {
-    return this.posts.size();
+    return this.posts.stream().mapToInt(e -> e.hashCode()).sum();
   }
 }

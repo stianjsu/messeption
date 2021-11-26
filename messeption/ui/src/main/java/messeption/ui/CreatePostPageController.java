@@ -1,6 +1,5 @@
 package messeption.ui;
 
-import java.io.IOException;
 import java.util.Optional;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -8,19 +7,17 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import messeption.core.ForumBoard;
-import messeption.json.JsonReadWrite;
+import messeption.core.ForumPost;
 
 /**
  * Controller for the create post page.
  */
-public class CreatePostPageController {
-  // Write title text -> CreatePostButton -> Create new post -> add post to board
-  // -> save board.json -> go to frontpage -> load board.json
-
+public class CreatePostPageController extends SceneController {
+  
   @FXML
   Button publishButton;
   @FXML
@@ -30,21 +27,54 @@ public class CreatePostPageController {
   @FXML
   TextArea postTextArea;
   @FXML
-  Label errorLabel;
+  CheckBox anonymousAuthorCheckBox;
+  @FXML
+  Label titleFeedbackLabel;
+  @FXML
+  Label textFeedbackLabel;
 
-  private ForumBoard board;
+  private String titleFeedback; 
+  private String textFeedback; 
 
   /**
    * initializer for the scene.
    */
   public void initialize() {
-    publishButton.setOnAction((e) -> {
+    super.init();
+
+    cancelButton.setOnAction(event -> {
+      this.reloadPage();
+      primaryStage.setScene(frontPageScene);
+      try {
+        frontPageController.drawPosts();
+      } catch (Exception e) {
+        UiUtils.popupAlert(e, "Something went wrong when loading page").showAndWait();
+      }
+    });
+
+    publishButton.setOnAction(e -> {
       createPostInBoard();
     });
-  }
-
-  public void setBoard(ForumBoard board) {
-    this.board = board;
+    postTitleField.setOnKeyTyped(e -> {
+      if (postTitleField.getText().length() < 4) {
+        titleFeedbackLabel.setText(titleFeedback);
+      } else {
+        titleFeedbackLabel.setText("");
+      }
+      updateButtonEnabled();
+    });
+    postTextArea.setOnKeyTyped(e -> {
+      if (postTextArea.getText().length() < 4) {
+        textFeedbackLabel.setText(textFeedback);
+      } else {
+        textFeedbackLabel.setText("");
+      }
+      updateButtonEnabled();
+    });
+    this.titleFeedback = titleFeedbackLabel.getText();
+    this.textFeedback = textFeedbackLabel.getText();
+    titleFeedbackLabel.setText("");
+    textFeedbackLabel.setText("");
   }
 
   /**
@@ -59,28 +89,28 @@ public class CreatePostPageController {
       String text = postTextArea.getText();
 
       if (title.length() < 3) {
-        showError("Post title is too short");
+        UiUtils.popupAlert("Post title is too short").showAndWait();
         return;
       }
       if (text.length() < 3) {
-        showError("Post text is too short");
+        UiUtils.popupAlert("Post text is too short").showAndWait();
         return;
       }
 
-      board.newPost(title, text);
-
-      // save updated board
-      JsonReadWrite.fileWrite(board);
+      // updates and saves board
+      boardAccess.addPost(new ForumPost(title, text, boardAccess.getActiveUser(), 
+          anonymousAuthorCheckBox.isSelected()));
 
       // confirmCreation
       feedbackAlertPostCreation(title);
-    } catch (IOException e) {
-      showError(e.getMessage());
+    } catch (Exception e) {
+      UiUtils.popupAlert(e, "Something went wrong when creating a post").showAndWait();
     }
   }
 
   /**
-   * Creates and shows an alert on screen wehen the user successfully creates a post.
+   * Creates and shows an alert on screen when the user successfully creates a
+   * post.
 
    * @param title The title name of the alert
    */
@@ -98,28 +128,26 @@ public class CreatePostPageController {
 
     Optional<ButtonType> result = confirmation.showAndWait();
 
-    // refresh page
     reloadPage();
     if (result.get() == quitToFrontPage) {
       cancelButton.fire(); // go back to main menu
-    } else {
-      showError(result.get().getText());
-    }
+    } 
   }
 
-  public void showError(String e) {
-    errorLabel.setText(e);
-    errorLabel.setStyle("-fx-text-fill: red");
+  private void updateButtonEnabled() {
+    publishButton.setDisable(postTitleField.getText().length() < 4
+        || postTextArea.getText().length() < 4);
   }
 
   /**
    * Method for refreshing the page with empty input fields.
    */
-  @FXML
   public void reloadPage() {
     postTextArea.setText("");
     postTitleField.setText("");
-    errorLabel.setText("");
+    publishButton.setDisable(true);
+    titleFeedbackLabel.setText("");
+    textFeedbackLabel.setText("");
   }
 
 }

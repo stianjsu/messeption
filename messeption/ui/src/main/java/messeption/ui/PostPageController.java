@@ -1,34 +1,37 @@
 package messeption.ui;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.text.Font;
-import messeption.core.ForumBoard;
 import messeption.core.ForumPost;
 import messeption.core.PostComment;
-import messeption.json.JsonReadWrite;
 
 /**
  * Javafx controller for viewing individual posts.
  */
-public class PostPageController {
+public class PostPageController extends SceneController {
 
   private static final int SIZE_COMMENTS = 130;
   private static final int MARGIN_COMMENTS = 10;
-
+  
   @FXML
   Label postTitleLabel;
   @FXML
+  Label postAuthorLabel;
+  @FXML
+  Label postTimeStampLabel;
+  @FXML
   TextArea postTextArea;
+  @FXML
+  Label postCommentsLabel;
   @FXML
   Label postLikeLabel;
   @FXML
@@ -38,53 +41,63 @@ public class PostPageController {
   @FXML
   Button postDislikeButton;
   @FXML
+  ScrollPane commentsScrollPane;
+  @FXML
   AnchorPane commentsContainer;
   @FXML
   Button cancelButton;
 
   @FXML
+  Label newCommentFeedbackLabel;
+  @FXML
   TextArea newCommentTextArea;
   @FXML
   Button newCommentButton;
+  @FXML
+  CheckBox anonymousAuthorCheckBox;
 
-  private ForumPost post;
-  private ForumBoard forumBoard;
+
+  private String commentFeedback;
+
 
   /**
    * Initializes the publish comment button.
    */
   public void initialize() {
-    newCommentButton.setOnAction(e -> {
-      publishComment();
+    super.init();
+
+    this.cancelButton.setOnAction(event -> {
+      primaryStage.setScene(frontPageScene);
+      try {
+        frontPageController.drawPosts();
+      } catch (Exception e) {
+        UiUtils.popupAlert(e, "Something went wrong when loading page").showAndWait();
+      }
     });
-  }
 
-  /**
-   * Takes an input post and displayes the post and its comments.
-
-   * @param post The input post
-   */
-  public void setPost(ForumPost post) {
-    this.post = post;
-    generatePostContent();
-    drawComments();
-
-  }
-
-  /**
-   * Sets the controlelr forumboard to a specified input.
-
-   * @param board the new controller board
-   */
-  public void setForumBoard(ForumBoard board) {
-    this.forumBoard = board;
+    this.commentFeedback = newCommentFeedbackLabel.getText();
+    newCommentTextArea.setOnKeyTyped(e -> {
+      if (newCommentTextArea.getText().length() < 4) {
+        newCommentFeedbackLabel.setText(commentFeedback);
+      } else {        
+        newCommentFeedbackLabel.setText("");
+      }
+      updateButtonEnabled();
+    });
   }
 
   /**
    * Javafx help method to display comments in the UI.
    */
-  public void drawComments() {
+  public void drawComments(String postId) {
 
+    ForumPost post = boardAccess.getPost(postId);
+    
+    newCommentButton.setOnAction(e -> {
+      publishComment(post.getId());
+    });
+
+    generatePostContent(post);
     List<PostComment> comments = post.getComments();
 
     this.commentsContainer.getChildren().clear();
@@ -93,13 +106,13 @@ public class PostPageController {
       PostComment comment = comments.get(indexId);
 
       try {
-        Pane commentPane = generateCommentPane(comment, indexId);
+        Pane commentPane = generateCommentPane(comment, postId);
         commentPane.setLayoutY((MARGIN_COMMENTS + SIZE_COMMENTS) * indexId + MARGIN_COMMENTS);
 
         this.commentsContainer.getChildren().add(commentPane);
 
-      } catch (IOException e) {
-        e.printStackTrace();
+      } catch (Exception error) {
+        UiUtils.popupAlert(error, "Something went wrong when loading page").showAndWait();
       }
 
     }
@@ -107,121 +120,113 @@ public class PostPageController {
         (MARGIN_COMMENTS + SIZE_COMMENTS) * comments.size() + MARGIN_COMMENTS);
   }
 
-  private void generatePostContent() {
+
+  /**
+   * Displays all information about the post and relevant buttons on the page.
+
+   * @param post post to display
+   */
+  private void generatePostContent(ForumPost post) {
     postTitleLabel.setText(post.getTitle());
+    postAuthorLabel.setText("Post by: " + (post.isAnonymous()
+        ? ForumPost.ANONYMOUS_NAME : post.getAuthor().getUsername()));
+
+    
+    postTimeStampLabel.setText(post.getTimeStamp().toString());
 
     postTextArea.setText(post.getText());
-    postTextArea.setDisable(true);
     postTextArea.setStyle("-fx-opacity: 1;");
 
-    postLikeLabel.setText(this.post.getLikes() + " likes");
-    postDislikeLabel.setText(this.post.getDislikes() + " dislikes");
+    postCommentsLabel.setText(post.getComments().size() + " comments");
+    postLikeLabel.setText(post.getLikes() + " likes");
+    postDislikeLabel.setText(post.getDislikes() + " dislikes");
+
+    UiUtils.setStyleOfButton(postLikeButton,
+        post.getLikeUsers().contains(boardAccess.getActiveUser()));
+    UiUtils.setStyleOfButton(postDislikeButton,
+        post.getDislikeUsers().contains(boardAccess.getActiveUser()));
 
     postLikeButton.setOnAction(e -> {
-      int prevLikes = post.getLikes();
-
       try {
-        this.post.incrementLikes();
-        JsonReadWrite.fileWrite(forumBoard);
+        boardAccess.likePost(post.getId(), boardAccess.getActiveUser());
+      } catch (Exception error) {
+        UiUtils.popupAlert(error, "Something went wrong with liking a post").showAndWait();
 
-      } catch (IOException error) {
-        this.post.setLikes(prevLikes);
       }
+      UiUtils.setStyleOfButton(postLikeButton,
+            post.getLikeUsers().contains(boardAccess.getActiveUser()));
+      UiUtils.setStyleOfButton(postDislikeButton,
+            post.getDislikeUsers().contains(boardAccess.getActiveUser()));
 
+      postDislikeLabel.setText(post.getDislikes() + " dislikes");
       postLikeLabel.setText(post.getLikes() + " likes");
     });
 
     postDislikeButton.setOnAction(e -> {
-      int prevDislikes = this.post.getDislikes();
-
       try {
-        this.post.incrementDislikes();
-        JsonReadWrite.fileWrite(forumBoard);
-      } catch (IOException error) {
-        this.post.setDislikes(prevDislikes);
+        boardAccess.dislikePost(post.getId(), boardAccess.getActiveUser());
+      } catch (Exception error) {
+        UiUtils.popupAlert(error, "Something went wrong with disliking a post").showAndWait();
       }
+      UiUtils.setStyleOfButton(postLikeButton,
+            post.getLikeUsers().contains(boardAccess.getActiveUser()));
+      UiUtils.setStyleOfButton(postDislikeButton,
+            post.getDislikeUsers().contains(boardAccess.getActiveUser()));
 
-      postDislikeLabel.setText(this.post.getDislikes() + " dislikes");
+      postDislikeLabel.setText(post.getDislikes() + " dislikes");
+      postLikeLabel.setText(post.getLikes() + " likes");
     });
   }
 
-  private Pane generateCommentPane(PostComment comment, int indexId) throws IOException {
-    Pane toReturn = FXMLLoader.load(getClass().getResource("CommentPaneTemplate.fxml"));
-    List<Node> tempChildren = new ArrayList<>(toReturn.getChildren());
-    toReturn.getChildren().clear();
 
-    TextArea comentTextArea = (TextArea) UiUtils.getNodeFromId(tempChildren, "commentTextArea");
-    if (comentTextArea != null) {
-      comentTextArea.setFont(new Font(15));
-      comentTextArea.setText(comment.getText());
-    }
+  /**
+   * Generates a pane that contains all information about the comment and relevant buttons.
 
-    Label likeLabel = (Label) UiUtils.getNodeFromId(tempChildren, "likeCommentLabel");
-    if (likeLabel != null) {
-      likeLabel.setText(comment.getLikes() + " likes");
-    }
-
-    Label dislikeLabel = (Label) UiUtils.getNodeFromId(tempChildren, "dislikeCommentLabel");
-    if (dislikeLabel != null) {
-      dislikeLabel.setText(comment.getDislikes() + " dislikes");
-    }
-
-    Button likeButton = (Button) UiUtils.getNodeFromId(tempChildren, "likeCommentButton");
-    if (likeButton != null) {
-      likeButton.setOnAction(e -> {
-
-        int prevLikes = comment.getLikes();
-
-        try {
-          comment.incrementLikes();
-          JsonReadWrite.fileWrite(forumBoard);
-        } catch (IOException error) {
-          comment.setLikes(prevLikes);
-        }
-
-        likeLabel.setText(comment.getLikes() + " likes");
-      });
-    }
-
-    Button dislikeButton = (Button) UiUtils.getNodeFromId(tempChildren, "dislikeCommentButton");
-    if (dislikeButton != null) {
-      dislikeButton.setOnAction(e -> {
-
-        int prevDislikes = comment.getDislikes();
-
-        try {
-          comment.incrementDislikes();
-          JsonReadWrite.fileWrite(forumBoard);
-        } catch (IOException error) {
-          comment.setDislikes(prevDislikes);
-        }
-
-        dislikeLabel.setText(comment.getDislikes() + " dislikes");
-      });
-    }
-
-    toReturn.getChildren().addAll(
-        comentTextArea, likeLabel, dislikeLabel, likeButton, dislikeButton);
-    return toReturn;
+   * @param comment comment to display
+   * @param postId id of post that contains comment 
+   * @return pane to add to scene
+   * @throws IOException When failing to load CommentPaneTemplate.fxml
+   */
+  private Pane generateCommentPane(PostComment comment, String postId) 
+      throws IOException {
+    FXMLLoader commentPaneTemplateLoader = new FXMLLoader(getClass().getResource(
+        "CommentPaneTemplate.fxml"));
+    commentPaneTemplateLoader.load();
+    CommentPaneTemplateController commentPaneTemplateController =
+        commentPaneTemplateLoader.getController();
+    commentPaneTemplateController.setBoardAccess(boardAccess);
+    commentPaneTemplateController.setPostPageController(this);
+    return commentPaneTemplateController.setFieldsComment(comment, postId);
   }
 
-  private void publishComment() {
+  private void publishComment(String postId) {
 
     try {
       String text = newCommentTextArea.getText();
 
-      if (text.length() < 3) {
-        return;
-      }
+      boardAccess.addComment(postId, new PostComment(text, boardAccess.getActiveUser(), 
+          anonymousAuthorCheckBox.isSelected()));
+      drawComments(postId);
+      newCommentTextArea.clear();
+      updateButtonEnabled();
 
-      PostComment comment = new PostComment(text);
-      post.addComment(comment);
-
-      JsonReadWrite.fileWrite(forumBoard);
-      drawComments();
-
-    } catch (IOException e) {
-      UiUtils.exceptionAlert(e).show();
+    } catch (Exception e) {
+      UiUtils.popupAlert(e, "Something went wrong when loading page").showAndWait();
     }
+  }
+
+  private void updateButtonEnabled() {
+    newCommentButton.setDisable(newCommentTextArea.getText().length() < 4);
+  }
+  
+  /**
+   * Reload page resets the page to the normal state.
+   */
+  public void reloadPage() {
+    commentsScrollPane.setVvalue(0);
+    newCommentFeedbackLabel.setText("");
+    newCommentButton.setDisable(true);
+    newCommentTextArea.clear();
+    anonymousAuthorCheckBox.setSelected(false);
   }
 }

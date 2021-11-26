@@ -24,64 +24,94 @@
                   <Font size="35.0" />
                </font>
             </Label>
-            <MenuButton alignment="TOP_CENTER" layoutX="676.0" layoutY="34.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="183.0" text="Filter posts">
+            <MenuButton fx:id="sortMenuButton" alignment="TOP_CENTER" layoutX="749.0" layoutY="34.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="110.0" text="Time">
                <items>
-                  <MenuItem mnemonicParsing="false" text="Action 1" />
-                  <MenuItem mnemonicParsing="false" text="Action 2" />
+                  <MenuItem fx:id="sortTime" mnemonicParsing="false" text="Time" />
+                  <MenuItem fx:id="sortTitle" mnemonicParsing="false" text="Title" />
+                  <MenuItem fx:id="sortAuthor" mnemonicParsing="false" text="Author" />
+                  <MenuItem fx:id="sortTextLength" mnemonicParsing="false" text="Text" />
+                  <MenuItem fx:id="sortCommentCount" mnemonicParsing="false" text="Comments" />
                </items>
                <font>
                   <Font size="14.0" />
                </font>
             </MenuButton>
             <Line endX="900.0" endY="80.0" layoutX="-31.0" layoutY="-5.0" startX="80.0" startY="80.0" />
-            <ScrollPane layoutX="59.0" layoutY="90.0" prefHeight="500.0" prefWidth="800.0">
+            <ScrollPane fx:id="scrollPane" layoutX="59.0" layoutY="90.0" prefHeight="500.0" prefWidth="800.0">
                <content>
                   <AnchorPane fx:id="postsContainer" minHeight="0.0" minWidth="0.0" prefHeight="1000.0" prefWidth="785.0">
                      <children>
-                        <Pane layoutX="15.0" layoutY="15.0" prefHeight="200.0" prefWidth="760.0" style="-fx-background-color: E0E0E0; -fx-border-color: grey;">
+                        <Pane fx:id="postPaneTemplate" layoutX="13.0" layoutY="14.0" prefHeight="220.0" prefWidth="760.0" style="-fx-background-color: E0E0E0; -fx-border-color: grey;">
                            <children>
-                              <Label layoutX="34.0" layoutY="6.0" prefHeight="30.0" prefWidth="600.0" text="Title">
+                              <Label fx:id="titleLabel" layoutX="34.0" layoutY="6.0" prefHeight="30.0" prefWidth="420.0" text="Title">
                                  <font>
                                     <Font size="20.0" />
                                  </font>
                               </Label>
-                              <Line endX="510.0" layoutX="134.0" layoutY="35.0" startX="-110.0" />
-                              <TextArea editable="false" layoutX="33.0" layoutY="43.0" prefHeight="150.0" prefWidth="600.0">
+                              <Label fx:id="authorLabel" alignment="CENTER_RIGHT" layoutX="454.0" layoutY="6.0" prefHeight="30.0" prefWidth="178.0" text="Author">
+                                 <font>
+                                    <Font size="16.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="timeStampLabel" layoutX="34.0" layoutY="36.0" prefHeight="21.0" prefWidth="600.0" text="Timestamp">
+                                 <font>
+                                    <Font size="15.0" />
+                                 </font>
+                              </Label>
+                              <Line fx:id="titleLine" endX="510.0" layoutX="134.0" layoutY="35.0" startX="-110.0" />
+                              <TextArea fx:id="postTextArea" editable="false" layoutX="34.0" layoutY="60.0" prefHeight="140.0" prefWidth="600.0">
                                  <font>
                                     <Font size="15.0" />
                                  </font>
                               </TextArea>
-                              <Label layoutX="680.0" layoutY="35.0" text="N replies" />
-                              <Label layoutX="686.0" layoutY="63.0" text="N likes" />
-                              <Button layoutX="686.0" layoutY="93.0" mnemonicParsing="false" text="Like" />
-                              <Button layoutX="662.0" layoutY="158.0" mnemonicParsing="false" text="Go to thread" />
-                              <Button layoutX="679.0" layoutY="125.0" mnemonicParsing="false" text="Dislike" />
+                              <Label fx:id="replyLabel" layoutX="676.0" layoutY="13.0" text="N replies" />
+                              <Label fx:id="likeLabel" alignment="CENTER" layoutX="659.0" layoutY="70.0" prefWidth="80.0" text="N likes" />
+                              <Label fx:id="dislikeLabel" alignment="CENTER" layoutX="659.0" layoutY="142.0" prefWidth="80.0" text="N dislikes" />
+                              <Button fx:id="likeButton" layoutX="681.0" layoutY="94.0" mnemonicParsing="false" text="Like" />
+                              <Button fx:id="dislikeButton" layoutX="674.0" layoutY="165.0" mnemonicParsing="false" text="Dislike" />
+                              <Button fx:id="threadButton" layoutX="657.0" layoutY="34.0" mnemonicParsing="false" text="Go to thread" />
                            </children>
                         </Pane>
-                        <Pane layoutX="15.0" layoutY="230.0" prefHeight="200.0" prefWidth="760.0" style="-fx-background-color: E0E0E0; -fx-border-color: grey;">
+                        <Pane fx:id="postPaneTemplate1" layoutX="13.0" layoutY="259.0" prefHeight="220.0" prefWidth="760.0" style="-fx-background-color: E0E0E0; -fx-border-color: grey;">
                            <children>
-                              <Label layoutX="34.0" layoutY="6.0" prefHeight="30.0" prefWidth="600.0" text="Title">
+                              <Label fx:id="titleLabel1" layoutX="34.0" layoutY="6.0" prefHeight="30.0" prefWidth="420.0" text="Title">
                                  <font>
                                     <Font size="20.0" />
                                  </font>
                               </Label>
-                              <Line endX="510.0" layoutX="134.0" layoutY="35.0" startX="-110.0" />
-                              <TextArea editable="false" layoutX="33.0" layoutY="43.0" prefHeight="150.0" prefWidth="600.0">
+                              <Label fx:id="authorLabel1" alignment="CENTER_RIGHT" layoutX="454.0" layoutY="6.0" prefHeight="30.0" prefWidth="178.0" text="Author">
+                                 <font>
+                                    <Font size="16.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="timeStampLabel1" layoutX="34.0" layoutY="36.0" prefHeight="21.0" prefWidth="600.0" text="Timestamp">
+                                 <font>
+                                    <Font size="15.0" />
+                                 </font>
+                              </Label>
+                              <Line fx:id="titleLine1" endX="510.0" layoutX="134.0" layoutY="35.0" startX="-110.0" />
+                              <TextArea fx:id="postTextArea1" editable="false" layoutX="34.0" layoutY="60.0" prefHeight="140.0" prefWidth="600.0">
                                  <font>
                                     <Font size="15.0" />
                                  </font>
                               </TextArea>
-                              <Label layoutX="680.0" layoutY="35.0" text="N replies" />
-                              <Label layoutX="686.0" layoutY="63.0" text="N likes" />
-                              <Button layoutX="686.0" layoutY="93.0" mnemonicParsing="false" text="Like" />
-                              <Button layoutX="662.0" layoutY="158.0" mnemonicParsing="false" text="Go to thread" />
-                              <Button layoutX="679.0" layoutY="125.0" mnemonicParsing="false" text="Dislike" />
+                              <Label fx:id="replyLabel1" layoutX="676.0" layoutY="13.0" text="N replies" />
+                              <Label fx:id="likeLabel1" alignment="CENTER" layoutX="659.0" layoutY="70.0" prefWidth="80.0" text="N likes" />
+                              <Label fx:id="dislikeLabel1" alignment="CENTER" layoutX="659.0" layoutY="142.0" prefWidth="80.0" text="N dislikes" />
+                              <Button fx:id="likeButton1" layoutX="681.0" layoutY="94.0" mnemonicParsing="false" text="Like" />
+                              <Button fx:id="dislikeButton1" layoutX="674.0" layoutY="165.0" mnemonicParsing="false" text="Dislike" />
+                              <Button fx:id="threadButton1" layoutX="657.0" layoutY="34.0" mnemonicParsing="false" text="Go to thread" />
                            </children>
                         </Pane>
                      </children>
                   </AnchorPane>
                </content>
             </ScrollPane>
+            <Label layoutX="650.0" layoutY="39.0" prefHeight="20.0" prefWidth="100.0" text="Sort posts by:">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
          </children>
       </Pane>
    </center>
@@ -90,17 +120,17 @@
          <menus>
             <Menu mnemonicParsing="false" text="File">
                <items>
-                  <MenuItem mnemonicParsing="false" text="Close" />
+                  <MenuItem fx:id="menuQuit" mnemonicParsing="false" text="Quit" />
                </items>
             </Menu>
             <Menu mnemonicParsing="false" text="Edit">
                <items>
-                  <MenuItem mnemonicParsing="false" text="Delete" />
+                  <MenuItem fx:id="menuLogOut" mnemonicParsing="false" text="Log out" />
                </items>
             </Menu>
             <Menu mnemonicParsing="false" text="Help">
                <items>
-                  <MenuItem mnemonicParsing="false" text="About" />
+                  <MenuItem fx:id="menuAbout" mnemonicParsing="false" text="About" />
                </items>
             </Menu>
          </menus>
@@ -110,6 +140,11 @@
       <Pane prefHeight="611.0" prefWidth="283.0" BorderPane.alignment="CENTER">
          <children>
             <Button fx:id="createPostButton" layoutX="53.0" layoutY="236.0" mnemonicParsing="false" prefHeight="140.0" prefWidth="177.0" text="Create Post">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Button>
+            <Button fx:id="logOutButton" layoutX="53.0" layoutY="25.0" mnemonicParsing="false" prefHeight="47.0" prefWidth="177.0" text="Log out">
                <font>
                   <Font size="20.0" />
                </font>
