@@ -34,7 +34,7 @@ public abstract class UserTextSubmission {
     this.likeUsers = new ArrayList<>();
     this.dislikeUsers = new ArrayList<>();
     this.timeStamp = new Date();
-    this.id = timeStamp.toString().replaceAll("\\s+", "") + text.length();
+    this.id = timeStamp.getTime() + "_" + text.hashCode() + "_" + author.getUsername();
   }
 
   public String getText() {
