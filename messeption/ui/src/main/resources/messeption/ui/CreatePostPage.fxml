@@ -96,8 +96,8 @@
 		                  <Font size="20.0" />
 		               </font>
 		            </Button>
-                  <CheckBox fx:id="anonymousAuthorCheckBox" layoutX="12.0" layoutY="40.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="176.0" text="Post Anonymously">
-                     <font>
+                  <CheckBox fx:id="anonymousAuthorCheckBox" layoutX="12.0" layoutY="40.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="200.0" text="Post Anonymously">
+                     <font>                        
                         <Font size="17.0" />
                      </font>
                   </CheckBox>

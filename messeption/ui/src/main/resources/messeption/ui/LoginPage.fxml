@@ -16,7 +16,7 @@
    <center>
       <Pane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
-            <Label layoutX="507.0" layoutY="24.0" prefHeight="51.0" prefWidth="187.0" text="Messeption">
+            <Label alignment="CENTER" layoutX="487.0" layoutY="24.0" prefHeight="51.0" prefWidth="227.0" text="Messeption">
                <font>
                   <Font size="35.0" />
                </font>
