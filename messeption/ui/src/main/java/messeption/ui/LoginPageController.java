@@ -126,18 +126,16 @@ public class LoginPageController extends SceneController {
     Scene goTo = loginButton.getScene();
     Stage primaryStage = (Stage) goTo.getWindow();
 
-    Optional<ButtonType> result = confirmation.showAndWait();
+    confirmation.showAndWait();
 
-    if (result.get() == okayButton) {
-      if (user != null) {
-        boardAccess.setActiveUser(user);
-        goTo = frontPageScene;
-        try {
-          frontPageController.drawPosts();
-        } catch (Exception e) {
-          UiUtils.popupAlert(e, "Something went wrong when loading page").showAndWait();
-          goTo = loginButton.getScene();
-        }
+    if (user != null) {
+      boardAccess.setActiveUser(user);
+      goTo = frontPageScene;
+      try {
+        frontPageController.drawPosts();
+      } catch (Exception e) {
+        UiUtils.popupAlert(e, "Something went wrong when loading page").showAndWait();
+        goTo = loginButton.getScene();
       }
     }
     primaryStage.setScene(goTo);
